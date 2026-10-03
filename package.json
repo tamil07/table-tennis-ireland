@@ -1,0 +1,26 @@
+{
+  "name": "table-tennis-ireland",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Multi-club table tennis platform and club website monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:club": "npm run dev --workspace @tti/club-web",
+    "dev:platform": "npm run dev --workspace @tti/platform",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "check": "npm run typecheck && npm run test && npm run build"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "packageManager": "npm@11.18.0",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

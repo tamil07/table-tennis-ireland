@@ -1,0 +1,28 @@
+schema: spec-driven
+
+context: |
+  Product: A Leeside Table Tennis website plus a separate Ireland-wide table-tennis app,
+  launching initially with Leeside Table Tennis in Cork as the only participating club.
+  Product direction: Prove the product with one club, while preserving a path to offer it
+  to table-tennis clubs across Ireland as a shared platform for players and clubs.
+  Stage: Requirements discovery; technology and architecture decisions are not yet final.
+  The Leeside-branded website and neutral platform app share accounts, APIs, and club data.
+  The app must not be branded as belonging only to Leeside because it is intended for
+  future adoption by table-tennis clubs across Ireland.
+  Users include visitors, adult players, parents/guardians, coaches, and club committee/admin staff.
+  Requirements must distinguish the public experience, member experience, coach experience,
+  parent/guardian experience, and club administration.
+  The first release must work without paid third-party integrations or an online payment gateway.
+  Current club context: Five weekly sessions and flexible full, partial, and pay-as-you-go
+  membership are advertised on the club's temporary Wix website.
+  Consider Irish/EU privacy obligations and accessibility from the outset.
+
+rules:
+  proposal:
+    - Keep the proposal concise and separate confirmed scope from assumptions.
+    - Include explicit non-goals and unresolved product decisions.
+  specs:
+    - Write testable requirements and scenarios in plain language.
+    - Cover permissions, privacy, accessibility, and failure states where relevant.
+  tasks:
+    - Break implementation work into independently verifiable tasks.
