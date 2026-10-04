@@ -32,11 +32,14 @@
 
 ## 5. Platform PWA and multi-club access
 
-- [ ] 5.1 Build sign-up, sign-in, password recovery, and account session flows
-- [ ] 5.2 Build My Clubs with per-club relationship and membership status
-- [ ] 5.3 Build explicit club switching and verified club-website links
-- [ ] 5.4 Build guardian-linked junior selection and adult-routed actions
-- [ ] 5.5 Add installable PWA metadata, offline shell behavior, and clear offline status
+- [ ] 5.1 Build provider-independent email sign-up, sign-in, verification, password recovery, and account session flows
+- [ ] 5.2 Build independently verified email/mobile contact management, primary-contact preferences, and duplicate-identity prevention
+- [ ] 5.3 Build secure claim/recovery flows that attach authentication to an existing player profile without losing history
+- [ ] 5.4 Add optional rate-limited mobile OTP login behind approved SMS-provider configuration
+- [ ] 5.5 Build My Clubs with per-club relationship and membership status
+- [ ] 5.6 Build explicit club switching and verified club-website links
+- [ ] 5.7 Build guardian-linked junior selection and adult-routed actions
+- [ ] 5.8 Add installable PWA metadata, offline shell behavior, and clear offline status
 
 ## 6. Membership and communications
 

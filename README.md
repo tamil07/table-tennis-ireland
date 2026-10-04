@@ -46,10 +46,14 @@ The feature list below reflects all approved OpenSpec capabilities. “Planned�
 ### Identity, roles, and multi-club participation
 
 - One account across the club website and national app.
+- Any valid email provider is accepted; Gmail is not required.
+- Email and mobile contacts are stored and verified independently, and both can attach to the same identity.
+- The near-zero-cost pilot guarantees email/password or email-link authentication; optional phone OTP requires a configured SMS provider.
 - Club-scoped player, guardian, coach, admin, and scanner-operator roles.
 - “My Clubs” lists every club relationship and its independent membership state.
 - Explicit context switching prevents data from different clubs being mixed.
 - Junior profiles can be linked to one or more responsible adults.
+- Juniors and offline members can have complete player profiles without personal login credentials.
 - Adult-facing actions and sensitive messages for juniors go to the appropriate guardian.
 
 ```mermaid

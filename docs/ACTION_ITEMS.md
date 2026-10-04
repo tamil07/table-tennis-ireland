@@ -30,7 +30,10 @@ Create an account in the [Supabase dashboard](https://supabase.com/dashboard) an
 - [ ] **Development:** Install the [Supabase CLI](https://supabase.com/docs/guides/local-development), link development, and apply `supabase/migrations`.
 - [ ] **Development:** Put each project URL and anonymous/public key in its deployment environment. Keep the service-role key server-side only.
 - [ ] **Development:** Configure exact Auth site and redirect URLs for local, preview, club, and platform domains.
-- [ ] **Owner:** Choose sign-in methods. Email/password or email magic link is sufficient for the pilot; social login can wait.
+- [ ] **Owner:** Confirm email/password and email magic link as the guaranteed pilot methods. Any valid email provider is accepted, not only Gmail.
+- [ ] **Owner:** Decide whether phone OTP is worth an SMS-provider account and variable message cost; storing a mobile contact does not require enabling SMS login.
+- [ ] **Development:** Store email/mobile contacts separately, normalize mobile numbers to E.164, verify each independently, and prevent duplicate identities across both methods.
+- [ ] **Development:** Keep person/player profiles separate from authentication so juniors and offline members do not need fabricated credentials.
 - [ ] **Development:** Customize verification, invitation, recovery, and account messages with the neutral platform identity.
 - [ ] **Development:** Create profiles after verified signup without accepting client-supplied roles.
 - [ ] **Development:** Complete table-specific RLS policies and automated tests for visitor, player, guardian, coach, admin, scanner operator, and cross-club denial.

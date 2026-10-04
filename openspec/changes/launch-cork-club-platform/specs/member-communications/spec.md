@@ -1,5 +1,20 @@
 ## ADDED Requirements
 
+### Requirement: Contact and delivery preferences
+The system SHALL keep sign-in identifiers, contact methods, verification state, notification consent, and delivery preferences distinct. The email-first pilot SHALL send transactional external messages only to verified email recipients; storing a mobile number SHALL NOT imply SMS consent or that SMS delivery is available.
+
+#### Scenario: Member prefers mobile contact during email-first pilot
+- **WHEN** a member has a mobile number but no verified email and SMS delivery is not enabled
+- **THEN** the system retains the mobile contact for authorized staff, creates an in-app admin follow-up where an external notification is required, and does not falsely mark an SMS or email as sent
+
+#### Scenario: Member changes primary contact
+- **WHEN** an adult account holder verifies another contact method and selects it as primary
+- **THEN** the system uses that verified method only for notification categories supported by the deployment and preserves delivery history for earlier destinations
+
+#### Scenario: SMS is enabled later
+- **WHEN** the platform enables an approved SMS provider and the recipient has a verified mobile number with the required notification consent
+- **THEN** the system may deliver configured notification categories by SMS with duplicate prevention, delivery outcome recording, opt-out handling, and a permitted fallback
+
 ### Requirement: Membership renewal email
 The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder, or both, and SHALL send enabled membership-renewal email to the adult player's registered email address or, for a junior, to the registered email address of each guardian designated to receive club communications.
 

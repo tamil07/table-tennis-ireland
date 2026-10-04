@@ -4,7 +4,7 @@ The source of truth is `openspec/changes/launch-cork-club-platform`. This map pr
 
 | OpenSpec capability | Primary code/data location | Current status |
 | --- | --- | --- |
-| `identity-and-access` | `packages/domain/src/club-context.ts`, `apps/platform`, `profiles`, `club_roles`, `guardian_links` | Foundation |
+| `identity-and-access` | `packages/domain/src/club-context.ts`, `apps/platform`, `profiles`, `profile_contacts`, `club_roles`, `guardian_links` | Foundation |
 | `club-content` | `apps/club-web`, `clubs`, `club_domains`, `website_pages` | Foundation/demo |
 | `membership-management` | `membership_types`, `memberships`, `manual_payments` | Schema foundation |
 | `booking-management` | `session_definitions`, `session_occurrences`, `bookings` | Schema foundation |

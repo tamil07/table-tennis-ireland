@@ -127,11 +127,19 @@ Core data areas include clubs, verified club domains, website portfolios, brandi
 
 ### 5. Separate member identity from club membership
 
-A person has one platform identity and profile. Their club role, membership period, membership type, payment metadata, and status belong to each club through separate historical records. This supports membership renewal without overwriting history and allows a player to belong to multiple clubs concurrently.
+A person has one platform person/profile record. Authentication is an optional one-to-one attachment to that profile rather than the profile's primary key, allowing juniors and members without digital access to retain a normal player history without fabricated credentials. Their club role, membership period, membership type, payment metadata, and status belong to each club through separate historical records. This supports membership renewal without overwriting history and allows a player to belong to multiple clubs concurrently.
 
 Coach status is also a club-scoped relationship rather than a global privilege. The same person can be a player at one club, a coach at another, both player and coach at Leeside, or have no privileged role elsewhere. Switching club context in the app changes the authorized data and actions, while the platform identity and sign-in remain the same.
 
-Junior profiles are linked to designated guardian identities. Sensitive junior actions and messages are routed through those guardian relationships rather than assuming a junior owns an email inbox.
+Junior profiles are linked to designated guardian identities. Sensitive junior actions and messages are routed through those guardian relationships rather than assuming a junior owns an email inbox or mobile phone. A later secure account-claim process attaches authentication to an existing person/profile and never creates a replacement profile that loses club history.
+
+### 5a. Separate authentication identifiers from contact and delivery preferences
+
+Accept any valid email provider; Gmail is not a product dependency. Store email addresses and mobile numbers as independently verified contact methods attached to the person/profile, with one primary method and category-specific delivery preferences. Normalize mobile numbers to E.164. A contact method may be usable for sign-in, notifications, both, or neither, and storing a mobile number never implies SMS consent.
+
+Use verified email with password or passwordless link as the guaranteed pilot authentication path. Supabase phone OTP requires a configured third-party SMS provider and every OTP/recovery attempt has a variable delivery cost and abuse exposure. Keep phone OTP behind provider configuration, rate limits, resend cooldowns, attempt limits, monitoring, and an explicit budget. When enabled, a verified email and verified phone for the same person must resolve to the same authentication user and platform profile.
+
+During the email-first pilot, an adult with only a phone number can have an admin-created or application-created player profile, membership, physical card, attendance, and match history, but cannot be promised self-service login or SMS notifications. The UI must state this limitation and create an admin follow-up instead of pretending delivery occurred. Guardians provide the authenticated path for juniors without independent credentials.
 
 ### 6. Use a hybrid NFC and QR membership card with an Android kiosk
 

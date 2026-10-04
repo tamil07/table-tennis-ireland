@@ -1,5 +1,23 @@
 export type ClubId = string;
 export type UserId = string;
+export type ContactKind = "email" | "mobile";
+
+export interface ContactMethod {
+  id: string;
+  kind: ContactKind;
+  value: string;
+  isPrimary: boolean;
+  isVerified: boolean;
+  canSignIn: boolean;
+  notificationConsent: boolean;
+}
+
+export interface PersonProfile {
+  id: UserId;
+  displayName: string;
+  hasIndependentLogin: boolean;
+  contacts: ContactMethod[];
+}
 
 export type ClubRole =
   | "player"

@@ -7,6 +7,8 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 - Launch a responsive, Leeside-branded public website and a separately branded platform app backed by the same accounts and club data, using a reusable club-website portfolio model for future clubs.
 - Present only Leeside in the pilot app while keeping the app's product identity, navigation, and information architecture suitable for clubs across Ireland.
 - Model each person with one platform identity that can later hold player, coach, guardian, or administrative relationships with multiple clubs at the same time.
+- Capture email addresses and mobile numbers independently, accept non-Gmail addresses, require only one verified identifier for independent login, and allow both methods to link to the same identity.
+- Allow junior and offline player profiles to exist without personal login credentials, with guardian or authorized club administration providing the permitted access path.
 - Show every club in which a user has a relationship in the app's My Clubs area, allowing the user to switch club context and open the correct branded club website.
 - Serve visitors, adult players, parents/guardians, coaches, and club committee/admin staff with role-appropriate access.
 - Publish club information, contacts, news, announcements, training times, and events.
@@ -65,6 +67,7 @@ None. This is the first product specification.
 - Automated self-service club onboarding, subscriptions, and platform billing; future clubs are provisioned through a controlled onboarding process first.
 - Branding the Ireland-wide app as a Leeside-owned club app.
 - Integration with Stripe or another online payment gateway.
+- Paid SMS authentication and SMS notification delivery during the email-first pilot; the data model remains ready for a provider-backed phone OTP phase.
 - Integration with Table Tennis Ireland, ranking systems, WhatsApp, Sport80, or external calendars.
 - Official national competition registration or automatic ranking calculations.
 - Internal player rating or ranking calculations; the first release retains confirmed results and tournament standings only.

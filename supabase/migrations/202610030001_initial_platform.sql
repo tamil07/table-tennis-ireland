@@ -13,13 +13,34 @@ create type public.tournament_format as enum ('round_robin', 'single_elimination
 create type public.work_state as enum ('open', 'claimed', 'resolved');
 
 create table public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
+  id uuid primary key default gen_random_uuid(),
+  auth_user_id uuid unique references auth.users(id) on delete set null,
   display_name text not null check (length(trim(display_name)) between 1 and 120),
-  email text,
   date_of_birth date,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+create table public.profile_contacts (
+  id uuid primary key default gen_random_uuid(),
+  profile_id uuid not null references public.profiles(id) on delete cascade,
+  kind text not null check (kind in ('email', 'mobile')),
+  value text not null,
+  normalized_value text not null,
+  is_primary boolean not null default false,
+  is_login_identifier boolean not null default false,
+  notification_consent boolean not null default false,
+  verified_at timestamptz,
+  revoked_at timestamptz,
+  created_at timestamptz not null default now(),
+  unique (profile_id, kind, normalized_value)
+);
+create unique index profile_contacts_one_primary_idx
+  on public.profile_contacts (profile_id)
+  where is_primary and revoked_at is null;
+create unique index profile_contacts_unique_login_idx
+  on public.profile_contacts (kind, normalized_value)
+  where is_login_identifier and revoked_at is null;
 
 create table public.clubs (
   id uuid primary key default gen_random_uuid(),
@@ -338,7 +359,7 @@ as $$
   select exists (
     select 1 from public.club_roles cr
     where cr.club_id = requested_club
-      and cr.user_id = auth.uid()
+      and cr.user_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid())
       and cr.role = any(requested_roles)
       and cr.revoked_at is null
   );
@@ -348,6 +369,7 @@ revoke all on function public.has_club_role(uuid, public.club_role[]) from publi
 grant execute on function public.has_club_role(uuid, public.club_role[]) to authenticated;
 
 alter table public.profiles enable row level security;
+alter table public.profile_contacts enable row level security;
 alter table public.clubs enable row level security;
 alter table public.club_domains enable row level security;
 alter table public.club_roles enable row level security;
@@ -380,19 +402,21 @@ create policy "public reads published website pages" on public.website_pages for
 create policy "public reads active membership types" on public.membership_types for select using (is_active);
 create policy "public reads active session definitions" on public.session_definitions for select using (is_active);
 
-create policy "users read own profile" on public.profiles for select using (id = auth.uid());
-create policy "users update own profile" on public.profiles for update using (id = auth.uid()) with check (id = auth.uid());
-create policy "users read own roles" on public.club_roles for select using (user_id = auth.uid() or public.has_club_role(club_id, array['admin']::public.club_role[]));
+create policy "users read own profile" on public.profiles for select using (auth_user_id = auth.uid());
+create policy "users update own profile" on public.profiles for update using (auth_user_id = auth.uid()) with check (auth_user_id = auth.uid());
+create policy "users read own contacts" on public.profile_contacts for select using (profile_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid()));
+create policy "users manage own contacts" on public.profile_contacts for all using (profile_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid())) with check (profile_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid()));
+create policy "users read own roles" on public.club_roles for select using (user_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid()) or public.has_club_role(club_id, array['admin']::public.club_role[]));
 create policy "admins manage roles" on public.club_roles for all using (public.has_club_role(club_id, array['admin']::public.club_role[])) with check (public.has_club_role(club_id, array['admin']::public.club_role[]));
-create policy "users read own memberships" on public.memberships for select using (user_id = auth.uid() or public.has_club_role(club_id, array['admin']::public.club_role[]));
+create policy "users read own memberships" on public.memberships for select using (user_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid()) or public.has_club_role(club_id, array['admin']::public.club_role[]));
 create policy "admins manage memberships" on public.memberships for all using (public.has_club_role(club_id, array['admin']::public.club_role[])) with check (public.has_club_role(club_id, array['admin']::public.club_role[]));
-create policy "users read own attendance" on public.attendance for select using (user_id = auth.uid() or public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
+create policy "users read own attendance" on public.attendance for select using (user_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid()) or public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
 create policy "staff manage attendance" on public.attendance for all using (public.has_club_role(club_id, array['coach','admin','scanner_operator']::public.club_role[])) with check (public.has_club_role(club_id, array['coach','admin','scanner_operator']::public.club_role[]));
 create policy "club members read matches" on public.matches for select using (public.has_club_role(club_id, array['player','guardian','coach','admin']::public.club_role[]));
-create policy "club players create matches" on public.matches for insert with check (created_by = auth.uid() and public.has_club_role(club_id, array['player','coach','admin']::public.club_role[]));
+create policy "club players create matches" on public.matches for insert with check (created_by = (select p.id from public.profiles p where p.auth_user_id = auth.uid()) and public.has_club_role(club_id, array['player','coach','admin']::public.club_role[]));
 create policy "club members read tournaments" on public.tournaments for select using (state <> 'draft' or public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
 create policy "staff manage tournaments" on public.tournaments for all using (public.has_club_role(club_id, array['coach','admin']::public.club_role[])) with check (public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
-create policy "players read published development" on public.development_summaries for select using ((player_id = auth.uid() and status = 'published') or public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
+create policy "players read published development" on public.development_summaries for select using ((player_id = (select p.id from public.profiles p where p.auth_user_id = auth.uid()) and status = 'published') or public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
 create policy "coaches manage development" on public.development_summaries for all using (public.has_club_role(club_id, array['coach','admin']::public.club_role[])) with check (public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
 create policy "coaches manage private notes" on public.coach_notes for all using (public.has_club_role(club_id, array['coach','admin']::public.club_role[])) with check (public.has_club_role(club_id, array['coach','admin']::public.club_role[]));
 create policy "admins read work items" on public.admin_work_items for select using (public.has_club_role(club_id, array['admin']::public.club_role[]));
