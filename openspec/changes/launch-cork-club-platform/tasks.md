@@ -87,6 +87,7 @@
 - [ ] 9.4 Build unified club administration with least-privilege role management
 - [ ] 9.5 Build claimable, assignable, commentable, and resolvable shared admin work items
 - [ ] 9.6 Build personal-data export and correction support with audit history
+- [ ] 9.7 Build club management group invitations, membership removal, and scoped admin/content/event/communications permissions with audit history and cross-club denial tests
 
 ## 10. Operations and release
 

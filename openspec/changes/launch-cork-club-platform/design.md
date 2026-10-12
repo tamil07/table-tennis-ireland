@@ -25,6 +25,14 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 ## Decisions
 
+### 0. Platform ownership and club management
+
+The founder personally owns the national platform, brand, and repository and operates the shared cloud infrastructure. A separate Gmail address serves as the account contact, billing, and recovery mailbox; the address itself is not the legal owner. External contributions are submitted through pull requests and merged by authorized maintainers. Trusted platform owners use individual provider accounts with explicitly assigned access, separate from club-management permissions.
+
+Leeside manages its branding, photographs, club records, marketing messages, news, calendar events, sessions, camps, and public sharing through a club-scoped management group. Each member uses an individual account. Authorized Leeside admins invite/remove members and assign administration, content-editing, event-management, or communications permissions. Both frontends enforce the same permissions; narrow editor permissions do not grant membership/payment access, role administration, or infrastructure access. Public announcements remain subject to the specified recipient and consent rules; manual Facebook sharing remains the pilot approach.
+
+The Leeside domain's registered holder and any future transfer to the authorized individual or club entity remain to be agreed. Managing its website does not require transferring the national platform, repository, or shared cloud accounts. Content reuse, member-data responsibilities, export, and offboarding arrangements remain subject to agreement with Leeside.
+
 ### 1. Separate the club website from the national-platform app
 
 Use a monorepo with two frontend applications and shared packages:
@@ -259,6 +267,6 @@ Leeside initially sends one player renewal reminder 10 days before expiry and ke
 - Confirm the club's legal entity/domain owner, trained Club Children's Officer, Designated Liaison Person, privacy contact, and approved data-import source.
 - Approve or amend the provisional retention schedule with Leeside's privacy/legal adviser and decide the historical/public treatment of match results and photographs.
 - Confirm reuse rights for Wix text, logo, policy PDF, and photographs before copying media into the new website.
-- Choose the national platform app's product name, logo, product domain, and ownership before public promotion; these must remain distinct from Leeside's club brand.
+- Choose the national platform app's product name, logo, and product domain before public promotion; founder ownership is confirmed and the identity must remain distinct from Leeside's club brand.
 - Decide whether phase-two automated Facebook Page publishing justifies a Meta app; the pilot uses manual Page sharing plus public feeds and email invitations.
 - Decide whether check-out time is needed later; the first release records arrival only.

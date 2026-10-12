@@ -5,7 +5,9 @@ Last reconciled: 12 October 2026. Detailed implementation work remains in the Op
 ## Closed decisions
 
 - Leeside Table Tennis is the single production pilot club.
-- One new Gmail account may initially own Cloudflare, Supabase, Resend, and Google Cloud setup. It must use MFA, recovery methods, and at least one additional trusted recovery owner. Move to a role mailbox on the platform domain when available.
+- The founder personally owns the national platform, brand, repository, and shared cloud-service setup. A separate Gmail address is the contact and recovery mailbox, not the legal owner. It must use MFA and recovery methods.
+- Trusted platform owners receive individual provider access; contributors propose repository changes through PRs and authorized maintainers merge them.
+- Leeside manages branding, photographs, club records, marketing messages, calendar events, sessions, camps, and sharing through its own management group. Members sign in individually; authorized club admins invite/remove members and assign scoped admin, content, event, and communications permissions. Club roles do not grant cloud, repository, or other-club access.
 - Authentication supports email/password, email magic link, and optional Google sign-in. Any valid email provider works; phone OTP/SMS is deferred.
 - Automated email uses Resend with a verified club/platform domain. Gmail may be the monitored reply-to mailbox, not the automated sender.
 - Leeside has five recurring weekly session definitions. Admins can add one-off sessions and bounded programmes such as seven-day camps.
@@ -27,8 +29,8 @@ Last reconciled: 12 October 2026. Detailed implementation work remains in the Op
 
 ## Open items requiring the owner or Leeside
 
-1. Confirm legal entity, domain owner, national platform name, and long-term ownership of cloud accounts.
-2. Create the shared Gmail account, enable MFA/recovery, and identify the second trusted recovery owner.
+1. Confirm the Leeside domain's registered holder and any transfer arrangement; choose the national platform name. Founder ownership of the platform/repository/shared infrastructure is closed.
+2. Create the dedicated Gmail contact account, enable MFA/recovery, and nominate trusted platform owners with individual provider access.
 3. Create development/production Supabase projects, Cloudflare, Google Cloud OAuth, and Resend accounts; secrets must go directly into their secret stores.
 4. Buy/confirm the Leeside domain and later choose the separate national platform domain.
 5. Confirm the public phone number, preferred club email, exact venue wording, social accounts, and Wix content/media reuse rights.
@@ -36,7 +38,7 @@ Last reconciled: 12 October 2026. Detailed implementation work remains in the Op
 7. Supply actual membership type names, EUR prices, durations, entitlements, and pay-as-you-go rules.
 8. Accept or change the proposed two-visit/14-day trial rule.
 9. Approve the membership-update email wording, default checkbox state, sender name, and reply-to mailbox.
-10. Nominate membership-alert owners; daily attendance email is off initially.
+10. Nominate Leeside's initial management-group admins and their permissions, plus membership-alert owners; daily attendance email is off initially.
 11. Define match formats, league points/tie-breaks, knockout seeding, and guest-data rules.
 12. Nominate the Club Children's Officer, Designated Liaison Person, and privacy contact; approve privacy/consent/safeguarding wording.
 13. Approve or amend the provisional retention schedule, especially photographs and public match/tournament history.

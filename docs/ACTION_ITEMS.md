@@ -8,15 +8,16 @@ The concise decision register and current owner questions are in [DECISIONS_AND_
 
 ## 1. Ownership and security
 
-- [ ] **Owner:** Confirm the legal owner of the Leeside domain and the owner of the national platform brand, repository, cloud services, backups, and future store accounts.
-- [x] **Owner decision:** A new shared Gmail account may own the pilot Cloudflare, Supabase, Resend, and Google Cloud accounts initially; migrate to a platform role mailbox after a domain is available.
+- [x] **Owner decision:** The founder personally owns the national platform, brand, repository, and shared cloud infrastructure; club administration is delegated to Leeside's management group.
+- [ ] **Owner:** Confirm the registered holder of the Leeside domain and document any intended transfer to the authorized individual or club entity.
+- [x] **Owner decision:** A separate Gmail is the contact/recovery address for platform cloud accounts; legal ownership belongs to the founder, not the mailbox.
 - [ ] **Owner:** Enable MFA and securely store recovery codes for GitHub, domain registrar, Supabase, Cloudflare, Resend, and Expo.
-- [ ] **Owner:** Give at least two trusted owners recovery access without sharing passwords.
+- [ ] **Owner:** Nominate trusted platform owners and invite their individual accounts into each provider with appropriate access; keep password sharing out of the setup.
 - [ ] **Owner:** Choose the national product name and check domain/brand availability before promotion.
 
 ## 2. GitHub
 
-- [ ] **Owner:** Confirm `github.com/tamil07/table-tennis-ireland` is the intended long-term repository and ownership is appropriate.
+- [x] **Owner decision:** The founder owns the repository; external contributions arrive through PRs and designated maintainers control merging.
 - [ ] **Owner:** Add maintainers with minimum required access.
 - [ ] **Owner:** Protect `main` with pull requests, the `Quality` check, and review once a second contributor joins.
 - [ ] **Owner:** Enable secret scanning and dependency alerts where available.
@@ -102,6 +103,8 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 
 ## 8. Leeside data and operating rules
 
+- [x] **Owner decision:** Leeside's management group handles club branding, photographs, records, announcements, events, and sharing through individual accounts with scoped permissions.
+- [ ] **Leeside:** Nominate initial club admins, editors, event organizers, and communications managers and approve the content/data responsibilities and offboarding arrangement.
 - [x] **Research:** Inventory the public Wix club name, venue, telephone, five published timetable entries, social links, news feed, and content surfaces without copying protected media.
 - [ ] **Owner:** Confirm the inventoried address, phone, social links, safeguarding/privacy contacts, logo, colors, photos, and domain.
 - [ ] **Owner:** Approve migration rights for temporary Wix content.

@@ -1,5 +1,32 @@
 ## ADDED Requirements
 
+### Requirement: Club management group
+The system SHALL allow authorized Leeside admins to invite, add, remove, and assign permissions to individually authenticated members of a Leeside management group. Permissions SHALL support club administration, content editing, event organization, and communications management, scoped to Leeside and enforced server-side through either frontend.
+
+#### Scenario: Admin invites a content editor
+- **WHEN** a Leeside admin with access-management permission invites a person and assigns content-editing permissions
+- **THEN** the accepted invitation grants only the assigned Leeside permissions and records the acting admin, recipient, scope, and time
+
+#### Scenario: Editor manages club content
+- **WHEN** an authorized content editor changes Leeside branding, photographs, news, or other permitted website content
+- **THEN** the system updates the canonical Leeside records without granting membership, payment, or role-management permissions
+
+#### Scenario: Organizer manages events
+- **WHEN** a Leeside group member with event-management permission creates or updates a calendar event, recurring session, or camp
+- **THEN** the system applies the permitted changes to Leeside's website and app context and provides the published event's sharing link
+
+#### Scenario: Communications manager sends an announcement
+- **WHEN** a Leeside group member with communications permission selects an eligible audience and sends an announcement
+- **THEN** the system applies consent and recipient rules and records the sender and delivery outcomes without granting unrelated club permissions
+
+#### Scenario: Admin removes a group member
+- **WHEN** an authorized Leeside admin removes a group member or revokes a permission
+- **THEN** subsequent requests lose the revoked access while the person's account, unrelated club relationships, and audit history are preserved
+
+#### Scenario: Club group attempts platform administration
+- **WHEN** a Leeside group member attempts to manage another club, platform-owner permissions, repository access, or cloud accounts using their club role
+- **THEN** the club role grants no authority for those actions
+
 ### Requirement: Unified administration
 Authorized club admins SHALL be able to manage club content and website portfolio, user access, guardian links, memberships, bookings, tournaments, matches, communications, shared work, and club settings from either their club website's authenticated administration area or that club's management section in the platform app.
 
