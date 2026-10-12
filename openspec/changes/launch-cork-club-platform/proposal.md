@@ -8,6 +8,7 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 - Present only Leeside in the pilot app while keeping the app's product identity, navigation, and information architecture suitable for clubs across Ireland.
 - Model each person with one platform identity that can later hold player, coach, guardian, or administrative relationships with multiple clubs at the same time.
 - Capture email addresses and mobile numbers independently, accept non-Gmail addresses, require only one verified identifier for independent login, and allow both methods to link to the same identity.
+- Offer optional Google sign-in for convenience while retaining email/password and magic-link access for Gmail and non-Gmail users and preventing duplicate player profiles when identities are linked.
 - Allow junior and offline player profiles to exist without personal login credentials, with guardian or authorized club administration providing the permitted access path.
 - Show every club in which a user has a relationship in the app's My Clubs area, allowing the user to switch club context and open the correct branded club website.
 - Serve visitors, adult players, parents/guardians, coaches, and club committee/admin staff with role-appropriate access.
@@ -54,6 +55,7 @@ None. This is the first product specification.
 - Introduces a new website, mobile application, shared backend, database, email delivery mechanism, and administrator experience.
 - Stores personal information for adults and children, membership history, match history, and coaching observations; privacy, safeguarding, consent, retention, and access controls are therefore core requirements.
 - Requires reliable email delivery but no paid club-management, calendar, messaging, or payment integration for the first release.
+- Uses a verified club or platform sending domain through Resend for automated messages; a Gmail or club mailbox may receive replies but is not the automated SMTP sender.
 - Introduces attendance records, hybrid NFC/QR member cards, a club-controlled Android kiosk, a public sign-up QR, attendance notifications, and staff reporting.
 - The first release operates for one Cork club; future multi-club expansion must not expose one club's data to another.
 - The club website and national-platform app are distinct frontends and brands, but they consume the same authorized backend capabilities.

@@ -30,8 +30,12 @@ Create an account in the [Supabase dashboard](https://supabase.com/dashboard) an
 - [ ] **Development:** Install the [Supabase CLI](https://supabase.com/docs/guides/local-development), link development, and apply `supabase/migrations`.
 - [ ] **Development:** Put each project URL and anonymous/public key in its deployment environment. Keep the service-role key server-side only.
 - [ ] **Development:** Configure exact Auth site and redirect URLs for local, preview, club, and platform domains.
-- [ ] **Owner:** Confirm email/password and email magic link as the guaranteed pilot methods. Any valid email provider is accepted, not only Gmail.
-- [ ] **Owner:** Decide whether phone OTP is worth an SMS-provider account and variable message cost; storing a mobile contact does not require enabling SMS login.
+- [x] **Owner decision:** Use email/password and email magic link as guaranteed pilot methods and offer optional Google sign-in. Any valid email provider is accepted.
+- [x] **Owner decision:** Defer phone OTP and SMS delivery during the pilot; still capture mobile contacts independently.
+- [ ] **Owner:** Create or select a platform-owned Google Cloud project, configure the OAuth consent screen, and nominate its recovery owners.
+- [ ] **Owner/Development:** Create separate development and production Google OAuth client credentials and add the exact callback URLs supplied by Supabase.
+- [ ] **Development:** Enable Google in each Supabase environment, store its client secret only in provider configuration, and retain email/password and magic-link fallbacks.
+- [ ] **Development:** Test new Google users, existing email users, cancelled/failed OAuth, duplicate prevention, and assisted claims for existing unclaimed profiles.
 - [ ] **Development:** Store email/mobile contacts separately, normalize mobile numbers to E.164, verify each independently, and prevent duplicate identities across both methods.
 - [ ] **Development:** Keep person/player profiles separate from authentication so juniors and offline members do not need fabricated credentials.
 - [ ] **Development:** Customize verification, invitation, recovery, and account messages with the neutral platform identity.
@@ -41,7 +45,7 @@ Create an account in the [Supabase dashboard](https://supabase.com/dashboard) an
 - [ ] **Development:** Configure rate limits, bot controls where useful, and logs that do not contain sensitive content.
 - [ ] **Owner:** Configure usage alerts and name the person who can authorize an upgrade.
 
-References: [React quickstart](https://supabase.com/docs/guides/getting-started/quickstarts/reactjs), [local development](https://supabase.com/docs/guides/local-development), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
+References: [React quickstart](https://supabase.com/docs/guides/getting-started/quickstarts/reactjs), [Google OAuth](https://supabase.com/docs/guides/auth/social-login/auth-google), [local development](https://supabase.com/docs/guides/local-development), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
 
 ## 4. Domains and Cloudflare
 
@@ -65,6 +69,7 @@ References: [Workers Static Assets](https://developers.cloudflare.com/workers/st
 
 Create a [Resend account](https://resend.com/) under platform ownership.
 
+- [x] **Owner decision:** Use Resend with a verified club/platform sending domain instead of a personal Gmail account for automated email.
 - [ ] **Owner:** Choose a verified Leeside or neutral platform sending subdomain.
 - [ ] **Owner/Development:** Add the exact SPF, DKIM, and verification DNS records supplied by Resend.
 - [ ] **Development:** Put the API key only in a server/Edge Function secret, never in a Vite client.

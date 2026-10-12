@@ -15,6 +15,17 @@ The system SHALL keep sign-in identifiers, contact methods, verification state, 
 - **WHEN** the platform enables an approved SMS provider and the recipient has a verified mobile number with the required notification consent
 - **THEN** the system may deliver configured notification categories by SMS with duplicate prevention, delivery outcome recording, opt-out handling, and a permitted fallback
 
+### Requirement: Authenticated platform email sender
+The pilot SHALL send automated authentication and transactional messages through the configured email delivery service using a verified club or platform domain. A personal Gmail mailbox SHALL NOT be used as the automated SMTP sender; an approved club mailbox MAY be configured as the reply-to address.
+
+#### Scenario: Platform sends an automated email
+- **WHEN** the system sends a verification, recovery, renewal, payment acknowledgement, digest, or match-related email
+- **THEN** it uses the authenticated sending domain and records the delivery outcome in the notification history where applicable
+
+#### Scenario: Recipient replies to a club message
+- **WHEN** the club has configured an approved monitored reply-to mailbox and the recipient replies
+- **THEN** the response is directed to that mailbox without exposing delivery-service credentials or using it as the automated sender
+
 ### Requirement: Membership renewal email
 The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder, or both, and SHALL send enabled membership-renewal email to the adult player's registered email address or, for a junior, to the registered email address of each guardian designated to receive club communications.
 

@@ -47,6 +47,7 @@ The feature list below reflects all approved OpenSpec capabilities. “Planned�
 
 - One account across the club website and national app.
 - Any valid email provider is accepted; Gmail is not required.
+- Optional “Continue with Google” resolves to the same platform identity; it does not replace provider-independent email access.
 - Email and mobile contacts are stored and verified independently, and both can attach to the same identity.
 - The near-zero-cost pilot guarantees email/password or email-link authentication; optional phone OTP requires a configured SMS provider.
 - Club-scoped player, guardian, coach, admin, and scanner-operator roles.
@@ -226,7 +227,7 @@ One repository is intentional. The applications deploy independently but share d
 - Progressive Web App foundation for Android, iPhone, tablets, and desktop.
 - PostgreSQL, authentication, storage, row-level security, scheduled work, and server functions through Supabase.
 - Cloudflare Workers Static Assets for frontend hosting.
-- Resend for transactional email after a sending domain is verified.
+- Resend for automated transactional email after a sending domain is verified; a monitored Gmail/club mailbox may receive replies but is not the automated SMTP sender.
 - Expo/React Native is the native path only if the PWA pilot demonstrates a need.
 
 ## Run locally

@@ -34,6 +34,29 @@ The system SHALL store email addresses and mobile numbers as separate contact me
 - **WHEN** a verified email address or mobile number is already linked to a platform identity
 - **THEN** the system directs the person to sign in or recover that identity instead of creating a duplicate account
 
+### Requirement: Google sign-in alongside provider-independent email
+The pilot SHALL offer Google OAuth as a convenience sign-in option alongside email/password and email magic-link authentication. Google sign-in SHALL NOT be required, SHALL NOT restrict registration to Gmail addresses, and SHALL resolve to the same platform identity and person profile when the verified email is already known.
+
+#### Scenario: New person continues with Google
+- **WHEN** a person completes Google OAuth with a verified email that is not linked to an existing identity or player profile
+- **THEN** the system creates one platform authentication identity and proceeds through the normal registration flow without granting club membership automatically
+
+#### Scenario: Existing email user continues with Google
+- **WHEN** an existing platform user completes Google OAuth with the same verified email used by their established account
+- **THEN** the system links or resolves the Google identity to the existing platform identity and person profile without duplicating club, membership, attendance, match, or coaching history
+
+#### Scenario: Google email matches an unclaimed player profile
+- **WHEN** Google returns a verified email that matches an unclaimed player profile or pending application
+- **THEN** the system requires the approved account-claim verification before attaching authentication and does not create a parallel player profile
+
+#### Scenario: Google sign-in fails or is unavailable
+- **WHEN** Google OAuth is cancelled, fails, or is unavailable
+- **THEN** the system displays a safe generic error and continues to offer email/password, magic-link, or recovery options
+
+#### Scenario: Google account lacks a usable verified email
+- **WHEN** the Google identity does not provide an email the platform can treat as verified
+- **THEN** the system refuses automatic linking and requires another verified sign-in method or assisted recovery
+
 ### Requirement: Player profile without independent login
 The system SHALL allow a player profile to exist without its own authentication account so that juniors, phone-only applicants during an email-first pilot, and members who do not use digital services can still hold club membership, credentials, attendance, matches, and development records.
 

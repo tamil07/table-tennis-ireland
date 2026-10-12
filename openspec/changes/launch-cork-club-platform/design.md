@@ -61,7 +61,7 @@ Recommended pilot services:
 
 - Cloudflare Pages/Workers for both frontend deployments: the Leeside site on the purchased club domain and the platform PWA on a separate product domain or free preview subdomain during discovery.
 - Supabase Free in the specific West EU (Ireland) region for PostgreSQL, authentication, row-level security, and small file storage.
-- Resend Free for password, renewal, cancellation, and other transactional emails sent from the club's domain.
+- Resend Free for password, renewal, cancellation, and other transactional emails sent from a verified club or platform domain; a monitored Gmail or club mailbox may be the reply-to address but is not the automated SMTP sender.
 - Supabase Cron (`pg_cron`) invoking TypeScript Edge Functions for renewal reminders, five-day match auto-approval, daily attendance digests, notification retries, and housekeeping.
 
 Supabase is preferred over building directly on Cloudflare D1 because managed authentication, relational PostgreSQL, row-level security, and an admin-friendly data platform reduce security-sensitive custom work. A Cloudflare-only design remains a future cost-optimization option.
@@ -73,6 +73,8 @@ Official references:
 - https://supabase.com/docs/guides/platform/billing-on-supabase
 - https://supabase.com/docs/guides/platform/free-project-pausing
 - https://supabase.com/docs/guides/platform/regions
+- https://supabase.com/docs/guides/auth/social-login/auth-google
+- https://supabase.com/docs/guides/auth/auth-smtp
 - https://developers.cloudflare.com/workers/platform/limits/
 - https://resend.com/pricing
 - https://developer.apple.com/programs/whats-included/
@@ -138,6 +140,10 @@ Junior profiles are linked to designated guardian identities. Sensitive junior a
 Accept any valid email provider; Gmail is not a product dependency. Store email addresses and mobile numbers as independently verified contact methods attached to the person/profile, with one primary method and category-specific delivery preferences. Normalize mobile numbers to E.164. A contact method may be usable for sign-in, notifications, both, or neither, and storing a mobile number never implies SMS consent.
 
 Use verified email with password or passwordless link as the guaranteed pilot authentication path. Supabase phone OTP requires a configured third-party SMS provider and every OTP/recovery attempt has a variable delivery cost and abuse exposure. Keep phone OTP behind provider configuration, rate limits, resend cooldowns, attempt limits, monitoring, and an explicit budget. When enabled, a verified email and verified phone for the same person must resolve to the same authentication user and platform profile.
+
+Enable Supabase's Google OAuth provider as an optional convenience method. The platform-owner account creates and owns the Google Cloud OAuth configuration; exact development, preview, club-site, and platform-app callback origins are allowlisted. Provider secrets stay in Supabase configuration and never enter either frontend bundle. Email/password and magic link remain visible fallbacks, so Google is neither a product dependency nor a requirement for non-Gmail users.
+
+Before creating a person/profile after any authentication callback, resolve the authenticated identity against existing linked identities, normalized verified contacts, pending applications, and eligible unclaimed profiles. Automatic identity linking is permitted only when the provider email is verified and the platform's linking rules are satisfied. Ambiguous or unclaimed-profile matches enter an assisted claim flow rather than creating another player record. Record security-sensitive link/unlink events in the audit history and require recent authentication for manual linking.
 
 During the email-first pilot, an adult with only a phone number can have an admin-created or application-created player profile, membership, physical card, attendance, and match history, but cannot be promised self-service login or SMS notifications. The UI must state this limitation and create an admin follow-up instead of pretending delivery occurred. Guardians provide the authenticated path for juniors without independent credentials.
 
