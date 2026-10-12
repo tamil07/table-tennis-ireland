@@ -29,6 +29,8 @@
 - [ ] 4.2 Build accessible public pages for club details, contacts, policies, membership, timetable, news, and events
 - [ ] 4.3 Build authenticated club-website administration for permitted portfolio content
 - [ ] 4.4 Verify that edits made through either frontend update the same canonical club record
+- [ ] 4.5 Publish canonical event pages plus RSS/Atom and iCalendar feeds from the same event records
+- [ ] 4.6 Generate share-ready Facebook copy and links; keep automated Meta Page posting behind separately approved credentials and scope
 
 ## 5. Platform PWA and multi-club access
 
@@ -50,6 +52,8 @@
 - [ ] 6.4 Build audited manual payment recording and correction without storing bank credentials
 - [ ] 6.5 Build 10-day and 3-day renewal reminder scheduling with duplicate prevention
 - [ ] 6.6 Build non-formal payment acknowledgements and notification delivery history
+- [ ] 6.7 Make acknowledgement delivery an explicit admin choice and preserve the selection in the audit history
+- [ ] 6.8 Build consent-aware event subscriptions, invitations, and unsubscribe/preference controls
 
 ## 7. Sessions, bookings, and attendance
 
@@ -61,6 +65,7 @@
 - [ ] 7.6 Build authorized manual check-in, correction, and audit history
 - [ ] 7.7 Build daily, weekly, monthly, session-utilization, membership-segment, and top-attendee reporting
 - [ ] 7.8 Build configurable daily staff digests without exposing member details in email
+- [ ] 7.9 Build one-off and bounded multi-day programmes, including conflict warnings against recurring occurrences
 
 ## 8. Matches and tournaments
 
@@ -72,6 +77,7 @@
 - [ ] 8.6 Build configurable round-robin league tournaments, fixtures, points, tie-breaks, and standings
 - [ ] 8.7 Build configurable single-elimination brackets and confirmed-result progression
 - [ ] 8.8 Build tournament-scoped player organizer delegation and participant check-in
+- [ ] 8.9 Build a mobile-first ad hoc tournament flow seeded from the current day's checked-in roster
 
 ## 9. Player development and administration
 
@@ -92,3 +98,4 @@
 - [ ] 10.6 Run the Leeside acceptance pilot for accounts, scanning, membership, reports, matches, and tournaments
 - [ ] 10.7 Document Wix cutover, monitoring, free-tier thresholds, rollback, and support ownership
 - [ ] 10.8 Prepare Expo native clients and store submissions only after the PWA pilot justifies them
+- [ ] 10.9 Implement and test approved retention, deletion/anonymization, and backup-expiry schedules by data class

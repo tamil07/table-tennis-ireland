@@ -179,7 +179,7 @@ A scheduled daily digest uses the club's timezone and configurable recipients/ti
 
 ### 8. Use state machines for membership, matches, and notifications
 
-Membership moves through explicit states such as pending, active, expired, and cancelled. An authorized admin manually records an externally received payment against a specific membership and sets its start/end dates and status. Payment status (`unpaid`, `partially_paid`, `paid`, or `waived`) remains separate from membership validity and attendance so players can attend before payment is reconciled. The system stores amount, EUR currency, date, method, external reference/note, and confirming admin but never personal bank credentials. Corrections are audited. Recording or correcting payment queues a non-formal acknowledgement to the adult player or junior's designated guardian; it is not represented as a tax invoice or bank-issued receipt. Renewal processing can enable 10-day, 3-day, or both reminder points and uses a unique membership/reminder-stage key to prevent duplicates.
+Membership moves through explicit states such as pending, active, expired, and cancelled. An authorized admin manually records an externally received payment against a specific membership and sets its start/end dates and status. Payment status (`unpaid`, `partially_paid`, `paid`, or `waived`) remains separate from membership validity and attendance so players can attend before payment is reconciled. The system stores amount, EUR currency, date, method, external reference/note, and confirming admin but never personal bank credentials. Corrections are audited. Recording/correcting payment or renewing membership presents an explicit option to queue a non-formal acknowledgement to the adult player or junior's designated guardian; it is not represented as a tax invoice or bank-issued receipt. Renewal processing can enable 10-day, 3-day, or both reminder points and uses a unique membership/reminder-stage key to prevent duplicates.
 
 A session match moves through `in_progress`, `awaiting_opponent_review`, `changes_requested`, `confirmed`, `auto_approved`, or `incomplete`. An attending player starts singles or doubles play, selects registered or guest participants and a permitted best-of format, optionally records a table, and records game scores under standard win-by-two validation. Final submission confirms the submitting side and starts a five-day deadline. An eligible opposing player or junior's guardian can approve or request a reasoned modification. Modification stops auto-approval; resubmission starts a fresh five-day period. Silence auto-approves the result. An authorized coach can approve, request correction, or make an audited final resolution at any point. Incomplete and retired matches retain their record but do not affect statistics.
 
@@ -202,6 +202,24 @@ This is safer than making every coaching note immediately visible, lets coaches 
 Role, guardian, membership, manual payment, attendance correction, match approval/correction, and development-publication actions create append-only audit events. Secrets and service keys remain server-side. Rate limiting, secure cookies/tokens, password-reset controls, and least-privilege database policies are required.
 
 The club must approve privacy notices, consent wording, safeguarding rules, and retention periods. Automated database exports must be encrypted and copied outside the primary Supabase project on a schedule; restore instructions must be tested before storing live member data.
+
+Use provisional retention defaults for product design, subject to Leeside's documented legal/privacy approval before live data: unsuccessful applications 12 months after closure; attendance, bookings, notification delivery logs, and general security audit events 24 months; private coach notes 12 months after the player leaves or the note is superseded; membership, manual-payment, and related audit records 7 years after the membership ends; revoked credential secrets removed immediately with revocation evidence retained 24 months; encrypted backups 35 days. Aggregate anonymized statistics may be retained longer. Published match/tournament history and photographs require separate documented purposes and review rules rather than inheriting operational retention automatically.
+
+Leeside should nominate a public privacy contact, at least one trained Club Children's Officer, and a Designated Liaison Person following Table Tennis Ireland/Sport Ireland safeguarding guidance. The system stores role contacts rather than exposing unnecessary personal details. These are governance roles selected by the club; the platform cannot appoint them.
+
+### 11. Publish events once and distribute deliberately
+
+Five weekly recurring Leeside sessions remain the base timetable. Admins can add bounded programmes such as a seven-day camp, producing dated occurrences with independent capacity, booking, cancellation, and attendance. Publishing creates a canonical public page plus RSS/Atom and iCalendar entries. RSS does not send email: invitations are separate, consent-aware notification jobs addressed to eligible members/guardians or verified subscribers.
+
+For the pilot, provide a share-ready public link and copy for manual Facebook Page posting. Automated Page posting is technically possible only after a platform-owned Meta application, Page-admin authorization, appropriate permissions/review, token lifecycle handling, and failure monitoring are configured. Treat it as a later optional integration rather than making camps or announcements depend on Facebook.
+
+### 12. Use configurable memberships with a conservative trial default
+
+Admins configure membership name, duration, price, attendance entitlements, and active state; assignments, renewals, external payments, and corrections remain manual and audited until a separately specified payment integration exists. Configuration changes never rewrite historical periods.
+
+Use two trial attendances within 14 days as Leeside's proposed default. Trial status is not membership, works only for explicitly trial-eligible sessions, requires a guardian for juniors, and ends when the visit/date limit is reached. An admin may extend it with an audited reason. Leeside must confirm or replace this default before launch.
+
+Leeside initially sends one player renewal reminder 10 days before expiry and keeps the daily attendance email digest disabled to reduce noise; dashboards and the admin work queue remain available. Admins may later choose the 3-day reminder or both. A manual membership/payment update email is sent only when the admin selects the acknowledgement option, and it is clearly a club record rather than a bank receipt or tax invoice.
 
 ## Risks / Trade-offs
 
@@ -231,12 +249,16 @@ The club must approve privacy notices, consent wording, safeguarding rules, and 
 
 ## Open Questions
 
-- Confirm which admin recipients receive immediate expired/no-membership alerts in addition to the daily digest and who owns follow-up.
+- Nominate the Leeside admin recipients for expired/no-membership work items and identify who owns follow-up; daily attendance email is initially disabled.
 - Select and test the club-owned NFC Android kiosk device and exact NDEF card/tag stock before purchasing cards in bulk.
-- Define membership prices, durations, entitlement rules, and how pay-as-you-go attendance is represented.
+- Confirm Leeside's actual membership names, prices, durations, entitlement rules, and pay-as-you-go representation; admins will manage these values without deployment.
+- Confirm or replace the proposed default of two trial visits within 14 days and identify which sessions accept trials.
 - Define the permitted best-of match formats, league win/loss points, tie-break order, knockout seeding options, and whether league pairings play once or multiple times.
-- Approve the wording and sender identity for the non-formal manual-payment acknowledgement email.
+- Approve the membership-update email wording, default state of its admin checkbox, sending identity, and monitored reply-to mailbox.
 - Define who can view private coach notes, their retention period, and whether a second coach/admin review is needed before publishing a junior summary.
-- Confirm the club's legal entity/domain owner, safeguarding contact, privacy contact, and approved data-import source.
+- Confirm the club's legal entity/domain owner, trained Club Children's Officer, Designated Liaison Person, privacy contact, and approved data-import source.
+- Approve or amend the provisional retention schedule with Leeside's privacy/legal adviser and decide the historical/public treatment of match results and photographs.
+- Confirm reuse rights for Wix text, logo, policy PDF, and photographs before copying media into the new website.
 - Choose the national platform app's product name, logo, product domain, and ownership before public promotion; these must remain distinct from Leeside's club brand.
+- Decide whether phase-two automated Facebook Page publishing justifies a Meta app; the pilot uses manual Page sharing plus public feeds and email invitations.
 - Decide whether check-out time is needed later; the first release records arrival only.

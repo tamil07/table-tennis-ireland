@@ -24,7 +24,7 @@ The system SHALL capture a membership application with the applicant details, me
 - **THEN** the system creates or links the junior profile under the responsible adult's account and submits the application with the required guardian consent
 
 ### Requirement: Pending applicant and trial status
-A submitted application SHALL remain distinct from active membership, and the system SHALL allow the club to configure whether verified pending applicants may receive a limited trial pass before approval.
+A submitted application SHALL remain distinct from active membership, and the system SHALL allow the club to configure whether verified pending applicants may receive a limited trial pass before approval. Leeside's proposed default SHALL be at most two attended trial sessions within 14 calendar days, configurable by an authorized admin before launch.
 
 #### Scenario: Application submitted without automatic membership
 - **WHEN** a new player submits a complete application
@@ -37,6 +37,18 @@ A submitted application SHALL remain distinct from active membership, and the sy
 #### Scenario: Trial limit reached
 - **WHEN** an applicant has exhausted the configured trial validity or visit allowance
 - **THEN** the system prevents further automatic trial attendance until an authorized admin extends, approves, or otherwise resolves the application
+
+#### Scenario: Trial participant books a session
+- **WHEN** a trial participant requests a booking
+- **THEN** the system permits only occurrences explicitly marked trial-eligible and does not grant ordinary member entitlements
+
+#### Scenario: Admin extends a trial
+- **WHEN** an authorized admin extends a trial after supplying a reason
+- **THEN** the system records the new visit/date limit, acting admin, reason, and previous limit in audit history
+
+#### Scenario: Junior receives a trial
+- **WHEN** a junior applicant is granted a trial
+- **THEN** the system requires an active guardian relationship and routes trial communications and permitted actions through the designated guardian
 
 ### Requirement: Membership lifecycle
 An authorized club admin SHALL be able to manually set a member's membership type, start date, end date, and status, including pending, active, expired, and cancelled, with every change attributed and timestamped.
@@ -67,6 +79,10 @@ The system SHALL allow an authorized club admin to create and manage club-specif
 #### Scenario: Retire a membership type
 - **WHEN** an authorized admin deactivates a membership type already used by historical memberships
 - **THEN** the system prevents new assignment while preserving existing and historical member records
+
+#### Scenario: Membership price changes
+- **WHEN** an authorized admin changes a membership type's price or duration
+- **THEN** the new configuration applies only to later assignments or renewals and does not rewrite historical membership or payment records
 
 ### Requirement: Admin-managed members
 An authorized club admin SHALL be able to add a member and manage their profile, guardian relationships, membership type, start date, end date, and status.

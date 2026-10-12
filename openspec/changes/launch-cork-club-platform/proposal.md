@@ -15,12 +15,15 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 - Publish club information, contacts, news, announcements, training times, and events.
 - Support member registration, member records, and links between junior players and their parent/guardian.
 - Allow club admins to add and manage members, configure membership types, manually record externally received payments, and set membership start/end dates and status without a payment gateway.
-- Email the adult player or junior's guardian a clearly labelled non-formal acknowledgement when an admin records or corrects an external membership payment.
+- Let an admin optionally email the adult player or junior's guardian a clearly labelled non-formal acknowledgement when manually recording/correcting an external payment or renewing membership.
 - Let admins enable renewal reminders at the predefined 10-day and 3-day points and email the registered player or, for a junior, the appropriate parent/guardian.
 - Support session and event booking while preventing unauthorized or invalid bookings.
+- Model Leeside's five recurring weekly sessions and let admins add one-off or bounded multi-day programmes such as a seven-day camp with configurable capacity, audience, booking, and attendance.
+- Publish approved public events to the website plus RSS/Atom and iCalendar feeds, and send separate consent-aware email invitations; provide manual Facebook Page sharing in the pilot with automation deferred behind an approved Meta integration.
 - Let attending players start singles or doubles matches during a club session, record game-by-game scores, pause/resume, submit or abandon matches, and retain structured history.
 - Give the opposing side five days to approve a submitted result or request a modification, auto-approve inaction after the deadline, and allow an authorized coach to approve, correct, or resolve disputes at any time.
 - Let a coach/admin create configurable dated league or knockout tournaments, select registered or guest singles/doubles participants, generate fixtures or brackets, and nominate players to operate a specific tournament when staff are absent.
+- Let a coach/admin start an ad hoc tournament from that day's checked-in roster and operate scoring and completion from a phone.
 - Give each player a published summary of strengths, areas to improve, and future goals while keeping coaches' private working notes separate.
 - Register actual presence at a club kiosk using a member's NFC card with printed QR fallback regardless of membership status, classify membership at check-in, alert admins about expired or missing membership, support manual correction, and report participation by session and date range.
 - Let a new player scan a public Leeside sign-up QR or enter a public club join code in the platform app, submit an adult or guardian-led junior application immediately, and optionally receive a limited trial pass without being misclassified as an active member.
@@ -90,4 +93,4 @@ None. This is the first product specification.
 - The first release does not trust a plain self-check-in button as proof of venue presence; children and adults can use the issued card, with staff manual check-in as fallback.
 - A club join code is a public convenience that selects Leeside in the app; it is not a password, membership credential, or authorization mechanism.
 - App attendance QR passes are short-lived and distinct from the permanent physical-card credential so a saved screenshot cannot remain valid indefinitely.
-- Detailed membership rules, booking rules, safeguarding policy, attendance correction rules, and data-retention policy remain to be confirmed with Leeside Table Tennis.
+- Membership values, safeguarding appointments, policy approval, attendance-correction rules, and final retention periods remain to be confirmed with Leeside Table Tennis; implementation uses the documented configurable/provisional defaults until approval.

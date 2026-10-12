@@ -35,11 +35,11 @@ export const demoRelationships: ClubRelationship[] = [
 ];
 
 export const leesideSessions: SessionSummary[] = [
-  { id: "s1", clubId: demoRelationships[0].club.id, title: "Junior coaching", audience: "Juniors", day: "Monday", time: "18:00–19:30", venue: "Leeside hall" },
-  { id: "s2", clubId: demoRelationships[0].club.id, title: "Open practice", audience: "All members", day: "Tuesday", time: "19:00–21:00", venue: "Leeside hall" },
-  { id: "s3", clubId: demoRelationships[0].club.id, title: "League training", audience: "Adult players", day: "Wednesday", time: "19:30–21:30", venue: "Leeside hall" },
-  { id: "s4", clubId: demoRelationships[0].club.id, title: "Development squad", audience: "Invited players", day: "Friday", time: "18:30–20:00", venue: "Leeside hall" },
-  { id: "s5", clubId: demoRelationships[0].club.id, title: "Weekend social", audience: "Members & guests", day: "Saturday", time: "10:00–12:00", venue: "Leeside hall" },
+  { id: "s1", clubId: demoRelationships[0].club.id, title: "Monday training", audience: "All ages & abilities", day: "Monday", time: "18:00–20:00", venue: "James Kenneally Sports Hall" },
+  { id: "s2", clubId: demoRelationships[0].club.id, title: "Wednesday training", audience: "All ages & abilities", day: "Wednesday", time: "20:15–22:15", venue: "James Kenneally Sports Hall" },
+  { id: "s3", clubId: demoRelationships[0].club.id, title: "Thursday training", audience: "All ages & abilities", day: "Thursday", time: "17:30–19:30", venue: "James Kenneally Sports Hall" },
+  { id: "s4", clubId: demoRelationships[0].club.id, title: "Friday training", audience: "All ages & abilities", day: "Friday", time: "18:00–20:00", venue: "James Kenneally Sports Hall" },
+  { id: "s5", clubId: demoRelationships[0].club.id, title: "Sunday training", audience: "All ages & abilities", day: "Sunday", time: "12:45–15:30", venue: "James Kenneally Sports Hall" },
 ];
 
 export const dashboardMetrics: DashboardMetric[] = [

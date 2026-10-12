@@ -15,6 +15,21 @@ The system SHALL keep sign-in identifiers, contact methods, verification state, 
 - **WHEN** the platform enables an approved SMS provider and the recipient has a verified mobile number with the required notification consent
 - **THEN** the system may deliver configured notification categories by SMS with duplicate prevention, delivery outcome recording, opt-out handling, and a permitted fallback
 
+### Requirement: Event invitations and subscriptions
+The system SHALL send event invitations through the notification outbox only to eligible club recipients or people with an applicable event-marketing subscription, and SHALL provide unsubscribe and preference controls where required. RSS/Atom feed availability SHALL NOT be treated as email consent.
+
+#### Scenario: Admin invites eligible members to a camp
+- **WHEN** an admin selects a permitted club audience and sends a published camp invitation
+- **THEN** the system queues one email per eligible adult recipient or designated junior guardian with the dates, registration link, and preference controls
+
+#### Scenario: Public visitor subscribes to announcements
+- **WHEN** a visitor completes verified opt-in for public event announcements
+- **THEN** the system records the scope and evidence of consent before sending announcements
+
+#### Scenario: Recipient opts out of optional announcements
+- **WHEN** a recipient unsubscribes from optional event announcements
+- **THEN** the system stops those announcements without suppressing strictly necessary account, safeguarding, booking, or membership-service messages
+
 ### Requirement: Authenticated platform email sender
 The pilot SHALL send automated authentication and transactional messages through the configured email delivery service using a verified club or platform domain. A personal Gmail mailbox SHALL NOT be used as the automated SMTP sender; an approved club mailbox MAY be configured as the reply-to address.
 
@@ -27,7 +42,7 @@ The pilot SHALL send automated authentication and transactional messages through
 - **THEN** the response is directed to that mailbox without exposing delivery-service credentials or using it as the automated sender
 
 ### Requirement: Membership renewal email
-The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder, or both, and SHALL send enabled membership-renewal email to the adult player's registered email address or, for a junior, to the registered email address of each guardian designated to receive club communications.
+The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder, or both, and SHALL send enabled membership-renewal email to the adult player's registered email address or, for a junior, to the registered email address of each guardian designated to receive club communications. Leeside SHALL initially enable one reminder at 10 days before expiry to limit notification noise; an admin may later choose the 3-day point or both.
 
 #### Scenario: Admin configures reminder points
 - **WHEN** an authorized admin enables or disables the 10-day or 3-day reminder option
@@ -58,6 +73,8 @@ The system SHALL record the type, intended recipient, related member, time, and 
 
 ### Requirement: Daily attendance digest
 The system SHALL allow authorized club admins to configure daily attendance-summary recipients and a delivery time in the club's timezone.
+
+Leeside's daily attendance email SHALL be disabled by default during the pilot. Authorized staff SHALL retain the in-app dashboard and unresolved work queue, and the club may enable a scheduled digest later without changing historical attendance.
 
 #### Scenario: Daily digest is due
 - **WHEN** the configured daily delivery time is reached for a day containing a session, attendance, or check-in attempt
@@ -114,16 +131,24 @@ The system SHALL send in-app notifications for match review and modification eve
 - **THEN** the system notifies participating players or their linked guardians of the final status
 
 ### Requirement: Manual payment acknowledgement email
-The system SHALL email a non-formal payment acknowledgement when an authorized admin records an external membership payment, without presenting the message as a tax invoice or proof of bank settlement.
+The system SHALL let an authorized admin choose whether to email a non-formal membership-update acknowledgement when recording or correcting an external payment or manually renewing a membership. The option SHALL be visible on the admin form, default according to club configuration, record the admin's choice, and never present the message as a tax invoice or proof of bank settlement.
 
 #### Scenario: Adult payment recorded
-- **WHEN** an admin records an external payment for an adult player's membership
+- **WHEN** an admin records an external payment for an adult player's membership and selects the email-acknowledgement option
 - **THEN** the system emails the player's registered address with the amount, currency, recorded date, method, reference where present, membership start/end dates, confirming club, and correction contact
 
 #### Scenario: Junior payment recorded
-- **WHEN** an admin records an external payment for a junior player's membership
+- **WHEN** an admin records an external payment for a junior player's membership and selects the email-acknowledgement option
 - **THEN** the system sends the acknowledgement to the designated linked guardian recipients rather than relying on the junior's email
 
 #### Scenario: Payment record corrected
-- **WHEN** an admin corrects a payment record after an acknowledgement was sent
+- **WHEN** an admin corrects a payment record after an acknowledgement was sent and selects the revised-email option
 - **THEN** the system sends a revised acknowledgement clearly identifying that it replaces the earlier record and retains both notification events
+
+#### Scenario: Admin does not select acknowledgement
+- **WHEN** an admin saves a manual payment or membership renewal without selecting the email option
+- **THEN** the system records the update and the notification choice but does not queue an acknowledgement
+
+#### Scenario: Membership renewed without a new payment entry
+- **WHEN** an admin changes the membership type, start date, end date, or status and selects the email option
+- **THEN** the system sends a membership-update message showing the new type, dates, status, club contact, and any separately recorded payment summary

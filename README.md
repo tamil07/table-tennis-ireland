@@ -91,8 +91,8 @@ sequenceDiagram
 - Admin-managed membership start/end dates and status.
 - Manual recording of money received outside the platform; no card or bank credentials are stored.
 - Payment state remains separate from membership validity and attendance.
-- Non-formal email acknowledgement when an admin records or corrects a payment.
-- Club-configurable 10-day, 3-day, or both renewal reminders.
+- Optional non-formal email acknowledgement when an admin records or corrects a payment; the admin explicitly chooses whether to send it.
+- Club-configurable 10-day, 3-day, or both renewal reminders; Leeside starts with one 10-day reminder.
 
 ```mermaid
 stateDiagram-v2
@@ -110,10 +110,13 @@ stateDiagram-v2
 ### Sessions and bookings
 
 - Recurring timetable definitions generate dated session occurrences.
+- Leeside starts with five weekly sessions; admins can add one-off events and bounded programmes such as seven-day camps.
 - Sessions can change or be cancelled without rewriting historical attendance.
 - Authorized players or guardians can book eligible sessions and events.
 - Capacity and membership rules are enforced by the backend.
 - Admins manage bookings; attendance remains a separate record of physical presence.
+- Public events share one canonical record across website pages, RSS/Atom, and iCalendar; consent-aware email invitations remain a separate channel.
+- The pilot produces canonical links and share-ready copy for manual Facebook posting; automated Meta posting is optional future integration work.
 
 ### Attendance and the club scanner
 
@@ -125,7 +128,7 @@ stateDiagram-v2
 - Expired or missing membership **does not discard attendance**. The visit is recorded, classified, and creates a deduplicated admin follow-up alert.
 - Bounded offline scanning queues idempotent events and visibly synchronizes later.
 - Reports cover daily, weekly, monthly, custom range, utilization, membership segments, and staff-only top attendance.
-- Configurable daily admin digest summarizes activity without putting sensitive member detail in email.
+- Configurable daily admin digest summarizes activity without putting sensitive member detail in email; it is disabled for the initial Leeside pilot to reduce noise.
 
 ```mermaid
 flowchart TD
@@ -175,6 +178,7 @@ stateDiagram-v2
 ### Club tournaments
 
 - Coaches/admins create dated round-robin leagues or single-elimination tournaments.
+- The mobile-first ad hoc flow can seed a tournament from players checked in that day.
 - Singles, doubles, registered players, and guests are supported.
 - Configurable match format, points, tie-breaks, seeding, and optional table assignments.
 - Fixtures, standings, and brackets use confirmed results only.
@@ -214,6 +218,8 @@ supabase/
   tests/          Database authorization tests
 docs/
   ACTION_ITEMS.md External accounts, decisions, and launch checklist
+  DECISIONS_AND_OPEN_ITEMS.md Closed decisions, recommended defaults, and owner questions
+  LEESIDE_CONTENT_INVENTORY.md Public Wix facts and migration constraints
   TRACEABILITY.md Code-to-OpenSpec capability map
 openspec/
   changes/launch-cork-club-platform/  Proposal, design, specs, and tasks
@@ -275,7 +281,7 @@ Not yet production-ready:
 - Production domains, email identity, schedules, backups, monitoring, policies, and acceptance testing.
 - Native App Store or Play Store binaries.
 
-See [Remaining actions](docs/ACTION_ITEMS.md) for every owner action and [OpenSpec tasks](openspec/changes/launch-cork-club-platform/tasks.md) for implementation progress.
+See the [decision and open-item register](docs/DECISIONS_AND_OPEN_ITEMS.md), [Leeside public-content inventory](docs/LEESIDE_CONTENT_INVENTORY.md), [remaining actions](docs/ACTION_ITEMS.md), and [OpenSpec tasks](openspec/changes/launch-cork-club-platform/tasks.md).
 
 ## Security and data handling
 

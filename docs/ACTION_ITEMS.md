@@ -2,12 +2,14 @@
 
 This is the handoff checklist for moving the synthetic foundation into a live Leeside pilot. Do not load real adult or junior data until the security, privacy, safeguarding, and recovery gates are complete.
 
+The concise decision register and current owner questions are in [DECISIONS_AND_OPEN_ITEMS.md](DECISIONS_AND_OPEN_ITEMS.md). Public Leeside details gathered from the temporary Wix site are in [LEESIDE_CONTENT_INVENTORY.md](LEESIDE_CONTENT_INVENTORY.md).
+
 **Owner** means the product/club owner must create an account, buy or approve something, supply policy information, or make a business decision. **Development** work is also tracked in OpenSpec.
 
 ## 1. Ownership and security
 
 - [ ] **Owner:** Confirm the legal owner of the Leeside domain and the owner of the national platform brand, repository, cloud services, backups, and future store accounts.
-- [ ] **Owner:** Use organization or role-based email addresses rather than one developer’s personal address where possible.
+- [x] **Owner decision:** A new shared Gmail account may own the pilot Cloudflare, Supabase, Resend, and Google Cloud accounts initially; migrate to a platform role mailbox after a domain is available.
 - [ ] **Owner:** Enable MFA and securely store recovery codes for GitHub, domain registrar, Supabase, Cloudflare, Resend, and Expo.
 - [ ] **Owner:** Give at least two trusted owners recovery access without sharing passwords.
 - [ ] **Owner:** Choose the national product name and check domain/brand availability before promotion.
@@ -86,7 +88,8 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 - [ ] **Development:** Schedule with Supabase Cron/`pg_cron`, respecting each club’s timezone.
 - [ ] **Development:** Make jobs idempotent so retries cannot duplicate emails or approvals.
 - [ ] **Development:** Add failure monitoring and an admin operations view.
-- [ ] **Owner:** Confirm digest time/recipients, immediate membership-alert recipients, and the follow-up owner.
+- [x] **Owner decision:** Send one renewal reminder initially, 10 days before expiry; keep daily attendance email disabled to reduce noise.
+- [ ] **Owner:** Confirm immediate expired/no-membership alert recipients and the follow-up owner.
 
 ## 7. Backup and recovery
 
@@ -99,18 +102,23 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 
 ## 8. Leeside data and operating rules
 
-- [ ] **Owner:** Supply approved address, contacts, safeguarding/privacy contacts, logo, colors, photos, and domain.
+- [x] **Research:** Inventory the public Wix club name, venue, telephone, five published timetable entries, social links, news feed, and content surfaces without copying protected media.
+- [ ] **Owner:** Confirm the inventoried address, phone, social links, safeguarding/privacy contacts, logo, colors, photos, and domain.
 - [ ] **Owner:** Approve migration rights for temporary Wix content.
 - [ ] **Owner:** Confirm five sessions, venues, times, audiences, capacity, booking eligibility, cancellation, and exceptions.
-- [ ] **Owner:** Define membership types, prices, durations, entitlements, and renewal rules.
+- [x] **Owner decision:** Admins can create and maintain membership types, prices, durations, entitlements, and active status; membership periods and external payments are assigned manually and audited. Online payments are future scope.
+- [ ] **Owner:** Supply the initial membership type names, EUR prices, durations, entitlements, and pay-as-you-go rules.
 - [ ] **Owner:** Define trial duration/visit allowance and the point when a permanent card is issued.
 - [ ] **Owner:** Approve manual-payment methods, fields, correction authority, and acknowledgement wording. Never enter bank credentials.
-- [ ] **Owner:** Choose 10-day, 3-day, or both renewal reminders per membership type.
+- [x] **Owner decision:** Start with one 10-day expiry reminder; retain configuration for 3-day or both later.
+- [x] **Owner decision:** Make the membership/payment-update acknowledgement email optional through an admin checkbox.
+- [ ] **Owner:** Approve the acknowledgement wording, sender/reply-to, and default checkbox state.
 - [ ] **Development:** Produce a dry-run member import report and get approval before any live import.
 - [ ] **Owner:** Keep Wix available through acceptance and approve DNS cutover.
 
 ## 9. Attendance kiosk and cards
 
+- [x] **Owner decision:** Pilot with a club-controlled NFC-capable Android phone/tablet and camera-based QR fallback; do not build custom scanner hardware initially.
 - [ ] **Owner:** Select one secured, continuously powered NFC-capable Android device for the venue.
 - [ ] **Development:** Test Web NFC, camera, screen wake, kiosk recovery, venue connectivity, sound, and accessibility on that exact device.
 - [ ] **Owner/Development:** Buy a small test batch of NDEF-compatible cards/tags with printed QR; do not bulk-order before the pilot.
@@ -122,6 +130,7 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 
 ## 10. Match and tournament decisions
 
+- [x] **Owner decision:** Coaches/admins can create mobile-first ad hoc league or knockout tournaments from that day's checked-in players and can check in missing participants.
 - [ ] **Owner:** Approve best-of formats and win-by-two validation.
 - [ ] **Owner:** Define result-entry/review eligibility, five-day reminder timing, change requests, and coach dispute ownership.
 - [ ] **Owner:** Define retirement/incomplete display, league points, tie-breaks, repeated pairings, seeding, and bracket rules.
@@ -168,6 +177,13 @@ Reference: [Expo EAS Build setup](https://docs.expo.dev/build/setup/).
 - [ ] **Development:** Run full cross-club tests with one person in both clubs and an admin in only one.
 - [ ] **Owner:** Review hosting, email, database, backup, support, and availability costs before accepting club two.
 - [ ] **Development:** Keep self-service onboarding, subscriptions, and billing outside the pilot unless separately specified.
+
+## 15. Events and public distribution
+
+- [x] **Owner decision:** Support five recurring weekly sessions plus one-off sessions and bounded programmes such as seven-day camps.
+- [x] **Owner decision:** Publish public events through the website, RSS/Atom, and iCalendar; invitations by email are separate and consent-aware.
+- [x] **Owner decision:** Provide canonical links and share-ready copy for manual Facebook Page posting in the pilot. Automated Meta posting is optional later and is not a launch dependency.
+- [ ] **Owner:** Confirm session audiences, capacities, booking cut-offs, trial eligibility, and which recipients may receive event email invitations.
 
 ## Launch gate
 

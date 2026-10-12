@@ -2,7 +2,7 @@ import { leesideSessions } from "@tti/domain";
 import { BrandMark, Button, Card, Pill, SectionHeading } from "@tti/ui";
 
 const benefits = [
-  ["01", "Play your way", "Coached junior groups, open practice, league training and social sessions."],
+  ["01", "Play your way", "Five weekly sessions welcome players across ages, abilities and ambitions."],
   ["02", "Belong locally", "A welcoming Cork community for first-time players, families and competitors."],
   ["03", "Keep improving", "Structured match history and coach-published development goals are coming to the member app."],
 ];
@@ -50,6 +50,7 @@ export function App() {
 
         <section className="sessions section" id="sessions">
           <SectionHeading eyebrow="Weekly timetable" title="A session for every player" action={<a href="#join">View membership →</a>} />
+          <p className="source-note">Published Wix timetable—club confirmation is required before launch.</p>
           <div className="session-list">
             {leesideSessions.map((session) => (
               <Card className="session" key={session.id}>
@@ -65,7 +66,7 @@ export function App() {
           <div>
             <p className="eyebrow">Flexible membership</p>
             <h2>More time at the table.<br />Less admin.</h2>
-            <p>Choose full, partial or pay-as-you-go membership. Payments remain offline during the pilot; club admins record membership dates and send an email acknowledgement.</p>
+            <p>Choose full, partial or pay-as-you-go membership. Payments remain offline during the pilot; club admins record membership dates and can send an email acknowledgement.</p>
           </div>
           <Card className="join-card" id="join">
             <Pill tone="good">New players welcome</Pill>
@@ -85,7 +86,7 @@ export function App() {
         </section>
       </main>
 
-      <footer><div><strong>Leeside Table Tennis Club</strong><span>Cork, Ireland</span></div><p>Club website powered by the independent TT Clubs platform.</p></footer>
+      <footer><div><strong>Leeside Table Tennis Club</strong><span>James Kenneally Sports Hall · Hollyhill Lane · Cork · T23 W880</span><a href="tel:+353838307259">+353 (0)83 830 7259</a></div><p>Club website powered by the independent TT Clubs platform.</p></footer>
     </div>
   );
 }

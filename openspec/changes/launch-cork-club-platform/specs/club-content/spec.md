@@ -22,6 +22,14 @@ Authorized club admins SHALL be able to draft, publish, edit, and unpublish news
 - **WHEN** a user without content-management permission attempts to publish content
 - **THEN** the system refuses the change
 
+#### Scenario: Admin prepares a Facebook announcement
+- **WHEN** an admin publishes a news item or public event during the pilot
+- **THEN** the system provides the canonical public link and share-ready title/summary for manual posting to Leeside's Facebook Page
+
+#### Scenario: Automated Facebook publishing is enabled later
+- **WHEN** a platform-owned Meta integration with approved Page authorization and permissions is configured
+- **THEN** an admin can explicitly opt to publish the item to the mapped Facebook Page and the system records the Page post identifier, outcome, and any retry without duplicating posts
+
 ### Requirement: Accessible content experience
 Public and authenticated content SHALL support keyboard operation, readable text scaling, labelled interactive controls, and sufficient colour contrast.
 

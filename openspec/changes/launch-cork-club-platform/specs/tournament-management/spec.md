@@ -3,6 +3,14 @@
 ### Requirement: Configurable club tournament
 An authorized coach or admin SHALL be able to create a dated club tournament linked to a club session and configure its name, competition format, singles or doubles mode, participants, match format, optional table assignments, start time, and publication state.
 
+#### Scenario: Coach starts an ad hoc tournament from today's attendance
+- **WHEN** a coach or admin opens the mobile experience for an active session and selects checked-in players
+- **THEN** the system creates a draft tournament prefilled with that session, date, venue, and selected present players and allows the organizer to add a present guest or manually check in another player
+
+#### Scenario: Coach records an ad hoc tournament on mobile
+- **WHEN** a coach publishes and starts the draft from a supported phone
+- **THEN** the responsive workflow generates the chosen fixtures or bracket and permits mobile scoring, result review, and completion without requiring a desktop computer
+
 #### Scenario: Coach creates a league tournament
 - **WHEN** an authorized coach selects a round-robin league format, valid participants, and permitted scoring settings
 - **THEN** the system saves a draft tournament and previews the fixtures and standings rules before publication
