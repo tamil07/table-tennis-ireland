@@ -4,6 +4,7 @@ Last reconciled: 12 October 2026. Detailed implementation work remains in the Op
 
 ## Closed decisions
 
+- Phone users can scan a rotating club display QR and confirm self/linked-child attendance after sign-in. Physical NFC/QR cards and staff check-in remain alternatives. The code refreshes every minute and expires within 90 seconds; forwarding a live code remains possible.
 - Leeside Table Tennis is the single production pilot club.
 - The founder personally owns the national platform, brand, repository, and shared cloud-service setup. A separate Gmail address is the contact and recovery mailbox, not the legal owner. It must use MFA and recovery methods.
 - Trusted platform owners receive individual provider access; contributors propose repository changes through PRs and authorized maintainers merge them.

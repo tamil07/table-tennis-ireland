@@ -66,6 +66,8 @@
 - [ ] 7.7 Build daily, weekly, monthly, session-utilization, membership-segment, and top-attendee reporting
 - [ ] 7.8 Build configurable daily staff digests without exposing member details in email
 - [ ] 7.9 Build one-off and bounded multi-day programmes, including conflict warnings against recurring occurrences
+- [x] 7.10 Add venue QR preview, staff rotating display, existing-user sign-in, guardian selection, and atomic Supabase challenge/confirmation RPCs
+- [ ] 7.11 Complete live venue-device acceptance, Auth provisioning, and notification delivery for the venue QR flow before production launch
 
 ## 8. Matches and tournaments
 

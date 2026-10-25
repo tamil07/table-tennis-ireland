@@ -120,6 +120,7 @@ stateDiagram-v2
 
 ### Attendance and the club scanner
 
+- Phone users scan a rotating QR displayed at the venue, sign in, select self or a linked child, and explicitly confirm attendance. See [venue QR setup and limits](docs/VENUE_QR_CHECK_IN.md).
 - Recommended member card combines an inexpensive NDEF NFC tag with a printed QR fallback.
 - A club-controlled NFC-capable Android phone or tablet runs the kiosk PWA.
 - An authenticated member or guardian can display a short-lived digital QR.
@@ -272,6 +273,7 @@ Implemented foundation:
 - Shared typed domain and permission helpers with unit tests.
 - Initial multi-tenant PostgreSQL schema, RLS-deny-by-default foundation, synthetic seed, and database-test scaffold.
 - OpenSpec task list and code traceability.
+- Venue QR local preview, staff display, existing-user email/password sign-in, and Supabase attendance RPCs; production activation remains pending.
 
 Not yet production-ready:
 

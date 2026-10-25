@@ -9,7 +9,7 @@ The source of truth is `openspec/changes/launch-cork-club-platform`. This map pr
 | `membership-management` | `membership_types`, `memberships`, `manual_payments` | Schema foundation |
 | `booking-management` | `session_definitions`, `session_occurrences`, `bookings` | Schema foundation |
 | `member-communications` | `notification_outbox` | Schema foundation |
-| `attendance-tracking` | `attendance_credentials`, `attendance`, platform UI | Schema/demo foundation |
+| `attendance-tracking` | `apps/platform/src/Attendance.tsx`, `202610250001_venue_qr.sql`, `supabase/tests/venue_qr.sql` | Rotating venue QR, confirmation and RPCs implemented; live setup/venue acceptance pending; other scanner flows planned |
 | `match-records` | `matches`, `match_participants`, `match_games`, `match_reviews` | Schema foundation |
 | `tournament-management` | `tournaments`, `tournament_entries`, `tournament_delegations` | Schema foundation |
 | `player-development` | `coach_notes`, `development_summaries` | Schema foundation |

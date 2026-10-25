@@ -1,4 +1,13 @@
 :root { --primary:#16283f; --accent:#bdf66a; background:#f2f5f4; }
+.attendance-section { margin: 0 0 3rem; }
+.attendance-section .card, .attendance-section details { padding: 1.25rem; margin: 1rem 0; }
+.attendance-section p { line-height: 1.6; }
+.attendance-section label { display: grid; gap: .4rem; margin: 1rem 0; }
+.attendance-section input, .attendance-section select { width: 100%; max-width: 32rem; padding: .8rem; border: 1px solid #718079; border-radius: .4rem; background: white; color: #16283f; font: inherit; }
+.attendance-section button { padding: .75rem 1rem; border: 0; border-radius: .5rem; background: #16283f; color: white; font: inherit; cursor: pointer; }
+.attendance-section button:disabled { opacity: .55; cursor: default; }
+.attendance-section img { display: block; max-width: 100%; height: auto; }
+.attendance-section summary { cursor: pointer; font-weight: 700; }
 .platform-shell { display:grid; grid-template-columns:15.5rem 1fr; min-height:100vh; }
 .sidebar { position:sticky; top:0; height:100vh; padding:1.6rem 1.1rem; display:flex; flex-direction:column; background:#142338; color:#fff; }
 .sidebar > .brand-mark { padding:.4rem .7rem 2rem; }.sidebar nav { display:grid; gap:.35rem; }.sidebar nav a { padding:.8rem .9rem; display:flex; gap:.8rem; align-items:center; border-radius:.75rem; color:#aebaca; text-decoration:none; font-size:.9rem; font-weight:650; }.sidebar nav a.active,.sidebar nav a:hover { background:#25364c; color:#fff; }.sidebar nav span { width:1.2rem; text-align:center; color:#bdf66a; }

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { dashboardMetrics, demoRelationships, platformFeatures, selectClubContext } from "@tti/domain";
 import type { MembershipStatus } from "@tti/domain";
 import { BrandMark, Button, Card, Pill, SectionHeading } from "@tti/ui";
+import { Attendance } from "./Attendance";
 
 const toneFor = (status: MembershipStatus) => status === "active" ? "good" : status === "approaching_expiry" ? "warn" : "neutral";
 
@@ -26,8 +27,9 @@ export function App() {
 
       <main className="platform-main" id="home">
         <header className="mobile-header"><BrandMark /><button aria-label="Open account menu">AS</button></header>
-        <div className="welcome"><div><p className="eyebrow">Saturday, 3 October</p><h1>Good morning, Alex.</h1><p>Here’s what is happening across your table tennis clubs.</p></div><Button>Show check-in QR</Button></div>
+        <div className="welcome"><div><p className="eyebrow">Platform dashboard preview · synthetic data</p><h1>Your table tennis clubs.</h1><p>The club dashboard below uses demo data. Attendance has a separate sign-in and confirmation flow.</p></div><a href="#attendance">Club QR check-in →</a></div>
 
+        <Attendance />
         <section id="clubs">
           <SectionHeading eyebrow="One account · Multiple clubs" title="My clubs" />
           <div className="club-grid">

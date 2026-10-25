@@ -121,6 +121,8 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 
 ## 9. Attendance kiosk and cards
 
+- [x] **Owner decision:** Add phone self-check-in through the rotating venue QR, authenticated identity/guardian selection, and explicit confirmation.
+- [ ] **Development/Leeside:** Apply the venue QR migration in development and test the display/phone workflow using [VENUE_QR_CHECK_IN.md](VENUE_QR_CHECK_IN.md); configure live Auth/profile provisioning before launch.
 - [x] **Owner decision:** Pilot with a club-controlled NFC-capable Android phone/tablet and camera-based QR fallback; do not build custom scanner hardware initially.
 - [ ] **Owner:** Select one secured, continuously powered NFC-capable Android device for the venue.
 - [ ] **Development:** Test Web NFC, camera, screen wake, kiosk recovery, venue connectivity, sound, and accessibility on that exact device.

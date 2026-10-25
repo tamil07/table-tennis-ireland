@@ -100,11 +100,31 @@ The system SHALL provide a separate static club QR code and matching public join
 - **THEN** the system records attendance as trial attendance, consumes any applicable visit allowance, and keeps the applicant distinct from active members
 
 ### Requirement: Venue-presence check-in
-The system SHALL accept member self-check-in only through a club-controlled kiosk scan or an authorized manual action in the first release; an ordinary in-app button alone SHALL NOT prove venue presence.
+The system SHALL support member self-check-in by scanning a rotating QR displayed inside the club, alongside kiosk cards and authorized manual check-in. The QR SHALL contain an opaque, short-lived challenge bound server-side to a club and open session. Authentication and explicit confirmation SHALL be required; scanning alone SHALL NOT create attendance. A shared live code can still be forwarded and SHALL NOT be represented as absolute proof of location.
 
 #### Scenario: User presses an unverified check-in action
-- **WHEN** a user attempts to check in without a kiosk credential scan or authorized manual action
+- **WHEN** a user attempts to check in without a valid venue challenge, kiosk credential scan, or authorized manual action
 - **THEN** the system does not create confirmed attendance
+
+#### Scenario: Member scans the venue display
+- **WHEN** a member scans the club QR with their phone camera
+- **THEN** the platform opens a sign-in or confirmation screen showing the server-resolved club, session, and eligible player identity without requesting device location or contacts
+
+#### Scenario: Guardian confirms a child
+- **WHEN** an authenticated guardian selects an actively linked junior and confirms physical presence
+- **THEN** the backend verifies that club-specific guardian relationship before recording attendance
+
+#### Scenario: Expired code or closed session
+- **WHEN** the code has expired or the linked session is cancelled, closed, or outside its attendance time window
+- **THEN** the backend refuses attendance and asks the member to scan a current display or contact staff
+
+#### Scenario: Duplicate or unpaid attendance
+- **WHEN** a valid confirmation repeats an existing attendance or the participant has expired or missing membership
+- **THEN** the backend prevents duplicate attendance and otherwise retains attendance with a deduplicated membership-review work item when applicable
+
+#### Scenario: Staff operates the display
+- **WHEN** an authorized coach, admin, or scanner operator selects an open session
+- **THEN** the platform displays a QR refreshed every minute with a maximum 90-second lifetime and stores only its hash server-side
 
 ### Requirement: Temporary connectivity loss
 The kiosk SHALL be able to queue a scan locally during a temporary network interruption and synchronize it when connectivity returns, while protecting queued credential data on the device.
