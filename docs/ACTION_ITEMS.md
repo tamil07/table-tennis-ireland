@@ -1,5 +1,7 @@
 # Remaining actions and account setup
 
+For one sequential account-creation guide with signup links and connection steps, use [ACCOUNT_SETUP_README.md](ACCOUNT_SETUP_README.md).
+
 This is the handoff checklist for moving the synthetic foundation into a live Leeside pilot. Do not load real adult or junior data until the security, privacy, safeguarding, and recovery gates are complete.
 
 The concise decision register and current owner questions are in [DECISIONS_AND_OPEN_ITEMS.md](DECISIONS_AND_OPEN_ITEMS.md). Public Leeside details gathered from the temporary Wix site are in [LEESIDE_CONTENT_INVENTORY.md](LEESIDE_CONTENT_INVENTORY.md).
