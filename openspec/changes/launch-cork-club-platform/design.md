@@ -220,7 +220,15 @@ Admins configure membership name, duration, price, attendance entitlements, and 
 
 Use two trial attendances within 14 days as Leeside's proposed default. Trial status is not membership, works only for explicitly trial-eligible sessions, requires a guardian for juniors, and ends when the visit/date limit is reached. An admin may extend it with an audited reason. Leeside must confirm or replace this default before launch.
 
-Leeside initially sends one player renewal reminder 10 days before expiry and keeps the daily attendance email digest disabled to reduce noise; dashboards and the admin work queue remain available. Admins may later choose the 3-day reminder or both. A manual membership/payment update email is sent only when the admin selects the acknowledgement option, and it is clearly a club record rather than a bank receipt or tax invoice.
+Leeside's default is player/guardian expiry email plus one consolidated summary per current authorized management recipient at the close of the inclusive expiry date, processed at 00:00 Europe/Dublin the next day. Advance 10/3-day reminders and daily attendance email are off by default and remain separately configurable. Renewal checks and current permissions are evaluated before queue/delivery with deduplication/retry. Membership/payment acknowledgement remains optional and is not a bank receipt or tax invoice.
+
+### 13. Runtime configuration and QR/app-first pilot (latest decisions)
+
+Roles, recipients, memberships, prices and future session schedules are runtime settings, not a fixed roster/catalogue requiring prior answers or redeployment. Permission revocation applies on subsequent server requests, regardless of cached UI or existing sign-in sessions. Preserve historical membership assignments when products change. Seed the owner-confirmed five-session timetable and Wix public contacts; values remain editable and absent source fields remain blank. The owner manages the Leeside domain through the Leeside Gmail contact account.
+
+QR and direct app session-time attendance are the current pilot path. The person selector offers the authenticated adult where eligible and actively linked children, each explicitly selected. Direct app presence is self-declared, not independently location-verified; QR is a rotating challenge, not absolute proof of location. A separate Not attending response can be submitted from home, including before session time; it never adds visits, cancels bookings automatically or silently erases an existing attendance. NFC/card equipment is deferred and the earlier physical-card descriptions are optional future paths. The current venue QR implementation does not yet implement direct app presence, availability or the new expiry emails.
+
+Owner-led testing can start without recruiting a broader club pilot team; scheduling that team is parked and is not a prerequisite to continued development. Automated checks, secure access and appropriate private-data handling remain production requirements. Trial policy and safeguarding/privacy decisions remain open as listed in the decision register.
 
 ## Risks / Trade-offs
 
@@ -262,15 +270,15 @@ Reflection categories are Worked well and Needs work; default tags are forehand,
 ## Open Questions
 
 - Nominate the Leeside admin recipients for expired/no-membership work items and identify who owns follow-up; daily attendance email is initially disabled.
-- Select and test the club-owned NFC Android kiosk device and exact NDEF card/tag stock before purchasing cards in bulk.
-- Confirm Leeside's actual membership names, prices, durations, entitlement rules, and pay-as-you-go representation; admins will manage these values without deployment.
+- NFC/card purchases and broader pilot participant scheduling are parked; no dedicated scanner purchase is required for the QR/app-first pilot.
+- Membership names/prices/entitlements, staff grants and recipient lists are runtime admin configuration and not outstanding product decisions blocking implementation.
 - Confirm or replace the proposed default of two trial visits within 14 days and identify which sessions accept trials.
 - Define the permitted best-of match formats, league win/loss points, tie-break order, knockout seeding options, and whether league pairings play once or multiple times.
 - Approve the membership-update email wording, default state of its admin checkbox, sending identity, and monitored reply-to mailbox.
 - Define who can view private coach notes, their retention period, and whether a second coach/admin review is needed before publishing a junior summary.
 - Confirm the club's legal entity/domain owner, trained Club Children's Officer, Designated Liaison Person, privacy contact, and approved data-import source.
 - Approve or amend the provisional retention schedule with Leeside's privacy/legal adviser and decide the historical/public treatment of match results and photographs.
-- Public-content reuse consent is confirmed by the owner on 1 November 2026. Confirm current contact/timetable accuracy and select the final content to publish; consent is no longer an open decision.
+- Public-content reuse and Wix contact defaults are approved and the five session times are finalized; admins retain runtime edit control.
 - Choose the national platform app's product name, logo, and product domain before public promotion; founder ownership is confirmed and the identity must remain distinct from Leeside's club brand.
 - Decide whether phase-two automated Facebook Page publishing justifies a Meta app; the pilot uses manual Page sharing plus public feeds and email invitations.
 - Decide whether check-out time is needed later; the first release records arrival only.

@@ -25,6 +25,12 @@ An authorized club admin SHALL be able to create, edit, cancel, and review sessi
 ### Requirement: Recurring and temporary session programmes
 The system SHALL support Leeside's five weekly recurring training sessions and authorized admins SHALL be able to create one-off sessions and bounded multi-day programmes such as a seven-day camp without altering the recurring timetable.
 
+Leeside's initial timetable SHALL be Monday 18:00–20:00, Wednesday 20:15–22:15, Thursday 17:30–19:30, Friday 18:00–20:00 and Sunday 12:45–15:30, in Europe/Dublin local time. These times are owner-confirmed. Authorized session managers SHALL be able to change future schedules, capacity, audience, booking/trial settings and exceptions at runtime without editing OpenSpec or redeploying; historical occurrences SHALL remain intact.
+
+#### Scenario: Session manager changes future schedule
+- **WHEN** an authorized manager changes a recurring session with an effective date
+- **THEN** the system applies it to future affected occurrences, preserves attendance history and warns about affected bookings without requiring a code/spec change for ordinary schedule values
+
 #### Scenario: Admin creates a recurring session
 - **WHEN** an admin configures a weekday, local start/end time, venue, audience, capacity, booking rule, and effective date range
 - **THEN** the system generates dated occurrences while preserving historical occurrences when the definition later changes

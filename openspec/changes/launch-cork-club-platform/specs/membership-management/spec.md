@@ -36,7 +36,7 @@ A submitted application SHALL remain distinct from active membership, and the sy
 
 #### Scenario: Trial limit reached
 - **WHEN** an applicant has exhausted the configured trial validity or visit allowance
-- **THEN** the system prevents further automatic trial attendance until an authorized admin extends, approves, or otherwise resolves the application
+- **THEN** the system stops granting trial entitlements until an authorized admin extends or resolves the application, while retaining later physical attendance with no-current-membership classification and staff follow-up
 
 #### Scenario: Trial participant books a session
 - **WHEN** a trial participant requests a booking
@@ -70,7 +70,11 @@ An authorized club admin or individually authenticated member of the club's mana
 - **THEN** the system refuses the update
 
 ### Requirement: Configurable membership types
-The system SHALL allow an authorized club admin to create and manage club-specific membership types, durations, prices, attendance entitlement, and active status without a software deployment.
+The system SHALL allow an authorized club admin or permitted membership-management group member to create and manage club-specific membership types, durations, prices, attendance entitlement and active status at any time, including after launch, without a software deployment. An empty initial catalogue SHALL be supported; the initial product catalogue is not a prerequisite to building or deploying the app. Historical assignments/payments SHALL remain unchanged by later catalogue edits.
+
+#### Scenario: Catalogue configured after launch
+- **WHEN** a membership manager creates the first type or edits an existing type after deployment
+- **THEN** valid changes become available immediately for future assignments while an empty catalogue displays a clear setup state instead of invented prices
 
 #### Scenario: Admin creates a membership type
 - **WHEN** an authorized admin supplies valid details for a new membership type

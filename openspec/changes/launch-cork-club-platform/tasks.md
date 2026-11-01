@@ -68,6 +68,8 @@
 - [ ] 7.9 Build one-off and bounded multi-day programmes, including conflict warnings against recurring occurrences
 - [x] 7.10 Add venue QR preview, staff rotating display, existing-user sign-in, guardian selection, and atomic Supabase challenge/confirmation RPCs
 - [ ] 7.11 Complete live venue-device acceptance, Auth provisioning, and notification delivery for the venue QR flow before production launch
+- [ ] 7.12 Add session-time direct app presence with self-declared provenance and explicit self/linked-child selection; retain QR confirmation as an alternative
+- [ ] 7.13 Add separate Not attending availability from home; exclude it from attendance totals and prevent silent overwrites of existing presence
 
 ## 8. Matches and tournaments
 
@@ -98,6 +100,7 @@
 - [ ] 9.9 Build coach-managed tag taxonomy with stable historical identifiers and retirement
 - [ ] 9.10 Build club/event/date/player/group coaching summaries with distinct reporting denominators, provenance and permitted drill-down
 - [ ] 9.11 Test private reflection access, opponent-review privacy, cross-club denial and human-authored goals separated from descriptive aggregates
+- [ ] 9.12 Enforce runtime permission grants/revocation on every privileged request; support owner bootstrap and empty editable membership catalogue without redeployment
 
 ## 10. Operations and release
 
@@ -110,3 +113,9 @@
 - [ ] 10.7 Document Wix cutover, monitoring, free-tier thresholds, rollback, and support ownership
 - [ ] 10.8 Prepare Expo native clients and store submissions only after the PWA pilot justifies them
 - [ ] 10.9 Implement and test approved retention, deletion/anonymization, and backup-expiry schedules by data class
+- [ ] 10.10 Implement inclusive end-of-day Europe/Dublin expiry emails to player/guardian plus current management summary, with renewal-race suppression, recipient revocation checks and idempotency
+
+## Parked owner activity (not a development prerequisite)
+
+- Broader pilot participant recruitment and club testing dates are deferred at the owner's request; initial owner-only testing is supported. This does not mark production readiness, security, privacy or automated verification complete.
+- NFC/card hardware purchases are deferred while QR/app attendance is the pilot path.

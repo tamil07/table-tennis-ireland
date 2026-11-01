@@ -42,7 +42,29 @@ The pilot SHALL send automated authentication and transactional messages through
 - **THEN** the response is directed to that mailbox without exposing delivery-service credentials or using it as the automated sender
 
 ### Requirement: Membership renewal email
-The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder, or both, and SHALL send enabled membership-renewal email to the adult player's registered email address or, for a junior, to the registered email address of each guardian designated to receive club communications. Leeside SHALL initially enable one reminder at 10 days before expiry to limit notification noise; an admin may later choose the 3-day point or both.
+The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder or both and route enabled messages to adult players or designated junior guardians. Leeside's default SHALL instead be an end-of-expiry-day notification to the player/guardian and current authorized management recipients; advance reminders SHALL be off unless enabled. This supersedes the earlier default 10-day reminder.
+
+#### Scenario: Default renewal configuration
+- **WHEN** the pilot club is configured
+- **THEN** end-of-day expiry messages are enabled and optional 10/3-day advance reminders remain disabled
+
+### Requirement: End-of-day membership expiry notification
+The system SHALL treat membership end dates as inclusive Europe/Dublin calendar dates and process expiry immediately after the date closes (00:00 local on the following date, including DST). It SHALL queue one message per affected adult player or designated guardian and one consolidated expiry summary per authorized management recipient for that expired date. Recipients SHALL be configurable at runtime and checked against current permission at delivery. Processing SHALL recheck membership renewals/corrections before queueing and delivery, suppress stale expiry notices, prevent duplicates per membership period/date/recipient, retry failures and keep protected details behind sign-in. This is separate from the disabled daily attendance digest.
+
+#### Scenario: Membership expires today
+- **WHEN** the membership's inclusive end date finishes without renewal
+- **THEN** the system queues the player/guardian expiry email and includes that membership once in the current management team's expiry-date summary
+
+#### Scenario: Renewal or recipient revocation races notification
+- **WHEN** membership is renewed before notification delivery or a management recipient loses the required permission
+- **THEN** the system suppresses the stale expiry message or excludes that recipient rather than sending outdated information
+
+#### Scenario: Expiry job retries
+- **WHEN** a job or email delivery is retried for the same expiry date
+- **THEN** idempotency prevents duplicate logical notifications while delivery failures remain visible to authorized staff
+
+### Requirement: Configurable advance reminder stages
+Authorized admins SHALL be able to enable optional 10-day and/or 3-day advance reminders independently from end-of-day expiry notices; the pilot default SHALL leave those stages disabled.
 
 #### Scenario: Admin configures reminder points
 - **WHEN** an authorized admin enables or disables the 10-day or 3-day reminder option

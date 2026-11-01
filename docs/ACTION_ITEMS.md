@@ -1,5 +1,7 @@
 # Remaining actions and account setup
 
+> Latest decisions: group permissions and membership products are editable at runtime; five session times and Wix contact defaults are finalized. The owner manages the domain through Leeside Gmail. Expiry messages default to end-of-day player/guardian email and management summary; 10/3-day advance reminders are off by default. QR/app attendance replaces mandatory NFC purchases. Broader club pilot recruitment/scheduling is parked and not a development blocker. The authoritative current owner questions are in [DECISIONS_AND_OPEN_ITEMS.md](DECISIONS_AND_OPEN_ITEMS.md).
+
 > Latest pilot decision, 1 November 2026: retain the existing Leeside website and app folders, backend and build/deployment targets for at least one year of live operation. Website repository separation is deferred for review only after that period and more than two participating clubs (three or more); it is not a current action. Detailed result/reflection work remains in OpenSpec sections 8 and 9.
 
 For one sequential account-creation guide with signup links and connection steps, use [ACCOUNT_SETUP_README.md](ACCOUNT_SETUP_README.md).
@@ -108,16 +110,16 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 ## 8. Leeside data and operating rules
 
 - [x] **Owner decision:** Leeside's management group handles club branding, photographs, records, announcements, events, and sharing through individual accounts with scoped permissions.
-- [ ] **Leeside:** Nominate initial club admins, editors, event organizers, and communications managers and approve the content/data responsibilities and offboarding arrangement.
+- [ ] **Runtime setup:** Owner bootstraps the first admin; authorized admins grant/revoke individual member permissions as needed. A complete team roster is not a development prerequisite; private-data responsibilities remain open.
 - [x] **Research:** Inventory the public Wix club name, venue, telephone, five published timetable entries, social links, news feed, and content surfaces without copying protected media.
-- [ ] **Owner:** Confirm the inventoried address, phone, social links, safeguarding/privacy contacts, logo, colors, photos, and domain.
+- [x] **Owner decision:** Copy the Wix inventory public contacts/address/social defaults and permit later admin editing; safeguarding/privacy appointments remain separately open.
 - [x] **Owner:** Confirmed consent for reuse of Leeside public/Wix content, branding and photographs on 1 November 2026.
 - [ ] **Leeside session managers:** Configure the current five-session timetable, audiences, capacities, walk-in/booking rules, trial eligibility and holiday exceptions before publishing live sessions; no need to settle these values before building admin configuration.
 - [x] **Owner decision:** Admins can create and maintain membership types, prices, durations, entitlements, and active status; membership periods and external payments are assigned manually and audited. Online payments are future scope.
 - [ ] **Leeside membership-management group:** Configure the initial membership names, EUR prices, durations, entitlements and pay-as-you-go values. The group's authority to create and manually update memberships is already confirmed.
 - [ ] **Owner:** Define trial duration/visit allowance and the point when a permanent card is issued.
 - [ ] **Owner:** Approve manual-payment methods, fields, correction authority, and acknowledgement wording. Never enter bank credentials.
-- [x] **Owner decision:** Start with one 10-day expiry reminder; retain configuration for 3-day or both later.
+- [x] **Owner decision:** End-of-day player/guardian expiry email and management summary are the default; advance 10/3-day reminders are off unless enabled.
 - [x] **Owner decision:** Make the membership/payment-update acknowledgement email optional through an admin checkbox.
 - [ ] **Owner:** Approve the acknowledgement wording, sender/reply-to, and default checkbox state.
 - [ ] **Development:** Produce a dry-run member import report and get approval before any live import.

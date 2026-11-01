@@ -17,15 +17,15 @@ Retrieved from the public [Leeside Wix website](https://leesidetabletennis.wixsi
 
 ## Published five-day timetable
 
-These times were extracted from dated Wix Event structured data. The sampled events were from 2025, so Leeside must confirm that the times still apply before production import.
+These times were initially extracted from dated Wix Event data and are now owner-confirmed on 1 November 2026. Use Europe/Dublin local time. Admins may change future sessions without redeployment.
 
 | Day | Published time | Status |
 | --- | --- | --- |
-| Monday | 18:00–20:00 | Provisional; confirm audience/capacity |
-| Wednesday | 20:15–22:15 | Provisional; confirm audience/capacity |
-| Thursday | 17:30–19:30 | Provisional; confirm audience/capacity |
-| Friday | 18:00–20:00 | Provisional; confirm audience/capacity |
-| Sunday | 12:45–15:30 | Provisional; confirm audience/capacity |
+| Monday | 18:00–20:00 | Confirmed; remaining settings editable |
+| Wednesday | 20:15–22:15 | Confirmed; remaining settings editable |
+| Thursday | 17:30–19:30 | Confirmed; remaining settings editable |
+| Friday | 18:00–20:00 | Confirmed; remaining settings editable |
+| Sunday | 12:45–15:30 | Confirmed; remaining settings editable |
 
 No reliable public capacity or booking-entitlement values were found. These remain administrator configuration and require club confirmation.
 
@@ -46,6 +46,6 @@ Recent feed examples confirm that temporary programmes and ad hoc activity are n
 - Public-content reuse permission is confirmed by the owner; retain source and consent attribution with imported material.
 - Obtain source/original media where possible rather than downloading compressed Wix derivatives.
 - Obtain alt text, photographer/consent information, and child-photo publication consent where applicable.
-- Treat the phone number and social links as provisional until a Leeside representative confirms them.
+- The owner approved copying the Wix contact/address/social defaults on 1 November 2026; use these without a repeat approval request and allow later editing. A preferred club email absent from the inventory must not be invented.
 - Use a dry-run import report showing source URL, destination, publication status, and media rights before cutover.
 - Keep the Wix site available until Leeside signs off the new content and DNS migration.

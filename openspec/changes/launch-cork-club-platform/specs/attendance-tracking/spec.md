@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Hybrid club attendance card
-The system SHALL allow an authorized club admin to issue each member a revocable attendance card containing an NDEF-compatible NFC credential and a printed QR fallback, both mapped to the same member without exposing readable personal data in either credential.
+If the deferred physical-card option is enabled, the system SHALL allow an authorized club admin to issue revocable NDEF NFC/printed-QR credentials mapped to a member without readable personal data. This optional path SHALL NOT require a card purchase or NFC device for the QR/app-first pilot.
 
 #### Scenario: Admin issues a card
 - **WHEN** an authorized admin assigns an unused physical card to a member
@@ -39,7 +39,7 @@ The platform app SHALL allow an authenticated recognized club participant, or a 
 - **THEN** the member can use their physical NFC/QR card or request an authorized manual check-in
 
 ### Requirement: Club-controlled attendance kiosk
-The system SHALL provide an authenticated kiosk interface for a club-controlled NFC-capable Android phone or tablet, with camera-based QR scanning as a fallback.
+If the deferred kiosk/card option is enabled, the system SHALL provide an authenticated restricted scanner interface with NFC and camera QR support. The QR/app-first pilot SHALL NOT require this hardware path.
 
 #### Scenario: Kiosk starts a session
 - **WHEN** an authorized operator opens the kiosk and selects a current session occurrence
@@ -100,11 +100,26 @@ The system SHALL provide a separate static club QR code and matching public join
 - **THEN** the system records attendance as trial attendance, consumes any applicable visit allowance, and keeps the applicant distinct from active members
 
 ### Requirement: Venue-presence check-in
-The system SHALL support member self-check-in by scanning a rotating QR displayed inside the club, alongside kiosk cards and authorized manual check-in. The QR SHALL contain an opaque, short-lived challenge bound server-side to a club and open session. Authentication and explicit confirmation SHALL be required; scanning alone SHALL NOT create attendance. A shared live code can still be forwarded and SHALL NOT be represented as absolute proof of location.
+The pilot SHALL prioritize phone QR and app-based attendance, without requiring NFC hardware/cards. Members SHALL be able to scan the rotating club QR or open the app during an open session to confirm physical presence for self or an actively linked child. QR challenges SHALL be short-lived and bound server-side to the club/session. Direct app actions SHALL be labelled self-declared presence rather than independently verified location. Authentication, explicit person selection and confirmation SHALL be required. An ordinary phone camera may open the flow; no child phone, device contact access or geolocation is required. Kiosk cards remain optional future alternatives.
 
 #### Scenario: User presses an unverified check-in action
-- **WHEN** a user attempts to check in without a valid venue challenge, kiosk credential scan, or authorized manual action
-- **THEN** the system does not create confirmed attendance
+- **WHEN** a user attempts to record presence outside an open session or without an authorized identity/guardian relationship
+- **THEN** the system refuses attendance; inside a session a permitted direct app confirmation is recorded with self-declared provenance rather than proof of location
+
+#### Scenario: Parent is also a player
+- **WHEN** an authenticated parent opens the QR/app attendance screen
+- **THEN** the app lets them explicitly choose self and/or linked children, confirms each selected person separately and records only those chosen without inferring that a parent attending means their child attended
+
+#### Scenario: Member uses the app during session time
+- **WHEN** an authorized player explicitly confirms presence through the app while the selected session is open
+- **THEN** the server validates session time, identity, duplicates and membership, records self-declared attendance, and does not imply GPS or QR location verification
+
+### Requirement: Not-attending availability response
+Members or designated guardians SHALL be able to record Not attending for a dated session from home, including before session time. Availability SHALL be separate from physical attendance, membership entitlement and booking cancellation; it SHALL NOT count toward visits or top-attendee charts. Authorized staff SHALL see the response and permitted revisions. A contradictory response after a presence record SHALL require an explicit staff correction workflow rather than silently erase attendance.
+
+#### Scenario: Player declines from home
+- **WHEN** a player or guardian selects Not attending for self or a linked child
+- **THEN** the app stores that session availability response without creating attendance or a negative visit and without automatically cancelling an existing booking
 
 #### Scenario: Member scans the venue display
 - **WHEN** a member scans the club QR with their phone camera

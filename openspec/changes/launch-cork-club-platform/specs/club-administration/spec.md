@@ -11,6 +11,14 @@ The system SHALL allow authorized Leeside admins to invite, add, remove, and ass
 - **WHEN** an authorized admin revokes a group member's membership-management access
 - **THEN** subsequent membership updates are refused while historical changes retain the original actor attribution
 
+#### Scenario: Group membership changes during operation
+- **WHEN** an authorized access manager grants or revokes a member's club permissions after launch
+- **THEN** subsequent server requests use the current grants without redeployment, reinstall or waiting for the member to sign in again; cached controls cannot authorize a revoked action
+
+#### Scenario: Initial owner bootstraps management
+- **WHEN** the operator provisions the first authorized club admin
+- **THEN** that admin can invite or grant existing members further permissions at runtime, and a complete committee name/email list is not required to build or deploy the app
+
 #### Scenario: Admin invites a content editor
 - **WHEN** a Leeside admin with access-management permission invites a person and assigns content-editing permissions
 - **THEN** the accepted invitation grants only the assigned Leeside permissions and records the acting admin, recipient, scope, and time
