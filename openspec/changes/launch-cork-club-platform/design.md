@@ -218,7 +218,7 @@ For the pilot, provide a share-ready public link and copy for manual Facebook Pa
 
 Admins configure membership name, duration, price, attendance entitlements, and active state; assignments, renewals, external payments, and corrections remain manual and audited until a separately specified payment integration exists. Configuration changes never rewrite historical periods.
 
-Use two trial attendances within 14 days as Leeside's proposed default. Trial status is not membership, works only for explicitly trial-eligible sessions, requires a guardian for juniors, and ends when the visit/date limit is reached. An admin may extend it with an audited reason. Leeside must confirm or replace this default before launch.
+Users self-register for trial access; guardians act for juniors. The default is one calendar month from successful registration with no default visit cap, replacing two visits/14 days. Managers configure duration and individual extensions at runtime. Month-end dates clamp to the last valid day and default changes do not rewrite existing periods. At the recorded trial end, queue a player/guardian reminder then a current membership-team follow-up without making team delivery depend on recipient delivery. Suppress stale messages after extension/conversion; retain audit/idempotency.
 
 Leeside's default is player/guardian expiry email plus one consolidated summary per current authorized management recipient at the close of the inclusive expiry date, processed at 00:00 Europe/Dublin the next day. Advance 10/3-day reminders and daily attendance email are off by default and remain separately configurable. Renewal checks and current permissions are evaluated before queue/delivery with deduplication/retry. Membership/payment acknowledgement remains optional and is not a bank receipt or tax invoice.
 
@@ -272,7 +272,7 @@ Reflection categories are Worked well and Needs work; default tags are forehand,
 - Nominate the Leeside admin recipients for expired/no-membership work items and identify who owns follow-up; daily attendance email is initially disabled.
 - NFC/card purchases and broader pilot participant scheduling are parked; no dedicated scanner purchase is required for the QR/app-first pilot.
 - Membership names/prices/entitlements, staff grants and recipient lists are runtime admin configuration and not outstanding product decisions blocking implementation.
-- Confirm or replace the proposed default of two trial visits within 14 days and identify which sessions accept trials.
+- Trial policy is finalized at a configurable one-month default; management may configure eligible sessions and extensions later.
 - Define the permitted best-of match formats, league win/loss points, tie-break order, knockout seeding options, and whether league pairings play once or multiple times.
 - Approve the membership-update email wording, default state of its admin checkbox, sending identity, and monitored reply-to mailbox.
 - Define who can view private coach notes, their retention period, and whether a second coach/admin review is needed before publishing a junior summary.

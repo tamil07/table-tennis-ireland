@@ -41,6 +41,10 @@ The pilot SHALL send automated authentication and transactional messages through
 - **WHEN** the club has configured an approved monitored reply-to mailbox and the recipient replies
 - **THEN** the response is directed to that mailbox without exposing delivery-service credentials or using it as the automated sender
 
+#### Scenario: Owner supplies Leeside TT email
+- **WHEN** the owner provides the Leeside TT email address
+- **THEN** the app uses it as the club contact/reply-to; an address on an owned verified sending domain may also be the automated sender, while a Gmail mailbox remains reply-to with automated delivery through the configured verified domain
+
 ### Requirement: Membership renewal email
 The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder or both and route enabled messages to adult players or designated junior guardians. Leeside's default SHALL instead be an end-of-expiry-day notification to the player/guardian and current authorized management recipients; advance reminders SHALL be off unless enabled. This supersedes the earlier default 10-day reminder.
 
@@ -83,6 +87,24 @@ Authorized admins SHALL be able to enable optional 10-day and/or 3-day advance r
 - **THEN** the system does not queue that reminder
 
 ### Requirement: Notification history and duplicate prevention
+The system SHALL record the type, intended recipient, related member, time, and delivery outcome of each transactional email and SHALL prevent duplicate reminders for the same configured renewal stage.
+
+#### Scenario: Retry has an existing logical notification
+- **WHEN** a scheduler retries an already queued reminder for the same period and recipient
+- **THEN** the system reuses its delivery record instead of creating a duplicate logical message
+
+### Requirement: Trial completion reminder
+The system SHALL queue a reminder when a registered trial reaches its recorded end date, defaulting to one calendar month after registration. It SHALL send the adult player or designated junior guardian a trial-completion/next-membership message, then notify the current authorized membership team in the same processing cycle. Membership-team notification SHALL NOT depend on successful player email delivery. Deduplication SHALL use trial period/recipient/category; retries, current recipient permissions and trial-extension or membership-conversion checks SHALL prevent duplicate or stale reminders. No verified player/guardian email SHALL create an authorized team follow-up instead of pretending email was sent.
+
+#### Scenario: Default one-month trial ends
+- **WHEN** the configured trial period ends without extension or conversion to a current membership
+- **THEN** the system queues the player/guardian reminder and the membership-team follow-up with protected links and recorded delivery outcomes
+
+#### Scenario: Trial is extended or converted
+- **WHEN** management extends the trial or records current membership before reminder delivery
+- **THEN** stale trial-end messages are suppressed or rescheduled using the current period and changes remain audited
+
+### Requirement: Transactional delivery audit
 The system SHALL record the type, intended recipient, related member, time, and delivery outcome of each transactional email and SHALL prevent duplicate reminders for the same configured renewal stage.
 
 #### Scenario: Reminder already sent

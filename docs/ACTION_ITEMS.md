@@ -1,5 +1,7 @@
 # Remaining actions and account setup
 
+> Trial policy is now confirmed: self/guardian registration, one calendar month by default, management-configurable duration, and trial-end player/guardian plus membership-team reminders. Management supplies safeguarding/privacy contacts and policies at runtime. Use the forthcoming Leeside TT email for contact/reply-to, subject to automated sending-domain verification. Internal tournament rules are organizer configuration; external tournaments require result logging only. Earlier open checklist entries on those policy choices are superseded.
+
 > Latest decisions: group permissions and membership products are editable at runtime; five session times and Wix contact defaults are finalized. The owner manages the domain through Leeside Gmail. Expiry messages default to end-of-day player/guardian email and management summary; 10/3-day advance reminders are off by default. QR/app attendance replaces mandatory NFC purchases. Broader club pilot recruitment/scheduling is parked and not a development blocker. The authoritative current owner questions are in [DECISIONS_AND_OPEN_ITEMS.md](DECISIONS_AND_OPEN_ITEMS.md).
 
 > Latest pilot decision, 1 November 2026: retain the existing Leeside website and app folders, backend and build/deployment targets for at least one year of live operation. Website repository separation is deferred for review only after that period and more than two participating clubs (three or more); it is not a current action. Detailed result/reflection work remains in OpenSpec sections 8 and 9.

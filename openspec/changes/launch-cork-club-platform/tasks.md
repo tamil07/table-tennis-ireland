@@ -54,6 +54,8 @@
 - [ ] 6.6 Build non-formal payment acknowledgements and notification delivery history
 - [ ] 6.7 Make acknowledgement delivery an explicit admin choice and preserve the selection in the audit history
 - [ ] 6.8 Build consent-aware event subscriptions, invitations, and unsubscribe/preference controls
+- [ ] 6.9 Build verified self/guardian trial registration with configurable calendar-month duration, individual extensions and historical end-date preservation
+- [ ] 6.10 Build trial-end player/guardian reminders and membership-team follow-up with current-recipient checks, extension/conversion suppression and idempotency
 
 ## 7. Sessions, bookings, and attendance
 
@@ -101,6 +103,7 @@
 - [ ] 9.10 Build club/event/date/player/group coaching summaries with distinct reporting denominators, provenance and permitted drill-down
 - [ ] 9.11 Test private reflection access, opponent-review privacy, cross-club denial and human-authored goals separated from descriptive aggregates
 - [ ] 9.12 Enforce runtime permission grants/revocation on every privileged request; support owner bootstrap and empty editable membership catalogue without redeployment
+- [ ] 9.13 Build permission-scoped management editing/publication of safeguarding/privacy contacts, policies and approved data-handling settings with revision history and unconfigured states
 
 ## 10. Operations and release
 

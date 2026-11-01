@@ -4,6 +4,10 @@ Last reconciled: 1 November 2026. Detailed implementation work remains in the Op
 
 ## Closed decisions
 
+- Trial policy finalized: verified self/guardian registration starts a one-calendar-month trial by default with no default visit cap. Management can change duration or extend individuals at runtime. At the recorded trial end notify player/guardian then the membership team, with stale-message suppression and duplicate prevention.
+- Safeguarding/privacy contacts, policies and approved retention/access settings are management-maintained runtime configuration. Supplying them is delegated operational setup, not a prerequisite questionnaire for development; accurate published information and access controls remain required before relevant live-data use.
+- Use the forthcoming Leeside TT email as club contact/reply-to. If it is on an owned verified domain it may also be the automated sender; if it is Gmail, Resend still sends through a verified domain and Gmail receives replies.
+- Tournament settings are configured per internal competition by its coach/organizer. External event logs need event/opponent/format/score and reflections, without rebuilding external fixtures, points tables or seeding. Neither requires advance rules answers to continue development.
 - The owner confirms consent to reuse Leeside public content, branding and photographs (1 November 2026); reuse permission is closed, while source accuracy and final publication selection remain separate.
 - Leeside's group permissions and membership catalogue are runtime settings: authorized admins grant/revoke access immediately for subsequent server requests and permitted managers add/change membership products and player assignments at any time. A complete staff roster or catalogue is not a development/deployment prerequisite. Implementation remains pending; the owner bootstraps the initial admin.
 - Latest pilot sequencing decision: keep the current Leeside website/app/backend layout and build targets for at least one year of live operation. Separate website repositories are a future review only after that period and once more than two clubs participate (three or more). No immediate extraction or automatic migration is planned; this exception supersedes the app-only deployment timing below.
@@ -31,7 +35,7 @@ Last reconciled: 1 November 2026. Detailed implementation work remains in the Op
 
 ## Recommended defaults awaiting Leeside approval
 
-- Trial players: a new applicant gets limited try-out access, not paid membership. Proposed rule: up to two attended eligible sessions within 14 calendar days from trial activation, ending at the first exhausted limit. Missed sessions do not use visits. Juniors use a guardian, admins may extend with an audited reason, and later attendance is still recorded with membership follow-up rather than discarded. This rule needs owner approval and remains configurable.
+- Trial access is finalized above; the former two-visits/14-day recommendation is superseded.
 - Retention: unsuccessful applications 12 months; attendance/bookings/general notification and audit logs 24 months; private coach notes 12 months after leaving/supersession; membership/payment records 7 years; credential revocation evidence 24 months; encrypted backups 35 days.
 - Safeguarding contacts: at least one trained Club Children's Officer, a Designated Liaison Person, and a public privacy/data-protection contact. Use role contact addresses where possible.
 - NFC purchase guidance below is optional future reference, not a pilot action.
@@ -40,10 +44,9 @@ Last reconciled: 1 November 2026. Detailed implementation work remains in the Op
 
 1. Create platform/Leeside Gmail accounts as needed with MFA/recovery; create Supabase, Cloudflare and Resend accounts/projects. Configure Google OAuth later. Put secrets directly into approved provider settings.
 2. Choose the national app name and domain, and buy/connect the Leeside domain under the owner-managed Leeside account.
-3. Accept or change the proposed two-attendances/14-day trial policy and trial-eligible sessions; this can be configured by admins.
-4. Safeguarding: nominate the Club Children's Officer/Designated Liaison Person or confirm existing appointments, the contact for concerns and guardian-verification/escalation procedures. These protect juniors and define who acts on concerns; they are separate from ordinary membership permissions. Reference: https://tabletennisireland.ie/safeguarding/
-5. Privacy: identify the club/platform data responsibilities and privacy contact; approve what member/child data is collected, who can access coach notes/reflections, retention/deletion periods and how people request access/correction. Public-photo reuse permission does not settle private member-data handling. Reference: https://www.dataprotection.ie/en/organisations/know-your-obligations
-6. Operational configuration when ready: sender/reply-to and acknowledgement wording/default checkbox; match formats, league points/tie-breaks, seeding and guest-data rules. Names/roles, membership products, attendance-email recipients and non-timetable session settings can be added/changed in the admin UI and are not prerequisite answers for development.
+3. Supply the Leeside TT email address when created and connect/verify the automated sending domain. The address will be club contact/reply-to; provider configuration remains required.
+
+Management can add policy contacts/text, approved data-handling settings, membership products, staff access and internal tournament settings through admin configuration. These are delegated setup activities, not unresolved feature approvals or development blockers.
 
 ## Parked owner activities
 

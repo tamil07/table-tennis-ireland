@@ -11,6 +11,7 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 - Capture email addresses and mobile numbers independently, accept non-Gmail addresses, require only one verified identifier for independent login, and allow both methods to link to the same identity.
 - Offer optional Google sign-in for convenience while retaining email/password and magic-link access for Gmail and non-Gmail users and preventing duplicate player profiles when identities are linked.
 - Allow junior and offline player profiles to exist without personal login credentials, with guardian or authorized club administration providing the permitted access path.
+- Allow verified users/guardians to self-register for a default one-calendar-month trial, configurable by management, with trial-end player/guardian reminder and membership-team follow-up; management maintains safeguarding/privacy policy contacts and text at runtime.
 - Show every club in which a user has a relationship in the app's My Clubs area, allowing the user to switch club context and open the correct branded club website.
 - Serve visitors, adult players, parents/guardians, coaches, and club committee/admin staff with role-appropriate access.
 - Publish club information, contacts, news, announcements, training times, and events.

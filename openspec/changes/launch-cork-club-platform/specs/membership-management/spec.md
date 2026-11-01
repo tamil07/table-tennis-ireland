@@ -24,7 +24,15 @@ The system SHALL capture a membership application with the applicant details, me
 - **THEN** the system creates or links the junior profile under the responsible adult's account and submits the application with the required guardian consent
 
 ### Requirement: Pending applicant and trial status
-A submitted application SHALL remain distinct from active membership, and the system SHALL allow the club to configure whether verified pending applicants may receive a limited trial pass before approval. Leeside's proposed default SHALL be at most two attended trial sessions within 14 calendar days, configurable by an authorized admin before launch.
+A submitted application SHALL remain distinct from paid/active membership. Eligible verified users SHALL be able to self-register for a trial, with a designated guardian registering a junior. Leeside's default trial SHALL last one calendar month from successful trial registration, with no default visit cap, replacing the earlier two-visits/14-day proposal. Authorized membership managers SHALL be able to change the default duration and extend/correct individual trial end dates at runtime with audit history. Existing trial end dates SHALL remain unchanged by default-setting edits unless explicitly amended. Calendar-month arithmetic SHALL use Europe/Dublin dates and clamp to the last valid day of a shorter ending month. A trial SHALL NOT require manual coach approval to activate once required registration/guardian checks pass, nor imply payment.
+
+#### Scenario: Player registers for a trial
+- **WHEN** a verified adult or designated guardian completes required valid trial registration
+- **THEN** the system records trial start/end dates using the current configured duration and makes eligible trial participation available without creating paid membership
+
+#### Scenario: Management changes trial duration
+- **WHEN** a permitted membership manager changes the default duration after launch
+- **THEN** future registrations use the new duration and existing trials retain their recorded end dates unless explicitly amended
 
 #### Scenario: Application submitted without automatic membership
 - **WHEN** a new player submits a complete application

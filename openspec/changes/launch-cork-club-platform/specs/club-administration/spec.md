@@ -77,6 +77,13 @@ Every non-public operational record SHALL belong to an explicit club, and data a
 - **THEN** the system refuses the request and discloses no data from the other club
 
 ### Requirement: Personal data administration
+Authorized management members with policy-management permission SHALL be able to add, update and publish club safeguarding/privacy contacts, policies, reporting instructions, guardian-verification guidance and approved retention/access settings at runtime with revision history. Missing values SHALL be shown as unconfigured, never invented; collecting live junior/private data still requires appropriate published information and access controls. Policy editing SHALL NOT automatically grant permission to read all private coaching records.
+
+#### Scenario: Management publishes club policies
+- **WHEN** a permitted manager adds or updates safeguarding/privacy contacts and policy text
+- **THEN** the app publishes approved public fields, records the author/version/date and applies separately authorized access/retention settings without redeployment
+
+### Requirement: Personal data request handling
 An authorized admin SHALL be able to locate personal data for correction, export, retention review, or deletion handling, subject to legal and safeguarding retention obligations.
 
 #### Scenario: Valid personal data request
