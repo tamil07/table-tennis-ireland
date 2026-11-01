@@ -35,6 +35,8 @@ The Leeside domain's registered holder and any future transfer to the authorized
 
 ### 1. One platform repository and independent website repositories
 
+Pilot sequencing decision (1 November 2026): retain `apps/club-web`, `apps/platform`, shared packages, backend and existing build targets here for at least one year of live operation. Count from actual pilot go-live, not this document date. Review separation only when both that period has elapsed and more than two clubs participate (three or more). This is a review gate, not an automatic migration or permission to onboard extra production clubs. The independent-website architecture below is the future direction and does not require current extraction, removal or disabling of the Leeside website. Retaining the pilot code does not introduce a generic website hosting service.
+
 This repository owns `apps/platform`, shared packages, Supabase migrations and platform deployment. A club may use an independent website repository and hosting account, including its existing Wix site. Club repositories hold website code/content and app links, not copies of the national app, authentication or operational backend.
 
 My Clubs derives from authorized relationships and exposes an approved HTTPS external website URL for each club. Opening a website and switching app club context are distinct actions. Onboarding adds configuration, relationships and links without a new club directory here. The app owns stable HTTPS club/join/event/admin routes, validates identifiers and safe return destinations, and preserves intended navigation through authentication. Website links never convey roles or authentication tokens.

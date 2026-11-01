@@ -1,7 +1,15 @@
 ## ADDED Requirements
 
 ### Requirement: Independent club websites
-The platform SHALL host the national app and shared backend, not a generic club website service. Clubs MAY maintain their own website repositories, domains and hosting. Onboarding SHALL require configuration rather than a per-club app/backend copy or website directory in this repository.
+The platform's long-term hosting scope SHALL be the national app and shared backend, not a generic club website service. During the pilot the existing Leeside website SHALL remain in this repository with its build target for at least one year of live operation. Separate website repositories SHALL be reviewed only after that period and when more than two clubs participate (three or more), with migration requiring a separate implementation decision. Future clubs MAY maintain their own website repositories/domains/hosting; onboarding SHALL NOT require a per-club app/backend copy or website folder here.
+
+#### Scenario: Pilot is younger than one year
+- **WHEN** website repository extraction is considered before one year of live pilot operation
+- **THEN** the work remains deferred and the existing Leeside website/app layout and build targets are retained
+
+#### Scenario: Growth review gate is reached
+- **WHEN** the platform has operated live for at least one year and more than two clubs participate
+- **THEN** the owner reviews extraction using pilot evidence without automatically moving code or creating repositories
 
 #### Scenario: Onboard an existing club website
 - **WHEN** an operator creates a club and configures its approved website address

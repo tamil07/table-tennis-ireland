@@ -7,6 +7,9 @@ context: |
   to table-tennis clubs across Ireland as a shared platform for players and clubs.
   Stage: Requirements discovery; technology and architecture decisions are not yet final.
   The platform repository owns the app and shared backend, not a generic website hosting service.
+  Pilot exception: retain apps/club-web and the app in this repository for at least one year
+  of live operation. Review website separation only after that period and once more than
+  two clubs participate; no immediate extraction or build-target removal is planned.
   Club websites may have independent repositories and hosting and link into the app for sign-in
   and operations. Optional public feeds expose only deliberately published app records.
   The app must not be branded as belonging only to Leeside because it is intended for

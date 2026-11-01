@@ -1,6 +1,6 @@
 # Remaining actions and account setup
 
-> 1 November 2026: app-only platform hosting supersedes the shared club website deployment tasks below. Configure the national app and verified links to independent club websites; migration of the existing website prototype to its own repository is separately pending. Detailed new result/reflection tasks are in OpenSpec sections 8 and 9.
+> Latest pilot decision, 1 November 2026: retain the existing Leeside website and app folders, backend and build/deployment targets for at least one year of live operation. Website repository separation is deferred for review only after that period and more than two participating clubs (three or more); it is not a current action. Detailed result/reflection work remains in OpenSpec sections 8 and 9.
 
 For one sequential account-creation guide with signup links and connection steps, use [ACCOUNT_SETUP_README.md](ACCOUNT_SETUP_README.md).
 

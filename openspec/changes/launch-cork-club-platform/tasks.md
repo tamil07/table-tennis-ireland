@@ -28,7 +28,7 @@
 - [ ] 4.1 Build approved HTTPS club website URL configuration, authorization, audit and invalid-destination handling
 - [ ] 4.2 Build stable app club/join/event/admin routes with validated identifiers and safe post-login return navigation
 - [ ] 4.3 Support website-to-app administration links; keep app authorization independent of website roles
-- [ ] 4.4 Plan extraction of the legacy Leeside website prototype to a separate repository; do not create per-club app/backend copies
+- [ ] 4.4 DEFERRED: review Leeside website extraction only after at least one year of live pilot operation AND more than two participating clubs (three or more); retain the current folders/build targets until a separate implementation decision
 - [ ] 4.5 Publish public-safe app event pages and optional RSS/Atom/iCalendar feeds for independent websites
 - [ ] 4.6 Generate public-safe sharing links/text; keep automated Meta posting behind separate approval
 
@@ -102,7 +102,7 @@
 ## 10. Operations and release
 
 - [ ] 10.1 Configure development and production Supabase projects and deployment secrets
-- [ ] 10.2 Configure the national app deployment/domain and independent website integration URLs; do not deploy a generic club-website service
+- [ ] 10.2 Configure the national app and retained Leeside pilot website deployments using current targets; future independent website integration does not require a generic club-website service
 - [ ] 10.3 Configure authenticated transactional email and scheduled Edge Functions
 - [ ] 10.4 Configure encrypted off-site database and storage backups and test restoration
 - [ ] 10.5 Complete accessibility, privacy, safeguarding, security, and retention reviews

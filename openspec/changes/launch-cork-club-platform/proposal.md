@@ -4,6 +4,7 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 
 ## What Changes
 
+- Pilot sequencing: retain the existing Leeside website, app, backend and build targets in this repository for at least one year of live operation. Review independent website extraction only after that period and once more than two clubs participate (three or more). No immediate or automatic split is planned; app-only hosting below is the longer-term direction with this Leeside pilot exception.
 - Launch the national platform app and shared backend, integrating independently hosted club websites through verified external links and app entry links. Each club website may have its own repository; the platform does not host a generic website service.
 - Present only Leeside in the pilot app while keeping the app's product identity, navigation, and information architecture suitable for clubs across Ireland.
 - Model each person with one platform identity that can later hold player, coach, guardian, or administrative relationships with multiple clubs at the same time.
