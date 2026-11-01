@@ -111,10 +111,10 @@ Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introducti
 - [ ] **Leeside:** Nominate initial club admins, editors, event organizers, and communications managers and approve the content/data responsibilities and offboarding arrangement.
 - [x] **Research:** Inventory the public Wix club name, venue, telephone, five published timetable entries, social links, news feed, and content surfaces without copying protected media.
 - [ ] **Owner:** Confirm the inventoried address, phone, social links, safeguarding/privacy contacts, logo, colors, photos, and domain.
-- [ ] **Owner:** Approve migration rights for temporary Wix content.
-- [ ] **Owner:** Confirm five sessions, venues, times, audiences, capacity, booking eligibility, cancellation, and exceptions.
+- [x] **Owner:** Confirmed consent for reuse of Leeside public/Wix content, branding and photographs on 1 November 2026.
+- [ ] **Leeside session managers:** Configure the current five-session timetable, audiences, capacities, walk-in/booking rules, trial eligibility and holiday exceptions before publishing live sessions; no need to settle these values before building admin configuration.
 - [x] **Owner decision:** Admins can create and maintain membership types, prices, durations, entitlements, and active status; membership periods and external payments are assigned manually and audited. Online payments are future scope.
-- [ ] **Owner:** Supply the initial membership type names, EUR prices, durations, entitlements, and pay-as-you-go rules.
+- [ ] **Leeside membership-management group:** Configure the initial membership names, EUR prices, durations, entitlements and pay-as-you-go values. The group's authority to create and manually update memberships is already confirmed.
 - [ ] **Owner:** Define trial duration/visit allowance and the point when a permanent card is issued.
 - [ ] **Owner:** Approve manual-payment methods, fields, correction authority, and acknowledgement wording. Never enter bank credentials.
 - [x] **Owner decision:** Start with one 10-day expiry reminder; retain configuration for 3-day or both later.

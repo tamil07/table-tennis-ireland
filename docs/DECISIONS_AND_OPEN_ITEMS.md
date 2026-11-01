@@ -4,6 +4,8 @@ Last reconciled: 1 November 2026. Detailed implementation work remains in the Op
 
 ## Closed decisions
 
+- The owner confirms consent to reuse Leeside public content, branding and photographs (1 November 2026); reuse permission is closed, while source accuracy and final publication selection remain separate.
+- Leeside's dedicated management group includes membership-management privileges: create membership types, add players, manually assign/renew/correct player membership type/dates/status, and record external payments. Members sign in individually and changes are audited; implementation and nominating the actual people remain pending.
 - Latest pilot sequencing decision: keep the current Leeside website/app/backend layout and build targets for at least one year of live operation. Separate website repositories are a future review only after that period and once more than two clubs participate (three or more). No immediate extraction or automatic migration is planned; this exception supersedes the app-only deployment timing below.
 - The platform repository hosts the national app/shared backend only. Club websites may have separate repositories and hosting, integrating through approved HTTPS website URLs, stable app routes and optional public feeds. No per-club app/backend fork or generic website-hosting service is planned. The existing website prototype remains until separately migrated.
 - Tournament news/calendar entries link to stable internal/external event identities. Players/guardians can record results and personal strengths/improvement tags; external-opponent results are immediately player-reported, while same-recording-club opponents use existing review. Coaches receive private descriptive grouped summaries with reporting denominators, not automatic skill diagnoses. See the tournament-reflections OpenSpec capability.
@@ -37,9 +39,9 @@ Last reconciled: 1 November 2026. Detailed implementation work remains in the Op
 2. Create the dedicated Gmail contact account, enable MFA/recovery, and nominate trusted platform owners with individual provider access.
 3. Create development/production Supabase projects, Cloudflare, Google Cloud OAuth, and Resend accounts; secrets must go directly into their secret stores.
 4. Buy/confirm the Leeside domain and later choose the separate national platform domain.
-5. Confirm the public phone number, preferred club email, exact venue wording, social accounts, and Wix content/media reuse rights.
-6. Confirm the five timetable entries, audiences, capacities, booking deadlines, and trial-eligible sessions.
-7. Supply actual membership type names, EUR prices, durations, entitlements, and pay-as-you-go rules.
+5. Confirm current public phone/email, venue wording and social accounts before publication; public-content reuse consent is already confirmed.
+6. Leeside's authorized session managers configure current timetable, audiences, capacities, walk-in/booking rules, deadlines if booking is enabled, and trial eligibility. These are operational setup values, not unanswered feature decisions or blockers to building configurable screens.
+7. Leeside's membership-management group configures initial type names, EUR prices, durations, entitlements and pay-as-you-go values; manual management and group authority are already approved.
 8. Accept or change the proposed two-visit/14-day trial rule.
 9. Approve the membership-update email wording, default checkbox state, sender name, and reply-to mailbox.
 10. Nominate Leeside's initial management-group admins and their permissions, plus membership-alert owners; daily attendance email is off initially.

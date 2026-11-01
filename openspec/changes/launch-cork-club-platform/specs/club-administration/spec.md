@@ -1,7 +1,15 @@
 ## ADDED Requirements
 
 ### Requirement: Club management group
-The system SHALL allow authorized Leeside admins to invite, add, remove, and assign permissions to individually authenticated members of a Leeside management group. Permissions SHALL support club administration, content editing, event organization, and communications management, scoped to Leeside and enforced server-side through either frontend.
+The system SHALL allow authorized Leeside admins to invite, add, remove, and assign permissions to individually authenticated members of a Leeside management group. Permissions SHALL support membership management, club administration, content editing, event organization, and communications management, scoped to Leeside and enforced server-side. Membership managers SHALL be able to create/configure membership types, add players, manually assign/renew/correct membership type, start/end dates and status, and record external payments without a payment gateway. Membership-group access SHALL NOT implicitly grant role-management or platform/cloud access.
+
+#### Scenario: Membership manager creates or updates a membership
+- **WHEN** an authenticated group member with membership-management permission creates a membership type or assigns, renews or corrects a player's membership
+- **THEN** the system validates and saves the club-scoped change with previous/new values, acting individual and timestamp, and applies the existing optional acknowledgement email choice
+
+#### Scenario: Membership permission is revoked
+- **WHEN** an authorized admin revokes a group member's membership-management access
+- **THEN** subsequent membership updates are refused while historical changes retain the original actor attribution
 
 #### Scenario: Admin invites a content editor
 - **WHEN** a Leeside admin with access-management permission invites a person and assigns content-editing permissions

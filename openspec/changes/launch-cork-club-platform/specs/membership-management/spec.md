@@ -51,7 +51,7 @@ A submitted application SHALL remain distinct from active membership, and the sy
 - **THEN** the system requires an active guardian relationship and routes trial communications and permitted actions through the designated guardian
 
 ### Requirement: Membership lifecycle
-An authorized club admin SHALL be able to manually set a member's membership type, start date, end date, and status, including pending, active, expired, and cancelled, with every change attributed and timestamped.
+An authorized club admin or individually authenticated member of the club's management group with membership-management permission SHALL be able to manually create, assign, renew and correct a member's membership type, start date, end date and status, including pending, active, expired and cancelled. Every change SHALL be attributed and timestamped. References to authorized membership admins in this capability include these permitted group members; unrelated group permissions SHALL NOT grant membership access.
 
 #### Scenario: Admin activates membership
 - **WHEN** an authorized admin records a valid membership period and marks the membership active

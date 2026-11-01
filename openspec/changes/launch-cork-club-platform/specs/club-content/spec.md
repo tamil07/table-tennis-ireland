@@ -40,6 +40,10 @@ Independent websites SHALL be able to link to stable HTTPS app routes for a club
 ### Requirement: App club content and optional public feeds
 Authorized club groups SHALL manage app details, news, photographs, announcements and events according to scoped permissions. Independent website content management SHALL remain separate. Optional read-only public feeds SHALL expose only deliberately published fields and stable app links. Automatic website synchronization SHALL NOT be promised without an implemented connector.
 
+#### Scenario: Leeside public content reuse
+- **WHEN** approved Leeside public text, branding or photographs are selected for the pilot
+- **THEN** the migration register records the owner's 1 November 2026 confirmation that reuse consent has been obtained and retains source/publication attribution; current timetable/contact accuracy remains separate from reuse permission
+
 #### Scenario: Publish app announcement
 - **WHEN** an authorized club editor publishes an announcement
 - **THEN** it appears in that club's app context and enabled public feeds without automatically editing an independent website

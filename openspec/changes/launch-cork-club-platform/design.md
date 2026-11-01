@@ -270,7 +270,7 @@ Reflection categories are Worked well and Needs work; default tags are forehand,
 - Define who can view private coach notes, their retention period, and whether a second coach/admin review is needed before publishing a junior summary.
 - Confirm the club's legal entity/domain owner, trained Club Children's Officer, Designated Liaison Person, privacy contact, and approved data-import source.
 - Approve or amend the provisional retention schedule with Leeside's privacy/legal adviser and decide the historical/public treatment of match results and photographs.
-- Confirm reuse rights for Wix text, logo, policy PDF, and photographs before copying media into the new website.
+- Public-content reuse consent is confirmed by the owner on 1 November 2026. Confirm current contact/timetable accuracy and select the final content to publish; consent is no longer an open decision.
 - Choose the national platform app's product name, logo, and product domain before public promotion; founder ownership is confirmed and the identity must remain distinct from Leeside's club brand.
 - Decide whether phase-two automated Facebook Page publishing justifies a Meta app; the pilot uses manual Page sharing plus public feeds and email invitations.
 - Decide whether check-out time is needed later; the first release records arrival only.

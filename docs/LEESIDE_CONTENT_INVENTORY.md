@@ -1,6 +1,6 @@
 # Leeside public-content inventory
 
-Retrieved from the public [Leeside Wix website](https://leesidetabletennis.wixsite.com/home) on 12 October 2026. This inventory is an import aid, not proof that the platform owner may reuse every photograph, logo, policy, or article. Leeside must approve the content and media rights before migration.
+Retrieved from the public [Leeside Wix website](https://leesidetabletennis.wixsite.com/home) on 12 October 2026. On 1 November 2026 the owner confirmed consent to reuse Leeside public content, branding and photographs. Permission is recorded as confirmed; current timetable/contact accuracy and final content selection remain separate checks.
 
 ## Verified public facts
 
@@ -43,7 +43,7 @@ Recent feed examples confirm that temporary programmes and ad hoc activity are n
 
 ## Import constraints
 
-- Do not copy photographs, logos, articles, or the policy PDF into production until Leeside confirms ownership or reuse permission.
+- Public-content reuse permission is confirmed by the owner; retain source and consent attribution with imported material.
 - Obtain source/original media where possible rather than downloading compressed Wix derivatives.
 - Obtain alt text, photographer/consent information, and child-photo publication consent where applicable.
 - Treat the phone number and social links as provisional until a Leeside representative confirms them.
