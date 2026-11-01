@@ -1,79 +1,52 @@
 ## ADDED Requirements
 
-### Requirement: Public club information
-The system SHALL publish each onboarded club's current contact details, location information, training information, and instructions for joining through that club's public website without requiring an account or membership.
+### Requirement: Independent club websites
+The platform SHALL host the national app and shared backend, not a generic club website service. Clubs MAY maintain their own website repositories, domains and hosting. Onboarding SHALL require configuration rather than a per-club app/backend copy or website directory in this repository.
 
-#### Scenario: Visitor views club information
-- **WHEN** a visitor opens the club website
-- **THEN** the system presents the currently published information for the club mapped to that website domain on mobile and desktop screen sizes
+#### Scenario: Onboard an existing club website
+- **WHEN** an operator creates a club and configures its approved website address
+- **THEN** the app supports that club without importing, building or deploying its website code
 
-#### Scenario: Player visits another club website
-- **WHEN** a player opens a public website for a club to which they do not belong
-- **THEN** the system shows that club's public information without exposing private club or member data
+### Requirement: Verified external website navigation
+The app SHALL maintain an approved HTTPS website URL per club with authorized changes and audit history. A website URL SHALL NOT convey app permissions or carry authentication tokens; arbitrary caller-supplied redirect targets SHALL NOT be accepted.
 
-### Requirement: News and announcements
-Authorized club admins SHALL be able to draft, publish, edit, and unpublish news and announcements only for clubs in which they hold the required permission.
+#### Scenario: Player opens another club website
+- **WHEN** a multi-club player selects Dublin's website in Dublin's app context
+- **THEN** the app opens Dublin's approved external URL without granting that website access to private app records
 
-#### Scenario: Admin publishes an announcement
-- **WHEN** an authorized admin publishes an announcement
-- **THEN** the system makes it visible through the website and mobile app with its publication date
+#### Scenario: Website unavailable
+- **WHEN** a club has no approved website or its site is unavailable
+- **THEN** app operations remain usable independently of that website
 
-#### Scenario: Unauthorized publishing attempt
-- **WHEN** a user without content-management permission attempts to publish content
-- **THEN** the system refuses the change
+### Requirement: Website links into app workflows
+Independent websites SHALL be able to link to stable HTTPS app routes for a club, joining, events and administration. The app SHALL validate club/event identifiers, preserve permitted destinations through sign-in and enforce club authorization. Unknown identifiers SHALL show a safe unavailable state. Website-editor status SHALL NOT itself grant app-management permission.
 
-#### Scenario: Admin prepares a Facebook announcement
-- **WHEN** an admin publishes a news item or public event during the pilot
-- **THEN** the system provides the canonical public link and share-ready title/summary for manual posting to Leeside's Facebook Page
+#### Scenario: Visitor follows a tournament link
+- **WHEN** a website visitor follows an app event link and signs in where required
+- **THEN** the app opens the permitted event in the selected club context without treating the link as proof of membership
 
-#### Scenario: Automated Facebook publishing is enabled later
-- **WHEN** a platform-owned Meta integration with approved Page authorization and permissions is configured
-- **THEN** an admin can explicitly opt to publish the item to the mapped Facebook Page and the system records the Page post identifier, outcome, and any retry without duplicating posts
+#### Scenario: Admin follows a website management link
+- **WHEN** an editor follows a link to app administration
+- **THEN** individual app sign-in and explicit club permissions determine access
 
-### Requirement: Accessible content experience
-Public and authenticated content SHALL support keyboard operation, readable text scaling, labelled interactive controls, and sufficient colour contrast.
+### Requirement: App club content and optional public feeds
+Authorized club groups SHALL manage app details, news, photographs, announcements and events according to scoped permissions. Independent website content management SHALL remain separate. Optional read-only public feeds SHALL expose only deliberately published fields and stable app links. Automatic website synchronization SHALL NOT be promised without an implemented connector.
+
+#### Scenario: Publish app announcement
+- **WHEN** an authorized club editor publishes an announcement
+- **THEN** it appears in that club's app context and enabled public feeds without automatically editing an independent website
+
+#### Scenario: Website consumes public events
+- **WHEN** an independent website opts into the public event feed
+- **THEN** it receives published event details and app links without private member records, reflections, drafts or privileged credentials
+
+#### Scenario: Share published news
+- **WHEN** an authorized editor shares a published item
+- **THEN** the app supplies a public-safe canonical app/event link or approved external event link and share-ready text, with automated Facebook posting deferred until separately authorized
+
+### Requirement: Accessible national app identity
+Club profiles and navigation SHALL retain the national app identity and support keyboard operation, visible focus, text scaling, labelled controls and sufficient contrast.
 
 #### Scenario: Keyboard navigation
-- **WHEN** a visitor navigates an interactive page using only a keyboard
-- **THEN** every available action is reachable and has a visible focus state
-
-### Requirement: Distinct website and app identity
-Each public club website SHALL use that club's verified domain, branding, navigation, and public portfolio, while the platform app SHALL use a separate national product identity suitable for table-tennis clubs and players across Ireland.
-
-#### Scenario: Visitor opens the Leeside website
-- **WHEN** a visitor opens the club's website domain
-- **THEN** the system presents Leeside branding and Leeside public content without presenting the website as the national app
-
-#### Scenario: User opens the platform app during the pilot
-- **WHEN** a user opens the platform app while Leeside is the only active club
-- **THEN** the system presents the neutral platform identity and shows Leeside as a club within the app rather than branding the app itself as Leeside
-
-#### Scenario: Visitor opens another onboarded club website
-- **WHEN** a visitor opens a verified domain mapped to another onboarded club
-- **THEN** the system presents that club's branding and public portfolio without displaying Leeside branding or content
-
-### Requirement: Shared published club content
-Content published for a club SHALL be available consistently through that club's public website and that club's context in the platform app without requiring duplicate entry.
-
-#### Scenario: Admin updates shared club content
-- **WHEN** an authorized Leeside admin publishes shared club information
-- **THEN** the updated information appears on the club website and within Leeside's area of the platform app
-
-#### Scenario: Dublin club admin publishes content
-- **WHEN** an authorized admin for an onboarded Dublin club publishes shared club information
-- **THEN** the update appears on the Dublin club website and its platform-app context without affecting Leeside
-
-### Requirement: Club website portfolio
-The system SHALL maintain a club-scoped website portfolio containing branding, pages, contacts, policies, timetable, membership information, news, media, and domain mapping for each onboarded club.
-
-#### Scenario: Admin manages portfolio from club website
-- **WHEN** an authorized club admin signs in through their club website and updates a permitted portfolio item
-- **THEN** the system updates the canonical club-scoped record used by both the website and platform app
-
-#### Scenario: Admin manages portfolio from platform app
-- **WHEN** the same authorized admin selects that club in the platform app and updates the same portfolio item
-- **THEN** the system updates the same canonical record without creating a duplicate website copy
-
-#### Scenario: Admin attempts another club's portfolio
-- **WHEN** a club admin attempts to update a website portfolio for a club where they lack permission
-- **THEN** the system refuses the action and discloses no private portfolio-management data
+- **WHEN** a player navigates club profiles and website links by keyboard
+- **THEN** each action is reachable, visibly focused and labelled with its destination

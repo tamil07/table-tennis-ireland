@@ -1,10 +1,10 @@
 ## ADDED Requirements
 
 ### Requirement: Shared member account
-The system SHALL provide one account per person for authenticated use of both the website and mobile app.
+The system SHALL provide one account per person across the national app's web/mobile channels. Independent club websites SHALL link into app authentication rather than require copied platform accounts or receive app credentials.
 
 #### Scenario: Use the same account on both channels
-- **WHEN** a registered user signs in with valid credentials on the website or mobile app
+- **WHEN** a registered user signs in with valid credentials through the app's web or mobile experience
 - **THEN** the system grants access to the same profile, permissions, and club data
 
 #### Scenario: Invalid sign-in
@@ -130,8 +130,8 @@ The system SHALL allow one platform identity to have active relationships with m
 - **THEN** the system opens that club's verified branded website rather than a generic or different club website
 
 #### Scenario: User signs in through a club website
-- **WHEN** a registered person signs in from an onboarded club website
-- **THEN** the system uses the same platform identity and opens the permitted context for that club without creating a duplicate account
+- **WHEN** a registered person follows an independent club website's app sign-in link
+- **THEN** authentication occurs in the app using the same platform identity and opens that club's permitted context without exposing credentials to the website or creating a duplicate account
 
 ### Requirement: Independent club membership records
 Each player's membership type, dates, payment records, status, attendance entitlement, and renewal configuration SHALL be maintained independently for each club.

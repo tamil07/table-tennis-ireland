@@ -1,12 +1,14 @@
 schema: spec-driven
 
 context: |
-  Product: A Leeside Table Tennis website plus a separate Ireland-wide table-tennis app,
+  Product: An Ireland-wide table-tennis app linked to independently hosted club websites,
   launching initially with Leeside Table Tennis in Cork as the only participating club.
   Product direction: Prove the product with one club, while preserving a path to offer it
   to table-tennis clubs across Ireland as a shared platform for players and clubs.
   Stage: Requirements discovery; technology and architecture decisions are not yet final.
-  The Leeside-branded website and neutral platform app share accounts, APIs, and club data.
+  The platform repository owns the app and shared backend, not a generic website hosting service.
+  Club websites may have independent repositories and hosting and link into the app for sign-in
+  and operations. Optional public feeds expose only deliberately published app records.
   The app must not be branded as belonging only to Leeside because it is intended for
   future adoption by table-tennis clubs across Ireland.
   Users include visitors, adult players, parents/guardians, coaches, and club committee/admin staff.

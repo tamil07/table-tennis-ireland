@@ -23,14 +23,14 @@
 - [ ] 3.6 Add local seed data for Leeside and synthetic multi-club authorization tests
 - [ ] 3.7 Add automated database tests proving cross-club access is denied
 
-## 4. Club website portfolio
+## 4. Independent website integration (supersedes generic portfolio hosting)
 
-- [ ] 4.1 Resolve a verified request hostname to the correct club portfolio without granting authorization from the hostname alone
-- [ ] 4.2 Build accessible public pages for club details, contacts, policies, membership, timetable, news, and events
-- [ ] 4.3 Build authenticated club-website administration for permitted portfolio content
-- [ ] 4.4 Verify that edits made through either frontend update the same canonical club record
-- [ ] 4.5 Publish canonical event pages plus RSS/Atom and iCalendar feeds from the same event records
-- [ ] 4.6 Generate share-ready Facebook copy and links; keep automated Meta Page posting behind separately approved credentials and scope
+- [ ] 4.1 Build approved HTTPS club website URL configuration, authorization, audit and invalid-destination handling
+- [ ] 4.2 Build stable app club/join/event/admin routes with validated identifiers and safe post-login return navigation
+- [ ] 4.3 Support website-to-app administration links; keep app authorization independent of website roles
+- [ ] 4.4 Plan extraction of the legacy Leeside website prototype to a separate repository; do not create per-club app/backend copies
+- [ ] 4.5 Publish public-safe app event pages and optional RSS/Atom/iCalendar feeds for independent websites
+- [ ] 4.6 Generate public-safe sharing links/text; keep automated Meta posting behind separate approval
 
 ## 5. Platform PWA and multi-club access
 
@@ -80,6 +80,10 @@
 - [ ] 8.7 Build configurable single-elimination brackets and confirmed-result progression
 - [ ] 8.8 Build tournament-scoped player organizer delegation and participant check-in
 - [ ] 8.9 Build a mobile-first ad hoc tournament flow seeded from the current day's checked-in roster
+- [ ] 8.10 Add stable internal/external tournament event records linked from news/calendar; preserve event identity on archive and support unlisted-event drafts
+- [ ] 8.11 Build external event result entry with aggregate/optional game scores, singles/doubles and guardian attribution without local attendance requirements
+- [ ] 8.12 Implement server-side same-recording-club review eligibility, mixed doubles and unclaimed-opponent follow-up; retain immediate external player-reported provenance
+- [ ] 8.13 Test duplicate/idempotent entry, fixture reuse, score consistency, incomplete exclusions and reviewed/reported statistics separation
 
 ## 9. Player development and administration
 
@@ -90,11 +94,15 @@
 - [ ] 9.5 Build claimable, assignable, commentable, and resolvable shared admin work items
 - [ ] 9.6 Build personal-data export and correction support with audit history
 - [ ] 9.7 Build club management group invitations, membership removal, and scoped admin/content/event/communications permissions with audit history and cross-club denial tests
+- [ ] 9.8 Build participant-owned strengths/improvement tags, bounded notes, guardian editing and attributed revision/removal history
+- [ ] 9.9 Build coach-managed tag taxonomy with stable historical identifiers and retirement
+- [ ] 9.10 Build club/event/date/player/group coaching summaries with distinct reporting denominators, provenance and permitted drill-down
+- [ ] 9.11 Test private reflection access, opponent-review privacy, cross-club denial and human-authored goals separated from descriptive aggregates
 
 ## 10. Operations and release
 
 - [ ] 10.1 Configure development and production Supabase projects and deployment secrets
-- [ ] 10.2 Configure Cloudflare deployments, verified club domains, and the national product domain
+- [ ] 10.2 Configure the national app deployment/domain and independent website integration URLs; do not deploy a generic club-website service
 - [ ] 10.3 Configure authenticated transactional email and scheduled Edge Functions
 - [ ] 10.4 Configure encrypted off-site database and storage backups and test restoration
 - [ ] 10.5 Complete accessibility, privacy, safeguarding, security, and retention reviews

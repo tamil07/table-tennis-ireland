@@ -1,5 +1,20 @@
 ## ADDED Requirements
 
+### Requirement: Selectable tournament events
+The system SHALL support stable tournament event records for app-managed competitions and externally organized tournaments, with recording club context, title, dates, venue where known, internal/external classification, publication state and optional official source link. News/calendar announcements SHALL link to the event's identity. External events SHALL NOT require local fixtures, brackets or club-session attendance.
+
+#### Scenario: Player selects an announced external tournament
+- **WHEN** an authorized editor links a published announcement to an external tournament event and a player selects Add result
+- **THEN** the app prefills the event and club context and accepts participation logging without creating a managed local tournament or attendance
+
+#### Scenario: Event not listed
+- **WHEN** a player cannot find a tournament
+- **THEN** they can save a private draft with proposed event name/date/source for admin creation or linking, without receiving club-event publication permission
+
+#### Scenario: Event changed or archived
+- **WHEN** an editor changes or archives an event or its announcement
+- **THEN** retained matches preserve their stable event relationship and are not silently deleted
+
 ### Requirement: Configurable club tournament
 An authorized coach or admin SHALL be able to create a dated club tournament linked to a club session and configure its name, competition format, singles or doubles mode, participants, match format, optional table assignments, start time, and publication state.
 

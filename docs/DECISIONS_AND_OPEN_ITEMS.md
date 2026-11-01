@@ -1,9 +1,11 @@
 # Decisions and open items
 
-Last reconciled: 12 October 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
+Last reconciled: 1 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
 
 ## Closed decisions
 
+- The platform repository hosts the national app/shared backend only. Club websites may have separate repositories and hosting, integrating through approved HTTPS website URLs, stable app routes and optional public feeds. No per-club app/backend fork or generic website-hosting service is planned. The existing website prototype remains until separately migrated.
+- Tournament news/calendar entries link to stable internal/external event identities. Players/guardians can record results and personal strengths/improvement tags; external-opponent results are immediately player-reported, while same-recording-club opponents use existing review. Coaches receive private descriptive grouped summaries with reporting denominators, not automatic skill diagnoses. See the tournament-reflections OpenSpec capability.
 - Phone users can scan a rotating club display QR and confirm self/linked-child attendance after sign-in. Physical NFC/QR cards and staff check-in remain alternatives. The code refreshes every minute and expires within 90 seconds; forwarding a live code remains possible.
 - Leeside Table Tennis is the single production pilot club.
 - The founder personally owns the national platform, brand, repository, and shared cloud-service setup. A separate Gmail address is the contact and recovery mailbox, not the legal owner. It must use MFA and recovery methods.

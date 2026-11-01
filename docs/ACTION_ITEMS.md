@@ -1,5 +1,7 @@
 # Remaining actions and account setup
 
+> 1 November 2026: app-only platform hosting supersedes the shared club website deployment tasks below. Configure the national app and verified links to independent club websites; migration of the existing website prototype to its own repository is separately pending. Detailed new result/reflection tasks are in OpenSpec sections 8 and 9.
+
 For one sequential account-creation guide with signup links and connection steps, use [ACCOUNT_SETUP_README.md](ACCOUNT_SETUP_README.md).
 
 This is the handoff checklist for moving the synthetic foundation into a live Leeside pilot. Do not load real adult or junior data until the security, privacy, safeguarding, and recovery gates are complete.

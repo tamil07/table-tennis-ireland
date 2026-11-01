@@ -1,5 +1,7 @@
 # Your account setup checklist
 
+> 1 November 2026 update: configure Cloudflare deployment for the national app only. The two-frontend deployment table below describes the previous prototype plan. Club websites have separate repositories/hosting and link to app routes; website repository extraction and its domain/hosting setup are separate work, not prerequisites for app hosting.
+
 Use this single guide to create and connect the accounts needed for the Leeside website and national app. “Cloudbase” here means **Cloudflare**; the database service is **Supabase**. No separate Cloudbase account is required.
 
 Status: account creation and connections are pending until you confirm completion. Creating accounts alone does not deploy the app or finish the backend workflows.

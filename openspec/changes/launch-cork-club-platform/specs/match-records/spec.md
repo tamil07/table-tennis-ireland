@@ -50,7 +50,7 @@ An authorized participant SHALL be able to submit a completed match for approval
 - **THEN** the system retains it as abandoned for audit purposes and excludes it from confirmed player performance statistics
 
 ### Requirement: Local match recording
-An authenticated player SHALL also be able to enter a completed local match after play with its date, competition or session, participants, game scores, result, and optional notes as an unconfirmed record.
+An authenticated player SHALL also be able to enter a completed local match after play with its date, competition or session, participants, game scores, result and optional notes. Same-club results SHALL enter review; external-opponent event results SHALL use the player-reported provenance and score-completeness rules in tournament-reflections instead of mandatory opponent approval.
 
 #### Scenario: Player submits a completed match
 - **WHEN** an authenticated participant submits all required match details with a valid result
@@ -61,7 +61,7 @@ An authenticated player SHALL also be able to enter a completed local match afte
 - **THEN** the system refuses the record and identifies the invalid score information
 
 ### Requirement: Opponent result review
-The system SHALL treat final submission as confirmation by the submitting side and SHALL give the opposing side five days to approve the result or request a modification before automatic approval.
+For matches where an opposing participant has an active player relationship in the recording club at submission, the system SHALL treat final submission as submitting-side confirmation and give the opposing side five days to approve or request modification before automatic approval. This includes doubles with at least one eligible opposing player. External-opponent results follow the tournament-reflections exception: immediate player-reported storage without mandatory approval or automatic verification. Paid membership expiry SHALL NOT remove same-club review eligibility.
 
 #### Scenario: Result is submitted
 - **WHEN** a participant submits a completed match result

@@ -28,7 +28,7 @@ The system SHALL allow authorized Leeside admins to invite, add, remove, and ass
 - **THEN** the club role grants no authority for those actions
 
 ### Requirement: Unified administration
-Authorized club admins SHALL be able to manage club content and website portfolio, user access, guardian links, memberships, bookings, tournaments, matches, communications, shared work, and club settings from either their club website's authenticated administration area or that club's management section in the platform app.
+Authorized club admins SHALL manage app club content, user access, guardian links, memberships, bookings, tournaments, matches, communications, shared work and club settings inside the app. Independent club websites MAY link to those app management routes; their own content administration remains separate unless an explicit integration is implemented.
 
 #### Scenario: Admin accesses management area
 - **WHEN** an authenticated user with the required admin permission opens a management function
@@ -39,8 +39,8 @@ Authorized club admins SHALL be able to manage club content and website portfoli
 - **THEN** the system refuses access
 
 #### Scenario: Admin uses either management entry point
-- **WHEN** an authorized admin changes the same club record through the club website or platform app
-- **THEN** the system applies identical server-side permissions and updates the same canonical club-scoped record
+- **WHEN** an authorized admin follows an independent club website's link into app management
+- **THEN** the app authenticates the user, checks club permissions and updates canonical app records without promising to edit the website's own content
 
 #### Scenario: Multi-club admin switches context
 - **WHEN** an admin who holds roles in more than one club switches management context

@@ -1,5 +1,7 @@
 # TT Clubs Ireland
 
+> Architecture update, 1 November 2026: the platform will host the national app and shared backend only. Club websites may use separate repositories/hosting and link into the app. `apps/club-web` and the shared website-hosting descriptions below document the earlier prototype; they are not the current deployment target. See the current [OpenSpec design](openspec/changes/launch-cork-club-platform/design.md) and [website integration requirements](openspec/changes/launch-cork-club-platform/specs/club-content/spec.md). Tournament reflections are specified in [tournament-reflections](openspec/changes/launch-cork-club-platform/specs/tournament-reflections/spec.md) and are not implemented yet.
+
 TT Clubs Ireland is a multi-club platform for table-tennis players, guardians, coaches, and club administrators. It launches with Leeside Table Tennis Club in Cork while keeping the product, identity model, and data boundaries ready for clubs throughout Ireland.
 
 This repository contains two distinct products backed by one secure, club-scoped platform:

@@ -1,6 +1,6 @@
 ## Context
 
-Leeside Table Tennis currently has a temporary Wix site publishing news, calendar, policies, club information, five weekly sessions, and flexible full, partial, and pay-as-you-go membership. The replacement must add authenticated club operations, work well on phones and computers, and remain inexpensive during a one-club pilot. The website is specifically Leeside's branded property; the app is a separately branded Ireland-wide product that happens to launch with Leeside as its only club. The Leeside implementation is also the template and learning base for future club-branded websites connected to the same national platform.
+Leeside currently uses an independent Wix website. The national app adds authenticated club operations and launches with Leeside while supporting future Irish clubs. Confirmed on 1 November 2026: the platform hosts only the app and shared backend. Club websites may use separate repositories and hosting; they integrate through verified website links, app routes and optional public feeds rather than a generic hosted website service.
 
 The system will hold adult and junior personal data, guardian relationships, membership/payment metadata, attendance, local match results, and coaching information. The initial architecture therefore needs strong authorization, auditability, recoverability, and explicit club data boundaries even though only Leeside is active.
 
@@ -8,7 +8,7 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 **Goals:**
 
-- Deliver a Leeside-branded public website and a separately branded installable platform app from shared foundations, with a reusable domain-mapped website portfolio for future clubs.
+- Deliver a national installable app and shared backend that link to independent club websites without per-club app copies or website directories.
 - Keep pilot infrastructure at or close to zero recurring cost other than the club's domain, while documenting free-tier limits and an upgrade path.
 - Support a future native application and multiple Irish clubs without implementing either during the pilot.
 - Allow attendance scanning with commodity equipment already available to the club.
@@ -29,28 +29,19 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 The founder personally owns the national platform, brand, and repository and operates the shared cloud infrastructure. A separate Gmail address serves as the account contact, billing, and recovery mailbox; the address itself is not the legal owner. External contributions are submitted through pull requests and merged by authorized maintainers. Trusted platform owners use individual provider accounts with explicitly assigned access, separate from club-management permissions.
 
-Leeside manages its branding, photographs, club records, marketing messages, news, calendar events, sessions, camps, and public sharing through a club-scoped management group. Each member uses an individual account. Authorized Leeside admins invite/remove members and assign administration, content-editing, event-management, or communications permissions. Both frontends enforce the same permissions; narrow editor permissions do not grant membership/payment access, role administration, or infrastructure access. Public announcements remain subject to the specified recipient and consent rules; manual Facebook sharing remains the pilot approach.
+Leeside's club-scoped group manages app branding/content, records, marketing messages, news, events, sessions, camps and sharing through individual accounts and scoped permissions. Independent website content remains in that website's CMS/repository; app records can be reused only through implemented public connectors. A website management link leads to app sign-in and club permissions. Manual Facebook sharing and consent-aware announcements remain the pilot approach.
 
 The Leeside domain's registered holder and any future transfer to the authorized individual or club entity remain to be agreed. Managing its website does not require transferring the national platform, repository, or shared cloud accounts. Content reuse, member-data responsibilities, export, and offboarding arrangements remain subject to agreement with Leeside.
 
-### 1. Separate the club website from the national-platform app
+### 1. One platform repository and independent website repositories
 
-Use a monorepo with two frontend applications and shared packages:
+This repository owns `apps/platform`, shared packages, Supabase migrations and platform deployment. A club may use an independent website repository and hosting account, including its existing Wix site. Club repositories hold website code/content and app links, not copies of the national app, authentication or operational backend.
 
-- A multi-tenant club-website application that initially serves the Leeside domain and later resolves each verified club domain to that club's branding, public portfolio, and authenticated administration context.
-- A neutrally branded Ireland-wide platform app on its own product domain, containing member, guardian, coach, admin, match, and scanner experiences. During the pilot its club directory contains only Leeside.
-- Shared design primitives, domain types, API client, validation, and authentication/session handling, without forcing the two products to share logos, names, navigation, or page layout.
+My Clubs derives from authorized relationships and exposes an approved HTTPS external website URL for each club. Opening a website and switching app club context are distinct actions. Onboarding adds configuration, relationships and links without a new club directory here. The app owns stable HTTPS club/join/event/admin routes, validates identifiers and safe return destinations, and preserves intended navigation through authentication. Website links never convey roles or authentication tokens.
 
-Both frontends use the same backend and canonical club-scoped records, so an admin never maintains separate website and app copies. The website resolves a trusted hostname through a `club_domains` mapping before requesting that club's public content and permitted admin context. The app requests data within an explicit selected club context.
+An optional public feed can supply deliberately published event/news fields to an independent website; private records and reflections stay behind app authorization. Website synchronization requires an explicit connector. The current `apps/club-web` is a legacy Leeside prototype, not a future generic hosting engine. Extraction into a club repository is a separately tracked migration; this documentation update neither deletes files nor creates external repositories.
 
-The platform app presents a My Clubs list derived from the signed-in person's club relationships. A player belonging to Leeside and a Dublin club sees two entries under one identity, each with its independent membership, roles, attendance, matches, tournaments, coaching data, communications, and verified website link. Switching context changes authorization and presentation; it does not sign the user into a different account.
-
-An admin may enter management through their branded club website or the national app. Both routes call the same APIs, enforce the same club-scoped permissions, and edit the same records. A person who administers two clubs must explicitly switch context and receives no cross-club access merely because they are an admin elsewhere.
-
-Alternatives considered:
-
-- One Leeside-branded application for everything: simplest initially, but creates the wrong national identity and a costly rebrand/migration when other clubs join.
-- Completely separate systems or repositories per club: preserves branding but duplicates data, authentication, permissions, fixes, and maintenance and makes cross-club player identity unreliable.
+The rejected alternative is duplicating the app/backend per club. Independent website repositories are supported and do not require separate platform identities or databases.
 
 ### 2. Ship the platform app as an installable Progressive Web App first
 
@@ -67,7 +58,7 @@ Alternatives considered:
 
 Recommended pilot services:
 
-- Cloudflare Pages/Workers for both frontend deployments: the Leeside site on the purchased club domain and the platform PWA on a separate product domain or free preview subdomain during discovery.
+- Cloudflare Workers Static Assets for the national PWA on its product domain or preview subdomain; club website hosting is independently chosen and outside the shared platform deployment.
 - Supabase Free in the specific West EU (Ireland) region for PostgreSQL, authentication, row-level security, and small file storage.
 - Resend Free for password, renewal, cancellation, and other transactional emails sent from a verified club or platform domain; a monitored Gmail or club mailbox may be the reply-to address but is not the automated SMTP sender.
 - Supabase Cron (`pg_cron`) invoking TypeScript Edge Functions for renewal reminders, five-day match auto-approval, daily attendance digests, notification retries, and housekeeping.
@@ -92,11 +83,11 @@ Official references:
 
 #### Pilot deployment topology
 
-Keep all source in this monorepo but deploy independent targets:
+Keep app/backend source in this repository; club website source and deployments are independent:
 
 | Target | Address | Service | Initial tier |
 | --- | --- | --- | --- |
-| Leeside website | Purchased Leeside club domain | Cloudflare Workers Static Assets | Free |
+| Leeside website (external integration) | Club-approved website/domain | Independently chosen by the club | Independent budget |
 | National platform PWA | Temporary `workers.dev` address, then a separate product domain when named | Cloudflare Workers Static Assets | Free |
 | Production API, Auth and PostgreSQL | Supabase project in West EU (Ireland) | Supabase | Free |
 | Development API, Auth and PostgreSQL | Second Supabase project with synthetic data only | Supabase | Free |
@@ -111,9 +102,9 @@ Use the two Supabase free projects as `production` and `development`. Developmen
 
 The club purchases only the Leeside domain initially. The platform PWA can use a free preview address until its national product name is chosen, then it receives a separate purchased product domain. Buying a domain does not buy hosting or an application; DNS maps the purchased name to the free Cloudflare deployment.
 
-When another club is onboarded, its verified custom domain points to the same club-website deployment. The trusted domain mapping selects that club's portfolio and branding; it does not require another source repository, backend, or copy of the member database. A platform-managed club subdomain can be offered until that club connects its own domain.
+When another club is onboarded, its independently hosted website is registered as an approved external URL in the app. The club links back to stable app club/join/event routes; its domain does not point to a generic platform website deployment. No app/backend copy or shared-website subdomain provisioning is required.
 
-Multi-club provisioning is controlled by the platform operator at first: create the club record and unique slug, verify its domain, configure its initial portfolio, and invite its first club admin. Self-service onboarding, club billing, and automatic domain setup remain later product work. Once provisioned, the club's admins maintain their own portfolio and operations without platform-wide access.
+Multi-club provisioning is controlled by the operator: create the club/slug, approve its external website URL, configure its app profile and invite its first admin. Clubs manage their app operations and independent website content under separate permissions; self-service onboarding and club billing remain later work.
 
 Supabase Free does not provide the same accessible managed-backup guarantees as paid plans. Run an encrypted logical database export on a schedule, upload it to a private R2 bucket, apply short retention and least-privilege credentials, and test restoration into the development project. Storage objects require their own export because a database dump contains only their metadata. No backup or production data belongs in Git or public build artifacts.
 
@@ -231,6 +222,9 @@ Leeside initially sends one player renewal reminder 10 days before expiry and ke
 
 ## Risks / Trade-offs
 
+- [Independent websites can drift from app events] → Use stable app links; implement explicit public-feed connectors when desired and never imply automatic private-data synchronization.
+- [Player reflections can be mistaken for measured weaknesses] → Show self-reported provenance, denominators and separate coach conclusions; preserve external result provenance and club privacy.
+
 - [Free services can pause, throttle, change limits, or provide no production SLA] → Monitor usage and availability, keep exports, and define thresholds for moving to paid service before member reliance grows.
 - [A free Supabase project may pause after low activity] → Expect normal club usage to keep it active, monitor owner warnings, and budget an upgrade if uninterrupted availability becomes essential.
 - [PWA behavior is less consistent on iOS than a native app] → Test installation, camera permission, and offline scanning on target iPhones; retain manual check-in and plan a native client only if evidence supports it.
@@ -246,14 +240,22 @@ Leeside initially sends one player renewal reminder 10 days before expiry and ke
 
 ## Migration Plan
 
-1. Register the club domain and configure separate development and production environments.
+1. Configure separate app development/production environments and agree the independent website URL and club-domain ownership.
 2. Create the Supabase project in West EU (Ireland), apply versioned migrations and row-level-security tests, and configure encrypted external backups.
-3. Deploy the Leeside website and separately branded platform PWA to Cloudflare preview addresses; attach the club domain only to the Leeside site after acceptance.
+3. Deploy the national PWA to a Cloudflare preview address and connect its product domain after acceptance; retain Leeside's current independent website while adding app links.
 4. Verify the sending domain with Resend and test renewal and account emails with non-member test addresses.
-5. Import current public pages, policies, timetable, membership types, and approved member data using a dry-run report before any live import.
+5. Import approved app club details, timetable, membership types and member data using dry-run reports; independent website pages are not automatically imported or replaced.
 6. Pilot accounts, NFC/QR cards, kiosk scanning, expired-membership handling, attendance correction, dashboard totals, daily digest, a league and knockout tournament, delegated organizer access, opponent review/auto-approval, and coach dispute resolution with a small staff/member group.
-7. Run the new site alongside Wix during acceptance, then point the club domain to the new deployment. Keep the Wix content available until the club signs off.
-8. Roll back by restoring DNS to the previous public site and placing operational features in read-only mode; restore the database from the tested export if data rollback is required.
+7. Separately plan extraction of the legacy website prototype only if Leeside chooses a replacement website; app onboarding does not require a Wix DNS cutover.
+8. Roll back the app release and disable external integration links if needed; use approved restore procedures for data recovery without changing independent website hosting.
+
+### Tournament reflections implementation design (approved scope; not implemented)
+
+Separate a selectable competition event from a managed tournament engine. News and calendar records reference a stable event ID; external competitions need no local fixture/session. Proposed migrations add event provenance and match score completeness, participant-owned reflections, stable club tag definitions, category-tag assignments and revision metadata. Existing match/review/notification tables remain canonical; external result provenance must not be forced into the confirmed state or silently change standings.
+
+At submission the server checks whether any opposing player has an active player relationship in the recording club. Same-club matches retain the five-day review/coach workflow, even if paid membership expired; unclaimed opponents create staff follow-up. Otherwise save immediately as player-reported with no approval dependency. A minimal guest name is sufficient for an external opponent; do not require their contact details or expose their unrelated memberships. Edits to submitted reported results retain revisions. Selecting a managed fixture reuses its match ID; retries use idempotency keys and likely duplicate entries prompt review.
+
+Reflection categories are Worked well and Needs work; default tags are forehand, backhand, serving, serve receive, chopping, blocking, footwork, spin reading, placement and tactics, with optional notes up to 2000 characters. One participant's reflection is not visible to the opposing score reviewer. Coaches may manage tags and group counts by event/date/player/training group, showing reporting-player and match denominators. Count each player-match-tag-category once, exclude missing responses from conclusions, separate result provenance and exclude incomplete outcomes from completed-match statistics. Coach goals remain deliberately human-authored and private working notes remain separate. RLS tests must cover guardian access, cross-club denial, opponent privacy, retired tags, duplicate correction and aggregate refresh after edits/removal.
 
 ## Open Questions
 

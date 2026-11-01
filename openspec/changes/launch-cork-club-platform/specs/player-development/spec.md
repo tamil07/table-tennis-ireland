@@ -27,7 +27,7 @@ An adult player SHALL be able to view their own published development summary, a
 - **THEN** the system refuses access and reveals no coaching content
 
 ### Requirement: Human-controlled conclusions
-The system SHALL present development conclusions only when an authorized human has entered or approved them.
+The system SHALL present development conclusions only when an authorized human has entered or approved them. Descriptive aggregates of player-authored reflections MAY be calculated without coach approval when clearly labelled as reported observations with denominators and provenance; these SHALL NOT be presented as diagnoses or coach assessments.
 
 #### Scenario: Match data exists without coach assessment
 - **WHEN** match history exists but no coach has published a development summary
