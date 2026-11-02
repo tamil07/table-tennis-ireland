@@ -1,9 +1,10 @@
 # Decisions and open items
 
-Last reconciled: 1 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
+Last reconciled: 2 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
 
 ## Closed decisions
 
+- Table-wise practice booking: maintainers publish specific tables/hours (for example three tables for one hour). Players, verified guests and parents for linked children submit requests through the app or Leeside website. Maintainers receive an in-app queue plus email alerts at configured addresses, including Gmail, and approve after sign-in. A provisional hold blocks the requested table/hour; approval confirms it while other tables remain available. Rejection/withdrawal/expiry releases it; no double booking. Hold timeouts, availability, guest rules, manual fees and cancellation policy are editable. Booking remains separate from actual attendance and does not imply coaching. Feature implementation is pending, not a new account-setup prerequisite.
 - Trial policy finalized: verified self/guardian registration starts a one-calendar-month trial by default with no default visit cap. Management can change duration or extend individuals at runtime. At the recorded trial end notify player/guardian then the membership team, with stale-message suppression and duplicate prevention.
 - Safeguarding/privacy contacts, policies and approved retention/access settings are management-maintained runtime configuration. Supplying them is delegated operational setup, not a prerequisite questionnaire for development; accurate published information and access controls remain required before relevant live-data use.
 - Use the forthcoming Leeside TT email as club contact/reply-to. If it is on an owned verified domain it may also be the automated sender; if it is Gmail, Resend still sends through a verified domain and Gmail receives replies.

@@ -19,6 +19,10 @@ The system SHALL allow authorized Leeside admins to invite, add, remove, and ass
 - **WHEN** the operator provisions the first authorized club admin
 - **THEN** that admin can invite or grant existing members further permissions at runtime, and a complete committee name/email list is not required to build or deploy the app
 
+#### Scenario: Admin delegates table booking management
+- **WHEN** an authorized access manager grants table-booking-management permission to a club maintainer
+- **THEN** the maintainer can publish table availability, review/approve/reject requests and manage permitted cancellations for that club without automatically gaining membership, payment-correction, role-management or platform access
+
 #### Scenario: Admin invites a content editor
 - **WHEN** a Leeside admin with access-management permission invites a person and assigns content-editing permissions
 - **THEN** the accepted invitation grants only the assigned Leeside permissions and records the acting admin, recipient, scope, and time

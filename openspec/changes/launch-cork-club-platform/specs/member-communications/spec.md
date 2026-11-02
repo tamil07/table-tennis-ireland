@@ -30,6 +30,21 @@ The system SHALL send event invitations through the notification outbox only to 
 - **WHEN** a recipient unsubscribes from optional event announcements
 - **THEN** the system stops those announcements without suppressing strictly necessary account, safeguarding, booking, or membership-service messages
 
+### Requirement: Table booking requests and decisions
+The system SHALL create an in-app shared booking-request item and queue an email alert to current authorized maintainer recipients for each new pending table request. The configured Leeside Gmail MAY receive the alert, but approval/rejection SHALL occur through a protected sign-in link and current permissions, never by possession of the email alone. Requesters or designated junior guardians SHALL receive in-app/email status notifications for submission, approval, rejection, expiry, rescheduling and cancellation. Delivery failures SHALL NOT lose requests, release valid bookings or imply approval; retries and recipient/transition idempotency SHALL prevent duplicates. Notification content SHALL minimize child/member details and direct maintainers to the protected queue.
+
+#### Scenario: Maintainer receives a request
+- **WHEN** a pending table request is accepted by the backend
+- **THEN** it appears in the management queue and an email alert links authorized maintainers to its protected details even if the website originated the request
+
+#### Scenario: Maintainer approves a request
+- **WHEN** an authorized maintainer approves a valid live hold
+- **THEN** the requester/guardian receives a confirmation showing club, table, date, time, fee where configured and cancellation instructions
+
+#### Scenario: Email link is opened after permission revocation
+- **WHEN** an earlier email recipient follows its approval link after losing booking-management access
+- **THEN** the app denies the privileged action and the reservation state is unchanged
+
 ### Requirement: Authenticated platform email sender
 The pilot SHALL send automated authentication and transactional messages through the configured email delivery service using a verified club or platform domain. A personal Gmail mailbox SHALL NOT be used as the automated SMTP sender; an approved club mailbox MAY be configured as the reply-to address.
 

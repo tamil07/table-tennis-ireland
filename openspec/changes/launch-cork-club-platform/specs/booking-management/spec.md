@@ -3,6 +3,8 @@
 ### Requirement: Session and event booking
 An eligible member or linked guardian SHALL be able to book an available training session or event for themselves or an eligible linked junior.
 
+Table-practice bookings SHALL use the maintainer-approval workflow below rather than the automatic session-place confirmation scenario.
+
 #### Scenario: Successful booking
 - **WHEN** an eligible person requests a place before the booking deadline while capacity remains
 - **THEN** the system confirms the booking and updates remaining capacity
@@ -53,4 +55,78 @@ Published public sessions, camps, and events SHALL expose stable website links p
 #### Scenario: Subscriber wants email
 - **WHEN** a person subscribes to event email updates with the required consent
 - **THEN** the notification service records the subscription and sends eligible event announcements independently of whether that person uses an RSS reader
+
+### Requirement: Table resources and hourly practice availability
+Authorized club maintainers with table-booking-management permission SHALL be able to add, name, activate/retire tables and publish recurring or one-off date-specific practice availability in Europe/Dublin local time. The default booking unit SHALL be one table for one hour; table count, opening hours, eligible audiences, approval cutoff, hold timeout, fees and cancellation policy SHALL be runtime configuration. A booking reserves the table, not the whole hall or a coached lesson. Coaching SHALL NOT be implied by a practice reservation.
+
+#### Scenario: Maintainer publishes three tables
+- **WHEN** a permitted maintainer publishes Tables 1, 2 and 3 for 17:00–18:00 on a date
+- **THEN** the website and app display three available table-hours and show the configured guest/member eligibility and any manually collected fee
+
+#### Scenario: Pre-tournament practice
+- **WHEN** a maintainer publishes extra practice hours before a tournament
+- **THEN** the app supports one-off table availability without changing the regular training timetable or generating tournament fixtures
+
+### Requirement: Unified website and app requests
+Players, parents and verified guest registrants SHALL be able to request a published table-hour from the app and Leeside website using the same canonical backend records and live availability. The retained Leeside website MAY render a shared booking interface or link to the same app booking route; independent future websites MAY link to it. Confirmation SHALL require authenticated verified identity; juniors SHALL be represented by a designated guardian. Guest registration SHALL NOT grant membership or privileged access.
+
+#### Scenario: Parent requests a table for a child
+- **WHEN** a verified parent selects an available table-hour and an actively linked junior
+- **THEN** the system records the parent as requester and the junior as intended attendee with pending approval status and a clear statement that the request is not yet confirmed
+
+#### Scenario: Guest books from the website
+- **WHEN** a non-member selects an eligible guest practice slot through the Leeside website and completes verified registration
+- **THEN** the request enters the same app management queue without creating active membership or a separate website booking copy
+
+### Requirement: Pending holds and maintainer approval
+Request creation SHALL atomically acquire a provisional hold for its exact table/time. Pending approval SHALL NOT be shown as a confirmed booking. Pending holds and confirmed bookings SHALL both block overlapping allocation of that table; no table-hour may be confirmed for two requests. Maintainers SHALL approve/reject through authenticated management with current club permissions, with all transitions audited. Hold timeout SHALL be management-configurable and bounded by the slot start; expired, rejected or withdrawn requests SHALL release inventory. Approval SHALL recheck active availability and hold validity; stale approval SHALL NOT silently reacquire a table or override another booking.
+
+#### Scenario: One of three tables is approved
+- **WHEN** a request provisionally holds Table 1 for a published hour and a maintainer approves it
+- **THEN** Table 1 changes from held to confirmed and Tables 2 and 3 remain available for that hour through both channels
+
+#### Scenario: Concurrent requests target one table
+- **WHEN** two requests attempt overlapping times on the same table
+- **THEN** the database accepts at most one live hold/booking, returns an availability-changed message to the other requester and never relies only on client-side availability checks
+
+#### Scenario: Pending request receives no decision
+- **WHEN** a hold reaches its configured deadline or the slot start without approval
+- **THEN** it expires, releases the table and notifies the requester; it does not automatically become confirmed
+
+#### Scenario: Approval races expiry
+- **WHEN** a maintainer approves an expired request or another maintainer has already resolved it
+- **THEN** the system reports the current state and does not overwrite another decision or booking
+
+### Requirement: Schedule conflicts and safe changes
+Table allocation SHALL account for regular sessions, camps, tournaments and explicit maintenance blocks using the same resources. Ambiguous whole-hall events SHALL block affected tables unless a maintainer explicitly assigns non-conflicting resources. An overlap warning override for event publication SHALL NOT create duplicate table reservations. Retiring a table or editing availability with active holds/bookings SHALL require an explicit affected-booking resolution and notification rather than silently remove confirmed access. Adjacent bookings MAY share an endpoint but SHALL NOT overlap.
+
+#### Scenario: Practice collides with tournament usage
+- **WHEN** a maintainer attempts to publish a table-hour already reserved for a tournament or regular session
+- **THEN** the system refuses conflicting allocation until an authorized schedule change resolves the resource conflict
+
+#### Scenario: Adjacent table bookings
+- **WHEN** Table 1 is booked 17:00–18:00
+- **THEN** 18:00–19:00 may remain available while 17:30–18:30 is rejected
+
+### Requirement: Cancellation and staff overrides
+Requesters SHALL be able to withdraw pending requests and cancel their own confirmed table bookings within the configured policy. Maintainers SHALL be able to cancel or reschedule with a reason and audit history. Rescheduling SHALL acquire the new allocation atomically before releasing the old one, or leave the existing booking unchanged on failure. Staff override SHALL NOT bypass resource exclusivity. Fees and payment status SHALL remain manual and separate from approval; no payment gateway is introduced.
+
+#### Scenario: Requester cancels a permitted booking
+- **WHEN** the requester cancels before the configured cutoff
+- **THEN** the reservation is retained as cancelled, inventory is released and affected parties are notified without promising an automated refund
+
+#### Scenario: Maintainer resolves a late cancellation
+- **WHEN** the requester is beyond the self-service cutoff
+- **THEN** the app offers a maintainer contact/request path and an authorized maintainer may resolve it with an audited reason
+
+### Requirement: Booking remains separate from attendance
+A table booking SHALL represent reserved access, not proof that anyone attended. Existing QR/app or staff check-in SHALL record actual attendance for the practice occurrence with membership classification. Requesters/guardians SHALL see their booking details; authorized maintainers SHALL see the queue/calendar. Public availability SHALL expose table/time/status only, not requester names, child identities or contact details.
+
+#### Scenario: Confirmed guest arrives
+- **WHEN** a confirmed guest or guardian records arrival through an authorized check-in flow
+- **THEN** the system links attendance to the practice occurrence, preserves guest/no-membership classification and does not convert the guest into a paid member
+
+#### Scenario: Booked user does not attend
+- **WHEN** a confirmed table-hour passes without check-in
+- **THEN** the booking remains historical and creates no attendance visit or top-attendee credit
 

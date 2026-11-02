@@ -20,6 +20,7 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 - Let an admin optionally email the adult player or junior's guardian a clearly labelled non-formal acknowledgement when manually recording/correcting an external payment or renewing membership.
 - Let admins enable renewal reminders at the predefined 10-day and 3-day points and email the registered player or, for a junior, the appropriate parent/guardian.
 - Support session and event booking while preventing unauthorized or invalid bookings.
+- Support one-hour table practice requests from players, parents and verified guests through the app and Leeside website, with configurable table availability, provisional holds, maintainer approval, shared in-app/email notifications, cancellation and resource conflict prevention. Approval does not imply attendance or payment.
 - Model Leeside's five recurring weekly sessions and let admins add one-off or bounded multi-day programmes such as a seven-day camp with configurable capacity, audience, booking, and attendance.
 - Publish approved app events plus optional RSS/Atom/iCalendar feeds for independently integrated websites, send consent-aware email invitations and provide manual Facebook sharing; automation requires an approved Meta integration.
 - Let attending players start singles or doubles matches during a club session, record game-by-game scores, pause/resume, submit or abandon matches, and retain structured history.
@@ -84,7 +85,7 @@ None. This is the first product specification.
 - Automated AI coaching conclusions; development notes and goals remain human-led.
 - Automated internal player ratings; confirmed match history and tournament standings remain available without calculating a persistent skill rating.
 - A custom-built scanner, turnstile or door-access system, high-security smart-card infrastructure, facial recognition, or continuous location tracking.
-- Member self-service booking cancellation and booking waiting lists.
+- Booking waiting lists and general session-booking self-service cancellation; table-practice bookings explicitly support withdrawal and policy-based cancellation.
 
 ## Assumptions and Unresolved Decisions
 

@@ -72,6 +72,12 @@
 - [ ] 7.11 Complete live venue-device acceptance, Auth provisioning, and notification delivery for the venue QR flow before production launch
 - [ ] 7.12 Add session-time direct app presence with self-declared provenance and explicit self/linked-child selection; retain QR confirmation as an alternative
 - [ ] 7.13 Add separate Not attending availability from home; exclude it from attendance totals and prevent silent overwrites of existing presence
+- [ ] 7.14 Add table resources, recurring/date-specific practice availability and configurable hourly request/hold/cancellation settings
+- [ ] 7.15 Build shared website/app table booking entry for players, verified guests and designated guardians without automatic membership activation
+- [ ] 7.16 Implement atomic provisional holds, maintainer approve/reject, bounded expiry, cancellation and rescheduling with database overlap constraints and audit
+- [ ] 7.17 Integrate regular session/camp/tournament resource blocks and separate practice attendance from reservations
+- [ ] 7.18 Build current-permission management queue/email alerts and requester/guardian decision notifications through the idempotent outbox
+- [ ] 7.19 Test concurrent same-table requests/approvals, expiry races, adjacent intervals, reschedule rollback, permission revocation, guest/guardian access, cross-club denial and shared-channel availability
 
 ## 8. Matches and tournaments
 

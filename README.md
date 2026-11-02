@@ -113,6 +113,7 @@ stateDiagram-v2
 
 ### Sessions and bookings
 
+- Planned: table-wise hourly practice requests from the website/app, including verified guests and guardian-led child bookings; maintainers approve through an in-app queue with email alerts. Provisional holds prevent conflicting requests and confirmed reservations remain separate from attendance. See [booking requirements](openspec/changes/launch-cork-club-platform/specs/booking-management/spec.md).
 - Recurring timetable definitions generate dated session occurrences.
 - Leeside starts with five weekly sessions; admins can add one-off events and bounded programmes such as seven-day camps.
 - Sessions can change or be cancelled without rewriting historical attendance.

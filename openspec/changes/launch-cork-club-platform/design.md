@@ -232,6 +232,14 @@ Owner-led testing can start without recruiting a broader club pilot team; schedu
 
 ## Risks / Trade-offs
 
+### Table-wise practice reservations (approved 2 November 2026; implementation pending)
+
+Use club-scoped table resources, recurring/date-specific availability and dated allocations rather than just decrementing an integer capacity. Three published tables represent three separate reservable resources for an hour. Support player, verified guest and guardian-for-child requests. The retained Leeside website and app use the same backend via a shared component or app booking route, avoiding independent website booking inventories.
+
+The lifecycle is pending approval (provisional resource hold), confirmed, rejected, expired, withdrawn or cancelled. A pending hold blocks the exact table/time until its configurable timeout, bounded by the slot start. Approval converts the hold, leaving the other two tables available in the three-table example. Use database-enforced non-overlapping time ranges per table, transactional state changes, request idempotency and optimistic concurrency for maintainer decisions. Rejection/withdrawal/expiry/cancellation releases allocation. Reschedule acquires a new allocation atomically or retains the old booking. Resource conflicts with training/camps/tournaments cannot be bypassed by a generic warning override.
+
+Maintainers receive a shared in-app request queue plus email alerts through the existing outbox; their configured Gmail is a recipient, not an approval credential. Protected approval links require sign-in and current club booking-management permission. Notify requesters/guardians of all relevant status transitions and expose delivery failures without losing the canonical request. Public availability contains no requester/child identities. Date/times use Europe/Dublin and fee/payment recording stays manual. A table reservation offers practice access, not an implied coaching lesson; actual arrival is recorded separately through the attendance workflow.
+
 - [Independent websites can drift from app events] → Use stable app links; implement explicit public-feed connectors when desired and never imply automatic private-data synchronization.
 - [Player reflections can be mistaken for measured weaknesses] → Show self-reported provenance, denominators and separate coach conclusions; preserve external result provenance and club privacy.
 
