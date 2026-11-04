@@ -10,10 +10,10 @@ You own the platform, repository, and shared cloud infrastructure. Your dedicate
 
 ## 1. Create the dedicated Gmail first
 
-- [ ] Open [Google account signup](https://accounts.google.com/signup) and create an address suitable for the national platform.
+- [x] Owner confirmed account creation on 4 November 2026: **ttclubsie@gmail.com** (national platform/cloud account contact) and **leesidettie@gmail.com** (Leeside contact/reply-to and domain-account contact).
 - [ ] Set a unique password and add recovery details.
 - [ ] Enable two-step verification in [Google account security](https://myaccount.google.com/security) and save backup codes privately.
-- [ ] Keep the email address available for registering the services below.
+- [x] Platform registration email supplied: **ttclubsie@gmail.com**. Provider account creation and connections remain separate pending steps.
 
 You can share the email address here. Keep passwords, one-time codes, recovery codes, and private keys out of chat and GitHub.
 
@@ -132,7 +132,8 @@ Leeside club admins/editors/event organizers receive club-scoped app permissions
 Send a short update with non-secret details only:
 
 ```text
-Dedicated email: [address]
+Dedicated platform email: ttclubsie@gmail.com
+Leeside contact/reply-to email: leesidettie@gmail.com
 Supabase organization: [name]
 Development project: [name/reference and selected region]
 Production project: [name/reference and selected region, or pending]

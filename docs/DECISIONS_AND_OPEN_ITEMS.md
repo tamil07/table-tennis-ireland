@@ -1,13 +1,13 @@
 # Decisions and open items
 
-Last reconciled: 2 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
+Last reconciled: 4 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
 
 ## Closed decisions
 
 - Table-wise practice booking: maintainers publish specific tables/hours (for example three tables for one hour). Players, verified guests and parents for linked children submit requests through the app or Leeside website. Maintainers receive an in-app queue plus email alerts at configured addresses, including Gmail, and approve after sign-in. A provisional hold blocks the requested table/hour; approval confirms it while other tables remain available. Rejection/withdrawal/expiry releases it; no double booking. Hold timeouts, availability, guest rules, manual fees and cancellation policy are editable. Booking remains separate from actual attendance and does not imply coaching. Feature implementation is pending, not a new account-setup prerequisite.
 - Trial policy finalized: verified self/guardian registration starts a one-calendar-month trial by default with no default visit cap. Management can change duration or extend individuals at runtime. At the recorded trial end notify player/guardian then the membership team, with stale-message suppression and duplicate prevention.
 - Safeguarding/privacy contacts, policies and approved retention/access settings are management-maintained runtime configuration. Supplying them is delegated operational setup, not a prerequisite questionnaire for development; accurate published information and access controls remain required before relevant live-data use.
-- Use the forthcoming Leeside TT email as club contact/reply-to. If it is on an owned verified domain it may also be the automated sender; if it is Gmail, Resend still sends through a verified domain and Gmail receives replies.
+- Owner confirmed both Gmail accounts created on 4 November 2026: **leesidettie@gmail.com** for Leeside contact/reply-to and domain-account contact; **ttclubsie@gmail.com** for the national platform and cloud account registration/contact. Gmail receives replies; Resend still sends automated messages through a verified domain. MFA/recovery and provider connections remain unconfirmed.
 - Tournament settings are configured per internal competition by its coach/organizer. External event logs need event/opponent/format/score and reflections, without rebuilding external fixtures, points tables or seeding. Neither requires advance rules answers to continue development.
 - The owner confirms consent to reuse Leeside public content, branding and photographs (1 November 2026); reuse permission is closed, while source accuracy and final publication selection remain separate.
 - Leeside's group permissions and membership catalogue are runtime settings: authorized admins grant/revoke access immediately for subsequent server requests and permitted managers add/change membership products and player assignments at any time. A complete staff roster or catalogue is not a development/deployment prerequisite. Implementation remains pending; the owner bootstraps the initial admin.
@@ -43,9 +43,9 @@ Last reconciled: 2 November 2026. Detailed implementation work remains in the Op
 
 ## Open items requiring the owner or Leeside
 
-1. Create platform/Leeside Gmail accounts as needed with MFA/recovery; create Supabase, Cloudflare and Resend accounts/projects. Configure Google OAuth later. Put secrets directly into approved provider settings.
+1. Complete/confirm MFA and recovery for the two created Gmail accounts; create Supabase, Cloudflare and Resend accounts/projects using the platform address. Configure Google OAuth later and keep secrets in approved provider settings.
 2. Choose the national app name and domain, and buy/connect the Leeside domain under the owner-managed Leeside account.
-3. Supply the Leeside TT email address when created and connect/verify the automated sending domain. The address will be club contact/reply-to; provider configuration remains required.
+3. Connect/verify the automated sending domain and configure leesidettie@gmail.com as Leeside contact/reply-to; provider setup and delivery testing remain required, but the mailbox address is no longer pending.
 
 Management can add policy contacts/text, approved data-handling settings, membership products, staff access and internal tournament settings through admin configuration. These are delegated setup activities, not unresolved feature approvals or development blockers.
 

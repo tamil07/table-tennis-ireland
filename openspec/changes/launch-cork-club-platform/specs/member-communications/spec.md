@@ -64,6 +64,10 @@ The pilot SHALL send automated authentication and transactional messages through
 - **WHEN** the owner provides the Leeside TT email address
 - **THEN** the app uses it as the club contact/reply-to; an address on an owned verified sending domain may also be the automated sender, while a Gmail mailbox remains reply-to with automated delivery through the configured verified domain
 
+#### Scenario: Initial confirmed club and platform mailboxes
+- **WHEN** pilot contact configuration is initialized using the owner's 4 November 2026 confirmation
+- **THEN** Leeside's club contact/reply-to defaults to leesidettie@gmail.com and the national platform account/contact defaults to ttclubsie@gmail.com, while authorized configuration changes remain possible and neither address alone grants app privileges or proves sending-domain verification
+
 ### Requirement: Membership renewal email
 The system SHALL allow an authorized admin to enable the predefined 10-day reminder, 3-day reminder or both and route enabled messages to adult players or designated junior guardians. Leeside's default SHALL instead be an end-of-expiry-day notification to the player/guardian and current authorized management recipients; advance reminders SHALL be off unless enabled. This supersedes the earlier default 10-day reminder.
 

@@ -27,6 +27,8 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 ### 0. Platform ownership and club management
 
+Confirmed mailboxes (owner-reported created 4 November 2026): `ttclubsie@gmail.com` is the national platform account/contact mailbox for cloud-service registration and administration; `leesidettie@gmail.com` is Leeside's club contact/reply-to and owner-managed domain-account contact. These addresses are configuration defaults, not authorization roles or automated sending domains. MFA/recovery setup, provider accounts, domain verification and delivery connections are not implied complete. Authorized staff retain individual logins; automated email continues through the verified domain/provider.
+
 The founder personally owns the national platform, brand, and repository and operates the shared cloud infrastructure. A separate Gmail address serves as the account contact, billing, and recovery mailbox; the address itself is not the legal owner. External contributions are submitted through pull requests and merged by authorized maintainers. Trusted platform owners use individual provider accounts with explicitly assigned access, separate from club-management permissions.
 
 Leeside's club-scoped group manages app branding/content, records, marketing messages, news, events, sessions, camps and sharing through individual accounts and scoped permissions. Independent website content remains in that website's CMS/repository; app records can be reused only through implemented public connectors. A website management link leads to app sign-in and club permissions. Manual Facebook sharing and consent-aware announcements remain the pilot approach.
