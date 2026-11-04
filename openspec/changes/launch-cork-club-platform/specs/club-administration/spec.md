@@ -66,6 +66,17 @@ Authorized club admins SHALL manage app club content, user access, guardian link
 - **WHEN** an admin who holds roles in more than one club switches management context
 - **THEN** the system updates the visible portfolio and permitted actions to the selected club and does not mix data between clubs
 
+### Requirement: Shared club operations across pilot channels
+The retained Leeside website and app SHALL provide routes to club table/hall management, communications and membership management backed by the same canonical services and current permissions. A shared interface or protected app route MAY be used; a second operational database, notification queue or membership copy SHALL NOT be created. Club managers SHALL be able to grant/revoke relevant permissions at runtime and changes SHALL apply to subsequent requests through either channel. This pilot integration SHALL NOT require a generic hosted website service for future clubs.
+
+#### Scenario: Membership changed through either channel
+- **WHEN** a permitted manager updates a membership via the website's management entry or app
+- **THEN** both channels read the same updated record and acknowledgement choice, with one audit event and no duplicated email merely because two interfaces display it
+
+#### Scenario: Communication created from the website
+- **WHEN** a permitted manager sends an announcement through the website management entry
+- **THEN** the canonical app notification/outbox workflow applies its audience, consent, guardian routing and delivery history without a separate website send
+
 ### Requirement: Administrative audit history
 The system SHALL retain an audit history for security-sensitive and member-affecting administrative changes, including the acting user, action, affected record, time, and prior and new values where applicable.
 

@@ -78,6 +78,28 @@ Players, parents and verified guest registrants SHALL be able to request a publi
 - **WHEN** a non-member selects an eligible guest practice slot through the Leeside website and completes verified registration
 - **THEN** the request enters the same app management queue without creating active membership or a separate website booking copy
 
+### Requirement: Shared cross-channel booking state
+The Leeside website and national app SHALL use the same canonical club-scoped resources, availability, holds, booking requests and decisions. Successful changes SHALL become visible through both channels on refresh, and open booking screens SHALL refresh automatically through subscriptions or bounded polling, with connection/loading/stale states. The backend SHALL revalidate availability and authorization at every write regardless of UI freshness. Reconnect SHALL refetch authoritative state; interrupted writes SHALL be reconciled through idempotency/status lookup rather than assumed successful. Public updates SHALL NOT disclose requester/child details.
+
+#### Scenario: Website request approved in app
+- **WHEN** a guest or parent submits through the website and an authorized maintainer approves in the app
+- **THEN** both channels show the same confirmed reservation and remaining tables, and the requester receives the specified email and in-app confirmation once
+
+#### Scenario: Website has stale availability
+- **WHEN** a user selects a table that another app user has just held or booked
+- **THEN** the backend refuses the conflicting write, refreshes availability and offers the current eligible alternatives without double booking
+
+#### Scenario: Booking screen reconnects
+- **WHEN** a website/app screen regains connectivity after missing booking changes
+- **THEN** it reloads current table/booking state and identifies unresolved submissions without displaying cached availability as confirmed
+
+### Requirement: Hall operations management
+Authorized maintainers SHALL be able to configure hall opening hours, date-specific closures, maintenance blocks and table allocations for practice, regular sessions, camps and tournaments from permitted website/app management entry points. Both channels SHALL enforce the same club-scoped permissions, audit and resource constraints. Hall management SHALL NOT imply an externally bookable whole-hall exclusive rental; that is a separate future scope decision.
+
+#### Scenario: Maintainer closes the hall
+- **WHEN** a permitted maintainer blocks the hall for maintenance during published practice hours
+- **THEN** all affected tables are unavailable and existing holds/bookings require explicit resolution and notifications rather than silent deletion
+
 ### Requirement: Pending holds and maintainer approval
 Request creation SHALL atomically acquire a provisional hold for its exact table/time. Pending approval SHALL NOT be shown as a confirmed booking. Pending holds and confirmed bookings SHALL both block overlapping allocation of that table; no table-hour may be confirmed for two requests. Maintainers SHALL approve/reject through authenticated management with current club permissions, with all transitions audited. Hold timeout SHALL be management-configurable and bounded by the slot start; expired, rejected or withdrawn requests SHALL release inventory. Approval SHALL recheck active availability and hold validity; stale approval SHALL NOT silently reacquire a table or override another booking.
 

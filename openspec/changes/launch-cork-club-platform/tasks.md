@@ -78,6 +78,8 @@
 - [ ] 7.17 Integrate regular session/camp/tournament resource blocks and separate practice attendance from reservations
 - [ ] 7.18 Build current-permission management queue/email alerts and requester/guardian decision notifications through the idempotent outbox
 - [ ] 7.19 Test concurrent same-table requests/approvals, expiry races, adjacent intervals, reschedule rollback, permission revocation, guest/guardian access, cross-club denial and shared-channel availability
+- [ ] 7.20 Add cross-channel availability subscriptions or bounded polling, stale/reconnect states and idempotent reconciliation of interrupted requests
+- [ ] 7.21 Build hall opening hours/closures/table allocation and test whole-hall maintenance blocking without enabling exclusive public hall rental
 
 ## 8. Matches and tournaments
 
@@ -110,6 +112,7 @@
 - [ ] 9.11 Test private reflection access, opponent-review privacy, cross-club denial and human-authored goals separated from descriptive aggregates
 - [ ] 9.12 Enforce runtime permission grants/revocation on every privileged request; support owner bootstrap and empty editable membership catalogue without redeployment
 - [ ] 9.13 Build permission-scoped management editing/publication of safeguarding/privacy contacts, policies and approved data-handling settings with revision history and unconfigured states
+- [ ] 9.14 Verify website/app management entry points share table/hall, communication and membership services, current permissions and non-duplicated notifications/audits
 
 ## 10. Operations and release
 
