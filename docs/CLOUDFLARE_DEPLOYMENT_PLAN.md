@@ -1,0 +1,63 @@
+# Cloudflare inspection and deployment plan
+
+Inspected 5 November 2026 using read-only API calls with an owner-supplied temporary user token. Token contents are not stored in this document or repository. Supabase connection/migration setup remains paused.
+
+## Confirmed remote state
+
+| Item | API observation |
+| --- | --- |
+| Account ID | `6502a73494f4ee7107b36c620ee76471` |
+| Account contact/name | `ttclubsie@gmail.com` account |
+| Workers subdomain | `ttclubsie` |
+| Existing Worker name | `table-tennis-ireland` |
+| Worker tag | `d699159f1a6740de815d4229e261d85d` |
+| Connected Git repository | `tamil07/table-tennis-ireland` |
+| Branch / root | `main` / `/` |
+| Latest inspected build | `fbcb4efe-d58e-47dc-b205-2e1c1bf3ea7b`, failed |
+| Build trigger ID | `cf9305fe-087f-48e4-a831-5e82aab37ee5` |
+| Deployed code source | `dash_template`; `has_assets=false` |
+
+The inspected build failed before deployment. The API lists dashboard-template deployments, not a successful repository website deployment. The likely workers.dev address is `https://table-tennis-ireland.ttclubsie.workers.dev`; route enablement and rendered content still require verification.
+
+## Findings
+
+1. **Proven build failure:** configured command is `npm run build --workspace @ttti/club-web`. The repository package is `@tti/club-web`. Logs end with `No workspaces found: --workspace=@ttti/club-web`.
+2. **Deployment mismatch to fix before retry:** the deploy command names `Leeside-web`, but the connected Worker is `table-tennis-ireland`. Align it with the actual Worker rather than unintentionally targeting another service. This was not the observed build failure because deployment was never reached.
+3. Dependency installation completed. The log also contains `glob` deprecation and an esbuild install-script warning. These are follow-up dependency/build-policy checks, not the recorded fatal error.
+4. The repository has no Wrangler deployment configuration. Plan explicit app/website deployment configuration so monorepo assets and SPA behavior are reproducible instead of relying on auto-detection.
+
+## Proposed settings for the existing website Worker
+
+| Setting | Planned value |
+| --- | --- |
+| Worker | Keep `table-tennis-ireland` |
+| Branch | `main` |
+| Root | Repository root `/` |
+| Build | `npm run build --workspace @tti/club-web` |
+| Deploy | `npx wrangler deploy --name table-tennis-ireland --assets ./apps/club-web/dist` |
+| Environment | Synthetic website demo; no Supabase variables or database credentials needed |
+
+If a different Worker name is deliberately chosen later, update the dashboard target, command and committed configuration together. Do not assume the earlier suggested `leeside-web` is the created resource.
+
+The preview command was not returned in the inspected build metadata. Check it in Build settings before using branch previews; do not claim it has been verified. Plan an explicit Wrangler configuration with this asset path and SPA fallback, and validate the actual preview command supported by the installed Wrangler version against that configuration. No Cloudflare setting was changed during this inspection.
+
+## Execution sequence
+
+1. **Done:** corrected `npm run build --workspace @tti/club-web` passes locally (TypeScript and Vite production build, 5 November 2026). This verifies the command, not a remote Cloudflare deployment.
+2. Prepare explicit deployment configuration and update Cloudflare build/deploy settings to the intended Worker. Restrict changes to these deployment resources; do not alter DNS, billing or Supabase.
+3. Retry the website build and inspect its full install, build and deploy logs. Confirm the successful build's commit matches the intended `main` revision.
+4. Verify the actual workers.dev URL serves the Leeside demo assets, mobile layout, asset URLs and expected navigation/SPA behavior rather than a starter template.
+5. Configure the national app as a separate Worker/build target from `apps/platform`, keeping Supabase variables unset for its synthetic demo while setup is paused. A local ignored `.env.local` does not automatically become a Cloudflare build variable.
+6. Check each channel's preview settings, automatic `main` deployments and rollback behavior; document successful URLs/status only after verification.
+7. Review dependency warnings and schedule appropriate updates without misidentifying them as the current failure.
+
+## API access and earlier shell setup
+
+- Browser login, CLI OAuth, user API tokens and Cloudflare's deployment build tokens are distinct credentials/access paths.
+- An export in the user's terminal was not inherited by the assistant tool processes. No credential was available there until the owner explicitly supplied a temporary token for this inspection.
+- Prefer a user token scoped to the required account and permissions. Cloudflare's dashboard uses `Workers Builds Configuration`, while some endpoint permission documentation uses `Workers CI`; `Workers Scripts: Read` permits Worker discovery. Build-token credentials used by Cloudflare's build system are separate.
+- Only GET requests were used: token verification, accounts, Workers/scripts, recent builds, build logs, account Workers subdomain and deployments. No retry, settings mutation, deployment, DNS or billing API call was made.
+- Never commit tokens, database passwords or secret keys, nor place a Cloudflare token in `VITE_*` variables. Use a suitable secret store or approved ignored local credential file for future access. Verify token validity at reuse and revoke the temporary token when inspection access is no longer needed; do not assume permission to replace/revoke it automatically.
+- An API token with build-edit capability does not authorize unrelated changes. This request authorizes inspection and planning; the pending fixes above are not represented as completed.
+
+References: [Workers Builds API](https://developers.cloudflare.com/workers/ci-cd/builds/api-reference/), [Build configuration](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/).

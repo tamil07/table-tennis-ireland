@@ -126,6 +126,10 @@
 - [ ] 10.8 Prepare Expo native clients and store submissions only after the PWA pilot justifies them
 - [ ] 10.9 Implement and test approved retention, deletion/anonymization, and backup-expiry schedules by data class
 - [ ] 10.10 Implement inclusive end-of-day Europe/Dublin expiry emails to player/guardian plus current management summary, with renewal-race suppression, recipient revocation checks and idempotency
+- [x] 10.11 Inspect Cloudflare account/Worker/build logs through authorized read-only APIs and record observed failure separately from proposed remediation
+- [ ] 10.12 Correct Cloudflare workspace typo (@ttti/club-web to @tti/club-web), align deploy target to existing table-tennis-ireland Worker, and add reproducible per-frontend deployment/preview configuration
+- [ ] 10.13 Retry and verify website main-commit build, actual workers.dev content/assets/mobile routing, preview behavior and rollback; current remote deployment is a starter template
+- [ ] 10.14 Configure a separate synthetic platform-app Worker without hosted Supabase bindings while setup is paused; review dependency/install-script warnings independently
 
 ## Parked owner activity (not a development prerequisite)
 

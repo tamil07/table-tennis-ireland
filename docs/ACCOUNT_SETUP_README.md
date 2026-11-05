@@ -52,6 +52,8 @@ Use deployment environment settings for hosted builds. Do not commit `.env.local
 
 ## 3. Create Cloudflare: website and app hosting
 
+Account creation and read-only API inspection are confirmed. The created Worker is `table-tennis-ireland` on the `ttclubsie` subdomain. Its build/deploy settings differ from earlier suggested examples; use the evidence and correction plan in [CLOUDFLARE_DEPLOYMENT_PLAN.md](CLOUDFLARE_DEPLOYMENT_PLAN.md). The failed build has not deployed repository website assets, and Supabase setup stays paused.
+
 Links: [Signup](https://dash.cloudflare.com/sign-up), [dashboard](https://dash.cloudflare.com/), [hosting overview](https://developers.cloudflare.com/workers/static-assets/), [hosting tutorial](https://developers.cloudflare.com/workers/static-assets/get-started/).
 
 - [ ] Register with the dedicated email and verify it.

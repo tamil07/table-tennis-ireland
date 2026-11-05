@@ -25,6 +25,8 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 ## Decisions
 
+Cloudflare inspection (5 November 2026, read-only): account `6502a73494f4ee7107b36c620ee76471`, Workers subdomain `ttclubsie`, existing Worker `table-tennis-ireland` (tag `d699159f1a6740de815d4229e261d85d`), connected to `tamil07/table-tennis-ireland` main/root. Build `fbcb4efe-d58e-47dc-b205-2e1c1bf3ea7b` failed on the configured `@ttti/club-web` workspace typo; correct package is `@tti/club-web`. Its deploy command also targets `Leeside-web` instead of the existing Worker, a separate configuration mismatch to resolve before retry. The current remote deployment is dashboard-template code without assets, not the repository website. See `docs/CLOUDFLARE_DEPLOYMENT_PLAN.md` for evidence and pending execution steps. No credentials are recorded and no Cloudflare settings/deployments were changed; Supabase remains paused.
+
 Setup status, 5 November 2026: the owner paused only further Supabase setup after a remote CLI temporary-role connection timeout. A corporate firewall may be involved but the cause is not established. Keep project metadata and local frontend configuration, defer remote migrations/connection troubleshooting, and continue independent synthetic UI work. Resume requires authorized connectivity or an approved migration path, a dry run and review before database changes; no migration is marked applied.
 
 ### 0. Platform ownership and club management
