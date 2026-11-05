@@ -116,7 +116,7 @@
 
 ## 10. Operations and release
 
-- [ ] 10.1 Connect ttclubs (TT Clubs Ireland; reference mkxqrkqwpvjtkjfjjckm; eu-north-1 Stockholm), confirm plan, review/apply migrations and configure deployment environment; reference/URL/region and publishable key are supplied, while administrative connection remains pending. Keep local development synthetic and defer a second hosted environment
+- [ ] 10.1 PAUSED by owner, 5 November 2026: resume Supabase setup for ttclubs (reference mkxqrkqwpvjtkjfjjckm; eu-north-1 Stockholm), diagnose hosted temporary-role timeout/possible corporate firewall, confirm CLI access/plan, dry-run/review then apply migrations. Metadata and local frontend configuration exist; remote migrations are not applied. Only this setup is paused; synthetic UI work may continue.
 - [ ] 10.2 Configure the national app and retained Leeside pilot website deployments using current targets; future independent website integration does not require a generic club-website service
 - [ ] 10.3 Configure authenticated transactional email and scheduled Edge Functions
 - [ ] 10.4 Configure encrypted off-site database and storage backups and test restoration

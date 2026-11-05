@@ -25,6 +25,8 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 ## Decisions
 
+Setup status, 5 November 2026: the owner paused only further Supabase setup after a remote CLI temporary-role connection timeout. A corporate firewall may be involved but the cause is not established. Keep project metadata and local frontend configuration, defer remote migrations/connection troubleshooting, and continue independent synthetic UI work. Resume requires authorized connectivity or an approved migration path, a dry run and review before database changes; no migration is marked applied.
+
 ### 0. Platform ownership and club management
 
 Supabase setup update (owner-reported 5 November 2026): administrator sign-in uses the owner's GitHub account; organization is **TT Clubs Ireland**, project name **ttclubs**, project reference **mkxqrkqwpvjtkjfjjckm**, URL **https://mkxqrkqwpvjtkjfjjckm.supabase.co**, and assigned region **eu-north-1 (Stockholm, Sweden)** following the general Europe selection. The owner supplied a frontend publishable key; its value is omitted from documentation. Plan, MFA/recovery, password rotation and deployed app/database connection remain unconfirmed. Region selection alone is not proof of complete privacy compliance. No database password or secret belongs in this record.

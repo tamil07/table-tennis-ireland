@@ -53,6 +53,7 @@ Management can add policy contacts/text, approved data-handling settings, member
 
 ## Parked owner activities
 
+- Supabase setup ONLY is paused at the owner's request (5 November 2026): hosted connection/authentication troubleshooting, remote migration preview/application and further setup are deferred. CLI temporary-role connection timed out; a corporate firewall is suspected, not confirmed. Resume by checking authorized network access or choosing an approved migration path, then dry-run/review before application. Existing project metadata/local frontend configuration are retained; no live database migration is claimed complete. This pause does not pause UI work or other project implementation.
 - Broad pilot participant recruitment and club test scheduling: owner will return to this later and can test alone initially.
 - Physical NFC/cards/scanner purchase: deferred; use QR/app attendance first.
 - Website repository split: review only after one live year and more than two clubs.

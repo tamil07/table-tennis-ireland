@@ -1,5 +1,7 @@
 # Remaining actions and account setup
 
+**Current pause:** only Supabase connection/migration setup is paused by the owner on 5 November 2026. Diagnose the possible corporate-network restriction when resumed; no remote migrations have been applied. This does not pause UI development or the rest of the project.
+
 Supabase status, 5 November 2026: owner reports GitHub sign-in, organization **TT Clubs Ireland**, project **ttclubs**, region selection **Europe**. Specific assigned region, project reference, plan and connection remain unconfirmed. One hosted project plus local testing supersedes the earlier two-hosted-project setup checklist; separate hosting environments are deferred. No passwords/secrets are recorded here.
 
 Email accounts created (owner-confirmed 4 November 2026): **ttclubsie@gmail.com** for the national platform/cloud account contact and **leesidettie@gmail.com** for Leeside contact/reply-to and domain-account contact. Account creation is complete; MFA/recovery, provider connections and sending-domain verification remain separate pending checks. References below to a forthcoming club address now mean leesidettie@gmail.com.

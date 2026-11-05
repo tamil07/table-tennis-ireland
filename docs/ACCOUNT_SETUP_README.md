@@ -19,6 +19,8 @@ You can share the email address here. Keep passwords, one-time codes, recovery c
 
 ## 2. Create Supabase: database and sign-in
 
+**Paused by owner (5 November 2026):** further Supabase setup and remote migration application. The CLI remote connection timed out; company-network blocking is suspected, not confirmed. Retain the existing project/configuration. Resume with authorized connectivity or an approved alternate migration path and a reviewed dry run. UI work can continue separately with synthetic data.
+
 Links: [Dashboard/signup](https://supabase.com/dashboard), [getting started](https://supabase.com/docs/guides/getting-started), [regions](https://supabase.com/docs/guides/platform/regions), [pricing](https://supabase.com/pricing).
 
 - [x] Owner reports Supabase administrator registration/sign-in through GitHub. Account contact email and recovery settings still need checking.
