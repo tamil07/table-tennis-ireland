@@ -8,6 +8,9 @@
     "packages/*"
   ],
   "scripts": {
+    "build:club": "npm run build --workspace @tti/club-web",
+    "deploy:club": "wrangler deploy --config wrangler.club-web.jsonc",
+    "preview:club": "wrangler versions upload --config wrangler.club-web.jsonc",
     "dev:club": "npm run dev --workspace @tti/club-web",
     "dev:platform": "npm run dev --workspace @tti/platform",
     "build": "npm run build --workspaces --if-present",
@@ -16,11 +19,12 @@
     "check": "npm run typecheck && npm run test && npm run build"
   },
   "engines": {
-    "node": ">=20.19"
+    "node": ">=22"
   },
   "packageManager": "npm@11.18.0",
   "devDependencies": {
     "typescript": "^5.9.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "wrangler": "4.158.0"
   }
 }

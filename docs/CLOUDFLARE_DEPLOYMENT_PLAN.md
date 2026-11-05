@@ -2,6 +2,12 @@
 
 Inspected 5 November 2026 using read-only API calls with an owner-supplied temporary user token. Token contents are not stored in this document or repository. Supabase connection/migration setup remains paused.
 
+## Authorized remediation update
+
+The owner subsequently authorized fixing the failing build, pushing code to GitHub and retrying until success. The latest failed retry (`19296bd8-36ae-4892-a6d2-e97278782de2`) still used the old workspace typo because the previous commit was a plan only. Cloudflare production commands have now been changed via the Builds API to `npm run build:club` / `npm run deploy:club`; preview defaults use `npm run build:club` / `npm run preview:club`. Other account/build settings were retained.
+
+Repository deployment is now explicit in `wrangler.club-web.jsonc`, using Worker `table-tennis-ireland`, assets `apps/club-web/dist`, SPA fallback and workers.dev. Wrangler is pinned as a development dependency and `.nvmrc` uses Node 22 to meet the deployment CLI's runtime requirement. `preview:club` uploads an isolated version instead of promoting production. A successful remote build and URL/content verification must still be recorded below after inspection. No token values are stored here.
+
 ## Confirmed remote state
 
 | Item | API observation |

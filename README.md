@@ -246,7 +246,7 @@ One repository is intentional. The applications deploy independently but share d
 
 For account creation and hosting connections, start with [Your account setup checklist](docs/ACCOUNT_SETUP_README.md).
 
-Prerequisites: Node.js 20.19 or newer and npm 11 or newer.
+Prerequisites: Node.js 22 and npm 11 or newer (see `.nvmrc`).
 
 ```bash
 npm install
