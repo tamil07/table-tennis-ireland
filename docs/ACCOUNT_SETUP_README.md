@@ -21,11 +21,12 @@ You can share the email address here. Keep passwords, one-time codes, recovery c
 
 Links: [Dashboard/signup](https://supabase.com/dashboard), [getting started](https://supabase.com/docs/guides/getting-started), [regions](https://supabase.com/docs/guides/platform/regions), [pricing](https://supabase.com/pricing).
 
-- [ ] Register using the dedicated email, or link an appropriate GitHub identity if signup requests it. Confirm the account email and recovery ownership.
-- [ ] Create a platform organization under your ownership; a temporary organization name is fine.
+- [x] Owner reports Supabase administrator registration/sign-in through GitHub. Account contact email and recovery settings still need checking.
+- [x] Organization created: **TT Clubs Ireland**.
 - [ ] Start with the Free plan and review the current allowances before creating projects.
-- [ ] Create a development project, for example `tt-clubs-dev`, in **West EU (Ireland)** if available; otherwise agree an approved EU region before proceeding.
-- [ ] Create a separate production project, for example `tt-clubs-prod`, in the approved region. Leave it without real member data until launch gates pass.
+- [x] Owner reports project **ttclubs** created with general **Europe** region selected (5 November 2026).
+- [ ] Confirm actual assigned region and project reference/URL. General Europe does not guarantee Ireland/EU-only placement.
+- [x] Environment decision: one hosted project initially plus local development; a second hosted project is deferred. Use synthetic data until live-data gates pass.
 - [ ] Save each database password in your password manager.
 - [ ] Enable account MFA and invite trusted owners using their own accounts: [access-control guide](https://supabase.com/docs/guides/platform/access-control).
 - [ ] Locate each project's URL and browser-safe publishable/legacy anonymous key. Keep secret/service-role keys server-side only.

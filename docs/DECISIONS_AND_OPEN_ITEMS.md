@@ -1,9 +1,10 @@
 # Decisions and open items
 
-Last reconciled: 4 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
+Last reconciled: 5 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
 
 ## Closed decisions
 
+- Supabase setup reported: GitHub administrator sign-in; organization **TT Clubs Ireland**; project **ttclubs**; selected region **Europe**. The specific assigned region, project reference/URL, plan and backend connection remain unconfirmed. Start with this one hosted project plus local development/synthetic data; a second hosted environment is deferred. Passwords/secrets are excluded from repository documentation.
 - Pilot website/app synchronization: one canonical backend for table/hall operations, communication and membership management. Open booking screens automatically refresh; reconnect reloads authoritative state and backend conflict checks prevent double booking even with stale screens. Hall hours, closures, maintenance and table allocations are included; exclusive public whole-hall rental is not yet requested/approved. Implementation remains pending.
 - Table-wise practice booking: maintainers publish specific tables/hours (for example three tables for one hour). Players, verified guests and parents for linked children submit requests through the app or Leeside website. Maintainers receive an in-app queue plus email alerts at configured addresses, including Gmail, and approve after sign-in. A provisional hold blocks the requested table/hour; approval confirms it while other tables remain available. Rejection/withdrawal/expiry releases it; no double booking. Hold timeouts, availability, guest rules, manual fees and cancellation policy are editable. Booking remains separate from actual attendance and does not imply coaching. Feature implementation is pending, not a new account-setup prerequisite.
 - Trial policy finalized: verified self/guardian registration starts a one-calendar-month trial by default with no default visit cap. Management can change duration or extend individuals at runtime. At the recorded trial end notify player/guardian then the membership team, with stale-message suppression and duplicate prevention.
@@ -44,7 +45,7 @@ Last reconciled: 4 November 2026. Detailed implementation work remains in the Op
 
 ## Open items requiring the owner or Leeside
 
-1. Complete/confirm MFA and recovery for the two created Gmail accounts; create Supabase, Cloudflare and Resend accounts/projects using the platform address. Configure Google OAuth later and keep secrets in approved provider settings.
+1. Complete/confirm account MFA/recovery; provide the Supabase project reference and actual assigned region for the created ttclubs project, then connect migrations/configuration. Create Cloudflare and Resend accounts as pending; Supabase uses the owner's existing GitHub sign-in. Google OAuth for app users comes later. Keep secrets in approved provider settings.
 2. Choose the national app name and domain, and buy/connect the Leeside domain under the owner-managed Leeside account.
 3. Connect/verify the automated sending domain and configure leesidettie@gmail.com as Leeside contact/reply-to; provider setup and delivery testing remain required, but the mailbox address is no longer pending.
 
