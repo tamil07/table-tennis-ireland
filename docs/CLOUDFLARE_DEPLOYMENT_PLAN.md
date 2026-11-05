@@ -1,5 +1,17 @@
 # Cloudflare inspection and deployment plan
 
+## Verified deployment result
+
+The authorized fix is committed as `8484e837f74e8a728a9c81afb385ed0e1b296987`. Its GitHub push triggered build `af21ba36-d5ea-4df0-9eba-7d87a70e2fe2`, which completed successfully and deployed Worker version `5fdab8bb-e862-4095-b0f0-a693d4e8ec09`.
+
+Live demo: **https://table-tennis-ireland.ttclubsie.workers.dev**.
+
+Verified using curl: root HTTP 200 with Leeside title; JavaScript and CSS both HTTP 200 and byte-for-byte SHA-256 matches to the local production build; the JavaScript contains the Leeside venue content; a deep navigation path returns the SPA HTML with HTTP 200. An initial Python HTTP-client probe returned 403, while curl succeeded; no application change was needed for that client-specific response. Visual/mobile acceptance and rollback rehearsal remain pending.
+
+Checks passed: repository type checking, four domain tests, both production builds, Wrangler deployment dry run and OpenSpec validation. Cloudflare used Node 22.23.4 and pinned Wrangler 4.158.0. Non-fatal dependency/install-script and implicit preview-URL warnings remain follow-up items; they did not prevent build or deployment. This remains a synthetic website demonstration, not live booking/membership functionality. Supabase setup is still paused.
+
+The sections below retain the initial inspection evidence and plan; their original pending status is superseded by this verified result where applicable. Subsequent documentation pushes may trigger another normal main build.
+
 Inspected 5 November 2026 using read-only API calls with an owner-supplied temporary user token. Token contents are not stored in this document or repository. Supabase connection/migration setup remains paused.
 
 ## Authorized remediation update

@@ -1,5 +1,7 @@
 # Remaining actions and account setup
 
+**Cloudflare website fix complete:** https://table-tennis-ireland.ttclubsie.workers.dev is serving the Leeside demo after successful build `af21ba36-d5ea-4df0-9eba-7d87a70e2fe2` from commit `8484e83`. HTTP/asset-hash/SPA smoke tests passed. Separate app deployment, real workflows and preview/mobile/rollback acceptance remain pending. Supabase setup stays paused. Earlier failed-build notes below are historical.
+
 Cloudflare account/build inspection is complete. The existing Worker is `table-tennis-ireland`, not the earlier suggested `leeside-web`. The repository build failed on an extra `t` in `@ttti/club-web`; deployment-name alignment is also pending. Follow [CLOUDFLARE_DEPLOYMENT_PLAN.md](CLOUDFLARE_DEPLOYMENT_PLAN.md) before retrying; Supabase setup remains paused. No API credentials are included in that plan.
 
 **Current pause:** only Supabase connection/migration setup is paused by the owner on 5 November 2026. Diagnose the possible corporate-network restriction when resumed; no remote migrations have been applied. This does not pause UI development or the rest of the project.

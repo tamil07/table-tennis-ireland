@@ -127,9 +127,10 @@
 - [ ] 10.9 Implement and test approved retention, deletion/anonymization, and backup-expiry schedules by data class
 - [ ] 10.10 Implement inclusive end-of-day Europe/Dublin expiry emails to player/guardian plus current management summary, with renewal-race suppression, recipient revocation checks and idempotency
 - [x] 10.11 Inspect Cloudflare account/Worker/build logs through authorized read-only APIs and record observed failure separately from proposed remediation
-- [ ] 10.12 Correct Cloudflare workspace typo (@ttti/club-web to @tti/club-web), align deploy target to existing table-tennis-ireland Worker, and add reproducible per-frontend deployment/preview configuration
+- [x] 10.12 Correct Cloudflare workspace typo (@ttti/club-web to @tti/club-web), align existing table-tennis-ireland Worker via wrangler.club-web.jsonc, pin Wrangler/Node 22 and configure website production/preview commands; platform Worker remains separate future work
 - [ ] 10.13 Retry and verify website main-commit build, actual workers.dev content/assets/mobile routing, preview behavior and rollback; current remote deployment is a starter template
 - [ ] 10.14 Configure a separate synthetic platform-app Worker without hosted Supabase bindings while setup is paused; review dependency/install-script warnings independently
+- [x] 10.15 Verify successful Cloudflare website build af21ba36-d5ea-4df0-9eba-7d87a70e2fe2 from fix commit 8484e83, root/JS/CSS HTTP 200, exact local/remote asset hashes and SPA fallback; preview/mobile/rollback acceptance in 10.13 remains pending
 
 ## Parked owner activity (not a development prerequisite)
 
