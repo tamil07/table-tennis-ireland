@@ -25,7 +25,7 @@ Links: [Dashboard/signup](https://supabase.com/dashboard), [getting started](htt
 - [x] Organization created: **TT Clubs Ireland**.
 - [ ] Start with the Free plan and review the current allowances before creating projects.
 - [x] Owner reports project **ttclubs** created with general **Europe** region selected (5 November 2026).
-- [ ] Confirm actual assigned region and project reference/URL. General Europe does not guarantee Ireland/EU-only placement.
+- [x] Owner supplied assigned region **eu-north-1 (Stockholm, Sweden)**, reference **mkxqrkqwpvjtkjfjjckm**, and URL **https://mkxqrkqwpvjtkjfjjckm.supabase.co**. The publishable key is available for environment configuration and is omitted from this guide.
 - [x] Environment decision: one hosted project initially plus local development; a second hosted project is deferred. Use synthetic data until live-data gates pass.
 - [ ] Save each database password in your password manager.
 - [ ] Enable account MFA and invite trusted owners using their own accounts: [access-control guide](https://supabase.com/docs/guides/platform/access-control).

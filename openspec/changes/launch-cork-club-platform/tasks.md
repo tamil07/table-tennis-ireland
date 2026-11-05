@@ -116,7 +116,7 @@
 
 ## 10. Operations and release
 
-- [ ] 10.1 Connect the reported ttclubs hosted project (TT Clubs Ireland organization, general Europe selection), confirm actual region/reference/plan, apply migrations and configure secrets; use local synthetic development and defer a second hosted environment
+- [ ] 10.1 Connect ttclubs (TT Clubs Ireland; reference mkxqrkqwpvjtkjfjjckm; eu-north-1 Stockholm), confirm plan, review/apply migrations and configure deployment environment; reference/URL/region and publishable key are supplied, while administrative connection remains pending. Keep local development synthetic and defer a second hosted environment
 - [ ] 10.2 Configure the national app and retained Leeside pilot website deployments using current targets; future independent website integration does not require a generic club-website service
 - [ ] 10.3 Configure authenticated transactional email and scheduled Edge Functions
 - [ ] 10.4 Configure encrypted off-site database and storage backups and test restoration
