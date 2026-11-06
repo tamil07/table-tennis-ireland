@@ -31,6 +31,10 @@
 - [ ] 4.4 DEFERRED: review Leeside website extraction only after at least one year of live pilot operation AND more than two participating clubs (three or more); retain the current folders/build targets until a separate implementation decision
 - [ ] 4.5 Publish public-safe app event pages and optional RSS/Atom/iCalendar feeds for independent websites
 - [ ] 4.6 Generate public-safe sharing links/text; keep automated Meta posting behind separate approval
+- [ ] 4.7 Complete a source-to-destination Wix manifest for Home/About/coaches/contact, Policies/documents, News pagination, Calendar/events, media/social links; record inaccessible/deferred items explicitly
+- [ ] 4.8 Replace the pilot website placeholders with source-backed public pages/routes and owner-approved contact/membership information; implement a real enquiry path or an honest mail link
+- [ ] 4.9 Verify public content parity, historical/upcoming event dates, policy access, responsive navigation and accessibility before describing Wix migration as complete
+- [ ] 4.10 Add actual website entry links to player/guardian/staff app routes after the separate synthetic app deployment; replace roadmap-only navigation with implemented screens incrementally
 
 ## 5. Platform PWA and multi-club access
 

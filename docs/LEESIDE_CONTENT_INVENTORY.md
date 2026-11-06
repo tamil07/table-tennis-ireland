@@ -1,5 +1,7 @@
 # Leeside public-content inventory
 
+6 November 2026 reconciliation: the current deployed website is only a partial demo; this inventory is not proof of a completed import. See [migration and member portal plan](WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md). Accessible Home/About/Policies were rechecked; News/Calendar extraction remains incomplete. About lists full membership EUR 190/six months/five weekly sessions, partial EUR 100/six months/one weekly session, PAYG EUR 10/adult and EUR 5/child per session, plus named coaches. Home/About state public-holiday closure. These are source-attributed public defaults that admins may edit, not hardcoded entitlements.
+
 Retrieved from the public [Leeside Wix website](https://leesidetabletennis.wixsite.com/home) on 12 October 2026. On 1 November 2026 the owner confirmed consent to reuse Leeside public content, branding and photographs. Permission is recorded as confirmed; current timetable/contact accuracy and final content selection remain separate checks.
 
 ## Verified public facts
