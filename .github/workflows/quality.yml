@@ -29,6 +29,22 @@ jobs:
             psql -v ON_ERROR_STOP=1 -f "$migration" || exit 1
           done
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/venue_qr.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/runtime.sql
+  edge-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: node scripts/prepare-functions.mjs
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno check supabase/functions/club-api/index.ts supabase/functions/club-jobs/index.ts
+      - run: deno check supabase/functions/club-public/index.ts
+      - run: deno test --allow-env --allow-net supabase/functions/runtime.integration.test.ts
+      - run: deno test --allow-env --allow-net supabase/functions/jobs.integration.test.ts supabase/functions/public.integration.test.ts
   check:
     runs-on: ubuntu-latest
     steps:

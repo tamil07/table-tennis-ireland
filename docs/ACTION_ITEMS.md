@@ -1,217 +1,59 @@
-# Remaining actions and account setup
+# Remaining owner actions
 
-**Updated 7 November 2026:** the owner will complete the existing Supabase project's connection setup from a personal laptop because office-laptop connections are blocked. Hosted setup remains paused; no migrations have been applied. Use the [single account guide](ACCOUNT_SETUP_README.md) and [detailed OpenSpec handover/status](../openspec/changes/launch-cork-club-platform/implementation-status.md). This is separate from pending production feature development; connecting the database alone will not complete those features.
+Updated 7 November 2026. **Execute [PERSONAL_LAPTOP_LAUNCH.md](PERSONAL_LAPTOP_LAUNCH.md) in order.** It includes commands and helpers; no further application coding or paid agent subscription is required to exercise the supplied core workflows. [OpenSpec status](../openspec/changes/launch-cork-club-platform/implementation-status.md) and [tasks](../openspec/changes/launch-cork-club-platform/tasks.md) distinguish source completion from hosted acceptance and advanced refinements.
 
-The approved booking unit is now one player place for an entire session, with four places per table and one active place per player/session. The shared browser-local preview is implemented; previous hourly exclusive-table descriptions are superseded. No real reservations or email delivery are enabled by that preview.
+## Personal laptop — initial owner-only launch
 
-**Cloudflare website fix complete:** https://table-tennis-ireland.ttclubsie.workers.dev is serving the Leeside demo after successful build `af21ba36-d5ea-4df0-9eba-7d87a70e2fe2` from commit `8484e83`. HTTP/asset-hash/SPA smoke tests passed. Separate app deployment, real workflows and preview/mobile/rollback acceptance remain pending. Supabase setup stays paused. Earlier failed-build notes below are historical.
+- [ ] Pull main, install Node 22 and run `npm ci`.
+- [ ] Fresh `npx supabase login`, link existing ttclubs project `mkxqrkqwpvjtkjfjjckm` (eu-north-1); fresh `npx wrangler login` and `whoami` for the existing Cloudflare account.
+- [ ] Recreate private environment files. Office CLI sessions/exports/proxy settings do not transfer; never disable TLS checks.
+- [ ] Review/apply migrations using CLI remote dry-run/push or the generated HTTPS SQL-Editor bundle. Never run the synthetic seed/CI Auth fixture on hosted Supabase.
+- [ ] Deploy the three supplied functions through the HTTP bundler, create the verified Auth owner and run the generated non-destructive bootstrap SQL.
+- [ ] Enable live mode in both local frontend files, build/check and deploy website/app to their separate Workers. The website Worker is `table-tennis-ireland`; the app config is `ttclubs-app`.
+- [ ] Configure the Cloudflare Git-build public variables separately so later main builds retain live mode. Keep server credentials out of frontend variables.
+- [ ] Configure exact Auth callbacks/site URL and function origins. Google is optional; phone OTP stays off. Test owner/password sign-in first.
+- [ ] Run the launch-guide smoke test with synthetic test accounts across website/app, including guardian scope, revoked permissions, conflicting bookings, attendance, review/privacy and summary sign-off. Refresh the PWA after deployment.
 
-Cloudflare account/build inspection is complete. The existing Worker is `table-tennis-ireland`, not the earlier suggested `leeside-web`. The repository build failed on an extra `t` in `@ttti/club-web`; deployment-name alignment is also pending. Follow [CLOUDFLARE_DEPLOYMENT_PLAN.md](CLOUDFLARE_DEPLOYMENT_PLAN.md) before retrying; Supabase setup remains paused. No API credentials are included in that plan.
+Accounts already created: `ttclubsie@gmail.com` (platform contact), `leesidettie@gmail.com` (club contact/reply-to), Supabase organization TT Clubs Ireland/project ttclubs and the Cloudflare account. Do not create duplicate projects. Office-laptop hosted setup remains paused; no firewall bypass is requested.
 
-**Current pause:** only Supabase connection/migration setup is paused by the owner on 5 November 2026. Diagnose the possible corporate-network restriction when resumed; no remote migrations have been applied. This does not pause UI development or the rest of the project.
+## Email and scheduled work
 
-Supabase status, 5 November 2026: owner reports GitHub sign-in, organization **TT Clubs Ireland**, project **ttclubs**, region selection **Europe**. Specific assigned region, project reference, plan and connection remain unconfirmed. One hosted project plus local testing supersedes the earlier two-hosted-project setup checklist; separate hosting environments are deferred. No passwords/secrets are recorded here.
+- [ ] Create/configure the transactional sending account, verify an owned domain and add the private API key/from address to server secrets. Gmail is the contact/reply-to, not the application sending transport.
+- [ ] Configure Supabase Auth SMTP separately for verification, recovery and email links.
+- [ ] Generate/review the private Vault/cron SQL, apply once and inspect schedule/function logs.
+- [ ] Verify actual delivery, bounce/failure handling, renewal suppression and unsubscribe with owner test accounts. Review provider limits; the app's default 90 daily attempts is a protective cap, not a free-service guarantee.
+- [ ] Keep optional advance reminders and attendance digests off initially. The default expiry notice follows the inclusive Ireland expiry day, to player/guardian plus management summary.
 
-Email accounts created (owner-confirmed 4 November 2026): **ttclubsie@gmail.com** for the national platform/cloud account contact and **leesidettie@gmail.com** for Leeside contact/reply-to and domain-account contact. Account creation is complete; MFA/recovery, provider connections and sending-domain verification remain separate pending checks. References below to a forthcoming club address now mean leesidettie@gmail.com.
+## Leeside runtime configuration
 
-> Trial policy is now confirmed: self/guardian registration, one calendar month by default, management-configurable duration, and trial-end player/guardian plus membership-team reminders. Management supplies safeguarding/privacy contacts and policies at runtime. Use the forthcoming Leeside TT email for contact/reply-to, subject to automated sending-domain verification. Internal tournament rules are organizer configuration; external tournaments require result logging only. Earlier open checklist entries on those policy choices are superseded.
+These can be entered/changed through management forms after launch; they do not require a hard-coded staff roster or code redeployment.
 
-> Latest decisions: group permissions and membership products are editable at runtime; five session times and Wix contact defaults are finalized. The owner manages the domain through Leeside Gmail. Expiry messages default to end-of-day player/guardian email and management summary; 10/3-day advance reminders are off by default. QR/app attendance replaces mandatory NFC purchases. Broader club pilot recruitment/scheduling is parked and not a development blocker. The authoritative current owner questions are in [DECISIONS_AND_OPEN_ITEMS.md](DECISIONS_AND_OPEN_ITEMS.md).
+- [ ] Bootstrap first owner, then grant scoped permissions to individually registered trusted managers. Revocations apply on subsequent server requests.
+- [ ] Enter real membership types/prices/durations/entitlements and assign manual start/end/payment details. No payment gateway or bank credentials.
+- [ ] Publish the already agreed five weekly session times with actual table inventory, capacities/allocations and holiday exceptions. Configure camps and holds/cancellations as needed.
+- [ ] Configure club-approved privacy/safeguarding contacts, policy text and approved retention. Trials default to one calendar month with configurable extensions; the policy decision is already closed.
+- [ ] Check public contacts/branding and resolve remaining Wix archive/calendar/media/document imports; preserve the confirmed timetable over the conflicting draft. Content reuse consent is already recorded.
+- [ ] Test session-time app/rotating-QR presence and linked-child selection on real phones. Expired/no-membership attendance counts with follow-up; Not attending stays separate. Booking never implies attendance.
+- [ ] Configure tournament formats/points/tie-breaks per event. Same-club review, five-day inaction, coach dispute ownership, incomplete exclusion, doubles/guests and no initial ratings are already agreed.
 
-> Latest pilot decision, 1 November 2026: retain the existing Leeside website and app folders, backend and build/deployment targets for at least one year of live operation. Website repository separation is deferred for review only after that period and more than two participating clubs (three or more); it is not a current action. Detailed result/reflection work remains in OpenSpec sections 8 and 9.
+## Before real member operation / Wix cutover
 
-For one sequential account-creation guide with signup links and connection steps, use [ACCOUNT_SETUP_README.md](ACCOUNT_SETUP_README.md).
+- [ ] Enable provider/GitHub MFA and store recovery codes; invite trusted owners individually. Never share cloud passwords with the club management group.
+- [ ] Approve privacy/guardian verification, safeguarding, retention purposes and data-request/escalation ownership, especially before junior data import.
+- [ ] Configure encrypted off-site database **and** storage backups, backup expiry, monitoring and a restore rehearsal away from production. The encrypted-export helper is source, not a tested recovery service.
+- [ ] Check real Safari/iPhone and Chrome/Android/PWA installation, keyboard/screen-reader use and venue connectivity. Local Chromium smoke tests are already supplied.
+- [ ] Complete hosted authorization/concurrency/privacy acceptance and usage/load checks; the pilot aggregate is not a nationwide scaling guarantee.
+- [ ] Purchase/attach Leeside's domain when ready; record registered holder, renewal payer/recovery and any transfer arrangement. A domain is unnecessary for temporary workers.dev testing.
+- [ ] Keep Wix available until content/operations are accepted; rehearse domain rollback and agree support/incident ownership.
+- [ ] Review remaining low/moderate build-tool advisories and provider usage/costs before public launch. Do not enable paid resources without reviewing their billing.
 
-This is the handoff checklist for moving the synthetic foundation into a live Leeside pilot. Do not load real adult or junior data until the security, privacy, safeguarding, and recovery gates are complete.
+## Deferred / later
 
-The concise decision register and current owner questions are in [DECISIONS_AND_OPEN_ITEMS.md](DECISIONS_AND_OPEN_ITEMS.md). Public Leeside details gathered from the temporary Wix site are in [LEESIDE_CONTENT_INVENTORY.md](LEESIDE_CONTENT_INVENTORY.md).
+- Broader pilot recruitment dates are parked; the owner may begin with owner-only testing.
+- NFC hardware/card kiosks and offline device queues are parked; do not buy equipment for the QR/app pilot.
+- Native Expo/App Store/Google Play binaries follow evidence from the installable PWA pilot.
+- Full Wix archive/media import, alternate-contact preferences, automatic invitations for unregistered managers, persistent recurrence-definition editing and advanced tournament structure changes remain tracked source refinements.
+- Automated Facebook posting is deferred; canonical links/manual sharing and public RSS/calendar source exist.
+- Retain this repository for at least one live year; review website extraction only then and with three or more clubs. No generic website hosting service or per-club app/backend fork is approved.
 
-**Owner** means the product/club owner must create an account, buy or approve something, supply policy information, or make a business decision. **Development** work is also tracked in OpenSpec.
-
-## 1. Ownership and security
-
-- [x] **Owner decision:** The founder personally owns the national platform, brand, repository, and shared cloud infrastructure; club administration is delegated to Leeside's management group.
-- [ ] **Owner:** Confirm the registered holder of the Leeside domain and document any intended transfer to the authorized individual or club entity.
-- [x] **Owner decision:** A separate Gmail is the contact/recovery address for platform cloud accounts; legal ownership belongs to the founder, not the mailbox.
-- [ ] **Owner:** Enable MFA and securely store recovery codes for GitHub, domain registrar, Supabase, Cloudflare, Resend, and Expo.
-- [ ] **Owner:** Nominate trusted platform owners and invite their individual accounts into each provider with appropriate access; keep password sharing out of the setup.
-- [ ] **Owner:** Choose the national product name and check domain/brand availability before promotion.
-
-## 2. GitHub
-
-- [x] **Owner decision:** The founder owns the repository; external contributions arrive through PRs and designated maintainers control merging.
-- [ ] **Owner:** Add maintainers with minimum required access.
-- [ ] **Owner:** Protect `main` with pull requests, the `Quality` check, and review once a second contributor joins.
-- [ ] **Owner:** Enable secret scanning and dependency alerts where available.
-- [ ] **Development:** Keep deployment credentials in GitHub/hosting secrets, never in source or workflow text.
-
-## 3. Supabase development and production
-
-Create an account in the [Supabase dashboard](https://supabase.com/dashboard) and an organization owned by the platform owner.
-
-- [ ] **Owner:** Create a **development** project in an approved EU region. It must contain synthetic data only.
-- [ ] **Owner:** Create a separate **production** project in the same approved region. Never connect previews to it.
-- [ ] **Owner:** Store database passwords and recovery information in a password manager.
-- [ ] **Development:** Install the [Supabase CLI](https://supabase.com/docs/guides/local-development), link development, and apply `supabase/migrations`.
-- [ ] **Development:** Put each project URL and anonymous/public key in its deployment environment. Keep the service-role key server-side only.
-- [ ] **Development:** Configure exact Auth site and redirect URLs for local, preview, club, and platform domains.
-- [x] **Owner decision:** Use email/password and email magic link as guaranteed pilot methods and offer optional Google sign-in. Any valid email provider is accepted.
-- [x] **Owner decision:** Defer phone OTP and SMS delivery during the pilot; still capture mobile contacts independently.
-- [ ] **Owner:** Create or select a platform-owned Google Cloud project, configure the OAuth consent screen, and nominate its recovery owners.
-- [ ] **Owner/Development:** Create separate development and production Google OAuth client credentials and add the exact callback URLs supplied by Supabase.
-- [ ] **Development:** Enable Google in each Supabase environment, store its client secret only in provider configuration, and retain email/password and magic-link fallbacks.
-- [ ] **Development:** Test new Google users, existing email users, cancelled/failed OAuth, duplicate prevention, and assisted claims for existing unclaimed profiles.
-- [ ] **Development:** Store email/mobile contacts separately, normalize mobile numbers to E.164, verify each independently, and prevent duplicate identities across both methods.
-- [ ] **Development:** Keep person/player profiles separate from authentication so juniors and offline members do not need fabricated credentials.
-- [ ] **Development:** Customize verification, invitation, recovery, and account messages with the neutral platform identity.
-- [ ] **Development:** Create profiles after verified signup without accepting client-supplied roles.
-- [ ] **Development:** Complete table-specific RLS policies and automated tests for visitor, player, guardian, coach, admin, scanner operator, and cross-club denial.
-- [ ] **Development:** Prove that hostname, URL, slug, and client `club_id` never grant authorization.
-- [ ] **Development:** Configure rate limits, bot controls where useful, and logs that do not contain sensitive content.
-- [ ] **Owner:** Configure usage alerts and name the person who can authorize an upgrade.
-
-References: [React quickstart](https://supabase.com/docs/guides/getting-started/quickstarts/reactjs), [Google OAuth](https://supabase.com/docs/guides/auth/social-login/auth-google), [local development](https://supabase.com/docs/guides/local-development), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
-
-## 4. Domains and Cloudflare
-
-Create a [Cloudflare account](https://dash.cloudflare.com/) under platform ownership.
-
-- [ ] **Owner:** Purchase the Leeside domain; record its owner, renewal date, recovery contacts, and payment owner.
-- [ ] **Owner:** Purchase a separate platform domain only after the national product name is approved.
-- [ ] **Owner:** Add the Leeside DNS zone to Cloudflare or delegate the necessary records.
-- [ ] **Development:** Create independent Workers Static Assets projects for `club-web` and `platform`.
-- [ ] **Development:** Configure builds using `npm ci` and the relevant workspace build; publish each `dist` directory.
-- [ ] **Development:** Point previews only to development Supabase and production domains only to production Supabase.
-- [ ] **Development:** Attach the Leeside domain to `club-web`; use a temporary `workers.dev` platform address until its domain exists.
-- [ ] **Development:** Implement verified-host lookup, unknown-host rejection, security headers, CSP, HTTPS, caching, and SPA fallback.
-- [ ] **Development:** Configure availability/error monitoring and an alert owner.
-
-Future clubs connect a verified domain or temporary platform subdomain to the same club-site deployment. They do not receive a code fork or separate database.
-
-References: [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/), [custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
-
-## 5. Resend transactional email
-
-Create a [Resend account](https://resend.com/) under platform ownership.
-
-- [x] **Owner decision:** Use Resend with a verified club/platform sending domain instead of a personal Gmail account for automated email.
-- [ ] **Owner:** Choose a verified Leeside or neutral platform sending subdomain.
-- [ ] **Owner/Development:** Add the exact SPF, DKIM, and verification DNS records supplied by Resend.
-- [ ] **Development:** Put the API key only in a server/Edge Function secret, never in a Vite client.
-- [ ] **Owner:** Approve sender, reply-to address, and wording for account, renewal, match review, digest, and non-formal payment messages.
-- [ ] **Development:** Implement the notification outbox, retries, duplicate prevention, bounces, and admin delivery view.
-- [ ] **Development:** Route junior messages to the designated guardian and keep sensitive detail behind authenticated links.
-- [ ] **Owner:** Assign someone to monitor bounces and correct member addresses.
-
-Reference: [Resend domains](https://resend.com/docs/dashboard/domains/introduction).
-
-## 6. Scheduled work
-
-- [ ] **Development:** Add versioned Supabase Edge Functions for renewal reminders, five-day match auto-approval, match reminders, attendance digests, notification retries, and housekeeping.
-- [ ] **Development:** Schedule with Supabase Cron/`pg_cron`, respecting each club’s timezone.
-- [ ] **Development:** Make jobs idempotent so retries cannot duplicate emails or approvals.
-- [ ] **Development:** Add failure monitoring and an admin operations view.
-- [x] **Owner decision:** Send one renewal reminder initially, 10 days before expiry; keep daily attendance email disabled to reduce noise.
-- [ ] **Owner:** Confirm immediate expired/no-membership alert recipients and the follow-up owner.
-
-## 7. Backup and recovery
-
-- [ ] **Owner:** Create a private Cloudflare R2 bucket or another approved backup destination with separate ownership credentials.
-- [ ] **Development:** Use a least-privilege backup credential and schedule encrypted logical PostgreSQL exports.
-- [ ] **Development:** Export storage objects separately because a database dump includes only their metadata.
-- [ ] **Owner:** Approve retention and deletion periods.
-- [ ] **Development:** Restore into development, record the recovery time, repeat on schedule, and alert on failure.
-- [ ] **Owner:** Upgrade before launch if free-tier pausing or recovery constraints are unacceptable.
-
-## 8. Leeside data and operating rules
-
-- [x] **Owner decision:** Leeside's management group handles club branding, photographs, records, announcements, events, and sharing through individual accounts with scoped permissions.
-- [ ] **Runtime setup:** Owner bootstraps the first admin; authorized admins grant/revoke individual member permissions as needed. A complete team roster is not a development prerequisite; private-data responsibilities remain open.
-- [x] **Research:** Inventory the public Wix club name, venue, telephone, five published timetable entries, social links, news feed, and content surfaces without copying protected media.
-- [x] **Owner decision:** Copy the Wix inventory public contacts/address/social defaults and permit later admin editing; safeguarding/privacy appointments remain separately open.
-- [x] **Owner:** Confirmed consent for reuse of Leeside public/Wix content, branding and photographs on 1 November 2026.
-- [ ] **Leeside session managers:** Configure the current five-session timetable, audiences, capacities, walk-in/booking rules, trial eligibility and holiday exceptions before publishing live sessions; no need to settle these values before building admin configuration.
-- [x] **Owner decision:** Admins can create and maintain membership types, prices, durations, entitlements, and active status; membership periods and external payments are assigned manually and audited. Online payments are future scope.
-- [ ] **Leeside membership-management group:** Configure the initial membership names, EUR prices, durations, entitlements and pay-as-you-go values. The group's authority to create and manually update memberships is already confirmed.
-- [ ] **Owner:** Define trial duration/visit allowance and the point when a permanent card is issued.
-- [ ] **Owner:** Approve manual-payment methods, fields, correction authority, and acknowledgement wording. Never enter bank credentials.
-- [x] **Owner decision:** End-of-day player/guardian expiry email and management summary are the default; advance 10/3-day reminders are off unless enabled.
-- [x] **Owner decision:** Make the membership/payment-update acknowledgement email optional through an admin checkbox.
-- [ ] **Owner:** Approve the acknowledgement wording, sender/reply-to, and default checkbox state.
-- [ ] **Development:** Produce a dry-run member import report and get approval before any live import.
-- [ ] **Owner:** Keep Wix available through acceptance and approve DNS cutover.
-
-## 9. Attendance kiosk and cards
-
-- [x] **Owner decision:** Add phone self-check-in through the rotating venue QR, authenticated identity/guardian selection, and explicit confirmation.
-- [ ] **Development/Leeside:** Apply the venue QR migration in development and test the display/phone workflow using [VENUE_QR_CHECK_IN.md](VENUE_QR_CHECK_IN.md); configure live Auth/profile provisioning before launch.
-- [x] **Owner decision:** Pilot with a club-controlled NFC-capable Android phone/tablet and camera-based QR fallback; do not build custom scanner hardware initially.
-- [ ] **Owner:** Select one secured, continuously powered NFC-capable Android device for the venue.
-- [ ] **Development:** Test Web NFC, camera, screen wake, kiosk recovery, venue connectivity, sound, and accessibility on that exact device.
-- [ ] **Owner/Development:** Buy a small test batch of NDEF-compatible cards/tags with printed QR; do not bulk-order before the pilot.
-- [ ] **Development:** Use opaque, random, revocable credentials. Never encode names, emails, dates of birth, or membership status.
-- [ ] **Development:** Restrict the kiosk account and never download the full member database to it.
-- [ ] **Development:** Add duplicate prevention, session selection, feedback, offline limits, synchronization, and reconciliation.
-- [ ] **Owner:** Define forgotten/lost-card, manual correction, guest, and kiosk opening/closing procedures.
-- [ ] **Owner:** Print a separate public registration QR; it is not an attendance credential.
-
-## 10. Match and tournament decisions
-
-- [x] **Owner decision:** Coaches/admins can create mobile-first ad hoc league or knockout tournaments from that day's checked-in players and can check in missing participants.
-- [ ] **Owner:** Approve best-of formats and win-by-two validation.
-- [ ] **Owner:** Define result-entry/review eligibility, five-day reminder timing, change requests, and coach dispute ownership.
-- [ ] **Owner:** Define retirement/incomplete display, league points, tie-breaks, repeated pairings, seeding, and bracket rules.
-- [ ] **Owner:** Define permitted guest data and retention.
-- [ ] **Development:** Test singles, doubles, guests, guardian review, auto-approval, edits, coach resolution, delegation expiry, and cross-club denial.
-
-## 11. Privacy, juniors, and coaching
-
-- [ ] **Owner:** Obtain appropriate Irish/EU privacy and safeguarding advice; this checklist is not legal advice.
-- [ ] **Owner:** Approve privacy notices, lawful basis, consent, guardian verification, child safeguarding, acceptable use, and cookie behavior.
-- [ ] **Owner:** Set retention periods for applications, memberships, payment metadata, attendance, credentials, matches, guests, notes, summaries, messages, audits, and backups.
-- [ ] **Owner:** Decide who can read private coach notes and whether junior summaries need second review.
-- [ ] **Owner:** Define access-request, correction, closure, incident, complaint, and safeguarding-escalation procedures and owners.
-- [ ] **Development:** Keep private notes separate from published summaries and out of player/guardian APIs.
-- [ ] **Development:** Implement data export, correction, and deletion/anonymization where permitted.
-- [ ] **Development:** Complete a data-protection impact assessment before live junior tracking if advised.
-
-## 12. Accessibility, security, and acceptance
-
-- [ ] **Development:** Test keyboard use, focus, labels, errors, contrast, zoom/reflow, reduced motion, and screen readers.
-- [ ] **Development:** Test current Safari/iPhone, Chrome/Android, and desktop browsers, including PWA installation/camera.
-- [ ] **Development:** Threat-model account takeover, role escalation, cross-club access, leaked cards, kiosk theft, offline scan forgery, result tampering, email abuse, and backup exposure.
-- [ ] **Development:** Add dependency/secret scanning, rate limits, headers, audits, and an incident runbook.
-- [ ] **Development:** Pilot with synthetic users, then a small explicitly approved Leeside group.
-- [ ] **Owner:** Sign off accounts, membership, payment, attendance, alerts, reports, digest, matches, tournaments, guardians, and coaching summaries.
-- [ ] **Owner/Development:** Rehearse Wix DNS rollback, read-only operations, and backup restoration.
-
-## 13. Native iOS and Android later
-
-The first mobile release is the PWA. Native distribution should follow only if pilot evidence shows a meaningful limitation.
-
-- [ ] **Owner:** Decide after the pilot whether store discovery, native push, or device APIs justify native apps.
-- [ ] **Owner:** If approved, create organization-owned [Expo](https://expo.dev/), Apple Developer, and Google Play Console accounts.
-- [ ] **Development:** Create Expo/React Native clients against the same APIs; do not fork business rules.
-- [ ] **Owner:** Supply privacy disclosures, support URL, assets, age-rating answers, review accounts, and agreements.
-- [ ] **Development:** Configure signed builds, secure credentials, submissions, staged rollout, and monitoring.
-
-Reference: [Expo EAS Build setup](https://docs.expo.dev/build/setup/).
-
-## 14. Onboard the next club
-
-- [ ] **Owner:** Define onboarding agreement, support boundary, data responsibilities, and price before club two.
-- [ ] **Development:** Build platform-operator-only provisioning for tenant, slug, verified domain/subdomain, branding, and first admin.
-- [ ] **Development:** Run full cross-club tests with one person in both clubs and an admin in only one.
-- [ ] **Owner:** Review hosting, email, database, backup, support, and availability costs before accepting club two.
-- [ ] **Development:** Keep self-service onboarding, subscriptions, and billing outside the pilot unless separately specified.
-
-## 15. Events and public distribution
-
-- [x] **Owner decision:** Support five recurring weekly sessions plus one-off sessions and bounded programmes such as seven-day camps.
-- [x] **Owner decision:** Publish public events through the website, RSS/Atom, and iCalendar; invitations by email are separate and consent-aware.
-- [x] **Owner decision:** Provide canonical links and share-ready copy for manual Facebook Page posting in the pilot. Automated Meta posting is optional later and is not a launch dependency.
-- [ ] **Owner:** Confirm session audiences, capacities, booking cut-offs, trial eligibility, and which recipients may receive event email invitations.
-
-## Launch gate
-
-Do not begin live member operation until ownership/MFA, RLS tests, privacy/safeguarding, retention, email monitoring, backups and restore, venue scanner testing, Leeside acceptance, and rollback are complete. The release commit must pass both `npm run check` and `openspec validate launch-cork-club-platform`.
+Use [implemented flows](IMPLEMENTED_FLOWS.md) for screen behavior and [traceability](TRACEABILITY.md) for code locations. Do not import real members just because account setup or local tests pass.

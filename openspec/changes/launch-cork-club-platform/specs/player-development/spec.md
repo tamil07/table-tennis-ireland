@@ -26,6 +26,17 @@ An adult player SHALL be able to view their own published development summary, a
 - **WHEN** a user who is neither the player, a designated guardian, an authorized coach, nor an authorized admin requests the summary
 - **THEN** the system refuses access and reveals no coaching content
 
+### Requirement: Distinct coach and family sign-off
+A publishable development summary SHALL require two distinct identities: an authorized coach and the player or designated guardian. The player/guardian MAY see only their own pending summary to review and sign it before publication; this exception SHALL NOT expose private coach working notes or another family's summary. Revising assessment content SHALL reset previous sign-offs.
+
+#### Scenario: Family reviews pending goals
+- **WHEN** the player or designated guardian opens their own pending assessment
+- **THEN** they can review and sign the publishable strengths, improvement areas and goals, while private working notes remain hidden
+
+#### Scenario: One person holds both roles
+- **WHEN** the coach is also the designated guardian and has already signed in one capacity
+- **THEN** a second distinct authorized identity is required before publication
+
 ### Requirement: Human-controlled conclusions
 The system SHALL present development conclusions only when an authorized human has entered or approved them. Descriptive aggregates of player-authored reflections MAY be calculated without coach approval when clearly labelled as reported observations with denominators and provenance; these SHALL NOT be presented as diagnoses or coach assessments.
 

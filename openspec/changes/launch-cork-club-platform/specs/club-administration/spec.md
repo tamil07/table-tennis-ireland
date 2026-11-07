@@ -1,5 +1,20 @@
 ## ADDED Requirements
 
+### Requirement: Shared authorized command service
+The website and app SHALL use the same authoritative club command service for operational mutations. The server SHALL derive identity from verified authentication, check current permissions/guardian links, validate domain rules and atomically commit a revision. Clients SHALL NOT choose an acting identity or upload authoritative state. Direct authenticated access to private command-store rows SHALL be denied.
+
+#### Scenario: Concurrent or stale management updates
+- **WHEN** a command uses a stale revision or races another commit
+- **THEN** the service rejects the conflicting update without overwriting the accepted state and returns a refresh/retry path
+
+#### Scenario: Repeated network submission
+- **WHEN** an authenticated actor retries the same logical request identifier
+- **THEN** the service does not duplicate the mutation, attendance, payment or notification and returns the current permitted state
+
+#### Scenario: Private content appears in audit history
+- **WHEN** an access manager without coaching access views an audit response
+- **THEN** private notes/reflections are redacted and general access-management permission does not reveal those bodies
+
 ### Requirement: Club management group
 The system SHALL allow authorized Leeside admins to invite, add, remove, and assign permissions to individually authenticated members of a Leeside management group. Permissions SHALL support membership management, club administration, content editing, event organization, and communications management, scoped to Leeside and enforced server-side. Membership managers SHALL be able to create/configure membership types, add players, manually assign/renew/correct membership type, start/end dates and status, and record external payments without a payment gateway. Membership-group access SHALL NOT implicitly grant role-management or platform/cloud access.
 

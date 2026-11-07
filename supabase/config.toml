@@ -18,3 +18,12 @@ port = 54323
 enabled = true
 site_url = "http://localhost:4174"
 additional_redirect_urls = ["http://localhost:4173", "http://localhost:4174"]
+
+[functions.club-api]
+verify_jwt = false # Handler verifies bearer token through Auth.getUser; supports publishable keys.
+
+[functions.club-jobs]
+verify_jwt = false # Separate required x-club-job-token; never a browser credential.
+
+[functions.club-public]
+verify_jwt = false # Explicit public-field projection, no member or attendee information.

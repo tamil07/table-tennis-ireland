@@ -16,10 +16,29 @@ export default defineConfig({
         display: "standalone",
         start_url: "/",
         icons: [
-          { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" },
+          {
+            src: "/icon.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+            purpose: "any maskable",
+          },
         ],
       },
     }),
   ],
   server: { port: 4174 },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) =>
+          id.includes("/node_modules/@supabase/")
+            ? "supabase"
+            : id.includes("/node_modules/qrcode/") ||
+                id.includes("/node_modules/pngjs/") ||
+                id.includes("/node_modules/dijkstrajs/")
+              ? "qr"
+              : undefined,
+      },
+    },
+  },
 });

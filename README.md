@@ -4,9 +4,9 @@
 
 Leeside website demo: [table-tennis-ireland.ttclubsie.workers.dev](https://table-tennis-ireland.ttclubsie.workers.dev). Deployment uses `npm run build:club` and `npm run deploy:club` with Node 22 and `wrangler.club-web.jsonc`; the website is a demonstration, not live membership/booking operation. See [deployment verification](docs/CLOUDFLARE_DEPLOYMENT_PLAN.md).
 
-> Latest operational defaults: roles, memberships and sessions are editable at runtime; the five session times and Wix contact defaults are approved. Attendance is QR/app-first with explicit self/linked-child selection and separate Not attending availability. NFC purchases and broader pilot recruitment are parked. Expiry messages default to end-of-day player/guardian email plus management summary. These supersede older defaults below and remain implementation work, not completed live behavior. See [current decisions/open items](docs/DECISIONS_AND_OPEN_ITEMS.md).
+**Launching from your personal laptop?** Follow [the complete launch runbook](docs/PERSONAL_LAPTOP_LAUNCH.md). It includes fresh CLI authentication, private environment preparation, CLI/HTTPS migration options, owner bootstrap, function deployment, separate website/app deployment and owner smoke tests. No further coding agent is needed for those steps. [Implemented screens and flows](docs/IMPLEMENTED_FLOWS.md) explain how to use the supplied workspace.
 
-> Pilot decision, 1 November 2026: keep `apps/club-web` (Leeside), `apps/platform`, shared packages and Supabase in this repository, including existing build targets. Run the pilot for at least one year of live operation. Review separate website repositories only after that period and once more than two clubs participate (three or more). This is a review gate, not an automatic migration. Generic website hosting for future clubs and per-club app/backend copies remain outside the plan. [Tournament reflections](openspec/changes/launch-cork-club-platform/specs/tournament-reflections/spec.md) are specified but not implemented.
+> Pilot decision: keep `apps/club-web` (Leeside), `apps/platform`, shared packages and Supabase in this repository for at least one year of live operation. Review separate website repositories after that period and three or more participating clubs. Generic website hosting and per-club app/backend copies remain outside the plan. Tournament result/reflection entry and private coaching aggregates now have implementation and local tests; hosted acceptance remains pending.
 
 TT Clubs Ireland is a multi-club platform for table-tennis players, guardians, coaches, and club administrators. It launches with Leeside Table Tennis Club in Cork while keeping the product, identity model, and data boundaries ready for clubs throughout Ireland.
 
@@ -15,7 +15,7 @@ This repository contains two distinct products backed by one secure, club-scoped
 - **Club websites:** individually branded public websites and administration areas. Leeside is the first portfolio.
 - **National platform app:** a neutral installable web app where one person can participate in several clubs with one account.
 
-The repository is an initial runnable foundation. The interfaces use labelled synthetic demo data; they do not yet process live member data. The authoritative scope and acceptance scenarios live in [`openspec/changes/launch-cork-club-platform`](openspec/changes/launch-cork-club-platform).
+The repository supplies a shared operational workspace, authenticated API, private versioned club store, public feeds and scheduler/email source. Live mode is explicitly disabled while hosted setup is paused; interfaces currently use labelled synthetic data. Approved scope and acceptance scenarios live in [`openspec/changes/launch-cork-club-platform`](openspec/changes/launch-cork-club-platform), with precise remaining refinements in its task ledger.
 
 ## Product model
 
@@ -37,8 +37,7 @@ A club website is not a separate data silo. The website and app read and update 
 
 ```mermaid
 flowchart LR
-  LeesideDomain[Leeside club domain] --> ClubWeb[Multi-tenant club website]
-  DublinDomain[Dublin club domain] --> ClubWeb
+  LeesideDomain[Leeside club domain] --> ClubWeb[Leeside pilot website]
   AppDomain[National product domain] --> Platform[Platform PWA]
   ClubWeb --> API[Supabase Auth + API]
   Platform --> API
@@ -49,7 +48,7 @@ flowchart LR
 
 ## Features and overall flows
 
-The feature list below reflects all approved OpenSpec capabilities. “Planned” means the schema or UI foundation may exist, but the end-to-end production workflow is not complete yet.
+The feature list below describes approved scope. The [implementation map](docs/TRACEABILITY.md) and [current status](openspec/changes/launch-cork-club-platform/implementation-status.md) distinguish supplied source/local checks from remaining refinements and hosted acceptance.
 
 ### Identity, roles, and multi-club participation
 
@@ -119,7 +118,7 @@ stateDiagram-v2
 
 Try the **Book a place** section (`#booking`) in the Leeside website or Leeside platform demo. Choose a synthetic player/linked child, request a free place, then switch “Preview as” to “Club maintainer” to approve, move or release it. Four player places share a table for the whole session; each player can hold one active place. Maintainers can switch unoccupied tables between reservable, coaching, walk-in and closed. Changes stay in this browser; this is not real sign-in, shared inventory, attendance or email delivery.
 
-- Planned production service: whole-session player-place requests from website/app, including verified guests and guardian-led children, current-permission approval, transactional inventory and real email/in-app notices. This replaces the earlier hourly whole-table model. See [booking requirements](openspec/changes/launch-cork-club-platform/specs/booking-management/spec.md).
+- Supplied live-service source: whole-session player-place requests from website/app, guardian-led children, current-permission approval, revision/uniqueness guards and queued email/in-app notices. Hosted concurrency and delivery acceptance remain required. This replaces the earlier hourly whole-table model. See [booking requirements](openspec/changes/launch-cork-club-platform/specs/booking-management/spec.md).
 - Recurring timetable definitions generate dated session occurrences.
 - Leeside starts with five weekly sessions; admins can add one-off events and bounded programmes such as seven-day camps.
 - Sessions can change or be cancelled without rewriting historical attendance.
@@ -277,28 +276,19 @@ Copy `.env.example` to each app as `.env.local` only when connecting a Supabase 
 
 ## Current implementation status
 
-Implemented foundation:
+Implemented and locally testable:
 
-- npm-workspaces monorepo and continuous integration.
-- Responsive Leeside club website demonstration.
-- Responsive neutral platform PWA demonstration.
-- Multi-club “My Clubs” selection with isolated per-club roles and status.
-- Shared typed domain and permission helpers with unit tests.
-- Initial multi-tenant PostgreSQL schema, RLS-deny-by-default foundation, synthetic seed, and database-test scaffold.
-- OpenSpec task list and code traceability.
-- Venue QR local preview, staff display, existing-user email/password sign-in, and Supabase attendance RPCs; production activation remains pending.
+- Shared player/guardian/management workspace in both frontends, with explicit synthetic/live modes.
+- Account forms, scoped role grants, editable membership types, manual periods/payments/trials and optional acknowledgements.
+- Sessions/camps, table/hall management, full-session player-place approval and independent attendance/reports.
+- Singles/doubles/guest scoring, league/knockout events, review/disputes, private reflections and coach goals/sign-off.
+- Content publishing/public feeds, shared work, audit, privacy requests and approved retention source.
+- Authenticated Edge Functions, private per-club revision store, SQL CAS/uniqueness guards and scheduled notification/email source.
+- CI/local domain, HTTP-handler and database tests; reproducible personal-laptop setup helpers.
 
-Not yet production-ready:
+Remaining: hosted migrations/deployments, provider configuration, cross-device/live security acceptance, email delivery, backups/restore, policies and content migration. Advanced source refinements remain explicitly tracked; native store binaries and hardware attendance are deferred. See [implemented flows](docs/IMPLEMENTED_FLOWS.md), [OpenSpec status](openspec/changes/launch-cork-club-platform/implementation-status.md) and [tasks](openspec/changes/launch-cork-club-platform/tasks.md).
 
-- Live Supabase authentication/data wiring.
-- Complete table-specific RLS policies and adversarial authorization tests.
-- Registration, membership, scanner, booking, email, match, tournament, coaching, reporting, and admin mutations.
-- Production domains, email identity, schedules, backups, monitoring, policies, and acceptance testing.
-- Native App Store or Play Store binaries.
-
-See the [decision and open-item register](docs/DECISIONS_AND_OPEN_ITEMS.md), [Leeside public-content inventory](docs/LEESIDE_CONTENT_INVENTORY.md), [remaining actions](docs/ACTION_ITEMS.md), and [OpenSpec tasks](openspec/changes/launch-cork-club-platform/tasks.md).
-
-**Supabase handover:** office-laptop connections are blocked. The owner will finish connection setup from a personal laptop after pulling repository updates. Hosted migrations remain unapplied. Independent frontend work continues with synthetic data; see the [setup commands](docs/ACCOUNT_SETUP_README.md) and [capability-by-capability OpenSpec status](openspec/changes/launch-cork-club-platform/implementation-status.md).
+**Personal-laptop handover:** office Supabase connections remain paused. Follow [one complete launch guide](docs/PERSONAL_LAPTOP_LAUNCH.md) after pulling main. It includes fresh Cloudflare/Supabase CLI authentication and the HTTPS SQL-Editor migration fallback. No hosted setup or live email test was performed during implementation.
 
 ## Security and data handling
 

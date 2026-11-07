@@ -8,15 +8,25 @@
     "packages/*"
   ],
   "scripts": {
-    "build:club": "npm run build --workspace @tti/club-web",
+    "build:club": "node scripts/check-client-env.mjs club-web && npm run build --workspace @tti/club-web",
+    "build:platform": "node scripts/check-client-env.mjs platform && npm run build --workspace @tti/platform",
+    "deploy:platform": "wrangler deploy --config wrangler.platform.jsonc",
+    "setup:bootstrap": "node --experimental-strip-types scripts/prepare-club.mjs",
+    "setup:personal": "bash scripts/personal-laptop-setup.sh",
+    "setup:env": "node scripts/prepare-environment.mjs",
+    "setup:schedule": "node --env-file=.env.server.local scripts/prepare-schedule.mjs",
+    "setup:migrations": "node scripts/prepare-migrations.mjs",
+    "prepare:functions": "node scripts/prepare-functions.mjs",
+    "deploy:backend": "npm run prepare:functions && npx supabase functions deploy club-api club-jobs club-public --use-api",
     "deploy:club": "wrangler deploy --config wrangler.club-web.jsonc",
     "preview:club": "wrangler versions upload --config wrangler.club-web.jsonc",
     "dev:club": "npm run dev --workspace @tti/club-web",
     "dev:platform": "npm run dev --workspace @tti/platform",
-    "build": "npm run build --workspaces --if-present",
+    "build": "node scripts/check-client-env.mjs && npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "check": "npm run typecheck && npm run test && npm run build"
+    "check": "npm run typecheck && npm run test && npm run build",
+    "test:browser": "node scripts/browser-smoke.mjs"
   },
   "engines": {
     "node": ">=22"
@@ -25,6 +35,7 @@
   "devDependencies": {
     "typescript": "^5.9.3",
     "vitest": "^4.1.11",
-    "wrangler": "4.158.0"
+    "wrangler": "4.158.0",
+    "playwright": "1.65.0"
   }
 }

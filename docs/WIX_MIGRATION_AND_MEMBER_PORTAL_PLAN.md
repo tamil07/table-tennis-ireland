@@ -2,11 +2,11 @@
 
 Audited 6 November 2026 against source code, the saved Wix inventory and accessible public Wix pages. This is a plan and gap assessment, not a completed import or implementation.
 
-Update 7 November 2026: the club-supplied booking HTML is now received and adapted into a reusable synthetic player-place preview in both frontends. The approved model is four places/table for a whole session, one active place per player/session; the HTML's earlier two-player capacity is superseded. Local request/approve/move/release and table-allocation screens do not finish the production portal or Wix content import. The owner will complete paused Supabase connection setup from a personal laptop because office connections are blocked. See [implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md).
+Update 7 November 2026: both entry points now embed the shared operational portal, with account forms and backend source. The national app has a separate Worker config but is not remotely deployed. Public CMS/feed source also exists. Hosted setup stays paused and no live private portal is claimed. The four-place/full-session model supersedes the supplied HTML's earlier capacity. See [implemented flows](IMPLEMENTED_FLOWS.md), [runtime design](../openspec/changes/launch-cork-club-platform/runtime-design.md) and [owner launch guide](PERSONAL_LAPTOP_LAUNCH.md).
 
 ## Outcome
 
-The Cloudflare website target serves `apps/club-web`. The updated source adds booking preview, About/coaching, source-attributed membership prices, contact and existing Wix news/calendar/policy links. It is not a full replacement for Wix. `apps/platform` is a different frontend with a demo dashboard and partial venue-QR flow; no separate platform Worker is confirmed deployed. There is no working live player portal or membership administration. The inactive registration button has been replaced with an honest club email enquiry. Several app links still point only to roadmap cards (`#features`); do not present these as finished features.
+The Cloudflare website target serves `apps/club-web`; `apps/platform` is the national PWA. Both share private operational views for players, guardians, membership/booking managers and coaches, with live-mode server permission checks. The current default remains synthetic until owner deployment. Full Wix parity remains incomplete: source-linked historical articles/calendar/documents/media require reconciliation. The earlier landing-only/roadmap assessment is superseded by the supplied portal, not by a claim that live acceptance or complete content migration passed.
 
 ## Content reconciliation
 
@@ -34,16 +34,16 @@ The separate local timetable draft conflicts with the confirmed Wix-based schedu
 
 | Audience | Planned entry and functions | Actual status |
 | --- | --- | --- |
-| Public visitor | Leeside site: Home, About/Coaching, Sessions/Calendar, Membership, Book a place, News, Policies, Contact | Sections/source links and synthetic booking; full import/runtime publishing pending |
-| Player | Website Member login / Open app link → app → My Clubs → Leeside → membership status, attendance, bookings, results/reflections | Not an implemented player portal |
-| Parent | Same app login → explicitly select self or linked child → permitted membership/booking/attendance/history | Guardian selection exists only in partial attendance flow; rest pending |
-| Membership manager | App/website management entry → Leeside → Members, Membership types, assignments/renewals/manual payments | Required in OpenSpec, not built |
-| Booking maintainer | Management → hall/tables/availability and pending approval queue | Synthetic role-switched booking/allocation preview built; live services and hall editor pending |
-| Coach | Management/development → matches/tournaments and permitted reflections/goals | Roadmap/demo, not built |
+| Public visitor | Leeside site: Home, About/Coaching, Sessions/Calendar, Membership, Book a place, News, Policies, Contact | Sections/source links plus CMS/feed source; full archive/media import and live acceptance pending |
+| Player | Website Member login / Open app link → app → My Clubs → Leeside → membership status, attendance, bookings, results/reflections | Shared portal and live adapter implemented; owner deployment pending |
+| Parent | Same app login → explicitly select self or linked child → permitted membership/booking/attendance/history | Shared guardian booking/attendance/membership/reflection flows implemented; hosted relationship acceptance pending |
+| Membership manager | App/website management entry → Leeside → Members, Membership types, assignments/renewals/manual payments | Runtime forms/commands implemented; hosted acceptance pending |
+| Booking maintainer | Management → hall/tables/availability and pending approval queue | Shared allocation/hall/approval forms and server source implemented; hosted acceptance pending |
+| Coach | Management/development → matches/tournaments and permitted reflections/goals | Match/event/reflection/goal forms and permissioned commands implemented; hosted acceptance pending |
 
 Public Membership explains options and signup. Private My membership shows a person's own record. Staff Members/Memberships manages other records only with current club permissions. Do not publish a private player directory to satisfy a public Players navigation label.
 
-## Delivery phases
+## Delivery phases (original order; source implementation now exists)
 
 1. **Public content inventory/import:** enumerate all Wix pages, news pagination, events, images and document URLs. Create a source manifest with original URL/date, destination, retrieval status, selected content and unresolved items. Import only approved public material; do not scrape contact submissions/member data. Keep Wix available.
 2. **Public website completion:** implement real navigation/routes and the missing pages, membership information, policy access and source-backed news/events. Replace placeholder stories. A contact form must use a configured delivery path or honestly offer a mail link; no fake success messages. Use responsive/accessibility checks and compare every manifest item before sign-off.

@@ -1,5 +1,5 @@
 import { leesideSessions } from "@tti/domain";
-import { BrandMark, Card, Pill, SectionHeading, SessionBookingDemo } from "@tti/ui";
+import { BrandMark, Card, Pill, SectionHeading, ClubPortal, ClubPublished, clubServicesEnabled } from "@tti/ui";
 
 const benefits = [
   ["01", "Play your way", "Five weekly sessions welcome players across ages, abilities and ambitions."],
@@ -17,7 +17,7 @@ export function App() {
         </a>
         <nav aria-label="Main navigation">
           <a href="#sessions">Sessions</a>
-          <a href="#booking">Book a place</a>
+          <a href="#club-portal">Members & bookings</a>
           <a href="#membership">Membership</a>
           <a href="#news">News</a>
           <a href="#contact">Contact</a>
@@ -26,7 +26,7 @@ export function App() {
       </header>
 
       <main id="top">
-        <p className="site-preview">Website preview · Online registration and live reservations are not yet available. Contact the club for actual arrangements.</p>
+        <p className="site-preview">{clubServicesEnabled ? 'Sign in to the member workspace for club services. Payments are arranged directly with Leeside.' : 'Website preview · Online registration and live reservations are not yet available. Contact the club for actual arrangements.'}</p>
         <section className="hero">
           <div className="hero__copy">
             <Pill>Based in Cork · Open to all levels</Pill>
@@ -72,21 +72,22 @@ export function App() {
           <a href="https://leesidetabletennis.wixsite.com/home/about">Read the club’s existing About and coaching page →</a>
         </section>
 
-        <SessionBookingDemo />
+        <ClubPublished />
+        <ClubPortal />
         <section className="membership section" id="membership">
           <div>
             <p className="eyebrow">Flexible membership</p>
             <h2>More time at the table.<br />Less admin.</h2>
             <p>Choose full, partial or pay-as-you-go membership. Arrange payments directly with the club. Online membership management and optional email acknowledgements are being prepared for the pilot.</p>
-            <ul className="membership-options"><li><strong>Full:</strong> €190 for six months, five weekly sessions.</li><li><strong>Partial:</strong> €100 for six months, one weekly session.</li><li><strong>Pay as you go:</strong> €10 per adult or €5 per child per session.</li></ul>
-            <p className="source-note">Published on the existing club About page, recorded 6 November 2026. Confirm current prices and availability with Leeside; these are not live account entitlements.</p>
+            {!clubServicesEnabled && <><ul className="membership-options"><li><strong>Full:</strong> €190 for six months, five weekly sessions.</li><li><strong>Partial:</strong> €100 for six months, one weekly session.</li><li><strong>Pay as you go:</strong> €10 per adult or €5 per child per session.</li></ul><p className="source-note">Published on the existing club About page, recorded 6 November 2026. Confirm current prices and availability with Leeside; these are not live account entitlements.</p></>}
+            {clubServicesEnabled && <p>Current membership types are listed in Published by Leeside above. Management can update them at any time.</p>}
           </div>
           <Card className="join-card" id="join">
             <Pill tone="good">New players welcome</Pill>
             <h3>Ready for your first session?</h3>
-            <p>Contact Leeside to arrange your first visit. A parent or guardian should enquire for a junior. Online registration and the configurable trial process are still being prepared.</p>
-            <a className="primary-link" href="mailto:leesidettie@gmail.com?subject=Leeside%20first%20session%20enquiry">Email the club</a>
-            <small>This opens your email app. No registration or reservation is submitted by this website.</small>
+            <p>{clubServicesEnabled ? 'Open the member workspace to register and apply to Leeside. A parent or guardian registers a junior. Contact the club with any questions.' : 'Contact Leeside to arrange your first visit. A parent or guardian should enquire for a junior. Online registration and the configurable trial process are still being prepared.'}</p>
+            <a className="primary-link" href={clubServicesEnabled ? '#club-portal' : 'mailto:leesidettie@gmail.com?subject=Leeside%20first%20session%20enquiry'}>{clubServicesEnabled ? 'Open member workspace' : 'Email the club'}</a>
+            <small>{clubServicesEnabled ? 'Registration and booking require sign-in; no payment is processed here.' : 'This opens your email app. No registration or reservation is submitted by this website.'}</small>
           </Card>
         </section>
 

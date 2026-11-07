@@ -9,6 +9,8 @@ This repository contains the Leeside club website and the national TT Clubs app.
 3. `openspec/changes/launch-cork-club-platform/tasks.md` — full remaining checklist; unchecked work is not implemented merely because a schema/demo exists.
 4. The affected `specs/<capability>/spec.md` and `design.md` — behavior and scenarios.
 5. `docs/ACCOUNT_SETUP_README.md` — owner account actions; `docs/TRACEABILITY.md` — code mapping; `docs/WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md` and `docs/PUBLIC_CONTENT_MANIFEST.md` — content/portal gaps and source destinations.
+6. `openspec/changes/launch-cork-club-platform/runtime-design.md` — active command-service architecture, replacing the original normalized-table implementation assumption.
+7. `docs/PERSONAL_LAPTOP_LAUNCH.md` — ordered user-executable deployment guide, including fresh CLI login and HTTP/SQL-Editor fallback. The owner specifically wants no further agent subscription or application coding on that laptop.
 
 Updated 7 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
 
@@ -18,9 +20,17 @@ The owner confirms the office laptop blocks Supabase connections and will comple
 
 Continue independent implementation/tests/builds and clearly labelled synthetic previews. Do not describe browser-local state as shared persistence, preview role selectors as authentication, or simulated notifications as email delivery. Real data needs complete RLS, permissions, auth/profile provisioning, backup and acceptance work. Never store passwords, tokens, service-role keys or private member records in git or public frontend variables.
 
+Fresh CLI login and HTTP settings belong in docs/PERSONAL_LAPTOP_LAUNCH.md: office sessions, exports and proxy/VPN settings do not transfer. Recreate private local files and exact provider settings on the personal connection; never disable TLS checks. The handover must remain usable without another coding-agent subscription.
+
 The user owns the platform, repo and shared cloud infrastructure. Individual Leeside management accounts administer club content, membership, sessions and communications. Gmail addresses are contact/recovery identities, not legal owners or shared admin login credentials. Club roles and membership products must be editable at runtime, with revocation enforced server-side on subsequent requests.
 
 ## Repository and implementation boundaries
+
+Current operational source is `packages/domain/src/operations.ts`, `packages/ui/src/ClubPortal.tsx`, `ClubAuth.tsx`, `ClubPublished.tsx` and `club-client.ts`, backed by `supabase/functions/club-api`, `club-jobs`, `club-public` and migration `202611080001_club_runtime.sql`. Both clients use the same command store. `club_runtime` is canonical; the original normalized schema/venue RPCs remain legacy foundations, not an inventory to dual-write. Read runtime-design.md for the deliberate pilot aggregate/CAS tradeoff and load-testing gate.
+
+Run `npm run prepare:functions` before Deno checks/tests/deployment. It stages canonical rules in ignored `supabase/functions/_shared/domain`; never edit or commit generated copies. `deploy:backend` prepares them automatically and uses HTTP bundling without Docker. No hosted deployment has been performed by implementing these files.
+
+`VITE_ENABLE_LIVE=false` is the default. Live mode uses verified Auth and server-side permission checks and must not silently fall back to synthetic persistence. A personal-laptop `.env.local` does not configure Cloudflare Git build variables; those must be set separately before Git builds can publish live mode. Never pass server secrets to Vite.
 
 - `apps/club-web`: React/Vite Leeside public website, current Cloudflare target.
 - `apps/platform`: React/Vite national PWA; a separate remote deployment is not yet verified.
@@ -34,8 +44,8 @@ Keep website/app/backend in this repo for at least one live pilot year. Review e
 
 ## Decisions that must not regress
 
-- Table booking: **four player places per table, full session, one active pending/confirmed place per player/session**. Parents may book distinct linked children. Maintainer-approved holds; reservable/coaching/walk-in/closed allocations; moves and releases. No exclusive hourly whole-table inventory. Database transactions/constraints must eventually enforce uniqueness and table resource conflicts.
-- Synthetic booking UI is reused by both frontends, only under Leeside in the app. Twelve tables, six initial coaching allocations, thirty-minute holds and two-hour cancellation cutoff are demo defaults, not a completed runtime policy editor or verified inventory.
+- Table booking: **four player places per table, full session, one active pending/confirmed place per player/session**. Parents may book distinct linked children. Maintainer-approved holds; reservable/coaching/walk-in/closed allocations; moves and releases. No exclusive hourly whole-table inventory. The active command service validates resource conflicts and SQL commit guards enforce revision and player/place uniqueness; hosted concurrent acceptance remains required.
+- Synthetic booking UI is reused by both frontends, only under Leeside in the app. Twelve tables, six initial coaching allocations, thirty-minute holds and two-hour cancellation cutoff are demo defaults; the live bootstrap starts empty and managers configure real inventory/policy through the supplied forms.
 - Attendance is independent of booking. Record expired/no-membership attendance and alert staff. QR or direct app presence is the pilot path; Not attending from home is separate and never counts as attendance. NFC purchases are parked.
 - Memberships/payment dates are manually managed; no payment gateway. Default expiry notice goes to player/guardian and current management at the end of the inclusive expiry day in Europe/Dublin. Optional advanced 10/3-day reminders are disabled by default. Optional acknowledgements require the admin's selection.
 - Trial: one calendar month by default, management configurable; trial-end reminder to adult/guardian then membership team.
@@ -47,9 +57,9 @@ Keep website/app/backend in this repo for at least one live pilot year. Review e
 
 1. Verify the shared booking preview and its delivered commit/deployment; keep production limitations visible.
 2. Complete source-backed Wix content/pages/media and real navigation; use honest source links for missing archive/calendar/policy material. Track every deferred source item.
-3. Build remaining operational screens against a testable data boundary: registration/guardian profiles; membership catalogue/assignment/manual renewal; group permissions; sessions/hall editor; attendance; scoring/tournaments/reflections; communications and reports. Follow unchecked tasks rather than adding disconnected mock buttons.
-4. Add production player-place schema/RPCs and adversarial tests locally. The old bookings foundation is insufficient for the current model. Test four-place capacity, per-player uniqueness, concurrent writes, expiry/approval races, guardian access/revocation, cross-club denial and idempotency.
-5. After owner connection handover, connect shared services, provision authorized synthetic users/roles, configure exact Auth callbacks, email sender/provider and scheduled outbox jobs. Verify website/app cross-device synchronization and authorization.
+3. Use the implemented operational forms/command service and read the current task ledger for remaining advanced cases. Do not rebuild the old standalone preview or assume all feature screens are still missing. Auth, membership/manual payments/trials, grants, table/hall operations, attendance/reports, scoring/tournaments/reflections, coaching and notification source now exist.
+4. Maintain adversarial tests for the active store and SQL commit guards. The old normalized bookings foundation is not the new inventory. Verify capacity, uniqueness, resource conflicts, guardian scope/revocation, stale writes, retries, review/privacy and email suppression when modifying rules.
+5. After owner connection handover, follow the supplied launch scripts to apply migrations/deploy functions, bootstrap the real owner and configure exact Auth callbacks, sender/provider and schedule. Verify website/app cross-device synchronization and authorization; do not mark it passed from local mocks.
 6. Complete backups/restore, privacy/safeguarding configuration, retention jobs, monitoring, domain cutover/rollback and live acceptance before importing real members. Broader pilot recruitment is parked; native store releases follow the PWA pilot.
 
 These are ordered implementation streams, not claims that setup is the sole remaining task. The full task checklist remains authoritative.
@@ -57,6 +67,10 @@ These are ordered implementation streams, not claims that setup is the sole rema
 ## Checks and deployment
 
 Use Node 22 (`.nvmrc`) and repository lockfile. Run `npm ci` if dependencies are missing, `npm run check` for type checks/tests/both builds, and `openspec validate launch-cork-club-platform` when the OpenSpec CLI is available. Add meaningful tests for new domain/security rules. Record unavailable checks honestly.
+
+Backend checks: `npm run prepare:functions`, then `deno check supabase/functions/club-api/index.ts supabase/functions/club-jobs/index.ts supabase/functions/club-public/index.ts` and `deno test --allow-env --allow-net supabase/functions/runtime.integration.test.ts` (or `npx --yes deno ...`). The HTTP test uses local fake Auth/PostgREST, not hosted accounts. Isolated SQL checks are `supabase/tests/venue_qr.sql` and `runtime.sql` after the CI fixture/migrations. Frontend smoke test: start the website, install Playwright Chromium if missing (`npx playwright install chromium`), then `npm run test:browser`; it refuses live mode.
+
+Personal-laptop helpers: `setup:personal` reviews connection/dry-run only; `setup:migrations` generates an ignored SQL-Editor bundle; `setup:env` preserves existing private files; `setup:bootstrap` emits non-destructive owner setup; `setup:schedule` emits private Vault/cron SQL. Scripts generate files locally and must not be executed against hosted accounts during the pause. Generated environment/bootstrap/schedule files, backups and screenshots are ignored.
 
 Local servers: `npm run dev --workspace @tti/club-web -- --host 127.0.0.1 --port 4173` and `npm run dev --workspace @tti/platform -- --host 127.0.0.1 --port 4174`. Root script argument forwarding is not equivalent to these workspace commands.
 

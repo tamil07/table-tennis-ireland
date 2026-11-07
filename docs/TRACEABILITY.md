@@ -2,25 +2,30 @@
 
 The source of truth is `openspec/changes/launch-cork-club-platform`. This map prevents the demonstration UI or implementation details from silently redefining approved behavior.
 
-| OpenSpec capability | Primary code/data location | Current status |
+The active architecture is the private `club_runtime` aggregate and command service, described in [runtime design](../openspec/changes/launch-cork-club-platform/runtime-design.md). Earlier normalized tables/QR RPCs remain legacy foundations and are not dual-written by the portal. Every row below means supplied source and local verification, not hosted acceptance.
+
+| OpenSpec capability | Primary current source | Supplied workflows / remaining gate |
 | --- | --- | --- |
-| `identity-and-access` | `packages/domain/src/club-context.ts`, `apps/platform`, `profiles`, `profile_contacts`, `club_roles`, `guardian_links` | Foundation |
-| `club-content` | `apps/club-web`, `clubs`, `club_domains`, `website_pages` | Foundation/demo |
-| `membership-management` | `membership_types`, `memberships`, `manual_payments` | Schema foundation |
-| `booking-management` | `packages/domain/src/session-booking.ts`, `packages/ui/src/SessionBookingDemo.tsx`, both frontend entry points; `session_definitions`, `session_occurrences`, `bookings` | Shared synthetic four-place/whole-session preview and tested local rules; production inventory schema/RPCs and sync pending |
-| `member-communications` | `notification_outbox` | Schema foundation |
-| `attendance-tracking` | `apps/platform/src/Attendance.tsx`, `202610250001_venue_qr.sql`, `supabase/tests/venue_qr.sql` | Rotating venue QR, confirmation and RPCs implemented; live setup/venue acceptance pending; other scanner flows planned |
-| `match-records` | `matches`, `match_participants`, `match_games`, `match_reviews` | Schema foundation |
-| `tournament-management` | `tournaments`, `tournament_entries`, `tournament_delegations` | Schema foundation |
-| `player-development` | `coach_notes`, `development_summaries` | Schema foundation |
-| `tournament-reflections` | OpenSpec detailed event/reflection scenarios | Requirements only; external-result entry, privacy and coaching aggregates pending |
-| `club-administration` | `admin_work_items`, `audit_events`, platform UI | Schema/demo foundation |
+| `identity-and-access` | `packages/ui/src/ClubAuth.tsx`, `club-client.ts`, `packages/domain/src/operations.ts`, `routes.ts`, `club-api` | Verified auth, current grants/guardians, profile claim, My Clubs; provider/live acceptance pending |
+| `club-content` | `ClubPublished.tsx`, `ClubPortal.tsx`, `club-public` | Plain-text CMS, JSON/RSS/ICS; Wix archive/media import partial |
+| `membership-management` | `operations.ts`, `ClubPortal.tsx` | Editable catalogue/manual periods/payments/trials; hosted mail/permission acceptance pending |
+| `booking-management` | `session-booking.ts`, `operations.ts`, `ClubPortal.tsx`, `202611080001_club_runtime.sql` | Full-session four-place inventory, approval/reschedule, hall/table settings, SQL CAS/uniqueness; hosted concurrency acceptance pending |
+| `member-communications` | `operations.ts`, `club-jobs`, `_shared/runtime.ts` | Recipient checks, leases/retry/idempotency, global budget; sender/cron/SMTP/live delivery pending |
+| `attendance-tracking` | `operations.ts`, `ClubPortal.tsx`, `club-api` | Direct/rotating QR/guardian attendance, absences, corrections/reports; venue acceptance pending, NFC parked |
+| `match-records` | `operations.ts`, `ClubPortal.tsx` | Validated scores, singles/doubles/guests, review/dispute/autoapproval, incomplete exclusion |
+| `tournament-management` | `operations.ts`, `ClubPortal.tsx` | Leagues/knockouts/byes/delegation/fixtures/external events; advanced structural edits remain |
+| `player-development` | `operations.ts`, `ClubPortal.tsx` | Private coach notes, summaries/goals with two-party sign-off; policy/retention acceptance pending |
+| `tournament-reflections` | `operations.ts`, `ClubPortal.tsx` | Private player/guardian tags/notes/revisions, filtered coach counts/contributing observations |
+| `club-administration` | `operations.ts`, `ClubPortal.tsx`, `club-api` | Scoped grants, policy editor, shared work, audit, privacy requests/export/retention subset |
+| `deployment-and-handover` | `scripts/`, `wrangler.platform.jsonc`, `docs/PERSONAL_LAPTOP_LAUNCH.md`, `AGENTS.md` | Login/environment, migration/HTTP fallback, bootstrap/functions/schedule helpers; owner executes account-required steps |
+
+Shared domain tests: `operations.test.ts`, `session-booking.test.ts`, `routes.test.ts`; HTTP tests: `supabase/functions/*.integration.test.ts`; database guards: `supabase/tests/runtime.sql`; synthetic browser walkthrough: `scripts/browser-smoke.mjs`. Prepare generated function-local rules before Deno tests. Exact latest counts/results are in implementation-status.md.
 
 Public source-to-destination status is maintained in [the content manifest](PUBLIC_CONTENT_MANIFEST.md). Root [AGENTS.md](../AGENTS.md) is the entry point for a new coding agent.
 
 ## Change discipline
 
-All eleven capability files reviewed for delivery reconciliation on 7 November 2026. See [implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md) for remaining work and the owner's personal-laptop Supabase handover. Hosted migrations are not applied. The club-supplied `Leeside Table Booking.html` is a visual source, not a Claude runtime dependency.
+All capability files reviewed for delivery reconciliation on 7 November 2026. See [implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md) for remaining work and the owner's personal-laptop Supabase handover. Hosted migrations are not applied. The club-supplied `Leeside Table Booking.html` is a visual source, not a Claude runtime dependency.
 
 1. Change requirements and scenarios in OpenSpec before changing behavior.
 2. Update `tasks.md` and this table when the implementation surface changes.

@@ -10,3 +10,8 @@ coverage/
 .vite/
 supabase/.branches/
 supabase/.temp/
+supabase/bootstrap.local.sql
+supabase/*.local.sql
+supabase/functions/_shared/domain/
+backups/
+test-results/

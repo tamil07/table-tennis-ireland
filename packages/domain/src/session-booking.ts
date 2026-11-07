@@ -17,7 +17,7 @@ export const occupiesPlace = (request: PlaceRequest, now: number) => request.sta
 export function initialTables(): PracticeTable[] {
   return Array.from({ length: 12 }, (_, i) => ({ id: i + 1, use: i < 6 ? 'coaching' : 'reservable' }));
 }
-export function bookingUpdate(board: BookingBoard, session: PracticeSession, actor: BookingActor, action: BookingAction, now: number): BookingBoard {
+export function bookingUpdate(board: BookingBoard, session: PracticeSession, actor: BookingActor, action: BookingAction, now: number, policy = { holdMinutes: 30, cancelHours: 2 }): BookingBoard {
   const tables = board.tables[session.id] ?? initialTables();
   const requests = board.requests.map(r => r.status === 'pending' && r.holdUntil <= now ? { ...r, status: 'expired' as const } : r);
   const current = { ...board, requests };
@@ -39,10 +39,11 @@ export function bookingUpdate(board: BookingBoard, session: PracticeSession, act
     if (requests.some(r => r.sessionId === session.id && r.playerId === action.playerId && occupiesPlace(r, now))) throw new Error('This player already has a pending or confirmed place in this session.');
     if (requests.some(r => r.id === action.id)) throw new Error('This request has already been submitted.');
     available(action.tableId, action.place);
-    return { ...current, requests: [...requests, { id: action.id, playerId: action.playerId, tableId: action.tableId, place: action.place, sessionId: session.id, requesterId: actor.id, status: 'pending', holdUntil: Math.min(now + 30 * 60_000, session.start) }] };
+    return { ...current, requests: [...requests, { id: action.id, playerId: action.playerId, tableId: action.tableId, place: action.place, sessionId: session.id, requesterId: actor.id, status: 'pending', holdUntil: Math.min(now + policy.holdMinutes * 60_000, session.start) }] };
   }
   if (action.type === 'table') {
     staff();
+    if (!['reservable', 'coaching', 'walk_in', 'closed'].includes(action.use)) throw new Error('Choose a supported table allocation.');
     if (!tables.some(t => t.id === action.tableId)) throw new Error('Unknown table.');
     if (requests.some(r => r.sessionId === session.id && r.tableId === action.tableId && occupiesPlace(r, now))) throw new Error('Release or move existing places before changing this table.');
     return { ...current, tables: { ...board.tables, [session.id]: tables.map(t => t.id === action.tableId ? { ...t, use: action.use } : t) } };
@@ -66,12 +67,13 @@ export function bookingUpdate(board: BookingBoard, session: PracticeSession, act
     return replace(request.id, { status: 'released' });
   }
   if (!actor.maintainer && (request.requesterId !== actor.id || !actor.players.includes(request.playerId))) throw new Error('You cannot cancel this booking.');
-  if (!actor.maintainer && request.status === 'confirmed' && now > session.start - 2 * 60 * 60_000) throw new Error('Within two hours of the session, ask a maintainer to cancel.');
+  if (!actor.maintainer && request.status === 'confirmed' && now > session.start - policy.cancelHours * 60 * 60_000) throw new Error(`Within ${policy.cancelHours === 2 ? 'two' : policy.cancelHours} hours of the session, ask a maintainer to cancel.`);
   return replace(request.id, { status: 'cancelled' });
 }
 
 export function upcomingPracticeSessions(now = Date.now()): PracticeSession[] {
-  const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Dublin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(now));
+  const parts = new Intl.DateTimeFormat('en', { timeZone: 'Europe/Dublin', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date(now));
+  const date = ['year','month','day'].map(type => parts.find(p => p.type === type)!.value).join('-');
   const [year, month, day] = date.split('-').map(Number);
   const timetable: Record<number, [string, string, string]> = { 0: ['Sunday', '12:45', '15:30'], 1: ['Monday', '18:00', '20:00'], 3: ['Wednesday', '20:15', '22:15'], 4: ['Thursday', '17:30', '19:30'], 5: ['Friday', '18:00', '20:00'] };
   const sessions: PracticeSession[] = [];

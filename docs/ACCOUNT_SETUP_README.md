@@ -1,5 +1,7 @@
 # Your account setup checklist
 
+**Start here now:** [Personal-laptop launch — complete ordered commands](PERSONAL_LAPTOP_LAUNCH.md). That runbook supersedes older setup snippets below, includes fresh Supabase/Cloudflare CLI logins and HTTPS migration fallback, and requires no paid coding agent. This file is the account inventory; exact implementation gaps remain in OpenSpec.
+
 > Latest pilot decision, 1 November 2026: retain the current Leeside website and national app in this repository, with independent deployment targets as listed below. Defer website repository separation until review after at least one year of live operation and more than two participating clubs. Creating another repository is not a current setup task.
 
 Use this single guide to create and connect the accounts needed for the Leeside website and national app. “Cloudbase” here means **Cloudflare**; the database service is **Supabase**. No separate Cloudbase account is required.
@@ -50,10 +52,10 @@ Development connection work after the projects exist:
 - [ ] From the personal laptop, link the existing single hosted project and review/apply repository migrations. Never apply `supabase/tests/plain_postgres_auth_fixture.sql` to Supabase; it is CI-only.
 - [ ] Configure frontend environment variables privately. Use local synthetic development or disconnected previews; a second hosted development project is deferred.
 - [ ] Configure Auth site/redirect URLs and test users, profiles, club roles, and guardian links.
-- [ ] Test the venue QR flow using [VENUE_QR_CHECK_IN.md](VENUE_QR_CHECK_IN.md).
-- [ ] Finish authorization, registration, notification, backup, and production acceptance work before importing live members.
+- [ ] Test the current portal QR/direct attendance flow using the launch runbook; VENUE_QR_CHECK_IN.md describes the earlier legacy RPC prototype.
+- [ ] Deploy and verify the supplied authorization/registration/notification source; configure backups and complete hosted production acceptance before importing live members.
 
-The current app expects these names in `apps/platform/.env.local`; the browser key may be a supported publishable key even though the variable retains its earlier name:
+The current apps require explicit `VITE_ENABLE_LIVE=true` only after owner setup; see the runbook for all flags. Connection names in `apps/platform/.env.local`; the browser key may be a supported publishable key even though the variable retains its earlier name:
 
 ```dotenv
 VITE_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
@@ -70,7 +72,7 @@ Account creation and API inspection are confirmed. Worker `table-tennis-ireland`
 
 Links: [Signup](https://dash.cloudflare.com/sign-up), [dashboard](https://dash.cloudflare.com/), [hosting overview](https://developers.cloudflare.com/workers/static-assets/), [hosting tutorial](https://developers.cloudflare.com/workers/static-assets/get-started/).
 
-- [ ] Register with the dedicated email and verify it.
+- [x] Cloudflare account registration is complete; confirm verified account/recovery contact in its settings.
 - [ ] Enable MFA and save recovery codes privately.
 - [ ] Invite trusted owners individually with appropriate access: [account members](https://developers.cloudflare.com/fundamentals/manage-members/manage/).
 - [ ] Start with free hosting; review any chargeable feature before enabling it.
@@ -80,11 +82,11 @@ Deployment work after account access is ready:
 
 | Deployment | Build from repository root | Output | Backend |
 | --- | --- | --- | --- |
-| Club website | `npm ci` then `npm run build:club`; publish with `npm run deploy:club` | `apps/club-web/dist` | Disconnected synthetic booking; hosted setup paused |
-| National app | `npm ci` then `npm run build --workspace @tti/platform` | `apps/platform/dist` | Synthetic dashboard/booking; partial QR client needs hosted setup for live use |
+| Club website | `npm ci` then `npm run build:club`; publish with `npm run deploy:club` | `apps/club-web/dist` | Shared portal/command adapter supplied; live activation paused |
+| National app | `npm ci` then `npm run build --workspace @tti/platform` | `apps/platform/dist` | Shared portal and PWA supplied; hosted setup and separate deployment pending |
 
 - [x] Website Worker/assets, HTTPS and SPA fallback configured through `wrangler.club-web.jsonc`; public demo and current asset hashes verified.
-- [ ] Configure the separate national-app Worker, review headers/environment variables and verify its deployment. Do not overwrite the website Worker.
+- [ ] Deploy the supplied separate national-app Worker config, review headers/environment variables and verify its deployment. Do not overwrite the website Worker.
 - [x] Website has a temporary `workers.dev` address. A purchased domain is not needed for preview testing; a separate app URL remains pending.
 - [ ] Record both preview URLs and allow the exact required Auth redirect URLs in Supabase.
 - [ ] Verify that preview deployments never connect to production member data.

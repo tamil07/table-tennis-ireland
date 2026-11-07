@@ -2,6 +2,8 @@
 
 Updated 7 November 2026. Requirements describe the target product; this file and `tasks.md` describe what exists. A schema or synthetic screen does not complete a production feature.
 
+Latest source delivery: the shared operational workspace, authenticated command API, versioned private pilot store, scheduler/email source, public feeds and personal-laptop helpers are implemented. See [runtime-design.md](runtime-design.md) for the architecture and [the owner launch guide](../../../docs/PERSONAL_LAPTOP_LAUNCH.md) for complete commands. The older standalone booking preview below is historical. Live mode remains disabled until owner setup; local code completion is distinct from hosted acceptance.
+
 ## Supabase handover: office laptop blocked
 
 The owner confirms that Supabase database connections are blocked from their office laptop. The observed CLI failure is a timeout connecting to the hosted PostgreSQL pooler while initializing a temporary login role. This is an environment/connectivity blocker, not evidence that the project, frontend build or migration SQL is defective. No firewall bypass or office-network change is part of this work.
@@ -10,7 +12,7 @@ The hosted project already exists: organization **TT Clubs Ireland**, project **
 
 Supabase is the proposed shared authentication, PostgreSQL and authorization service. It is needed for verified player/parent accounts, guardian relationships, current club permissions, persistent memberships, attendance, shared table availability, concurrent booking protection, match/tournament records and notification scheduling. Email transport also requires a configured delivery provider; creating Supabase alone does not send the application's reminders.
 
-Cloudflare serves the website/app frontend assets independently. Local development, synthetic UI flows, pure domain rules, automated tests, builds and documentation can proceed without a hosted database. Browser-local bookings do not synchronize devices or provide server-side access control. The existing QR RPC code also requires migrations, authenticated profiles and permitted roles before live use.
+Cloudflare serves frontend assets independently. Synthetic mode does not synchronize devices or provide real authentication; live-mode source now uses the shared command API/store and current server permissions. The old normalized QR RPCs remain legacy source; the new portal has its own canonical QR command flow. No hosted migration or live backend test has been performed.
 
 ### Personal-laptop handover sequence
 
@@ -19,25 +21,26 @@ Cloudflare serves the website/app frontend assets independently. Local developme
 3. From a permitted personal connection, run `npx supabase db push --remote --dry-run`. The previously installed CLI requires `--remote` to target the linked project. Check `--help` if the installed CLI changes; never assume a local reset command is safe for hosted use.
 4. Review the proposed migration list and database/schema state before running `npx supabase db push --remote`. Apply repository migrations only; `supabase/tests/plain_postgres_auth_fixture.sql` is a local CI fixture, not a hosted migration. If the pooler still times out, stop and diagnose connectivity separately rather than retrying writes blindly.
 5. Configure environment variables privately, exact Auth site/redirect URLs, and synthetic users, profiles, club permissions and guardian relationships. The earlier local frontend configuration may not exist on the personal laptop.
-6. Report the dry-run/application outcome without credentials. Completing this handover does not itself finish registration, role management, production booking, email, backup or acceptance work. Continue the pending implementation tasks and verify access isolation before importing real member/child records.
+6. Follow the launch guide to deploy functions, bootstrap the owner, set exact origins/callbacks and deploy both frontends. Complete the listed smoke tests and email/backup configuration before real member/child import. No additional application coding is required to exercise the supplied core workflows; any remaining advanced product gaps remain explicitly listed in tasks.md.
 
 ## Capability reconciliation
 
 | Capability | Repository delivery | Remaining implementation / live acceptance |
 | --- | --- | --- |
-| Identity and access | Domain relationships, club-context helpers, schema and partial existing-user QR sign-in | Registration/recovery, account linking, real guardian flows and complete runtime authorization |
-| Club content | Leeside sections for About/coaching, saved fee snapshot, contact/mail enquiry, source news/calendar/policy links; supplied booking HTML received | Full Wix media/documents/news/calendar import, content reconciliation and real publishing workflows |
-| Membership management | Domain rules and schema | Editable products, manual assignment/renewal/payment UI, trials and production permissions |
-| Booking management | Shared interactive player-place preview in both frontends; pure rules and tests | Transactional player-place database model/RPCs, real authentication, shared availability, hall/schedule editor and server audits |
-| Member communications | Outbox schema; booking notification simulation clearly labelled | Email provider, authenticated sender, delivery worker, expiry/trial schedules and preferences |
-| Attendance tracking | Venue QR preview/display and confirmation RPC source | Hosted acceptance, direct app presence, Not attending, reporting and expired/no-membership alerts |
-| Match records | Schema foundation | Scoring screens, review/dispute flow, five-day job and statistics |
-| Tournament management | Schema foundation | Internal league/bracket operation, delegated organizers, doubles/guests and session roster flow |
-| Tournament reflections | Detailed requirements | External event entry, private skill tags, provenance and coach aggregates |
-| Player development | Schema foundation | Published summaries/goals, restricted coach notes and sign-off |
-| Club administration | Domain roles, schema and dashboard demonstration | Runtime group grants/revocation, work queues, policy editing and complete permission tests |
+| Identity and access | Email/password, signup/verification, recovery, magic links, Google linking, optional phone code/linking; current grants/guardians; audited offline-profile claim; My Clubs directory | Provider/redirect configuration and hosted acceptance; SMS remains off by default |
+| Club content | Source-backed sections and Wix links; editable plain-text publishing and safe public JSON/RSS/calendar source | Historical Wix media/documents/archive import; hosted public-content acceptance |
+| Membership management | Runtime catalogue/retirement, manual periods and additional payment corrections, optional receipts, trials/extensions and consent | Hosted permissions, mail and real-data acceptance |
+| Booking management | Shared portal/commands; four-place/full-session rules, guardian requests, holds/approval/moves/releases; specific table resources, programme publishing and hall closures; SQL uniqueness/CAS guards | Hosted concurrency/cross-device tests, load/egress acceptance and production configuration |
+| Member communications | In-app queue, recipient/renewal/guardian checks, expiry/trial/booking/review scheduling, Resend worker with leases/idempotency/retry limits and global budget | Sender/domain/API credentials, Auth SMTP, cron/Vault configuration and actual delivery tests |
+| Attendance tracking | Direct app/rotating QR, guardian selection, explicit presence, Not attending, membership follow-up, corrections, ranged reports and exports | Real-device/hosted acceptance; NFC/kiosk hardware is parked |
+| Match records | Singles/doubles/guests, game validation, drafts/incomplete, opponent/coach review, five-day inaction job, duplicate warning/fixture reuse | Hosted review/deadline acceptance; corrections invalidate dependent played results for explicit resolution |
+| Tournament management | Internal leagues/knockouts, editable draft teams/seeding, points/tie-breaks/byes/progression, delegation/check-in; external events and private proposals | Advanced post-start structure changes and broader load/acceptance cases remain tracked |
+| Tournament reflections | Participant/guardian private tags/notes/revisions, external reported provenance, event/date grouped coaching counts | Hosted privacy acceptance; selected-player/group/team filters and matching drill-down exist |
+| Player development | Restricted coach notes, assessments/goals and distinct coach/family sign-off | Hosted visibility/acceptance and retention purpose review |
+| Club administration | Runtime scoped grants, shared work, policy editing, permitted exports, audit and approved retention source | Full governance/retention decisions, encrypted off-site backup/restore and operational monitoring |
+| Deployment and handover | Fresh CLI login/link, environment, migration bundle, function staging/deploy, owner bootstrap, schedule and independent app Worker config | Owner performs account-required commands and live checks from personal laptop |
 
-## Session booking preview delivered
+## Shared session booking flow
 
 ```mermaid
 flowchart LR
@@ -52,17 +55,28 @@ flowchart LR
   Arrival[Separate QR or app arrival] --> Attendance[Attendance record]
 ```
 
-In the current preview these are browser-local transitions. Production must enforce them transactionally on the backend, with independent attendance evidence and notifications.
+Synthetic mode runs these transitions locally. Live-mode source applies the same rules through the authorized command API with database revision/uniqueness checks, independent attendance and queued notifications. Hosted behavior still requires owner deployment and acceptance.
 
-The supplied `Leeside Table Booking.html` is a design reference. Its Claude-specific runtime APIs are not dependencies of the React app. `packages/ui/src/SessionBookingDemo.tsx` is reused by the Leeside website and the Leeside section of the platform demo. `packages/domain/src/session-booking.ts` contains tested prototype rules.
+The supplied `Leeside Table Booking.html` is a design reference, not a Claude runtime dependency. `ClubPortal.tsx` now replaces the standalone `SessionBookingDemo.tsx` in both entry points. Shared booking rules remain in `session-booking.ts` and the broader command service is `operations.ts`.
 
 The approved unit is **one player place for a whole session**, with **four places per table** and **one active pending/confirmed place per player per session**. Parents can request separate places for linked children. Preview roles support request, approve/decline, cancellation, staff moves/releases and per-session reservable/coaching/walk-in/closed allocations. Attendance remains independent. Staff can explicitly release a no-show's place; no automatic no-show detection is claimed.
 
-The preview uses synthetic people and browser-local storage, including simulated confirmation messages. Its twelve tables, initial six coaching tables, thirty-minute hold and two-hour cancellation cutoff are demonstration defaults, not confirmed physical inventory or a completed admin policy editor. Production values remain configurable requirements. The earlier hourly whole-table model is superseded. The historical `bookings` schema alone does not implement the new inventory constraints.
+Synthetic people/tables are demonstration defaults, not confirmed physical inventory. The real bootstrap starts empty; managers configure sessions/tables, holds/cancellation and membership policy using the supplied forms. The earlier hourly whole-table model is superseded. The old normalized `bookings` table is not the active command-store inventory.
+
+## Local verification — 7 November 2026
+
+- `npm run check`: all workspace type checks, **72 domain tests across four files**, both production builds and PWA generation passed on Node 22. Tests cover booking/permission/guardian/idempotency/privacy, bracket corrections, email suppression and audit behavior.
+- Prepared canonical function-local rules, then Deno checked all three handlers; **three local HTTP integration tests** passed for authenticated API, scheduler/provider-budget behavior and public feed privacy. Fake local services/provider interception were used; no real email was sent.
+- Fresh isolated PostgreSQL 17: all three migrations applied through the generated SQL-Editor bundle; `runtime.sql` and legacy `venue_qr.sql` passed. Reapplying the migration bundle and fake-owner bootstrap preserved existing data. No hosted database was contacted. The installed CLI help confirms multi-function deployment with `--use-api` (HTTP bundling, no Docker).
+- Synthetic Chromium desktop/mobile walkthrough passed against **both website and national app entry points** catalogue creation, guardian booking, maintainer approval, attendance/report, scoring, reflection privacy, opponent review and coach aggregation; 390px and 320px checks found no horizontal overflow.
+- Frontend environment checks rejected a fake server key and an unexpected VITE variable. OpenSpec validation and `git diff --check` passed.
+- Dependency audit after compatible updates: **0 high/critical**, **4 moderate and 2 low** in the PWA/Workbox build dependency chain. These remain a tracked release review, not a clean-audit claim. No disruptive forced major upgrade was applied.
+
+These are local/synthetic checks, not actual Supabase configuration, native Safari/Android testing, distributed load acceptance, backup restoration or production email verification.
 
 ## Release gates and deferred scope
 
-Code delivery `ef10b50` is pushed to main. The website deployment was verified using matching JS/CSS hashes, SPA response and a live mobile synthetic request/approval walkthrough. Local checks passed 21 tests, all workspace type checks, both builds and OpenSpec validation. See `docs/CLOUDFLARE_DEPLOYMENT_PLAN.md` for asset evidence. This verifies the preview, not the remaining live product.
+Historical standalone-preview delivery `ef10b50` is pushed to main. The website deployment was verified using matching JS/CSS hashes, SPA response and a live mobile synthetic request/approval walkthrough. Local checks passed 21 tests, all workspace type checks, both builds and OpenSpec validation. See `docs/CLOUDFLARE_DEPLOYMENT_PLAN.md` for asset evidence. This verifies the preview, not the remaining live product.
 
 Hosted setup is one dependency, not the only remaining work. Production requires tested RLS/permissions, shared transactional services, authenticated email delivery, backups/restoration, safeguarding/privacy configuration and end-to-end acceptance. Do not advertise real bookings or import private live records into a synthetic demo.
 

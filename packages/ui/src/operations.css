@@ -1,0 +1,263 @@
+.club-ops {
+  max-width: 1160px;
+  margin: auto;
+  padding: 64px 20px;
+  color: #19334c;
+  font:
+    15px/1.6 system-ui,
+    sans-serif;
+  scroll-margin-top: 24px;
+}
+.club-ops * {
+  box-sizing: border-box;
+}
+.club-ops header h2 {
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+.ops-kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #526b80;
+}
+.club-ops nav,
+.ops-actions,
+.ops-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.club-ops button,
+.club-ops input,
+.club-ops select,
+.club-ops textarea {
+  font: inherit;
+  max-width: 100%;
+  border: 1px solid #bac9d5;
+  border-radius: 7px;
+  padding: 9px 12px;
+}
+.club-ops button {
+  cursor: pointer;
+  background: #edf3f8;
+  color: #19334c;
+  font-weight: 650;
+}
+.club-ops button[aria-pressed="true"],
+.ops-form > button {
+  background: #194f8b;
+  color: white;
+}
+.club-ops button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.club-ops :focus-visible {
+  outline: 3px solid #da7c2d;
+  outline-offset: 3px;
+}
+.club-ops label {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+  min-width: 0;
+}
+.club-ops input,
+.club-ops select,
+.club-ops textarea {
+  background: white;
+  color: #19334c;
+  width: 100%;
+}
+.club-ops input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+.club-ops select[multiple] {
+  min-height: 110px;
+}
+.club-ops textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.ops-notice {
+  background: #fff4dd;
+  border-left: 4px solid #da7c2d;
+  padding: 18px;
+  margin: 20px 0;
+}
+.ops-notice label {
+  max-width: 320px;
+  margin: 12px 0;
+}
+.ops-feedback {
+  font-weight: 650;
+  min-height: 24px;
+  overflow-wrap: anywhere;
+}
+.ops-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.ops-grid > article,
+.ops-tables > article {
+  background: white;
+  border: 1px solid #d0dce5;
+  border-radius: 10px;
+  padding: 22px;
+  min-width: 0;
+}
+.ops-form {
+  display: grid;
+  gap: 12px;
+  padding: 18px 0;
+  border-top: 1px solid #d9e2ea;
+  margin-top: 16px;
+}
+.ops-form h4 {
+  margin: 0;
+}
+.ops-form > button {
+  justify-self: start;
+}
+.ops-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding: 14px 0;
+  border-bottom: 1px solid #d9e2ea;
+}
+.ops-row > div {
+  flex: 1 1 170px;
+}
+.ops-row small {
+  display: block;
+  color: #526b80;
+  overflow-wrap: anywhere;
+}
+.ops-row button {
+  font-size: 12px;
+}
+.ops-tables {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.ops-tables h4 {
+  margin: 0;
+}
+.ops-tables > article {
+  padding: 16px;
+}
+.ops-places {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin: 14px 0;
+}
+.ops-place {
+  background: #1c5ba6;
+  color: white;
+  font-size: 11px;
+  padding: 14px 9px;
+  text-align: center;
+}
+.ops-place strong {
+  display: block;
+}
+.ops-pending {
+  background: #86531a;
+}
+.ops-confirmed {
+  background: #237a4b;
+}
+.ops-session-picker {
+  max-width: 600px;
+  margin-bottom: 22px;
+}
+.club-ops table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+.club-ops th,
+.club-ops td {
+  text-align: left;
+  border-bottom: 1px solid #d9e2ea;
+  padding: 8px 5px;
+  overflow-wrap: anywhere;
+}
+.ops-event {
+  border-bottom: 1px solid #d9e2ea;
+  padding: 16px 0;
+}
+.ops-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.ops-bar meter {
+  flex: 1;
+  min-width: 0;
+}
+.club-ops img {
+  width: 320px;
+  max-width: 100%;
+  height: auto;
+}
+.ops-auth {
+  padding: 20px;
+  background: #edf3f8;
+}
+.ops-auth form {
+  display: grid;
+  gap: 12px;
+  max-width: 400px;
+}
+.ops-refresh {
+  margin-bottom: 16px;
+}
+.club-ops p {
+  overflow-wrap: anywhere;
+}
+.club-ops details {
+  margin-top: 24px;
+}
+.club-ops h3 {
+  font-size: 22px;
+}
+.club-ops summary {
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  .club-ops {
+    padding: 36px 16px;
+  }
+  .ops-grid {
+    grid-template-columns: 1fr;
+  }
+  .ops-tables {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .ops-tables > article {
+    padding: 12px;
+  }
+  .club-ops nav button {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .club-ops th,
+  .club-ops td {
+    padding: 7px 3px;
+  }
+  .ops-filters label {
+    flex: 1 1 120px;
+  }
+}

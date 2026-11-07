@@ -1,5 +1,8 @@
 import type { ButtonHTMLAttributes, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
 export { SessionBookingDemo } from './SessionBookingDemo';
+export { ClubPortal } from './ClubPortal';
+export { ClubPublished } from './ClubPublished';
+export { liveMode as clubServicesEnabled } from './club-client';
 
 export function BrandMark({ compact = false }: { compact?: boolean }) {
   return (

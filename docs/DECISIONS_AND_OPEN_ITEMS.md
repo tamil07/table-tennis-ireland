@@ -1,5 +1,8 @@
 # Decisions and open items
 
+**Current delivery, 7 November 2026:** operational website/app forms, authenticated commands, private versioned store/SQL guards, reports, matches/tournaments/reflections, membership/settings and scheduler/public-feed source now exist. Hosted setup remains paused for the personal laptop. Follow [the complete launch runbook](PERSONAL_LAPTOP_LAUNCH.md); [OpenSpec status](../openspec/changes/launch-cork-club-platform/implementation-status.md) supersedes implementation-pending statements in the dated decision history below. Account creation is complete; account configuration/live acceptance is separate. No further agent subscription is needed to execute the supplied setup.
+
+
 Last reconciled: 7 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`. [Implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md) records all capabilities and the personal-laptop handover.
 
 ## Closed decisions

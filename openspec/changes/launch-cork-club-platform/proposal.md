@@ -4,6 +4,8 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 
 ## What Changes
 
+- Deliver the operational application source independently of hosted setup: shared command rules, reusable website/PWA workspace, authenticated server boundary, private versioned pilot store, scheduling/email source, public content feeds, local tests and repeatable personal-laptop setup/deployment helpers. Add `deployment-and-handover` requirements. See `runtime-design.md` for the explicit storage/permission/concurrency decision; legacy relational/QR foundations are not a second authoritative inventory.
+
 - Delivery sequencing, 7 November 2026: finish independent implementation, synthetic previews, tests and repository documentation while hosted Supabase setup stays paused. The owner confirms office-laptop connections are blocked and will complete setup from a personal laptop after these updates. See `implementation-status.md` for the handover and remaining production work; no real booking/sync/email claim follows from a frontend demo.
 
 - Pilot sequencing: retain the existing Leeside website, app, backend and build targets in this repository for at least one year of live operation. Review independent website extraction only after that period and once more than two clubs participate (three or more). No immediate or automatic split is planned; app-only hosting below is the longer-term direction with this Leeside pilot exception.

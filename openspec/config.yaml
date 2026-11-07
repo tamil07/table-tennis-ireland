@@ -5,7 +5,11 @@ context: |
   launching initially with Leeside Table Tennis in Cork as the only participating club.
   Product direction: Prove the product with one club, while preserving a path to offer it
   to table-tennis clubs across Ireland as a shared platform for players and clubs.
-  Stage: Requirements discovery; technology and architecture decisions are not yet final.
+  Stage: Operational source implementation and local verification. TypeScript/React/Vite,
+  Supabase Auth/functions/PostgreSQL and Cloudflare static hosting are selected for the pilot.
+  Hosted Supabase setup is paused: the office laptop blocks connections; the owner will
+  complete setup from a personal laptop. See the active change runtime-design.md and
+  docs/PERSONAL_LAPTOP_LAUNCH.md; no extra coding-agent subscription is required for setup.
   The platform repository owns the app and shared backend, not a generic website hosting service.
   Pilot exception: retain apps/club-web and the app in this repository for at least one year
   of live operation. Review website separation only after that period and once more than
