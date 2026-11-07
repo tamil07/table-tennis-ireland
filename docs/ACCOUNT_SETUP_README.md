@@ -76,7 +76,7 @@ Links: [Signup](https://dash.cloudflare.com/sign-up), [dashboard](https://dash.c
 - [ ] Enable MFA and save recovery codes privately.
 - [ ] Invite trusted owners individually with appropriate access: [account members](https://developers.cloudflare.com/fundamentals/manage-members/manage/).
 - [ ] Start with free hosting; review any chargeable feature before enabling it.
-- [x] GitHub main is connected to the existing Cloudflare website deployment; code commit `ef10b50` was verified publicly on 7 November 2026.
+- [x] GitHub main is connected to the existing Cloudflare website deployment; operational code commit `2577059` was verified publicly on 7 November 2026.
 
 Deployment work after account access is ready:
 

@@ -87,3 +87,17 @@ The preview command was not returned in the inspected build metadata. Check it i
 - An API token with build-edit capability does not authorize unrelated changes. This request authorizes inspection and planning; the pending fixes above are not represented as completed.
 
 References: [Workers Builds API](https://developers.cloudflare.com/workers/ci-cd/builds/api-reference/), [Build configuration](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/).
+
+
+## Operational portal delivery — 7 November 2026
+
+Main commit `2577059` is pushed and the existing website Worker now serves the shared operational portal in synthetic mode. No API token was needed for public verification. All served assets matched the local production build:
+
+| Asset | SHA-256 |
+| --- | --- |
+| `index-Bhwyd7TY.js` | `a9c71852ac5407f371cd6163d211745beab33fc4fa159968db0851b2ab757d09` |
+| `qr-BeMEBtOm.js` | `7a913a1cc05984bb0be151caf34ea55a65f27e562d7e9b2226e70515154a17c0` |
+| `supabase-rGanuP7S.js` | `4aa11d5b6bcd2a97d257c660f2aa538a8f551c45c21cd38b4edcff6b1a8f02c2` |
+| `index-DTdpFAQR.css` | `eb4d572b10b761cb8a96868c070b04c708f38aa2f85a4edcad66d41a006ec886` |
+
+SPA fallback and deployed synthetic browser flows passed: catalogue, guardian booking/approval, attendance/report, match review, reflection privacy, coach aggregate and 390px/320px layouts. This does not verify live Supabase, real delivery, preview isolation or rollback. The separate `ttclubs-app` Worker config is ready but not remotely deployed. Follow [the personal-laptop launch guide](PERSONAL_LAPTOP_LAUNCH.md) for fresh CLI logins, account configuration and activation; office hosted setup remains paused.
