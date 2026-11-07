@@ -74,17 +74,18 @@ Links: [Signup](https://dash.cloudflare.com/sign-up), [dashboard](https://dash.c
 - [ ] Enable MFA and save recovery codes privately.
 - [ ] Invite trusted owners individually with appropriate access: [account members](https://developers.cloudflare.com/fundamentals/manage-members/manage/).
 - [ ] Start with free hosting; review any chargeable feature before enabling it.
-- [ ] Authorize the intended GitHub repository for deployment if using Cloudflare's Git integration.
+- [x] GitHub main is connected to the existing Cloudflare website deployment; code commit `ef10b50` was verified publicly on 7 November 2026.
 
 Deployment work after account access is ready:
 
 | Deployment | Build from repository root | Output | Backend |
 | --- | --- | --- | --- |
-| Club website | `npm ci` then `npm run build --workspace @tti/club-web` | `apps/club-web/dist` | Development Supabase for previews; production only after approval |
-| National app | `npm ci` then `npm run build --workspace @tti/platform` | `apps/platform/dist` | Same environment separation |
+| Club website | `npm ci` then `npm run build:club`; publish with `npm run deploy:club` | `apps/club-web/dist` | Disconnected synthetic booking; hosted setup paused |
+| National app | `npm ci` then `npm run build --workspace @tti/platform` | `apps/platform/dist` | Synthetic dashboard/booking; partial QR client needs hosted setup for live use |
 
-- [ ] Configure two independent Workers Static Assets deployments, SPA fallback, HTTPS, headers, and deployment environment variables. Workers/Wrangler deployment configuration still needs to be completed; the build commands alone do not publish the apps.
-- [ ] Deploy to temporary `workers.dev` addresses first. A purchased domain is not needed to begin testing.
+- [x] Website Worker/assets, HTTPS and SPA fallback configured through `wrangler.club-web.jsonc`; public demo and current asset hashes verified.
+- [ ] Configure the separate national-app Worker, review headers/environment variables and verify its deployment. Do not overwrite the website Worker.
+- [x] Website has a temporary `workers.dev` address. A purchased domain is not needed for preview testing; a separate app URL remains pending.
 - [ ] Record both preview URLs and allow the exact required Auth redirect URLs in Supabase.
 - [ ] Verify that preview deployments never connect to production member data.
 

@@ -141,6 +141,7 @@ Updated 7 November 2026. [Implementation status and personal-laptop handover](im
 - [ ] 10.14 Configure a separate synthetic platform-app Worker without hosted Supabase bindings while setup is paused; review dependency/install-script warnings independently
 - [x] 10.15 Verify successful Cloudflare website build af21ba36-d5ea-4df0-9eba-7d87a70e2fe2 from fix commit 8484e83, root/JS/CSS HTTP 200, exact local/remote asset hashes and SPA fallback; preview/mobile/rollback acceptance in 10.13 remains pending
 - [x] 10.16 Add root AGENTS.md handover linking approved requirements, all-capability status, complete pending checklist, personal-laptop setup sequence and validation/deployment commands
+- [x] 10.17 Verify booking preview code delivery ef10b50: main push, served JS/CSS hashes matching local build, SPA response, live mobile synthetic request/approval; preview-version isolation and rollback in 10.13 remain pending
 
 ## Parked owner activity (not a development prerequisite)
 

@@ -1,5 +1,13 @@
 # Cloudflare inspection and deployment plan
 
+## Latest website verification — 7 November 2026
+
+Code commit `ef10b50` is pushed to main. The public website now serves `index-mtmbKBKM.js` and `index-CyulaUCm.css`; both return HTTP 200 and SHA-256 hashes match the tested local production build. `/booking` returns the current SPA HTML. A live 390-pixel browser walkthrough requested a synthetic place, switched to maintainer, approved it and verified confirmation with no document overflow. Local walkthrough additionally covered guardian requests, duplicate prevention, occupied-table protection, moves, persistence and club switching at desktop/mobile widths.
+
+`npm run check` passed all workspace type checks, 21 tests and both production builds; OpenSpec validation passed. A final website-only build passed after copy/header corrections. No current Cloudflare build ID is asserted: this verification used served assets and browser behavior rather than the historical API build record below. A documentation-only follow-up commit may trigger another build with unchanged website assets.
+
+The deployed booking is explicitly synthetic/browser-local. Real authentication, production inventory, cross-device synchronization and email delivery remain pending. Supabase office-laptop connections are blocked; the owner will complete connection setup from a personal laptop. Separate app deployment, isolated preview and rollback rehearsal remain pending. Earlier observations below are historical.
+
 ## Verified deployment result
 
 The authorized fix is committed as `8484e837f74e8a728a9c81afb385ed0e1b296987`. Its GitHub push triggered build `af21ba36-d5ea-4df0-9eba-7d87a70e2fe2`, which completed successfully and deployed Worker version `5fdab8bb-e862-4095-b0f0-a693d4e8ec09`.
