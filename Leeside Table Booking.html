@@ -1,0 +1,397 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Leeside Table Booking</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: sports-hall board. Session picker on top, a floor plan of 12 table tops below, assist rota and my bookings underneath. */
+:root{
+  --bg:#EDF1F6; --surface:#FFFFFF; --ink:#14213A; --muted:#566781; --line:#D2DBE6;
+  --table:#1C5BA6; --table-edge:#FFFFFF; --ball:#E9781C; --reserved:#8E9CB0; --ok:#237A4B; --danger:#B3261E;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1520; --surface:#152031; --ink:#E5EBF3; --muted:#93A3B9; --line:#26354B;
+  --table:#2766B3; --table-edge:#DCE6F2; --ball:#F39A44; --reserved:#3B4B62; --ok:#4CC08A; --danger:#F2867E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1520; --surface:#152031; --ink:#E5EBF3; --muted:#93A3B9; --line:#26354B;
+  --table:#2766B3; --table-edge:#DCE6F2; --ball:#F39A44; --reserved:#3B4B62; --ok:#4CC08A; --danger:#F2867E; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 120px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:2rem;line-height:1.05}
+h2{font-size:1.35rem}
+.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header{display:grid;gap:6px}
+header p{margin:0;color:var(--muted);max-width:62ch}
+.banner{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ball);border-radius:6px;padding:10px 12px;font-size:.9rem}
+
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.day{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer;text-align:left;display:grid;gap:1px;min-width:86px}
+.day b{font-family:var(--display);font-size:1.1rem;font-weight:700}
+.day span{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.day[aria-pressed="true"]{background:var(--table);border-color:var(--table);color:#fff}
+.day[aria-pressed="true"] span{color:#DCE7F5}
+.day:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+
+.session{display:grid;gap:14px}
+.session-head{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;justify-content:space-between}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.meta strong{color:var(--ink);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.82rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+
+.floor{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tt{display:grid;gap:5px;min-width:0}
+.tt-label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.top{position:relative;display:grid;grid-template-columns:1fr 1fr;aspect-ratio:9/5;max-width:100%;background:var(--table);border:3px solid var(--table-edge);outline:1px solid var(--line);border-radius:3px;overflow:hidden}
+.top::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid color-mix(in srgb,var(--table-edge) 70%,transparent);pointer-events:none}
+.top::after{content:"";position:absolute;top:-3px;bottom:-3px;left:50%;width:4px;margin-left:-2px;background:repeating-linear-gradient(0deg,var(--table-edge) 0 3px,transparent 3px 6px);pointer-events:none}
+.place{position:relative;z-index:1;border:0;background:transparent;color:#fff;font:inherit;font-size:.82rem;padding:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;overflow-wrap:anywhere;line-height:1.2}
+.place.free span{border:1px dashed rgba(255,255,255,.7);border-radius:999px;padding:3px 9px;font-weight:600}
+.place.free:hover span{background:rgba(255,255,255,.16)}
+.place.taken{font-weight:600;background:rgba(0,0,0,.14)}
+.place.mine{background:color-mix(in srgb,var(--ball) 82%,transparent);color:#1b1206}
+.place[disabled]{cursor:default}
+.tt.coaching .top{background:var(--reserved);border-color:color-mix(in srgb,var(--table-edge) 60%,var(--reserved))}
+.coach-tag{position:relative;z-index:1;grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--display);font-size:1rem;letter-spacing:.06em;text-transform:uppercase}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.panel p{margin:0;color:var(--muted);font-size:.9rem}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;font-variant-numeric:tabular-nums;min-width:0}
+.row > div{min-width:0;overflow-wrap:anywhere}
+.row small{display:block;color:var(--muted)}
+.btn{font:inherit;font-weight:600;border-radius:6px;padding:8px 14px;cursor:pointer;border:1px solid var(--table);background:var(--table);color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.link{background:transparent;border:0;color:var(--danger);padding:4px 6px}
+.btn[disabled]{opacity:.5;cursor:default}
+.empty{color:var(--muted);font-size:.9rem;font-style:italic}
+.rules{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.9rem;color:var(--muted)}
+.draft{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ball);border:1px solid var(--ball);border-radius:4px;padding:1px 5px;vertical-align:2px;margin-left:6px}
+
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(10,20,40,.18);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+.sheet form{max-width:960px;margin:0 auto;display:grid;gap:10px}
+.sheet .what{font-family:var(--display);font-size:1.15rem;font-weight:700}
+.sheet .fields{display:flex;flex-wrap:wrap;gap:8px}
+.sheet input{flex:1 1 200px;min-width:0;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.sheet .err{color:var(--danger);font-size:.88rem;margin:0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:6px;font-weight:600;font-size:.9rem;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion: no-preference){.place,.day,.btn{transition:background-color .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Leeside Table Tennis Club · Prototype</div>
+    <h1>Open session table booking</h1>
+    <p>Tables 1–6 are held for the coached group. Tables 7–12 are open for members to book for practice and drills. Each table takes two players.</p>
+  </header>
+
+  <div id="status" class="banner" hidden></div>
+
+  <nav class="days" id="days" aria-label="Choose a session"></nav>
+
+  <section class="session" aria-live="polite">
+    <div class="session-head">
+      <div>
+        <div class="eyebrow" id="s-date"></div>
+        <h2 id="s-title"></h2>
+      </div>
+      <div class="meta" id="s-meta"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--table)"></i>Open table</span>
+      <span><i style="background:var(--reserved)"></i>Coaching</span>
+      <span><i style="background:var(--ball)"></i>Your booking</span>
+    </div>
+    <div class="floor" id="floor"></div>
+  </section>
+
+  <div class="cols">
+    <section class="panel" id="assist-panel">
+      <h2>Assistant coach rota</h2>
+      <p id="assist-intro"></p>
+      <ul class="list" id="assist-list"></ul>
+    </section>
+    <section class="panel">
+      <h2>My bookings</h2>
+      <ul class="list" id="mine"></ul>
+    </section>
+    <section class="panel">
+      <h2>Booking rules <span class="draft">Draft</span></h2>
+      <ul class="rules">
+        <li>One table place per person per session.</li>
+        <li>Bookings open 14 days ahead.</li>
+        <li>Cancel at least 2 hours before so someone else can play.</li>
+        <li>Not on court 10 minutes after the start? The place goes to walk-ins.</li>
+        <li>Unbooked open tables are first come, first served on the night.</li>
+        <li>The club is closed on public holidays.</li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <form id="book-form" autocomplete="on">
+    <div class="what" id="sheet-what"></div>
+    <div class="fields">
+      <input id="player-name" name="player-name" maxlength="40" placeholder="Player name" aria-label="Player name" required>
+      <button class="btn" type="submit" id="confirm-btn">Book place</button>
+      <button class="btn ghost" type="button" id="cancel-sheet">Cancel</button>
+    </div>
+    <p class="err" id="sheet-err" hidden></p>
+  </form>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+  // Weekly timetable: open sessions only (from the current Leeside schedule).
+  const SESSIONS = {
+    1:{key:"mon", open:["18:00","20:00"], coached:"Senior Performance", coachedTime:"", assist:{time:"18:00–19:00", places:2, group:"Senior Performance"}},
+    3:{key:"wed", open:["20:15","22:15"], coached:"CSP / Outreach", coachedTime:""},
+    4:{key:"thu", open:["17:30","19:30"], coached:"Beginner & Invite Performance", coachedTime:""},
+    5:{key:"fri", open:["18:00","20:00"], coached:"Senior Performance", coachedTime:"", assist:{time:"18:00–19:00", places:2, group:"Senior Performance"}},
+    0:{key:"sun", open:["12:45","15:30"], coached:"Beginner, then Junior Performance", coachedTime:""}
+  };
+  // Irish public holidays (club closed). Includes substitute days for holidays falling at the weekend.
+  const HOLIDAYS={
+    "2026-10-26":"October Bank Holiday","2026-12-25":"Christmas Day","2026-12-28":"St Stephen's Day (observed)",
+    "2027-01-01":"New Year's Day","2027-02-01":"St Brigid's Day","2027-03-17":"St Patrick's Day","2027-03-29":"Easter Monday",
+    "2027-05-03":"May Bank Holiday","2027-06-07":"June Bank Holiday","2027-08-02":"August Bank Holiday",
+    "2027-10-25":"October Bank Holiday","2027-12-27":"Christmas Day (observed)","2027-12-28":"St Stephen's Day (observed)"
+  };
+  const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const WINDOW_DAYS=14, COACH_TABLES=6, TOTAL_TABLES=12;
+
+  const $=id=>document.getElementById(id);
+  const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
+  const pad=n=>String(n).padStart(2,"0");
+  const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+  const nice=d=>DAYS[d.getDay()]+" "+d.getDate()+" "+MONTHS[d.getMonth()];
+
+  // Upcoming sessions in the booking window (including tonight's if not finished).
+  const now=new Date();
+  const upcoming=[];
+  for(let i=0;i<WINDOW_DAYS;i++){
+    const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i);
+    const s=SESSIONS[d.getDay()];
+    if(!s) continue;
+    const [eh,em]=s.open[1].split(":").map(Number);
+    const end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),eh,em);
+    if(end<=now) continue;
+    upcoming.push({date:iso(d), d, s, closed:HOLIDAYS[iso(d)]||null});
+  }
+  const todayIso=iso(now);
+
+  let db=null, myId=null, isEditor=false, readOnly=false, live=false;
+  const bookings=new Map(); // id -> data
+  const assists=new Map();
+  let sel=upcoming.find(u=>!u.closed)||upcoming[0];
+  let pending=null; // {kind:"table"|"assist", docId, label, extra}
+
+  function savedName(){try{return localStorage.getItem("leeside-name")||"";}catch(e){return "";}}
+  function rememberName(n){try{localStorage.setItem("leeside-name",n);}catch(e){}}
+
+  function toast(msg){const t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>{t.hidden=true;},2600);}
+  function status(msg){const s=$("status");if(!msg){s.hidden=true;return;}s.textContent=msg;s.hidden=false;}
+
+  function renderDays(){
+    const nav=$("days");nav.replaceChildren();
+    upcoming.forEach(u=>{
+      const b=el("button","day");b.type="button";b.id="day-"+u.date;
+      b.setAttribute("aria-pressed",String(u===sel));
+      b.append(el("b",null,DAYS[u.d.getDay()].slice(0,3)+" "+u.d.getDate()));
+      const taken=[...bookings.values()].filter(x=>x.date===u.date).length;
+      b.append(el("span",null,u.closed?"Closed":u.s.open[0]+" · "+(12-taken)+" free"));
+      b.onclick=()=>{sel=u;closeSheet();render();};
+      nav.append(b);
+    });
+  }
+
+  function placeId(date,t,slot){return date+"_t"+t+"_"+slot;}
+  function canCancel(rec){return !readOnly && (rec.by===myId || isEditor);}
+
+  function renderSession(){
+    if(!sel){$("s-title").textContent="No open sessions in the next two weeks";$("floor").replaceChildren();return;}
+    const s=sel.s;
+    $("s-date").textContent=nice(sel.d)+(sel.date===todayIso?" · Today":"");
+    if(sel.closed){
+      $("s-title").textContent="Club closed · "+sel.closed;
+      $("s-meta").replaceChildren(el("span",null,"No sessions on public holidays."));
+      $("floor").replaceChildren();
+      return;
+    }
+    $("s-title").textContent="Open session "+s.open[0]+"–"+s.open[1];
+    const meta=$("s-meta");meta.replaceChildren();
+    const a=el("span");a.append("Coaching: ",el("strong",null,s.coached));meta.append(a);
+    const free=[...Array(TOTAL_TABLES-COACH_TABLES)].reduce((n,_,i)=>n+["a","b"].filter(sl=>!bookings.has(placeId(sel.date,COACH_TABLES+1+i,sl))).length,0);
+    meta.append(el("span",null,free+" of 12 places free"));
+
+    const floor=$("floor");floor.replaceChildren();
+    for(let t=1;t<=TOTAL_TABLES;t++){
+      const wrap=el("div","tt");
+      const lab=el("div","tt-label");lab.append(el("span",null,"Table "+t));
+      const top=el("div","top");
+      if(t<=COACH_TABLES){
+        wrap.classList.add("coaching");
+        lab.append(el("span",null,"Held"));
+        top.append(el("div","coach-tag","Coaching"));
+        top.setAttribute("aria-label","Table "+t+" held for "+s.coached);
+      }else{
+        let n=0;
+        ["a","b"].forEach((slot,i)=>{
+          const id=placeId(sel.date,t,slot);
+          const rec=bookings.get(id);
+          const b=el("button","place");b.type="button";b.id="p-"+t+slot;
+          if(rec){
+            n++;
+            b.classList.add("taken");
+            if(rec.by&&rec.by===myId) b.classList.add("mine");
+            b.textContent=rec.name;
+            b.setAttribute("aria-label","Table "+t+", "+(i?"right":"left")+" end: "+rec.name);
+            if(canCancel(rec)) b.onclick=()=>openCancel(id,rec,t);
+            else b.disabled=true;
+          }else{
+            b.classList.add("free");b.append(el("span",null,"Book"));
+            b.setAttribute("aria-label","Book table "+t+", "+(i?"right":"left")+" end");
+            if(readOnly||!live) b.disabled=true;
+            else b.onclick=()=>openBook({kind:"table",docId:id,label:"Table "+t+" · "+nice(sel.d)+" "+s.open[0],extra:{date:sel.date,table:t,slot}});
+          }
+          top.append(b);
+        });
+        lab.append(el("span",null,n===2?"Full":(2-n)+" free"));
+      }
+      wrap.append(lab,top);floor.append(wrap);
+    }
+  }
+
+  function renderAssist(){
+    const list=$("assist-list");list.replaceChildren();
+    const sessions=upcoming.filter(u=>u.s.assist&&!u.closed);
+    $("assist-intro").textContent="Volunteers help the coach with the Senior Performance group on Mondays and Fridays, 18:00–19:00. Two places per session.";
+    if(!sessions.length){list.append(el("li","empty","No assist sessions in the next two weeks."));return;}
+    sessions.forEach(u=>{
+      for(let n=1;n<=u.s.assist.places;n++){
+        const id=u.date+"_assist_"+n;
+        const rec=assists.get(id);
+        const li=el("li","row");
+        const info=el("div");
+        info.append(rec?rec.name:"Open place");
+        info.append(el("small",null,nice(u.d)+" · "+u.s.assist.time+" · place "+n));
+        li.append(info);
+        if(rec){
+          if(canCancel(rec)){const c=el("button","btn link","Withdraw");c.type="button";c.onclick=()=>removeDoc("assist",id,"Withdrawn from the rota");li.append(c);}
+        }else{
+          const v=el("button","btn ghost","Volunteer");v.type="button";v.disabled=readOnly||!live;
+          v.onclick=()=>openBook({kind:"assist",docId:id,label:"Assist · "+nice(u.d)+" "+u.s.assist.time,extra:{date:u.date,place:n}});
+          li.append(v);
+        }
+        list.append(li);
+      }
+    });
+  }
+
+  function renderMine(){
+    const ul=$("mine");ul.replaceChildren();
+    if(!myId){ul.append(el("li","empty","Sign in to see the places you've booked."));return;}
+    const rows=[];
+    bookings.forEach((r,id)=>{if(r.by===myId) rows.push({id,r,kind:"bookings",text:"Table "+r.table,when:r.date});});
+    assists.forEach((r,id)=>{if(r.by===myId) rows.push({id,r,kind:"assist",text:"Assistant coach",when:r.date});});
+    rows.sort((a,b)=>a.when<b.when?-1:1);
+    if(!rows.length){ul.append(el("li","empty","Nothing booked yet. Tap Book on an open table to reserve a place."));return;}
+    rows.forEach(x=>{
+      const d=new Date(x.when+"T12:00:00");
+      const li=el("li","row");const info=el("div");
+      info.append(x.text+" · "+x.r.name);
+      const s=SESSIONS[d.getDay()];
+      info.append(el("small",null,nice(d)+(s?" · "+(x.kind==="assist"&&s.assist?s.assist.time:s.open[0]+"–"+s.open[1]):"")));
+      const c=el("button","btn link",x.kind==="assist"?"Withdraw":"Cancel");c.type="button";
+      c.onclick=()=>removeDoc(x.kind,x.id,x.kind==="assist"?"Withdrawn from the rota":"Booking cancelled");
+      li.append(info,c);ul.append(li);
+    });
+  }
+
+  function render(){renderDays();renderSession();renderAssist();renderMine();}
+
+  // Sheet
+  function openBook(p){
+    pending=p;$("sheet-what").textContent=p.kind==="assist"?"Volunteer: "+p.label:"Book "+p.label;
+    $("confirm-btn").textContent=p.kind==="assist"?"Add me to the rota":"Book place";
+    $("confirm-btn").className="btn";
+    const inp=$("player-name");inp.hidden=false;inp.required=true;if(!inp.value) inp.value=savedName();
+    $("sheet-err").hidden=true;$("sheet").hidden=false;inp.focus();
+  }
+  function openCancel(id,rec,t){
+    pending={kind:"cancel",docId:id};
+    $("sheet-what").textContent="Cancel "+rec.name+"'s place on table "+t+"?";
+    $("player-name").hidden=true;$("player-name").required=false;
+    $("confirm-btn").textContent="Cancel booking";$("confirm-btn").className="btn";
+    $("sheet-err").hidden=true;$("sheet").hidden=false;$("confirm-btn").focus();
+  }
+  function closeSheet(){pending=null;$("sheet").hidden=true;}
+  $("cancel-sheet").onclick=closeSheet;
+
+  function sheetError(msg){const e=$("sheet-err");e.textContent=msg;e.hidden=false;}
+
+  $("book-form").addEventListener("submit",async ev=>{
+    ev.preventDefault();
+    if(!pending||!db) return;
+    const btn=$("confirm-btn");btn.disabled=true;
+    try{
+      if(pending.kind==="cancel"){await removeDoc("bookings",pending.docId,"Booking cancelled");closeSheet();return;}
+      const name=$("player-name").value.trim();
+      if(!name){sheetError("Enter the player's name.");return;}
+      rememberName(name);
+      if(pending.kind==="table"){
+        const dup=[...bookings.values()].some(r=>r.date===pending.extra.date&&r.by===myId);
+        if(dup&&!isEditor){sheetError("You already have a place in this session. Cancel it first to move tables.");return;}
+      }
+      const coll=pending.kind==="assist"?"assist":"bookings";
+      const ref=db.collection(coll).doc(pending.docId);
+      const snap=await ref.get();
+      if(snap.exists){sheetError("Someone just took this place. Pick another one.");return;}
+      await ref.set(Object.assign({name, by:myId, at:Date.now()},pending.extra));
+      toast(pending.kind==="assist"?"Added to the rota":"Place booked");
+      closeSheet();
+    }catch(e){
+      sheetError(e&&e.code==="invalid_argument"?"You don't have permission to book on this page. Ask the club to share it with you as a contributor.":"Couldn't save that. Check your connection and try again.");
+    }finally{btn.disabled=false;}
+  });
+
+  async function removeDoc(coll,id,msg){
+    try{await db.collection(coll).doc(id).delete();toast(msg);}
+    catch(e){toast("Couldn't remove that. Try again.");}
+  }
+
+  render();
+
+  // Live data
+  (async()=>{
+    if(!window.claude||!window.claude.use){status("Live booking isn't available in this view. You can still browse the layout.");return;}
+    const [dbNs,userNs]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+    db=dbNs;
+    if(!db){status("Sign in to claude.ai to book tables. You can still browse the layout.");return;}
+    if(userNs){
+      myId=await userNs.id();
+      isEditor=await userNs.canEdit();
+      const w=await userNs.can("data.write");
+      if(w===false){readOnly=true;status("You can view bookings but not make them. Ask the club to share this page with you as a contributor.");}
+    }
+    live=true;
+    db.collection("bookings").where("date",">=",todayIso).onSnapshot(snap=>{
+      bookings.clear();snap.docs.forEach(d=>bookings.set(d.id,d.data()));render();
+    },()=>status("Lost the connection to live bookings. Reload the page to reconnect."));
+    db.collection("assist").where("date",">=",todayIso).onSnapshot(snap=>{
+      assists.clear();snap.docs.forEach(d=>assists.set(d.id,d.data()));render();
+    },()=>{});
+    render();
+  })();
+})();
+</script>
+
+</body></html>
