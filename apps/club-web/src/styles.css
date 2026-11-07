@@ -1,6 +1,9 @@
 :root { --primary: #103a2e; --accent: #d7ff55; }
 .club-site { min-height: 100vh; overflow: hidden; }
-.club-header { min-height: 5.2rem; padding: 1rem clamp(1.25rem,5vw,5rem); display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: var(--primary); color: #fff; }
+.site-preview { margin: 0; padding: .8rem clamp(1.25rem,5vw,5rem); background: #fff4dd; color: #674416; font-size: .88rem; line-height: 1.6; }
+.membership-options { padding-left: 1.2rem; line-height: 1.8; }
+.membership .source-note { margin: 1rem 0; }
+.club-header { min-height: 5.2rem; padding: 1rem clamp(1.25rem,5vw,5rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; background: var(--primary); color: #fff; }
 .club-brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; font-size: 1.15rem; font-weight: 850; }
 .club-brand small { display: block; color: #c4d4ce; font-size: .64rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
 .club-header nav { display: flex; gap: 2rem; }

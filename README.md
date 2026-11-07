@@ -1,5 +1,7 @@
 # TT Clubs Ireland
 
+**Continuing with another coding agent?** Start with [AGENTS.md](AGENTS.md), then [current implementation and pending work](openspec/changes/launch-cork-club-platform/implementation-status.md). These link the complete OpenSpec task list, code locations, verification commands and personal-laptop Supabase handover.
+
 Leeside website demo: [table-tennis-ireland.ttclubsie.workers.dev](https://table-tennis-ireland.ttclubsie.workers.dev). Deployment uses `npm run build:club` and `npm run deploy:club` with Node 22 and `wrangler.club-web.jsonc`; the website is a demonstration, not live membership/booking operation. See [deployment verification](docs/CLOUDFLARE_DEPLOYMENT_PLAN.md).
 
 > Latest operational defaults: roles, memberships and sessions are editable at runtime; the five session times and Wix contact defaults are approved. Attendance is QR/app-first with explicit self/linked-child selection and separate Not attending availability. NFC purchases and broader pilot recruitment are parked. Expiry messages default to end-of-day player/guardian email plus management summary. These supersede older defaults below and remain implementation work, not completed live behavior. See [current decisions/open items](docs/DECISIONS_AND_OPEN_ITEMS.md).
@@ -115,7 +117,9 @@ stateDiagram-v2
 
 ### Sessions and bookings
 
-- Planned: table-wise hourly practice requests from the website/app, including verified guests and guardian-led child bookings; maintainers approve through an in-app queue with email alerts. Provisional holds prevent conflicting requests and confirmed reservations remain separate from attendance. See [booking requirements](openspec/changes/launch-cork-club-platform/specs/booking-management/spec.md).
+Try the **Book a place** section (`#booking`) in the Leeside website or Leeside platform demo. Choose a synthetic player/linked child, request a free place, then switch “Preview as” to “Club maintainer” to approve, move or release it. Four player places share a table for the whole session; each player can hold one active place. Maintainers can switch unoccupied tables between reservable, coaching, walk-in and closed. Changes stay in this browser; this is not real sign-in, shared inventory, attendance or email delivery.
+
+- Planned production service: whole-session player-place requests from website/app, including verified guests and guardian-led children, current-permission approval, transactional inventory and real email/in-app notices. This replaces the earlier hourly whole-table model. See [booking requirements](openspec/changes/launch-cork-club-platform/specs/booking-management/spec.md).
 - Recurring timetable definitions generate dated session occurrences.
 - Leeside starts with five weekly sessions; admins can add one-off events and bounded programmes such as seven-day camps.
 - Sessions can change or be cancelled without rewriting historical attendance.
@@ -293,6 +297,8 @@ Not yet production-ready:
 - Native App Store or Play Store binaries.
 
 See the [decision and open-item register](docs/DECISIONS_AND_OPEN_ITEMS.md), [Leeside public-content inventory](docs/LEESIDE_CONTENT_INVENTORY.md), [remaining actions](docs/ACTION_ITEMS.md), and [OpenSpec tasks](openspec/changes/launch-cork-club-platform/tasks.md).
+
+**Supabase handover:** office-laptop connections are blocked. The owner will finish connection setup from a personal laptop after pulling repository updates. Hosted migrations remain unapplied. Independent frontend work continues with synthetic data; see the [setup commands](docs/ACCOUNT_SETUP_README.md) and [capability-by-capability OpenSpec status](openspec/changes/launch-cork-club-platform/implementation-status.md).
 
 ## Security and data handling
 

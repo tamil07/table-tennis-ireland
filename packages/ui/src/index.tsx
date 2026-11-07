@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
+export { SessionBookingDemo } from './SessionBookingDemo';
 
 export function BrandMark({ compact = false }: { compact?: boolean }) {
   return (

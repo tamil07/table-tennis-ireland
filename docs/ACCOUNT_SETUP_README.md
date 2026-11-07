@@ -4,7 +4,7 @@
 
 Use this single guide to create and connect the accounts needed for the Leeside website and national app. “Cloudbase” here means **Cloudflare**; the database service is **Supabase**. No separate Cloudbase account is required.
 
-Status: account creation and connections are pending until you confirm completion. Creating accounts alone does not deploy the app or finish the backend workflows.
+Status updated 7 November 2026: both Gmail accounts, the Supabase project and Cloudflare account exist; the website demo has deployed successfully. Hosted Supabase connection/migrations remain paused for the personal-laptop handover below. Creating accounts alone does not finish backend workflows.
 
 You own the platform, repository, and shared cloud infrastructure. Your dedicated Gmail is the contact/recovery address. Leeside manages its club through individual app accounts, not through your hosting credentials.
 
@@ -19,7 +19,19 @@ You can share the email address here. Keep passwords, one-time codes, recovery c
 
 ## 2. Create Supabase: database and sign-in
 
-**Paused by owner (5 November 2026):** further Supabase setup and remote migration application. The CLI remote connection timed out; company-network blocking is suspected, not confirmed. Retain the existing project/configuration. Resume with authorized connectivity or an approved alternate migration path and a reviewed dry run. UI work can continue separately with synthetic data.
+**Personal-laptop handover (owner confirmed 7 November 2026):** Supabase connections are blocked from the office laptop. The CLI timed out while connecting to the hosted PostgreSQL pooler. Hosted setup/migration application remain paused; the owner will complete connection setup from their personal laptop once repository updates are available. Continue code, synthetic UI and local tests independently. Do not bypass company network restrictions or treat the preview as a shared live service.
+
+The detailed reason, capability status and handover sequence are recorded in [OpenSpec implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md). Supabase supplies real authentication, shared PostgreSQL records, permissions and transactional booking inventory. Cloudflare can serve the frontend without it. Email delivery additionally needs provider/sender configuration.
+
+On the personal laptop, pull `main`, use Node 22, run `npm ci`, then:
+
+```bash
+npx supabase login
+npx supabase link --project-ref mkxqrkqwpvjtkjfjjckm
+npx supabase db push --remote --dry-run
+```
+
+Review the proposed migrations before `npx supabase db push --remote`. These commands follow the CLI behavior already observed in this project; use `--help` if the installed version changes. Do not reset the hosted database or upload CI auth fixtures. Configure private environment variables, exact Auth callbacks and synthetic users/roles/guardian links afterwards. Share only success/errors without credentials. A successful connection does not complete pending application features or authorize live member import.
 
 Links: [Dashboard/signup](https://supabase.com/dashboard), [getting started](https://supabase.com/docs/guides/getting-started), [regions](https://supabase.com/docs/guides/platform/regions), [pricing](https://supabase.com/pricing).
 
@@ -35,8 +47,8 @@ Links: [Dashboard/signup](https://supabase.com/dashboard), [getting started](htt
 
 Development connection work after the projects exist:
 
-- [ ] Link the Supabase CLI to development and apply the repository migrations. Never apply `supabase/tests/plain_postgres_auth_fixture.sql` to Supabase; it is CI-only.
-- [ ] Configure the frontend environment variables below, using the development project for local/preview builds.
+- [ ] From the personal laptop, link the existing single hosted project and review/apply repository migrations. Never apply `supabase/tests/plain_postgres_auth_fixture.sql` to Supabase; it is CI-only.
+- [ ] Configure frontend environment variables privately. Use local synthetic development or disconnected previews; a second hosted development project is deferred.
 - [ ] Configure Auth site/redirect URLs and test users, profiles, club roles, and guardian links.
 - [ ] Test the venue QR flow using [VENUE_QR_CHECK_IN.md](VENUE_QR_CHECK_IN.md).
 - [ ] Finish authorization, registration, notification, backup, and production acceptance work before importing live members.
@@ -54,7 +66,7 @@ Use deployment environment settings for hosted builds. Do not commit `.env.local
 
 **Website demo deployed successfully:** https://table-tennis-ireland.ttclubsie.workers.dev. Use `npm run build:club` and `npm run deploy:club` from repository root with Node 22 and the committed `wrangler.club-web.jsonc`. Production and preview commands are corrected in Cloudflare. Root/assets/SPA checks passed; the national app Worker and live-data setup remain separate pending work. The failed-state paragraphs below are retained history; see the updated deployment result in the plan.
 
-Account creation and read-only API inspection are confirmed. The created Worker is `table-tennis-ireland` on the `ttclubsie` subdomain. Its build/deploy settings differ from earlier suggested examples; use the evidence and correction plan in [CLOUDFLARE_DEPLOYMENT_PLAN.md](CLOUDFLARE_DEPLOYMENT_PLAN.md). The failed build has not deployed repository website assets, and Supabase setup stays paused.
+Account creation and API inspection are confirmed. Worker `table-tennis-ireland` on the `ttclubsie` subdomain has successfully deployed the repository website demo, superseding the earlier failed build/template. Use [CLOUDFLARE_DEPLOYMENT_PLAN.md](CLOUDFLARE_DEPLOYMENT_PLAN.md) for verification evidence. Each new commit still needs deployment verification; Supabase setup stays paused.
 
 Links: [Signup](https://dash.cloudflare.com/sign-up), [dashboard](https://dash.cloudflare.com/), [hosting overview](https://developers.cloudflare.com/workers/static-assets/), [hosting tutorial](https://developers.cloudflare.com/workers/static-assets/get-started/).
 

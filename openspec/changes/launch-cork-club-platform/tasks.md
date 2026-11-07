@@ -1,3 +1,5 @@
+Updated 7 November 2026. [Implementation status and personal-laptop handover](implementation-status.md) distinguish delivered previews from production requirements. Unchecked items remain implementation work, not merely account setup.
+
 ## 1. Workspace foundation
 
 - [x] 1.1 Create an npm-workspaces monorepo for the club website, national platform PWA, and shared packages
@@ -35,6 +37,7 @@
 - [ ] 4.8 Replace the pilot website placeholders with source-backed public pages/routes and owner-approved contact/membership information; implement a real enquiry path or an honest mail link
 - [ ] 4.9 Verify public content parity, historical/upcoming event dates, policy access, responsive navigation and accessibility before describing Wix migration as complete
 - [ ] 4.10 Add actual website entry links to player/guardian/staff app routes after the separate synthetic app deployment; replace roadmap-only navigation with implemented screens incrementally
+- [x] 4.11 Replace inactive registration and fictional news with honest email enquiry/source archive links; add saved source-attributed fees, coaching summary, contact and policy/calendar links without claiming full import
 
 ## 5. Platform PWA and multi-club access
 
@@ -76,7 +79,7 @@
 - [ ] 7.11 Complete live venue-device acceptance, Auth provisioning, and notification delivery for the venue QR flow before production launch
 - [ ] 7.12 Add session-time direct app presence with self-declared provenance and explicit self/linked-child selection; retain QR confirmation as an alternative
 - [ ] 7.13 Add separate Not attending availability from home; exclude it from attendance totals and prevent silent overwrites of existing presence
-- [ ] 7.14 Add table resources, recurring/date-specific practice availability and configurable hourly request/hold/cancellation settings
+- [ ] 7.14 Add production table resources and whole-session player-place inventory: four places per table, one active place per player/session, guardian-linked child allowances, runtime allocation and request/hold/cancellation policies
 - [ ] 7.15 Build shared website/app table booking entry for players, verified guests and designated guardians without automatic membership activation
 - [ ] 7.16 Implement atomic provisional holds, maintainer approve/reject, bounded expiry, cancellation and rescheduling with database overlap constraints and audit
 - [ ] 7.17 Integrate regular session/camp/tournament resource blocks and separate practice attendance from reservations
@@ -84,6 +87,8 @@
 - [ ] 7.19 Test concurrent same-table requests/approvals, expiry races, adjacent intervals, reschedule rollback, permission revocation, guest/guardian access, cross-club denial and shared-channel availability
 - [ ] 7.20 Add cross-channel availability subscriptions or bounded polling, stale/reconnect states and idempotent reconciliation of interrupted requests
 - [ ] 7.21 Build hall opening hours/closures/table allocation and test whole-hall maintenance blocking without enabling exclusive public hall rental
+- [x] 7.22 Adapt supplied club HTML into a shared, labelled synthetic website/app booking preview with requests, maintainer approval/decline, per-table allocations, moves/releases, browser-local persistence and no claimed real email/authentication
+- [x] 7.23 Test prototype rules for four-place capacity, per-player uniqueness, guardian scope, expiry, permissions, cancellation, atomic moves and Europe/Dublin dates; production concurrency and cross-channel tests in 7.19 remain pending
 
 ## 8. Matches and tournaments
 
@@ -120,7 +125,7 @@
 
 ## 10. Operations and release
 
-- [ ] 10.1 PAUSED by owner, 5 November 2026: resume Supabase setup for ttclubs (reference mkxqrkqwpvjtkjfjjckm; eu-north-1 Stockholm), diagnose hosted temporary-role timeout/possible corporate firewall, confirm CLI access/plan, dry-run/review then apply migrations. Metadata and local frontend configuration exist; remote migrations are not applied. Only this setup is paused; synthetic UI work may continue.
+- [ ] 10.1 OWNER HANDOVER, updated 7 November 2026: office-laptop Supabase connections are blocked, confirmed by owner. Owner will set up the existing ttclubs project (mkxqrkqwpvjtkjfjjckm; eu-north-1 Stockholm) from a personal laptop after repository updates. Pull main, install dependencies, log in/link, remote dry-run/review then apply migrations. Preserve the hosted-setup pause until that handover; no network bypass or remote migrations in this implementation pass. See implementation-status.md for scope, commands and remaining live-data gates.
 - [ ] 10.2 Configure the national app and retained Leeside pilot website deployments using current targets; future independent website integration does not require a generic club-website service
 - [ ] 10.3 Configure authenticated transactional email and scheduled Edge Functions
 - [ ] 10.4 Configure encrypted off-site database and storage backups and test restoration
@@ -132,9 +137,10 @@
 - [ ] 10.10 Implement inclusive end-of-day Europe/Dublin expiry emails to player/guardian plus current management summary, with renewal-race suppression, recipient revocation checks and idempotency
 - [x] 10.11 Inspect Cloudflare account/Worker/build logs through authorized read-only APIs and record observed failure separately from proposed remediation
 - [x] 10.12 Correct Cloudflare workspace typo (@ttti/club-web to @tti/club-web), align existing table-tennis-ireland Worker via wrangler.club-web.jsonc, pin Wrangler/Node 22 and configure website production/preview commands; platform Worker remains separate future work
-- [ ] 10.13 Retry and verify website main-commit build, actual workers.dev content/assets/mobile routing, preview behavior and rollback; current remote deployment is a starter template
+- [ ] 10.13 Verify each new website main-commit build and served assets/mobile routing, preview behavior and rollback; the earlier successful repository deployment superseded the starter template (10.15), but does not verify subsequent commits
 - [ ] 10.14 Configure a separate synthetic platform-app Worker without hosted Supabase bindings while setup is paused; review dependency/install-script warnings independently
 - [x] 10.15 Verify successful Cloudflare website build af21ba36-d5ea-4df0-9eba-7d87a70e2fe2 from fix commit 8484e83, root/JS/CSS HTTP 200, exact local/remote asset hashes and SPA fallback; preview/mobile/rollback acceptance in 10.13 remains pending
+- [x] 10.16 Add root AGENTS.md handover linking approved requirements, all-capability status, complete pending checklist, personal-laptop setup sequence and validation/deployment commands
 
 ## Parked owner activity (not a development prerequisite)
 

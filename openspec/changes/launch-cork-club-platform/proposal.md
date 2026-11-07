@@ -4,6 +4,8 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 
 ## What Changes
 
+- Delivery sequencing, 7 November 2026: finish independent implementation, synthetic previews, tests and repository documentation while hosted Supabase setup stays paused. The owner confirms office-laptop connections are blocked and will complete setup from a personal laptop after these updates. See `implementation-status.md` for the handover and remaining production work; no real booking/sync/email claim follows from a frontend demo.
+
 - Pilot sequencing: retain the existing Leeside website, app, backend and build targets in this repository for at least one year of live operation. Review independent website extraction only after that period and once more than two clubs participate (three or more). No immediate or automatic split is planned; app-only hosting below is the longer-term direction with this Leeside pilot exception.
 - Launch the national platform app and shared backend, integrating independently hosted club websites through verified external links and app entry links. Each club website may have its own repository; the platform does not host a generic website service.
 - Present only Leeside in the pilot app while keeping the app's product identity, navigation, and information architecture suitable for clubs across Ireland.
@@ -20,7 +22,7 @@ Leeside Table Tennis needs one accessible place to run membership, club activity
 - Let an admin optionally email the adult player or junior's guardian a clearly labelled non-formal acknowledgement when manually recording/correcting an external payment or renewing membership.
 - Let admins enable renewal reminders at the predefined 10-day and 3-day points and email the registered player or, for a junior, the appropriate parent/guardian.
 - Support session and event booking while preventing unauthorized or invalid bookings.
-- Support one-hour table practice requests from players, parents and verified guests through the app and Leeside website, with configurable table availability, provisional holds, maintainer approval, shared in-app/email notifications, cancellation and resource conflict prevention. Approval does not imply attendance or payment.
+- Support whole-session player-place requests through the website/app: four places per table, one active place per player per session, separate linked-child allowances, maintainer-configured coaching/reservable/walk-in/closed tables, approval, holds, moves and releases. This supersedes hourly exclusive-table reservations. Production notifications, identity checks and concurrency remain backend requirements; a disconnected synthetic preview may be shown while setup is paused.
 - Keep table/hall operations, communication and memberships canonical across the pilot website/app, with automatic booking-screen refresh, backend conflict checks and reconnect reconciliation. Hall operations include opening hours/closures/table allocation; exclusive public whole-hall rental remains a separate future decision.
 - Model Leeside's five recurring weekly sessions and let admins add one-off or bounded multi-day programmes such as a seven-day camp with configurable capacity, audience, booking, and attendance.
 - Publish approved app events plus optional RSS/Atom/iCalendar feeds for independently integrated websites, send consent-aware email invitations and provide manual Facebook sharing; automation requires an approved Meta integration.

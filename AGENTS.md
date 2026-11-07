@@ -1,0 +1,65 @@
+# Coding-agent handover
+
+## Start here
+
+This repository contains the Leeside club website and the national TT Clubs app. Read these files before changing behavior:
+
+1. `openspec/changes/launch-cork-club-platform/proposal.md` — approved scope.
+2. `openspec/changes/launch-cork-club-platform/implementation-status.md` — current implementation, blockers and personal-laptop handover.
+3. `openspec/changes/launch-cork-club-platform/tasks.md` — full remaining checklist; unchecked work is not implemented merely because a schema/demo exists.
+4. The affected `specs/<capability>/spec.md` and `design.md` — behavior and scenarios.
+5. `docs/ACCOUNT_SETUP_README.md` — owner account actions; `docs/TRACEABILITY.md` — code mapping; `docs/WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md` and `docs/PUBLIC_CONTENT_MANIFEST.md` — content/portal gaps and source destinations.
+
+Updated 7 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
+
+## Current blocker and ownership
+
+The owner confirms the office laptop blocks Supabase connections and will complete connection setup from a personal laptop after repository updates. Do not bypass the office network, repeatedly retry remote writes, create another project or apply hosted migrations during the pause. The project already exists: `ttclubs`, ref `mkxqrkqwpvjtkjfjjckm`, region `eu-north-1` (Stockholm). The timeout does not prove the SQL is broken. Commands and the review-before-apply sequence are in the status/setup files.
+
+Continue independent implementation/tests/builds and clearly labelled synthetic previews. Do not describe browser-local state as shared persistence, preview role selectors as authentication, or simulated notifications as email delivery. Real data needs complete RLS, permissions, auth/profile provisioning, backup and acceptance work. Never store passwords, tokens, service-role keys or private member records in git or public frontend variables.
+
+The user owns the platform, repo and shared cloud infrastructure. Individual Leeside management accounts administer club content, membership, sessions and communications. Gmail addresses are contact/recovery identities, not legal owners or shared admin login credentials. Club roles and membership products must be editable at runtime, with revocation enforced server-side on subsequent requests.
+
+## Repository and implementation boundaries
+
+- `apps/club-web`: React/Vite Leeside public website, current Cloudflare target.
+- `apps/platform`: React/Vite national PWA; a separate remote deployment is not yet verified.
+- `packages/domain`: shared domain types, rules and unit tests.
+- `packages/ui`: reusable UI, including `SessionBookingDemo.tsx` and `booking.css`.
+- `supabase/migrations`: versioned schema/RPC source, not proof of hosted application.
+- `supabase/tests`: database tests; `plain_postgres_auth_fixture.sql` is CI-only and must never be applied to hosted Supabase.
+- Root club HTML/PDF files are source material, not automatically public assets. Preserve unrelated/untracked owner files. Do not publish PDFs without inspecting their contents and intended purpose.
+
+Keep website/app/backend in this repo for at least one live pilot year. Review extraction only after that period and three or more clubs. Do not fork the national app/backend per club or create a generic website-hosting service without a new decision.
+
+## Decisions that must not regress
+
+- Table booking: **four player places per table, full session, one active pending/confirmed place per player/session**. Parents may book distinct linked children. Maintainer-approved holds; reservable/coaching/walk-in/closed allocations; moves and releases. No exclusive hourly whole-table inventory. Database transactions/constraints must eventually enforce uniqueness and table resource conflicts.
+- Synthetic booking UI is reused by both frontends, only under Leeside in the app. Twelve tables, six initial coaching allocations, thirty-minute holds and two-hour cancellation cutoff are demo defaults, not a completed runtime policy editor or verified inventory.
+- Attendance is independent of booking. Record expired/no-membership attendance and alert staff. QR or direct app presence is the pilot path; Not attending from home is separate and never counts as attendance. NFC purchases are parked.
+- Memberships/payment dates are manually managed; no payment gateway. Default expiry notice goes to player/guardian and current management at the end of the inclusive expiry day in Europe/Dublin. Optional advanced 10/3-day reminders are disabled by default. Optional acknowledgements require the admin's selection.
+- Trial: one calendar month by default, management configurable; trial-end reminder to adult/guardian then membership team.
+- Internal matches support doubles/guests; opponent review, five-day inaction auto-approval, coach dispute resolution, incomplete matches excluded from statistics, no initial internal rating. External tournament results/reflections have distinct provenance/review rules; read their specs.
+- Private coach notes, published development summaries and participant reflections have different access scopes. Never infer public access from a club website role.
+- Leeside timetable is owner-confirmed; preserve it unless changed explicitly. The separate timetable draft has conflicts. Wix content consent is confirmed; inaccessible news/media/policies are still import gaps, not invented content.
+
+## Next implementation order
+
+1. Verify the shared booking preview and its delivered commit/deployment; keep production limitations visible.
+2. Complete source-backed Wix content/pages/media and real navigation; use honest source links for missing archive/calendar/policy material. Track every deferred source item.
+3. Build remaining operational screens against a testable data boundary: registration/guardian profiles; membership catalogue/assignment/manual renewal; group permissions; sessions/hall editor; attendance; scoring/tournaments/reflections; communications and reports. Follow unchecked tasks rather than adding disconnected mock buttons.
+4. Add production player-place schema/RPCs and adversarial tests locally. The old bookings foundation is insufficient for the current model. Test four-place capacity, per-player uniqueness, concurrent writes, expiry/approval races, guardian access/revocation, cross-club denial and idempotency.
+5. After owner connection handover, connect shared services, provision authorized synthetic users/roles, configure exact Auth callbacks, email sender/provider and scheduled outbox jobs. Verify website/app cross-device synchronization and authorization.
+6. Complete backups/restore, privacy/safeguarding configuration, retention jobs, monitoring, domain cutover/rollback and live acceptance before importing real members. Broader pilot recruitment is parked; native store releases follow the PWA pilot.
+
+These are ordered implementation streams, not claims that setup is the sole remaining task. The full task checklist remains authoritative.
+
+## Checks and deployment
+
+Use Node 22 (`.nvmrc`) and repository lockfile. Run `npm ci` if dependencies are missing, `npm run check` for type checks/tests/both builds, and `openspec validate launch-cork-club-platform` when the OpenSpec CLI is available. Add meaningful tests for new domain/security rules. Record unavailable checks honestly.
+
+Local servers: `npm run dev --workspace @tti/club-web -- --host 127.0.0.1 --port 4173` and `npm run dev --workspace @tti/platform -- --host 127.0.0.1 --port 4174`. Root script argument forwarding is not equivalent to these workspace commands.
+
+Cloudflare website: `npm run build:club`, then `npm run deploy:club`, config `wrangler.club-web.jsonc`, Worker `table-tennis-ireland`, URL `https://table-tennis-ireland.ttclubsie.workers.dev`. Main is connected to Cloudflare Builds. Git push is not deployment verification: check the served assets/build result after each change. Never deploy the platform over the website Worker. See `docs/CLOUDFLARE_DEPLOYMENT_PLAN.md` for historical evidence.
+
+When reporting completion, give commit/push status, checks run, actual deployment evidence, remaining blockers and links to the status/setup files. Do not repeat credentials or claim every target feature is complete while tasks remain open.

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { dashboardMetrics, demoRelationships, platformFeatures, selectClubContext } from "@tti/domain";
 import type { MembershipStatus } from "@tti/domain";
-import { BrandMark, Button, Card, Pill, SectionHeading } from "@tti/ui";
+import { BrandMark, Card, Pill, SectionHeading, SessionBookingDemo } from "@tti/ui";
 import { Attendance } from "./Attendance";
 
 const toneFor = (status: MembershipStatus) => status === "active" ? "good" : status === "approaching_expiry" ? "warn" : "neutral";
@@ -17,6 +17,7 @@ export function App() {
         <nav aria-label="Platform navigation">
           <a className="active" href="#home"><span aria-hidden="true">⌂</span> Home</a>
           <a href="#clubs"><span aria-hidden="true">◇</span> My clubs</a>
+          {active.club.slug === 'leeside' && <a href="#booking"><span aria-hidden="true">▦</span> Book a place</a>}
           <a href="#features"><span aria-hidden="true">◎</span> Matches</a>
           <a href="#features"><span aria-hidden="true">▦</span> Tournaments</a>
           <a href="#features"><span aria-hidden="true">↗</span> Development</a>
@@ -30,6 +31,7 @@ export function App() {
         <div className="welcome"><div><p className="eyebrow">Platform dashboard preview · synthetic data</p><h1>Your table tennis clubs.</h1><p>The club dashboard below uses demo data. Attendance has a separate sign-in and confirmation flow.</p></div><a href="#attendance">Club QR check-in →</a></div>
 
         <Attendance />
+        {active.club.slug === 'leeside' && <SessionBookingDemo />}
         <section id="clubs">
           <SectionHeading eyebrow="One account · Multiple clubs" title="My clubs" />
           <div className="club-grid">
@@ -48,9 +50,9 @@ export function App() {
         </section>
 
         <section className="activity-section">
-          <SectionHeading eyebrow="Your week" title="Coming up" action={<a href="#features">View calendar →</a>} />
+          <SectionHeading eyebrow="Illustrative preview · not a live schedule" title="Session and match examples" action={<a href="#features">View roadmap →</a>} />
           <div className="activity-grid">
-            <Card className="next-session"><Pill tone="good">Next session</Pill><div><time><strong>06</strong><span>Oct</span></time><div><h3>Open practice</h3><p>Tuesday · 19:00–21:00</p><small>{active.club.name}</small></div></div><Button>Book place</Button></Card>
+            <Card className="next-session"><Pill>Example session</Pill><div><time><strong>06</strong><span>Oct</span></time><div><h3>Open practice</h3><p>Illustrative data · not a published occurrence</p><small>{active.club.name}</small></div></div>{active.club.slug === 'leeside' ? <a href="#booking">Try booking preview →</a> : <p>Booking preview is available for Leeside only.</p>}</Card>
             <Card className="match-review"><Pill tone="warn">Action needed</Pill><h3>Review a match result</h3><p>Jamie Murphy submitted a 3–1 result. Review before it is automatically approved.</p><div><span>4 days remaining</span><a href="#features">Review result →</a></div></Card>
           </div>
         </section>

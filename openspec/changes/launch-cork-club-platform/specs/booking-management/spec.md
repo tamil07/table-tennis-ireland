@@ -56,22 +56,22 @@ Published public sessions, camps, and events SHALL expose stable website links p
 - **WHEN** a person subscribes to event email updates with the required consent
 - **THEN** the notification service records the subscription and sends eligible event announcements independently of whether that person uses an RSS reader
 
-### Requirement: Table resources and hourly practice availability
-Authorized club maintainers with table-booking-management permission SHALL be able to add, name, activate/retire tables and publish recurring or one-off date-specific practice availability in Europe/Dublin local time. The default booking unit SHALL be one table for one hour; table count, opening hours, eligible audiences, approval cutoff, hold timeout, fees and cancellation policy SHALL be runtime configuration. A booking reserves the table, not the whole hall or a coached lesson. Coaching SHALL NOT be implied by a practice reservation.
+### Requirement: Session player-place inventory
+The booking unit SHALL be one player place at an assigned table for an entire dated session, replacing the former hourly whole-table model. Each table SHALL accommodate at most four reserved players. A player SHALL hold at most one pending or confirmed place across all tables in that session; the limit SHALL use player identity, not the requester/parent account. A parent MAY request separate places for each actively linked child and themselves. Maintainers SHALL configure table allocations per session as reservable, reserved for coaching, walk-in-only or unavailable. They SHALL retain runtime control of schedules, table count, eligibility, holds, fees and cancellation policy. A place SHALL NOT imply coaching, exclusive table access or a chosen partner. Four places support doubles or club-managed play/rotation and SHALL NOT imply four unrelated independent games.
 
 #### Scenario: Maintainer publishes three tables
-- **WHEN** a permitted maintainer publishes Tables 1, 2 and 3 for 17:00–18:00 on a date
-- **THEN** the website and app display three available table-hours and show the configured guest/member eligibility and any manually collected fee
+- **WHEN** a permitted maintainer publishes Tables 1, 2 and 3 as reservable for a dated session
+- **THEN** the website and app display twelve player places, four per table, and show guest/member eligibility and any manually collected fee
 
 #### Scenario: Pre-tournament practice
 - **WHEN** a maintainer publishes extra practice hours before a tournament
 - **THEN** the app supports one-off table availability without changing the regular training timetable or generating tournament fixtures
 
 ### Requirement: Unified website and app requests
-Players, parents and verified guest registrants SHALL be able to request a published table-hour from the app and Leeside website using the same canonical backend records and live availability. The retained Leeside website MAY render a shared booking interface or link to the same app booking route; independent future websites MAY link to it. Confirmation SHALL require authenticated verified identity; juniors SHALL be represented by a designated guardian. Guest registration SHALL NOT grant membership or privileged access.
+Players, parents and verified guest registrants SHALL be able to request a published player place for the entire session from the app and Leeside website using the same canonical backend records and live availability. The retained Leeside website MAY render a shared booking interface or link to the same app booking route; independent future websites MAY link to it. Confirmation SHALL require authenticated verified identity; juniors SHALL be represented by a designated guardian. Guest registration SHALL NOT grant membership or privileged access.
 
 #### Scenario: Parent requests a table for a child
-- **WHEN** a verified parent selects an available table-hour and an actively linked junior
+- **WHEN** a verified parent selects an available session player place and an actively linked junior
 - **THEN** the system records the parent as requester and the junior as intended attendee with pending approval status and a clear statement that the request is not yet confirmed
 
 #### Scenario: Guest books from the website
@@ -101,19 +101,19 @@ Authorized maintainers SHALL be able to configure hall opening hours, date-speci
 - **THEN** all affected tables are unavailable and existing holds/bookings require explicit resolution and notifications rather than silent deletion
 
 ### Requirement: Pending holds and maintainer approval
-Request creation SHALL atomically acquire a provisional hold for its exact table/time. Pending approval SHALL NOT be shown as a confirmed booking. Pending holds and confirmed bookings SHALL both block overlapping allocation of that table; no table-hour may be confirmed for two requests. Maintainers SHALL approve/reject through authenticated management with current club permissions, with all transitions audited. Hold timeout SHALL be management-configurable and bounded by the slot start; expired, rejected or withdrawn requests SHALL release inventory. Approval SHALL recheck active availability and hold validity; stale approval SHALL NOT silently reacquire a table or override another booking.
+Request creation SHALL atomically hold one of four places at the selected table for the entire session. Pending SHALL remain distinct from confirmed. Server constraints SHALL enforce unique session/player and unique session/table/place for active holds/confirmed reservations, while table-resource allocations separately prevent incompatible overlapping sessions. Maintainers SHALL approve/reject with current permissions and audited transitions. Hold timeout SHALL be configurable and bounded by session start; expired/rejected/withdrawn requests SHALL release their place. Stale approval SHALL NOT reacquire a place silently. Request retries SHALL be idempotent.
 
 #### Scenario: One of three tables is approved
-- **WHEN** a request provisionally holds Table 1 for a published hour and a maintainer approves it
-- **THEN** Table 1 changes from held to confirmed and Tables 2 and 3 remain available for that hour through both channels
+- **WHEN** a request holds one player place at Table 1 and a maintainer approves it
+- **THEN** that place becomes confirmed, Table 1's other three places remain available, and Tables 2 and 3 each retain four places through both channels
 
 #### Scenario: Concurrent requests target one table
-- **WHEN** two requests attempt overlapping times on the same table
-- **THEN** the database accepts at most one live hold/booking, returns an availability-changed message to the other requester and never relies only on client-side availability checks
+- **WHEN** two requests attempt the same player place or the same player requests another table in the same session
+- **THEN** database constraints allow at most one live reservation for that place/player, report the conflict and never rely only on client-side checks
 
 #### Scenario: Pending request receives no decision
 - **WHEN** a hold reaches its configured deadline or the slot start without approval
-- **THEN** it expires, releases the table and notifies the requester; it does not automatically become confirmed
+- **THEN** it expires, releases that player place and notifies the requester; it does not automatically become confirmed
 
 #### Scenario: Approval races expiry
 - **WHEN** a maintainer approves an expired request or another maintainer has already resolved it
@@ -123,12 +123,12 @@ Request creation SHALL atomically acquire a provisional hold for its exact table
 Table allocation SHALL account for regular sessions, camps, tournaments and explicit maintenance blocks using the same resources. Ambiguous whole-hall events SHALL block affected tables unless a maintainer explicitly assigns non-conflicting resources. An overlap warning override for event publication SHALL NOT create duplicate table reservations. Retiring a table or editing availability with active holds/bookings SHALL require an explicit affected-booking resolution and notification rather than silently remove confirmed access. Adjacent bookings MAY share an endpoint but SHALL NOT overlap.
 
 #### Scenario: Practice collides with tournament usage
-- **WHEN** a maintainer attempts to publish a table-hour already reserved for a tournament or regular session
+- **WHEN** a maintainer attempts to publish an open-play table allocation that overlaps a tournament or coaching allocation
 - **THEN** the system refuses conflicting allocation until an authorized schedule change resolves the resource conflict
 
-#### Scenario: Adjacent table bookings
-- **WHEN** Table 1 is booked 17:00–18:00
-- **THEN** 18:00–19:00 may remain available while 17:30–18:30 is rejected
+#### Scenario: Coaching table is not reservable
+- **WHEN** a maintainer assigns a table to coaching, walk-ins or closure
+- **THEN** no new online player reservation is allowed and existing live places must first be explicitly moved or resolved
 
 ### Requirement: Cancellation and staff overrides
 Requesters SHALL be able to withdraw pending requests and cancel their own confirmed table bookings within the configured policy. Maintainers SHALL be able to cancel or reschedule with a reason and audit history. Rescheduling SHALL acquire the new allocation atomically before releasing the old one, or leave the existing booking unchanged on failure. Staff override SHALL NOT bypass resource exclusivity. Fees and payment status SHALL remain manual and separate from approval; no payment gateway is introduced.
@@ -142,13 +142,28 @@ Requesters SHALL be able to withdraw pending requests and cancel their own confi
 - **THEN** the app offers a maintainer contact/request path and an authorized maintainer may resolve it with an audited reason
 
 ### Requirement: Booking remains separate from attendance
-A table booking SHALL represent reserved access, not proof that anyone attended. Existing QR/app or staff check-in SHALL record actual attendance for the practice occurrence with membership classification. Requesters/guardians SHALL see their booking details; authorized maintainers SHALL see the queue/calendar. Public availability SHALL expose table/time/status only, not requester names, child identities or contact details.
+A player-place booking SHALL represent reserved access, not proof that anyone attended. Existing QR/app or staff check-in SHALL record actual attendance separately. Public availability SHALL expose counts/status, not player/child identities; permitted maintainers and requesters/guardians see appropriate details. Staff MAY move a player to a free place without changing their session entitlement. Players/guardians SHALL be able to release their own place when leaving early. Configurable no-show handling SHALL use an explicit staff presence check or approved attendance evidence; absence of a scan alone SHALL NOT silently cancel a present player's reservation. The prior decline/availability response SHALL NOT erase a booking or attendance.
 
 #### Scenario: Confirmed guest arrives
 - **WHEN** a confirmed guest or guardian records arrival through an authorized check-in flow
 - **THEN** the system links attendance to the practice occurrence, preserves guest/no-membership classification and does not convert the guest into a paid member
 
 #### Scenario: Booked user does not attend
-- **WHEN** a confirmed table-hour passes without check-in
+- **WHEN** a confirmed session place passes without check-in
 - **THEN** the booking remains historical and creates no attendance visit or top-attendee credit
+
+#### Scenario: Parent books for two children
+- **WHEN** a parent requests distinct places for two linked children
+- **THEN** both requests are permitted while a second active place for either child in the same session is refused
+
+#### Scenario: Early departure or staff rotation
+- **WHEN** a player/guardian releases their place after leaving or staff moves them to an available place
+- **THEN** inventory updates without duplicating the player's reservation or automatically altering attendance
+
+### Requirement: Honest disconnected booking preview
+While hosted setup is paused, the website and app MAY expose a labelled synthetic interactive preview with role simulation, browser-local storage and the same reusable player-place UI. It SHALL NOT claim real identity verification, server concurrency guarantees, cross-device synchronization, email delivery or durable production booking. Source HTML's Claude-specific database/user APIs SHALL be replaced rather than shipped as a runtime dependency.
+
+#### Scenario: User tries the prototype
+- **WHEN** a visitor requests and approves a synthetic place using preview roles
+- **THEN** the UI displays local pending/confirmed/released state and clearly states that no real reservation, email or authenticated maintainer action occurred
 

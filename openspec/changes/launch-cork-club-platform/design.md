@@ -25,6 +25,8 @@ The system will hold adult and junior personal data, guardian relationships, mem
 
 ## Decisions
 
+Latest implementation record, 7 November 2026: see [implementation-status.md](implementation-status.md) for the capability-by-capability reconciliation and personal-laptop handover. The owner confirms Supabase connections are blocked on the office laptop and will complete connection setup from a personal laptop after repository updates. Hosted migrations remain unapplied; continue independent code/tests/synthetic previews without bypassing the office network. Earlier uncertainty about the owner's network is superseded by this confirmation. The shared booking preview is implemented, while production player-place schema/RPCs, authentication and delivery remain pending.
+
 Wix/portal audit (6 November 2026): the successful Cloudflare deployment is a single-page demo, not a full Wix migration. About/coaches, Policies/documents, actual news archive, calendar/events and most media are missing. Newly inspected About content includes published membership prices/durations not rendered in the demo. The separate platform frontend is not confirmed deployed, and its dashboard/roadmap cards are not implemented player/membership administration screens. Follow `docs/WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md`: public-source manifest and real website pages first, separate synthetic app deployment/role-appropriate screens next, and live data wiring only after the owner resumes Supabase setup. Public membership information, private player membership and privileged membership management are distinct routes/permissions.
 
 Verified website deployment: fix commit `8484e83` triggered successful Cloudflare build `af21ba36-d5ea-4df0-9eba-7d87a70e2fe2`, deploying version `5fdab8bb-e862-4095-b0f0-a693d4e8ec09` at https://table-tennis-ireland.ttclubsie.workers.dev. Root, JS, CSS and SPA fallback return HTTP 200; remote asset hashes match the local build. This supersedes earlier failed/template-only observations; full visual acceptance, preview/rollback rehearsal and the separate platform Worker remain pending. Supabase setup remains paused and live business workflows are not implied implemented.
@@ -77,7 +79,7 @@ Alternatives considered:
 Recommended pilot services:
 
 - Cloudflare Workers Static Assets for the national PWA on its product domain or preview subdomain; club website hosting is independently chosen and outside the shared platform deployment.
-- Supabase Free in the specific West EU (Ireland) region for PostgreSQL, authentication, row-level security, and small file storage.
+- The existing Supabase project in eu-north-1 (Stockholm) for PostgreSQL, authentication, row-level security, and small file storage; Ireland was an earlier proposal, not the selected deployment region.
 - Resend Free for password, renewal, cancellation, and other transactional emails sent from a verified club or platform domain; a monitored Gmail or club mailbox may be the reply-to address but is not the automated SMTP sender.
 - Supabase Cron (`pg_cron`) invoking TypeScript Edge Functions for renewal reminders, five-day match auto-approval, daily attendance digests, notification retries, and housekeeping.
 
@@ -107,8 +109,8 @@ Keep app/backend source in this repository; club website source and deployments 
 | --- | --- | --- | --- |
 | Leeside website (external integration) | Club-approved website/domain | Independently chosen by the club | Independent budget |
 | National platform PWA | Temporary `workers.dev` address, then a separate product domain when named | Cloudflare Workers Static Assets | Free |
-| Production API, Auth and PostgreSQL | Supabase project in West EU (Ireland) | Supabase | Free |
-| Development API, Auth and PostgreSQL | Second Supabase project with synthetic data only | Supabase | Free |
+| Pilot API, Auth and PostgreSQL | Existing ttclubs project in eu-north-1 (Stockholm), setup paused | Supabase | Verify Free plan |
+| Development API, Auth and PostgreSQL | Local Supabase with synthetic data; second hosted project deferred | Supabase / local Docker | Local development |
 | Transactional email | Verified subdomain of the club/product domain | Resend | Free |
 | Schedules | `pg_cron` plus Supabase Edge Functions | Supabase | Free allowance |
 | Encrypted off-site logical backups | Private Standard bucket with lifecycle retention | Cloudflare R2 | Free allowance |
@@ -116,7 +118,7 @@ Keep app/backend source in this repository; club website source and deployments 
 
 Static files must be served directly wherever possible because Cloudflare static-asset requests are free and unlimited; only dynamic Worker requests consume the Workers allowance. The frontends call Supabase through its published project endpoint, so a paid Supabase custom domain is unnecessary.
 
-Use the two Supabase free projects as `production` and `development`. Development must contain generated/test identities only, never copied live junior, payment, attendance, coaching, or contact data. Cloudflare preview deployments point to development; the production branches and domains point only to production. Secrets live in deployment secret stores and are never committed.
+Start with the one existing hosted project and local synthetic development; a second hosted project is deferred. Disconnected Cloudflare previews must not silently target live records. Development uses generated/test identities only, never copied live junior, payment, attendance, coaching or contact data. Secrets live in deployment secret stores and are never committed.
 
 The club purchases only the Leeside domain initially. The platform PWA can use a free preview address until its national product name is chosen, then it receives a separate purchased product domain. Buying a domain does not buy hosting or an application; DNS maps the purchased name to the free Cloudflare deployment.
 
@@ -252,9 +254,9 @@ Owner-led testing can start without recruiting a broader club pilot team; schedu
 
 Cross-channel integration explicitly includes table/hall operations, communication and membership management. Both pilot entry points use shared canonical APIs and permission checks. Open booking screens subscribe to permitted changes or use bounded polling, refetch after reconnect and reconcile ambiguous requests through idempotency/status lookup. Database constraints remain authoritative even if client availability is stale. Hall operations cover hours, closures and table allocation; externally bookable whole-hall rental is not yet approved.
 
-Use club-scoped table resources, recurring/date-specific availability and dated allocations rather than just decrementing an integer capacity. Three published tables represent three separate reservable resources for an hour. Support player, verified guest and guardian-for-child requests. The retained Leeside website and app use the same backend via a shared component or app booking route, avoiding independent website booking inventories.
+Use club-scoped table resources, recurring/date-specific sessions and dated allocations. Each reservable table has four player places for the entire session; three tables expose twelve places. Enforce one active place per player per session across all tables, including individual guardian-linked child identities. Maintainers choose reservable, coaching, walk-in or closed allocations. The retained website and app reuse the same UI and, in production, the same backend. The current synthetic preview shares browser storage on one origin only; it does not provide cross-device inventory.
 
-The lifecycle is pending approval (provisional resource hold), confirmed, rejected, expired, withdrawn or cancelled. A pending hold blocks the exact table/time until its configurable timeout, bounded by the slot start. Approval converts the hold, leaving the other two tables available in the three-table example. Use database-enforced non-overlapping time ranges per table, transactional state changes, request idempotency and optimistic concurrency for maintainer decisions. Rejection/withdrawal/expiry/cancellation releases allocation. Reschedule acquires a new allocation atomically or retains the old booking. Resource conflicts with training/camps/tournaments cannot be bypassed by a generic warning override.
+The lifecycle is pending approval, confirmed, rejected, expired, withdrawn/cancelled or released. A pending hold blocks one player place until its configurable timeout bounded by session start. Approval retains the place while the table's other three remain independently available. Production requires database-enforced unique active session/player and session/table/place constraints plus incompatible table-allocation overlap protection. Use transactional state changes, idempotency and optimistic concurrency. Moves/reschedules acquire a free allocation atomically or retain the old one on failure. Resource conflicts cannot be bypassed by a generic warning override. Booking is not attendance; explicit early-departure/no-show releases preserve history.
 
 Maintainers receive a shared in-app request queue plus email alerts through the existing outbox; their configured Gmail is a recipient, not an approval credential. Protected approval links require sign-in and current club booking-management permission. Notify requesters/guardians of all relevant status transitions and expose delivery failures without losing the canonical request. Public availability contains no requester/child identities. Date/times use Europe/Dublin and fee/payment recording stays manual. A table reservation offers practice access, not an implied coaching lesson; actual arrival is recorded separately through the attendance workflow.
 
@@ -277,7 +279,7 @@ Maintainers receive a shared in-app request queue plus email alerts through the 
 ## Migration Plan
 
 1. Configure separate app development/production environments and agree the independent website URL and club-domain ownership.
-2. Create the Supabase project in West EU (Ireland), apply versioned migrations and row-level-security tests, and configure encrypted external backups.
+2. Resume the existing Stockholm Supabase project from the owner's personal laptop, review/apply versioned migrations and row-level-security tests, and configure encrypted external backups. Do not create a duplicate project.
 3. Deploy the national PWA to a Cloudflare preview address and connect its product domain after acceptance; retain Leeside's current independent website while adding app links.
 4. Verify the sending domain with Resend and test renewal and account emails with non-member test addresses.
 5. Import approved app club details, timetable, membership types and member data using dry-run reports; independent website pages are not automatically imported or replaced.

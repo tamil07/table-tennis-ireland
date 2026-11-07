@@ -39,7 +39,7 @@ The system SHALL create an in-app shared booking-request item and queue an email
 
 #### Scenario: Maintainer approves a request
 - **WHEN** an authorized maintainer approves a valid live hold
-- **THEN** the system creates an in-app confirmation and queues an email confirmation for the requester, or the designated parent/guardian for a child's booking, showing club, table, date, time, fee where configured and cancellation instructions
+- **THEN** production creates an in-app confirmation and queues an email for the requester/designated guardian showing club, player, table/place, full-session date/time, fee where configured and cancellation instructions; a disconnected preview instead labels its activity as a simulated notification without claiming delivery
 
 #### Scenario: Approval email delivery fails
 - **WHEN** a confirmed booking's email cannot be delivered

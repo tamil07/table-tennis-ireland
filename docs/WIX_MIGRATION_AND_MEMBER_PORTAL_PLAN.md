@@ -2,21 +2,23 @@
 
 Audited 6 November 2026 against source code, the saved Wix inventory and accessible public Wix pages. This is a plan and gap assessment, not a completed import or implementation.
 
+Update 7 November 2026: the club-supplied booking HTML is now received and adapted into a reusable synthetic player-place preview in both frontends. The approved model is four places/table for a whole session, one active place per player/session; the HTML's earlier two-player capacity is superseded. Local request/approve/move/release and table-allocation screens do not finish the production portal or Wix content import. The owner will complete paused Supabase connection setup from a personal laptop because office connections are blocked. See [implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md).
+
 ## Outcome
 
-The deployed Cloudflare Worker serves only `apps/club-web`: a single-page synthetic/demo landing page. It is not a full replacement for Wix. `apps/platform` is a different frontend with a demo dashboard and partial venue-QR flow; no separate platform Worker is confirmed deployed. The website has no working player portal or membership administration. Its Begin registration button has no action. Several app links point only to roadmap cards (`#features`) rather than implemented screens. Do not present these as finished features.
+The Cloudflare website target serves `apps/club-web`. The updated source adds booking preview, About/coaching, source-attributed membership prices, contact and existing Wix news/calendar/policy links. It is not a full replacement for Wix. `apps/platform` is a different frontend with a demo dashboard and partial venue-QR flow; no separate platform Worker is confirmed deployed. There is no working live player portal or membership administration. The inactive registration button has been replaced with an honest club email enquiry. Several app links still point only to roadmap cards (`#features`); do not present these as finished features.
 
 ## Content reconciliation
 
 | Wix source / content | Current implementation | Planned destination |
 | --- | --- | --- |
 | [Home](https://leesidetabletennis.wixsite.com/home): club intro, five sessions, membership descriptions | Partial facts and timetable; rewritten demo copy | Real public Home and Sessions pages |
-| [About](https://leesidetabletennis.wixsite.com/home/about): club story, coaching team, fees, address, contact form | Venue/phone only; no About page or working enquiry form | About, Coaching and Contact pages |
-| [Policies](https://leesidetabletennis.wixsite.com/home/general-5): governance, handbook instructions, safeguarding link and photography policy | Absent | Policies page with source links and approved documents |
-| [News](https://leesidetabletennis.wixsite.com/home/blog) | Two placeholder stories, not imported articles | News archive, dated article pages, approved media and source attribution |
-| [Calendar](https://leesidetabletennis.wixsite.com/home/general-1) | Static recurring timetable, not calendar/event import | Calendar and event details with booking/app links |
+| [About](https://leesidetabletennis.wixsite.com/home/about): club story, coaching team, fees, address, contact form | Summary, named coaches, venue and source link; mail enquiry instead of a form | Complete source reconciliation and runtime content editor |
+| [Policies](https://leesidetabletennis.wixsite.com/home/general-5): governance, handbook instructions, safeguarding link and photography policy | Source policy link and honest unconfigured-contact wording | Retrieve/verify documents and publish approved current contacts |
+| [News](https://leesidetabletennis.wixsite.com/home/blog) | Source archive link; fabricated placeholder articles removed | Import archive, dated articles and approved media |
+| [Calendar](https://leesidetabletennis.wixsite.com/home/general-1) | Confirmed timetable and source calendar link | Calendar/event import and app event identities |
 | Wix logo, photography and social links | Abstract demo artwork; most assets/links absent | Approved brand assets, photos, alt text and social links |
-| Membership descriptions, fees and durations | Generic copy without a real catalogue | Public membership information plus separate authenticated management |
+| Membership descriptions, fees and durations | Source-attributed fee/duration snapshot with club-confirmation wording | Runtime catalogue and separate authenticated management |
 
 News/calendar extraction failed through the browsing tool during this audit, so completeness of their entries, pagination, attachments and historical events is not established. Obtain them through a follow-up crawl/feed/export before claiming the import is complete. The linked policy PDF also needs retrieval and verification; a listed link is not an imported document. Never invent unavailable content.
 
@@ -32,11 +34,11 @@ The separate local timetable draft conflicts with the confirmed Wix-based schedu
 
 | Audience | Planned entry and functions | Actual status |
 | --- | --- | --- |
-| Public visitor | Leeside site: Home, About/Coaching, Sessions/Calendar, Membership, Book a table, News, Policies, Contact | Landing demo only |
+| Public visitor | Leeside site: Home, About/Coaching, Sessions/Calendar, Membership, Book a place, News, Policies, Contact | Sections/source links and synthetic booking; full import/runtime publishing pending |
 | Player | Website Member login / Open app link → app → My Clubs → Leeside → membership status, attendance, bookings, results/reflections | Not an implemented player portal |
 | Parent | Same app login → explicitly select self or linked child → permitted membership/booking/attendance/history | Guardian selection exists only in partial attendance flow; rest pending |
 | Membership manager | App/website management entry → Leeside → Members, Membership types, assignments/renewals/manual payments | Required in OpenSpec, not built |
-| Booking maintainer | Management → hall/tables/availability and pending approval queue | Specified, not built |
+| Booking maintainer | Management → hall/tables/availability and pending approval queue | Synthetic role-switched booking/allocation preview built; live services and hall editor pending |
 | Coach | Management/development → matches/tournaments and permitted reflections/goals | Roadmap/demo, not built |
 
 Public Membership explains options and signup. Private My membership shows a person's own record. Staff Members/Memberships manages other records only with current club permissions. Do not publish a private player directory to satisfy a public Players navigation label.

@@ -1,8 +1,11 @@
 # Decisions and open items
 
-Last reconciled: 6 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`.
+Last reconciled: 7 November 2026. Detailed implementation work remains in the OpenSpec `tasks.md`; external setup remains in `ACTION_ITEMS.md`. [Implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md) records all capabilities and the personal-laptop handover.
 
 ## Closed decisions
+
+- Owner confirms Supabase connections are blocked on the office laptop and will finish connection setup from a personal laptop after repository updates. Hosted migrations remain unapplied; independent code/tests/synthetic previews continue. This supersedes earlier uncertainty about office-network blocking.
+- Latest booking model supersedes the hourly whole-table description below: four player places per table for the entire session, one active pending/confirmed place per player/session, separate linked-child bookings and configurable reservable/coaching/walk-in/closed tables. Shared synthetic preview and tested local rules now exist; real auth, server inventory/permissions, sync and delivery remain pending. Supplied club booking HTML is received and adapted; it is not a Claude runtime dependency.
 
 - Wix migration is not complete: deployed site is a landing demo, separate app deployment and player/membership screens remain pending. See [Wix migration and member portal plan](WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md) for missing pages, actual source-backed fees, delivery phases and user entry points. Supabase setup remains paused; neither content inventory nor schema foundation proves a finished import or live member portal.
 - Cloudflare website build/deployment fixed and verified: commit `8484e83`, successful build `af21ba36-d5ea-4df0-9eba-7d87a70e2fe2`, live demo https://table-tennis-ireland.ttclubsie.workers.dev. Production/preview commands now use root scripts and explicit Worker assets config on Node 22. HTTP/asset-hash/SPA checks passed; prior failure observations below are historical. Platform-app deployment, business workflows and Supabase setup remain pending/paused as applicable.
