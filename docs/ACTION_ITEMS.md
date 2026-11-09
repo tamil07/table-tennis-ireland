@@ -4,7 +4,7 @@ Updated 7 November 2026. **Execute [PERSONAL_LAPTOP_LAUNCH.md](PERSONAL_LAPTOP_L
 
 ## Personal laptop — initial owner-only launch
 
-- [ ] Pull main, install Node 22 and run `npm ci`.
+- [ ] Pull main, install Node 22 and run `npm ci`. Optionally run the complete automated local check with `npm run verify:local`; [TESTING.md](TESTING.md) covers free first-use downloads and Linux browser libraries. The database service remains a CI check, not a laptop prerequisite.
 - [ ] Fresh `npx supabase login`, link existing ttclubs project `mkxqrkqwpvjtkjfjjckm` (eu-north-1); fresh `npx wrangler login` and `whoami` for the existing Cloudflare account.
 - [ ] Recreate private environment files. Office CLI sessions/exports/proxy settings do not transfer; never disable TLS checks.
 - [ ] Review/apply migrations using CLI remote dry-run/push or the generated HTTPS SQL-Editor bundle. Never run the synthetic seed/CI Auth fixture on hosted Supabase.

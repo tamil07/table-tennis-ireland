@@ -47,3 +47,26 @@ The guide and OpenSpec status SHALL distinguish local tests, source delivery, pu
 #### Scenario: Owner revisits the project with another agent
 - **WHEN** another coding agent reads root AGENTS.md
 - **THEN** it finds the active architecture, exact setup guide, pending checklist, source-to-capability mapping and explicit deferred/live-only work without relying on chat history
+
+### Requirement: Automated local and integration verification
+The repository SHALL provide a single local verification command for type checks, domain and shared-client unit tests, isolated setup-helper regressions, both frontend builds, backend HTTP tests and browser workflows for website and app. The command SHALL stage generated function rules, manage temporary browser builds and servers, preserve existing environment/deployment files and require no cloud login or local database service. First-use free test-tool downloads and any OS browser-library prerequisite SHALL be documented.
+
+#### Scenario: Owner verifies a fresh checkout
+- **WHEN** the owner installs dependencies on Node 22 and runs the documented verification command
+- **THEN** checks run without manual server startup, Docker or provider credentials, report failures with nonzero exit status, and distinguish local simulations from hosted acceptance
+
+#### Scenario: Existing live configuration is present
+- **WHEN** browser checks run in a checkout containing live configuration
+- **THEN** they use separate temporary synthetic builds, refuse to mutate live records and preserve existing environment files and deployable assets
+
+#### Scenario: Website and app compete for the same place
+- **WHEN** the CI integration suite submits simultaneous commands through the actual API/domain service backed by isolated PostgreSQL
+- **THEN** exactly one command commits, the other returns a conflict, retries do not duplicate inventory, and a maintainer's approval is visible to another client
+
+#### Scenario: Personal-laptop setup files are regenerated
+- **WHEN** automated setup tests exercise environment, bootstrap, migration, function packaging and schedule helpers in fresh temporary directories
+- **THEN** unsafe keys and malformed owner identifiers are refused, private files are protected, existing owner settings survive reruns and all documented local client origins are supported
+
+#### Scenario: CI verifies the database handover
+- **WHEN** CI prepares its isolated database
+- **THEN** it applies the generated migration bundle and fake-owner bootstrap twice, checks SQL permissions and booking constraints, and runs API/database integration with explicit local Auth/PostgREST adapters without contacting hosted Supabase

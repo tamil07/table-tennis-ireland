@@ -25,8 +25,12 @@
     "build": "node scripts/check-client-env.mjs && npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "check": "npm run typecheck && npm run test && npm run build",
-    "test:browser": "node scripts/browser-smoke.mjs"
+    "check": "npm run typecheck && npm run test && npm run test:setup && npm run build",
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "test:setup": "node --test scripts/setup.test.mjs",
+    "test:browser:local": "node scripts/verify-local.mjs --browsers-only",
+    "verify:local": "node scripts/verify-local.mjs",
+    "test:edge": "npm run prepare:functions && npx --yes deno@2 check --config supabase/functions/deno.json supabase/functions/club-api/index.ts supabase/functions/club-jobs/index.ts supabase/functions/club-public/index.ts && npx --yes deno@2 test --config supabase/functions/deno.json --allow-env --allow-net supabase/functions/runtime.integration.test.ts supabase/functions/jobs.integration.test.ts supabase/functions/public.integration.test.ts"
   },
   "engines": {
     "node": ">=22"

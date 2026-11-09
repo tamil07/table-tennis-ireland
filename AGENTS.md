@@ -12,7 +12,7 @@ This repository contains the Leeside club website and the national TT Clubs app.
 6. `openspec/changes/launch-cork-club-platform/runtime-design.md` — active command-service architecture, replacing the original normalized-table implementation assumption.
 7. `docs/PERSONAL_LAPTOP_LAUNCH.md` — ordered user-executable deployment guide, including fresh CLI login and HTTP/SQL-Editor fallback. The owner specifically wants no further agent subscription or application coding on that laptop.
 
-Updated 7 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
+Updated 9 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
 
 ## Current blocker and ownership
 
@@ -77,3 +77,11 @@ Local servers: `npm run dev --workspace @tti/club-web -- --host 127.0.0.1 --port
 Cloudflare website: `npm run build:club`, then `npm run deploy:club`, config `wrangler.club-web.jsonc`, Worker `table-tennis-ireland`, URL `https://table-tennis-ireland.ttclubsie.workers.dev`. Main is connected to Cloudflare Builds. Git push is not deployment verification: check the served assets/build result after each change. Never deploy the platform over the website Worker. See `docs/CLOUDFLARE_DEPLOYMENT_PLAN.md` for historical evidence.
 
 When reporting completion, give commit/push status, checks run, actual deployment evidence, remaining blockers and links to the status/setup files. Do not repeat credentials or claim every target feature is complete while tasks remain open.
+
+## Automated handover regression checks (9 November 2026)
+
+`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 72 domain tests, 8 live-adapter unit tests and 7 setup-helper tests. Run this command when changing helpers or the adapter.
+
+`test:browser:local` manages browser prerequisites/builds/ephemeral ports/server cleanup automatically. See docs/TESTING.md for first-use downloads and Linux OS libraries. Keep owner setup independent of Docker/Deno installation; the script can obtain the free Deno runtime. The database integration suite remains a CI/developer check: loopback-only `tti_test` database, actual SQL CAS/RLS guards, actual API/rules, explicit local Auth/PostgREST adapters. Never point tests or fixtures at hosted Supabase. CI also reruns the generated migration bundle/bootstrap and tests both built frontends.
+
+New environment generation supports localhost and 127.0.0.1:4173/4174; existing files are preserved, so document adding missing exact origins rather than overwriting them. Owner bootstrap requires a canonical lowercase UUID. Keep OpenSpec deployment-and-handover scenarios, tests/status and personal guide synchronized.

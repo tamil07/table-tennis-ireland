@@ -1,4 +1,4 @@
-// Start the website on port 4173 first. This test refuses to run against live mode.
+// Low-level smoke check; test:browser:local starts both clients automatically.
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
@@ -6,6 +6,10 @@ const browser = await chromium.launch({
   headless: true,
   args: ["--no-sandbox"],
 });
+const label = (process.env.BROWSER_TEST_LABEL ?? "operations").replace(
+  /[^a-z0-9-]/gi,
+  "-",
+);
 try {
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
@@ -100,7 +104,7 @@ try {
   await tab("Coaching");
   assert.match(await portal.innerText(), /1 reporting players/);
   mkdirSync("test-results", { recursive: true });
-  await portal.screenshot({ path: "test-results/operations-desktop.png" });
+  await portal.screenshot({ path: `test-results/${label}-desktop.png` });
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });
     assert.equal(
@@ -110,7 +114,7 @@ try {
       false,
     );
     if (width === 390)
-      await page.screenshot({ path: "test-results/operations-mobile.png" });
+      await page.screenshot({ path: `test-results/${label}-mobile.png` });
   }
   assert.deepEqual(errors, []);
   console.log(

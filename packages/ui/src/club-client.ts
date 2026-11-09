@@ -1,7 +1,13 @@
+/// <reference types="vite/client" />
 import { createClient } from "@supabase/supabase-js";
-import { applyClubCommand, clubView, demoClub, personalExport } from "@tti/domain";
+import {
+  applyClubCommand,
+  clubView,
+  demoClub,
+  personalExport,
+} from "@tti/domain";
 import type { ClubState, ClubCommand } from "@tti/domain";
-const env = (import.meta as ImportMeta & { env: Record<string, string> }).env;
+const env = import.meta.env;
 export const liveMode = env.VITE_ENABLE_LIVE === "true";
 export const phoneEnabled = env.VITE_ENABLE_PHONE_LOGIN === "true";
 export const authClient =
@@ -55,7 +61,9 @@ export async function readClub(
   snapshots.set(`${club}:${actor}`, data.state);
   return data.state;
 }
-export async function readClubs(): Promise<{ id: string; name: string; status?: string }[]> {
+export async function readClubs(): Promise<
+  { id: string; name: string; status?: string }[]
+> {
   if (!authClient) return [];
   const { data, error } = await authClient.functions.invoke("club-api", {
     body: { list: true },
@@ -133,9 +141,29 @@ export function resetClub() {
     /* Memory-only. */
   }
 }
-export async function exportPerson(club: string, actor: string, player: string) {
-  if (!liveMode) { const before = localState(); const result = personalExport(before, actor, player); await sendClub(club, actor, { id: crypto.randomUUID(), type: "data_export", expectedVersion: before.version, data: { player } }); return result; }
+export async function exportPerson(
+  club: string,
+  actor: string,
+  player: string,
+) {
+  if (!liveMode) {
+    const before = localState();
+    const result = personalExport(before, actor, player);
+    await sendClub(club, actor, {
+      id: crypto.randomUUID(),
+      type: "data_export",
+      expectedVersion: before.version,
+      data: { player },
+    });
+    return result;
+  }
   if (!authClient) throw new Error("Live environment is not configured.");
-  const { data, error } = await authClient.functions.invoke("club-api", { body: { club, exportSubject: player } });
-  if (error || data?.error) throw new Error("Export failed. Check current permissions and refresh before retrying."); return data.export;
+  const { data, error } = await authClient.functions.invoke("club-api", {
+    body: { club, exportSubject: player },
+  });
+  if (error || data?.error)
+    throw new Error(
+      "Export failed. Check current permissions and refresh before retrying.",
+    );
+  return data.export;
 }

@@ -34,7 +34,7 @@ for (const file of ["apps/club-web/.env.local", "apps/platform/.env.local"])
 if (!existsSync(".env.server.local"))
   writeFileSync(
     ".env.server.local",
-    `APP_URL=https://ttclubs-app.ttclubsie.workers.dev\nAPP_ORIGINS=https://table-tennis-ireland.ttclubsie.workers.dev,https://ttclubs-app.ttclubsie.workers.dev,http://localhost:4173,http://localhost:4174\nCLUB_JOB_TOKEN=${randomBytes(32).toString("hex")}\nEMAIL_REPLY_TO=leesidettie@gmail.com\n# Optional until email-provider setup is ready:\n# RESEND_API_KEY=\n# EMAIL_FROM=TT Clubs <notifications@YOUR_VERIFIED_DOMAIN>\n`,
+    `APP_URL=https://ttclubs-app.ttclubsie.workers.dev\nAPP_ORIGINS=https://table-tennis-ireland.ttclubsie.workers.dev,https://ttclubs-app.ttclubsie.workers.dev,http://localhost:4173,http://localhost:4174,http://127.0.0.1:4173,http://127.0.0.1:4174\nCLUB_JOB_TOKEN=${randomBytes(32).toString("hex")}\nEMAIL_REPLY_TO=leesidettie@gmail.com\n# Optional until email-provider setup is ready:\n# RESEND_API_KEY=\n# EMAIL_FROM=TT Clubs <notifications@YOUR_VERIFIED_DOMAIN>\n`,
     { mode: 0o600 },
   );
 console.log(

@@ -1,4 +1,4 @@
-Updated 7 November 2026. Checked tasks mean source implementation/local verification, not hosted acceptance. The active architecture is runtime-design.md. Hosted setup and live testing remain excluded; follow docs/PERSONAL_LAPTOP_LAUNCH.md from the personal laptop. PARTIAL/DEFERRED items are stated explicitly.
+Updated 9 November 2026. Checked tasks mean source implementation/local verification, not hosted acceptance. The active architecture is runtime-design.md. Hosted setup and live testing remain excluded; follow docs/PERSONAL_LAPTOP_LAUNCH.md from the personal laptop. PARTIAL/DEFERRED items are stated explicitly.
 
 ## 1. Workspace foundation
 
@@ -157,3 +157,13 @@ Updated 7 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 11.5 Supply private Vault/cron generation, separate platform Worker config, encrypted database export helper and user-executable smoke checks
 - [x] 11.6 Verify synthetic browser workflows, domain/security rules, local HTTP handlers and isolated PostgreSQL migrations/constraints; record exact results separately from live acceptance
 - [ ] 11.7 Owner performs the personal-laptop runbook, real account/provider configuration and live smoke tests; no office firewall bypass or hosted changes in this implementation pass
+
+## 12. Handover regression and integration verification — 9 November 2026
+
+- [x] 12.1 Add shared live-adapter unit tests for activation, missing settings, revision polling, account/club isolation, failed operations, stable retry IDs and export denial
+- [x] 12.2 Add isolated environment/bootstrap/packaging/migration/schedule helper regression tests, including rerun preservation and safe key handling
+- [x] 12.3 Fix missing loopback local origins and reject malformed bootstrap owner UUIDs
+- [x] 12.4 Add one-command verification with automatic temporary frontend builds, browser setup, ephemeral servers and cleanup; preserve private configuration/deployable assets
+- [x] 12.5 Add API-to-PostgreSQL integration for competing place requests, retry, approval visibility, revocation and isolation with explicit fake Auth/PostgREST boundaries
+- [x] 12.6 Extend CI to test generated migration/bootstrap reruns and both built browser entry points; document exact coverage/prerequisites in TESTING.md
+- [ ] 12.7 Confirm the extended CI run and record its result; hosted provider setup, actual devices and live acceptance remain owner release gates

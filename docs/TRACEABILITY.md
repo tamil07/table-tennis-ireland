@@ -19,6 +19,8 @@ The active architecture is the private `club_runtime` aggregate and command serv
 | `club-administration` | `operations.ts`, `ClubPortal.tsx`, `club-api` | Scoped grants, policy editor, shared work, audit, privacy requests/export/retention subset |
 | `deployment-and-handover` | `scripts/`, `wrangler.platform.jsonc`, `docs/PERSONAL_LAPTOP_LAUNCH.md`, `AGENTS.md` | Login/environment, migration/HTTP fallback, bootstrap/functions/schedule helpers; owner executes account-required steps |
 
+Additional handover verification: `scripts/setup.test.mjs`, `packages/ui/tests/club-client.test.ts`, `scripts/verify-local.mjs` and `supabase/functions/database.integration.test.ts`. See [TESTING.md](TESTING.md) for the one-command local path, CI SQL coverage and explicit mock/live boundaries.
+
 Shared domain tests: `operations.test.ts`, `session-booking.test.ts`, `routes.test.ts`; HTTP tests: `supabase/functions/*.integration.test.ts`; database guards: `supabase/tests/runtime.sql`; synthetic browser walkthrough: `scripts/browser-smoke.mjs`. Prepare generated function-local rules before Deno tests. Exact latest counts/results are in implementation-status.md.
 
 Public source-to-destination status is maintained in [the content manifest](PUBLIC_CONTENT_MANIFEST.md). Root [AGENTS.md](../AGENTS.md) is the entry point for a new coding agent.

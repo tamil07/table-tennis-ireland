@@ -10,6 +10,8 @@ context: |
   Hosted Supabase setup is paused: the office laptop blocks connections; the owner will
   complete setup from a personal laptop. See the active change runtime-design.md and
   docs/PERSONAL_LAPTOP_LAUNCH.md; no extra coding-agent subscription is required for setup.
+  Verification: npm run verify:local runs unit/setup/HTTP and automatic website/app browser checks;
+  PostgreSQL integration and migration/bootstrap reruns run in CI without personal-laptop Docker.
   The platform repository owns the app and shared backend, not a generic website hosting service.
   Pilot exception: retain apps/club-web and the app in this repository for at least one year
   of live operation. Review website separation only after that period and once more than

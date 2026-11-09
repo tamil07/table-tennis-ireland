@@ -21,6 +21,8 @@ node --version
 
 If already cloned, start with `git switch main` and pull; preserve any personal edits. Sign in with your GitHub account if the repository is private. Shell helpers use Bash (macOS/Linux or WSL/Git Bash on Windows); the individual `npx`/`npm` commands can also be run separately.
 
+**One-command local verification:** run `npm run verify:local`. It runs unit/setup/backend tests and automatically builds, starts and checks both clients, including desktop/mobile browser workflows. No cloud login or Docker is needed; free test tools/browser are downloaded on first use. See [TESTING.md](TESTING.md) for the Linux browser-library prerequisite and exact test boundaries. These checks also run in CI, so you do not need to recreate its PostgreSQL test service on the laptop.
+
 ## 2. Reauthenticate the CLIs on this laptop
 
 Office-laptop CLI sessions and environment exports do **not** transfer automatically.
@@ -81,6 +83,8 @@ Paste the browser-safe key when prompted. This creates missing files, preserving
 All are ignored by Git. Review existing files if copied from another laptop. Keep `VITE_ENABLE_LIVE=false` for now. Phone OTP stays off; enabling it needs a separately configured SMS provider, limits and budget.
 
 The server file contains exact website/app/local origins and the intended app URL. If your deployment URLs differ, edit `APP_URL` and `APP_ORIGINS` to those exact origins (comma separated, no wildcard). Supabase supplies its server URL/service-role credentials to deployed functions; do not copy them into frontend files or the server environment template.
+
+Newly generated files allow both `localhost` and `127.0.0.1` on ports 4173/4174. If you already have a server file, the helper deliberately preserves it: add the exact local origin you use to `APP_ORIGINS` if missing, then upload the updated server secrets before testing local clients against the deployed API. Do not add wildcards.
 
 ## 5. Deploy the backend and create the initial owner
 

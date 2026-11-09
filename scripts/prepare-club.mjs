@@ -9,7 +9,9 @@ const { values } = parseArgs({
   },
 });
 if (
-  !/^[a-f0-9-]{36}$/.test(values.owner ?? "") ||
+  !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(
+    values.owner ?? "",
+  ) ||
   !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email ?? "")
 ) {
   console.error(
