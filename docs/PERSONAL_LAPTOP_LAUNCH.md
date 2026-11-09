@@ -2,7 +2,7 @@
 
 This is the account/hosting handover. All commands below are for **you on your personal laptop**. No hosted migrations, function deployment, account changes or live email tests were performed from the office laptop. Office Supabase database connections are blocked. The website currently remains in synthetic mode.
 
-Repository verification: implementation `2577059`, standalone CI fix `0988b32`; all three [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/42427039296) passed. The existing website serves the synthetic operational portal; the separate app Worker still needs deployment.
+Latest verification, 9 November 2026: automated handover/integration tests `974e70f`, CI/Windows compatibility fix `fb07828`; all four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/42616047886) passed. The website serves the synthetic operational portal; the separate app Worker and hosted backend still need owner deployment.
 
 You do not need to buy another repository or pay for a coding-agent subscription to follow this guide. Use the existing Supabase project, Cloudflare account and repository. Email-domain verification, live acceptance and any outstanding product limitations are listed below; connecting accounts does not prove those checks passed.
 

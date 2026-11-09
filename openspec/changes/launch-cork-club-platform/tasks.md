@@ -166,4 +166,4 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 12.4 Add one-command verification with automatic temporary frontend builds, browser setup, ephemeral servers and cleanup; preserve private configuration/deployable assets
 - [x] 12.5 Add API-to-PostgreSQL integration for competing place requests, retry, approval visibility, revocation and isolation with explicit fake Auth/PostgREST boundaries
 - [x] 12.6 Extend CI to test generated migration/bootstrap reruns and both built browser entry points; document exact coverage/prerequisites in TESTING.md
-- [ ] 12.7 Confirm the extended CI run and record its result; hosted provider setup, actual devices and live acceptance remain owner release gates
+- [x] 12.7 Confirm all four jobs passed in Quality run 42616047886 for fb07828; hosted provider setup, actual devices and live acceptance remain separate owner release gates

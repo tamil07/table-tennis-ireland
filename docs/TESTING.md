@@ -1,5 +1,7 @@
 # Verification without cloud setup
 
+Verified 9 November 2026: **80 unit tests, 8 setup regressions, 3 HTTP suites, PostgreSQL integration (6 steps), both builds and both desktop/mobile browser workflows passed.** All four [CI jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/42616047886) passed for `fb07828`. Hosted Supabase remains untouched.
+
 From a checkout with Git and Node 22 installed:
 
 ```bash
