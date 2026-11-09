@@ -24,6 +24,8 @@ Existing environment files are preserved. Browser tests force fake synthetic set
 | PostgreSQL integration in CI | Actual API/domain commands and migration RPCs against PostgreSQL 17; simultaneous place requests, retry, app-to-website approval, revocation, unrelated/wrong club access, raw-read/duplicate-place refusal | Real Supabase Auth/PostgREST: these boundaries use explicit local adapters |
 | Browser workflows | Built website **and** PWA; guardian booking/approval, attendance/reports, scores/reflection privacy/review, coaching summaries; 390px/320px reflow and browser errors | Physical iPhones/Android, native stores, production distributed load |
 
+Browser assertions await observable UI state instead of fixed delays. The preview launcher supports coloured CI/Windows output; failures include a scoped CI annotation and synthetic-only screenshot.
+
 Screenshots are stored in ignored `test-results/`. GitHub CI uploads only synthetic screenshots with seven-day retention. Setup tests use temporary directories and fake identities/keys; they never read or overwrite your private app configuration. CI additionally applies the generated SQL-Editor bundle and fake-owner bootstrap twice to verify first-run and rerun behavior, then runs database permission tests.
 
 ## Smaller commands

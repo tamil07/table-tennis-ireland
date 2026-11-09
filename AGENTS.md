@@ -80,8 +80,10 @@ When reporting completion, give commit/push status, checks run, actual deploymen
 
 ## Automated handover regression checks (9 November 2026)
 
-`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 72 domain tests, 8 live-adapter unit tests and 7 setup-helper tests. Run this command when changing helpers or the adapter.
+`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 72 domain tests, 8 live-adapter unit tests and 8 setup-helper tests. Run this command when changing helpers or the adapter.
 
 `test:browser:local` manages browser prerequisites/builds/ephemeral ports/server cleanup automatically. See docs/TESTING.md for first-use downloads and Linux OS libraries. Keep owner setup independent of Docker/Deno installation; the script can obtain the free Deno runtime. The database integration suite remains a CI/developer check: loopback-only `tti_test` database, actual SQL CAS/RLS guards, actual API/rules, explicit local Auth/PostgREST adapters. Never point tests or fixtures at hosted Supabase. CI also reruns the generated migration bundle/bootstrap and tests both built frontends.
 
 New environment generation supports localhost and 127.0.0.1:4173/4174; existing files are preserved, so document adding missing exact origins rather than overwriting them. Owner bootstrap requires a canonical lowercase UUID. Keep OpenSpec deployment-and-handover scenarios, tests/status and personal guide synchronized.
+
+The preview URL parser must strip terminal control characters: Vite colours the port in CI/Windows. Keep its regression test and verify browser runner changes with `CI=true npm run test:browser:local`. Browser checks await UI state rather than fixed sleeps; synthetic failure screenshots and CI annotations must remain free of live records.

@@ -4,6 +4,7 @@ import { mkdtemp, rm, access } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
 import { chromium } from "playwright";
+import { localPreviewUrl } from "./preview-url.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const npm = process.env.npm_execpath;
@@ -71,10 +72,10 @@ async function preview(app, directory) {
     let output = "";
     child.stdout.on("data", (data) => {
       output += String(data);
-      const match = output.match(/http:\/\/127\.0\.0\.1:\d+/);
-      if (match) {
+      const address = localPreviewUrl(output);
+      if (address) {
         clearTimeout(timeout);
-        resolve(match[0]);
+        resolve(address);
       }
     });
     child.stderr.on("data", (data) => process.stderr.write(data));
@@ -156,8 +157,12 @@ try {
   );
 } catch (error) {
   console.error(error.message);
+  if (process.env.GITHUB_ACTIONS)
+    console.error(
+      `::error::${error.message.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A")}`,
+    );
   console.error(
-    "On Linux, missing browser OS libraries can be installed with: npx playwright install --with-deps chromium",
+    "See docs/TESTING.md for prerequisites and the failing verification layer.",
   );
   process.exitCode = 1;
 } finally {

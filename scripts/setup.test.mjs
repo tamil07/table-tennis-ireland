@@ -13,6 +13,24 @@ import {
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+import { localPreviewUrl } from "./preview-url.mjs";
+
+test("detects plain and CI/Windows-coloured Vite preview addresses", () => {
+  assert.equal(
+    localPreviewUrl("Local: http://127.0.0.1:4173/"),
+    "http://127.0.0.1:4173",
+  );
+  assert.equal(
+    localPreviewUrl(
+      "Local: \u001b[36mhttp://127.0.0.1:\u001b[1m41987\u001b[22m/\u001b[39m",
+    ),
+    "http://127.0.0.1:41987",
+  );
+  assert.equal(
+    localPreviewUrl("Local: https://unrelated.invalid:1234"),
+    undefined,
+  );
+});
 
 const root = resolve(import.meta.dirname, "..");
 function workspace(t) {

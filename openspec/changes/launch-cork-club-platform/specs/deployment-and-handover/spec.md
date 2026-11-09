@@ -70,3 +70,7 @@ The repository SHALL provide a single local verification command for type checks
 #### Scenario: CI verifies the database handover
 - **WHEN** CI prepares its isolated database
 - **THEN** it applies the generated migration bundle and fake-owner bootstrap twice, checks SQL permissions and booking constraints, and runs API/database integration with explicit local Auth/PostgREST adapters without contacting hosted Supabase
+
+#### Scenario: Preview output contains terminal colours
+- **WHEN** Vite prints a coloured address on CI or Windows
+- **THEN** the verification launcher extracts the actual loopback port, starts the browser checks successfully and reports failures through scoped diagnostics instead of waiting indefinitely
