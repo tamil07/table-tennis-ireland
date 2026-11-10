@@ -174,7 +174,7 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 
 ### 13A. Required before inviting anyone to the live app
 
-- [ ] 13.1 PARTIAL (checked 10 November 2026): redirect URLs for the app and website origins are set; the Site URL is still `http://localhost:3000` and must be changed to `https://ttclubs-app.ttclubsie.workers.dev`. Original scope: owner sets Supabase Auth Site URL to `https://ttclubs-app.ttclubsie.workers.dev` and add redirect URLs for that origin and `https://table-tennis-ireland.ttclubsie.workers.dev/` (dashboard: Authentication → URL Configuration). No wildcards.
+- [x] 13.1 Owner: Supabase Auth Site URL set to `https://ttclubs-app.ttclubsie.workers.dev` and redirect URLs added for the app and website origins. Redirect URLs were checked from the owner's paste on 10 November 2026; the owner reports the Site URL changed from `http://localhost:3000`. Not independently verified by the assistant; confirm with a password-recovery test (13.3).
 - [ ] 13.2 Owner: run the owner smoke test in guide section 7 using synthetic test accounts only (sign-in, memberships, session requests and capacity, attendance, match reflection privacy, summary sign-off, function logs).
 - [ ] 13.3 Owner: confirm `leesidettie@gmail.com` password sign-in and password recovery work end to end after 13.1.
 - [ ] 13.4 Owner: add the four public `VITE_*` build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) to the Cloudflare build settings for both Workers, so Git-triggered builds stay live.
