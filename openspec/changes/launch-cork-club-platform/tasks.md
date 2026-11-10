@@ -167,3 +167,50 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 12.5 Add API-to-PostgreSQL integration for competing place requests, retry, approval visibility, revocation and isolation with explicit fake Auth/PostgREST boundaries
 - [x] 12.6 Extend CI to test generated migration/bootstrap reruns and both built browser entry points; document exact coverage/prerequisites in TESTING.md
 - [x] 12.7 Confirm all four jobs passed in Quality run 42616047886 for fb07828; hosted provider setup, actual devices and live acceptance remain separate owner release gates
+
+## 13. Live launch checklist (recorded 10 November 2026)
+
+Live backend, owner login, club record, both Workers and live builds are done (see implementation-status.md). The items below are what remains. Owner actions are dashboard or provider steps the owner performs with their own accounts; keep passwords, recovery codes and tokens out of the repository and chat.
+
+### 13A. Required before inviting anyone to the live app
+
+- [ ] 13.1 PARTIAL (checked 10 November 2026): redirect URLs for the app and website origins are set; the Site URL is still `http://localhost:3000` and must be changed to `https://ttclubs-app.ttclubsie.workers.dev`. Original scope: owner sets Supabase Auth Site URL to `https://ttclubs-app.ttclubsie.workers.dev` and add redirect URLs for that origin and `https://table-tennis-ireland.ttclubsie.workers.dev/` (dashboard: Authentication → URL Configuration). No wildcards.
+- [ ] 13.2 Owner: run the owner smoke test in guide section 7 using synthetic test accounts only (sign-in, memberships, session requests and capacity, attendance, match reflection privacy, summary sign-off, function logs).
+- [ ] 13.3 Owner: confirm `leesidettie@gmail.com` password sign-in and password recovery work end to end after 13.1.
+- [ ] 13.4 Owner: add the four public `VITE_*` build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) to the Cloudflare build settings for both Workers, so Git-triggered builds stay live.
+- [ ] 13.5 Owner: delete the local `.secrets/cloudflare.token` file and revoke the API token that was shared in chat; the Wrangler browser login is the active credential.
+
+### 13B. Email and scheduled work (guide section 8)
+
+- [ ] 13.6 Owner: create the Resend account, verify the sending domain, and add `RESEND_API_KEY` and `EMAIL_FROM` to `.env.server.local`. Until then, notifications stay queued and are never marked sent.
+- [ ] 13.7 Owner: re-upload server secrets after 13.6 (`npx supabase secrets set --env-file .env.server.local`).
+- [ ] 13.8 Owner: configure Supabase Auth custom SMTP for sign-up verification, recovery and magic links.
+- [ ] 13.9 Owner: generate the private scheduler SQL (`npm run setup:schedule`), review it, and run it once in the SQL Editor; confirm cron run history.
+- [ ] 13.10 Owner: test owner-only email delivery, bounce/failure handling and unsubscribe before inviting members.
+
+### 13C. Before real member or junior data (tasks 10.4–10.9)
+
+- [ ] 13.11 Owner: enable MFA and save recovery codes on Supabase, GitHub, Cloudflare and the two Gmail accounts; invite any trusted owners individually (tasks 9.14, 10.5).
+- [ ] 13.12 Owner: approve privacy, safeguarding, retention and data-request ownership (tasks 10.5, 10.9).
+- [ ] 13.13 Owner: set up encrypted off-site database and storage backups, backup expiry, and a restore rehearsal away from production (task 10.4).
+- [ ] 13.14 Owner: test on real iPhone/Safari and Android/Chrome PWA installs, and on venue connectivity (tasks 7.11, 10.6).
+- [ ] 13.15 Owner: enter real membership types, session times and tables, privacy/safeguarding contacts and policy text inside the app (task 10.6).
+- [ ] 13.16 Owner: decide whether to buy a domain for Leeside; the workers.dev addresses work without one (task 10.7).
+
+### 13D. Code refinements (not blocking the owner-only launch)
+
+- [ ] 13.17 Lint and format enforcement across the repository (task 1.2).
+- [ ] 13.18 Public event-detail routes and Atom feed (task 4.5).
+- [ ] 13.19 Wix content parity, enquiry path and website links to the app (tasks 4.7–4.10).
+- [ ] 13.20 Multiple alternate contacts and primary-contact editor (task 5.3).
+- [ ] 13.21 Persistent recurrence-definition editing (task 7.1).
+- [ ] 13.22 Extended concurrency and load tests, and hosted cross-channel acceptance (tasks 7.19, 9.14).
+- [ ] 13.23 Invitations for unregistered managers (task 9.7).
+- [ ] 13.24 Preview isolation and rollback acceptance (tasks 10.13, 10.2).
+- [ ] 13.25 Monitoring, free-tier thresholds, rollback and support ownership documentation (task 10.7).
+
+### 13E. Deferred, not part of this launch
+
+- Website extraction review after at least one live year and three or more clubs (task 4.4).
+- NFC cards, kiosks and offline scan queues (tasks 7.2, 7.3, 7.5).
+- Expo native clients and store submissions (task 10.8).

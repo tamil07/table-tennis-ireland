@@ -121,3 +121,5 @@ Still pending before real member use:
 - Owner smoke test from the launch guide has not been run.
 - Cloudflare Git build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) must be set so later Git-triggered builds stay in live mode.
 - Email delivery (transactional provider, verified sending domain, Supabase Auth SMTP), the scheduled job SQL, backups and restore testing remain open, as recorded in `tasks.md` 10.3–10.4.
+
+Live launch checklist: the complete list of remaining owner actions and code refinements, with task numbers, is in `tasks.md` section 13 (13A required before inviting members; 13B email and scheduling; 13C before real member or junior data; 13D code refinements; 13E deferred).
