@@ -95,10 +95,10 @@ npm run deploy:backend
 
 This prepares function-local copies of the shared rules and deploys **club-api**, **club-jobs** and **club-public** using the CLI's HTTP bundler (`--use-api`), so Docker is not required on the laptop. `club-api` verifies the bearer user through Auth; `club-jobs` requires the generated job token; `club-public` projects public fields only. Never deploy a function with its authentication checks removed.
 
-In Supabase **Authentication → Users**, create your first real owner user with your intended email and a strong private password. For this initial owner-only test you can use the dashboard's verified/auto-confirm option after verifying it is your own address. This is a platform end-user account, separate from your Supabase administrator GitHub login. Copy its Auth user UUID, then:
+In Supabase **Authentication → Users**, create your first real owner user with the Leeside club address `leesidettie@gmail.com` and a strong private password. Use the platform address `ttclubsie@gmail.com` only for platform/cloud registration, not for this club login. For this initial owner-only test you can use the dashboard's verified/auto-confirm option after verifying it is your own address. This is a platform end-user account, separate from your Supabase administrator GitHub login. Copy its Auth user UUID, then:
 
 ```bash
-npm run setup:bootstrap -- --owner YOUR_AUTH_USER_UUID --email ttclubsie@gmail.com --name "Your name"
+npm run setup:bootstrap -- --owner YOUR_AUTH_USER_UUID --email leesidettie@gmail.com --name "Your name"
 ```
 
 Review `supabase/bootstrap.local.sql` and run it once in SQL Editor. It creates the Leeside club and an **empty** real workspace owned by that account. It does not copy synthetic people, demo memberships or fake domains. Existing runtime state is never overwritten. Only the owner bootstrap needs SQL; subsequent management permissions, plans, people and sessions are edited in the app.

@@ -15,3 +15,6 @@ supabase/*.local.sql
 supabase/functions/_shared/domain/
 backups/
 test-results/
+
+# Local secret files (never commit)
+.secrets/

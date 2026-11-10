@@ -97,3 +97,27 @@ Hosted setup is one dependency, not the only remaining work. Production requires
 For another coding agent, root `AGENTS.md` provides the required reading order, approved decisions, code locations, ordered implementation streams, test/deployment commands and reporting rules. It links this status record rather than maintaining an unrelated competing task list. Public website copy identifies the preview; infrastructure credentials and developer task details belong in repository documentation, not visitor account flows.
 
 NFC hardware purchases and broad pilot recruitment stay parked. Native iOS/Android store releases follow the PWA pilot. Website repository extraction is reviewed only after at least one live year and three or more clubs. See `tasks.md` for the full outstanding implementation checklist and `docs/ACCOUNT_SETUP_README.md` for owner account actions.
+
+## Personal-laptop hosted launch — 10 November 2026
+
+Recorded from the owner's personal laptop session. Secrets, tokens, passwords and private environment values are intentionally excluded; they live only in ignored local files or provider secret stores.
+
+Completed against the hosted project `ttclubs` (`mkxqrkqwpvjtkjfjjckm`, eu-north-1, production), each after explicit owner approval:
+
+- **Database:** all three repository migrations applied (`202610030001_initial_platform`, `202610250001_venue_qr`, `202611080001_club_runtime`). Remote migration history matches the local files.
+- **Server secrets:** four application secrets set (`APP_URL`, `APP_ORIGINS`, `CLUB_JOB_TOKEN`, `EMAIL_REPLY_TO`). Transactional email provider secrets are not yet set.
+- **Backend functions:** `club-api`, `club-jobs` and `club-public` deployed and active. `club-api` validates the bearer token through Supabase Auth; `club-jobs` requires the job token.
+- **Owner access:** Supabase Auth user for `leesidettie@gmail.com` created and confirmed by the owner. The Leeside club owner was bootstrapped with that user's ID; the club record (`leeside`, join code `LEESIDE`) is active.
+- **Live mode and frontends:** `VITE_ENABLE_LIVE=true` set in both app builds. Website Worker `table-tennis-ireland` and app Worker `ttclubs-app` deployed; both respond HTTP 200 at their workers.dev URLs.
+
+Deployment notes:
+
+- Hosted operations were run through the Supabase CLI and Wrangler OAuth login on the owner's account. Several CLI commands required an explicit confirmation flag because they ran in agent mode; each was approved by the owner first.
+- An initial Cloudflare deploy failed because the stored API token lacked Workers write permission. It was resolved by a Wrangler browser login using the platform Cloudflare account; the stored token file is no longer required and should be deleted and revoked.
+
+Still pending before real member use:
+
+- Supabase Auth Site URL and redirect URLs must be set to the deployed app and website origins (dashboard step).
+- Owner smoke test from the launch guide has not been run.
+- Cloudflare Git build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) must be set so later Git-triggered builds stay in live mode.
+- Email delivery (transactional provider, verified sending domain, Supabase Auth SMTP), the scheduled job SQL, backups and restore testing remain open, as recorded in `tasks.md` 10.3–10.4.

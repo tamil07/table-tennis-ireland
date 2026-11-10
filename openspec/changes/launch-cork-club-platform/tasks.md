@@ -125,7 +125,7 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 
 ## 10. Operations and release
 
-- [ ] 10.1 OWNER HANDOVER, updated 7 November 2026: office-laptop Supabase connections are blocked, confirmed by owner. Owner will set up the existing ttclubs project (mkxqrkqwpvjtkjfjjckm; eu-north-1 Stockholm) from a personal laptop after repository updates. Pull main, install dependencies, log in/link, remote dry-run/review then apply migrations. Preserve the hosted-setup pause until that handover; no network bypass or remote migrations in this implementation pass. See implementation-status.md for scope, commands and remaining live-data gates.
+- [x] 10.1 OWNER HANDOVER: completed on 10 November 2026 from the owner's personal laptop. The office-laptop block (7 November 2026) was avoided by completing the work on a personal laptop; no network restriction was changed. Migrations, secrets, functions, owner bootstrap and frontend deploys are done; see implementation-status.md for scope and the remaining gates.
 - [ ] 10.2 Configure the national app and retained Leeside pilot website deployments using current targets; future independent website integration does not require a generic club-website service
 - [ ] 10.3 Configure authenticated transactional email and scheduled Edge Functions
 - [ ] 10.4 Configure encrypted off-site database and storage backups and test restoration
@@ -138,7 +138,7 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 10.11 Inspect Cloudflare account/Worker/build logs through authorized read-only APIs and record observed failure separately from proposed remediation
 - [x] 10.12 Correct Cloudflare workspace typo (@ttti/club-web to @tti/club-web), align existing table-tennis-ireland Worker via wrangler.club-web.jsonc, pin Wrangler/Node 22 and configure website production/preview commands; platform Worker config is now supplied; owner deployment remains separate
 - [ ] 10.13 PARTIAL: implementation commit 2577059 website assets/SPA/mobile synthetic flows verified; preview isolation and rollback acceptance remain
-- [ ] 10.14 Owner deployment: separate app Worker source/config is ready; deploy it from the personal laptop without overwriting the website Worker; review remaining build-tool advisories
+- [x] 10.14 Owner deployment (app Worker `ttclubs-app` deployed 10 November 2026; Git build variables and Auth URL configuration still open): separate app Worker source/config is ready; deploy it from the personal laptop without overwriting the website Worker; review remaining build-tool advisories
 - [x] 10.15 Verify successful Cloudflare website build af21ba36-d5ea-4df0-9eba-7d87a70e2fe2 from fix commit 8484e83, root/JS/CSS HTTP 200, exact local/remote asset hashes and SPA fallback; preview/mobile/rollback acceptance in 10.13 remains pending
 - [x] 10.16 Add root AGENTS.md handover linking approved requirements, all-capability status, complete pending checklist, personal-laptop setup sequence and validation/deployment commands
 - [x] 10.17 Verify booking preview code delivery ef10b50: main push, served JS/CSS hashes matching local build, SPA response, live mobile synthetic request/approval; preview-version isolation and rollback in 10.13 remain pending
@@ -156,7 +156,7 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 11.4 Supply CLI login/link guide, frontend environment guard, environment preparation, HTTP function packaging/deploy, owner bootstrap and SQL-Editor migration fallback
 - [x] 11.5 Supply private Vault/cron generation, separate platform Worker config, encrypted database export helper and user-executable smoke checks
 - [x] 11.6 Verify synthetic browser workflows, domain/security rules, local HTTP handlers and isolated PostgreSQL migrations/constraints; record exact results separately from live acceptance
-- [ ] 11.7 Owner performs the personal-laptop runbook, real account/provider configuration and live smoke tests; no office firewall bypass or hosted changes in this implementation pass
+- [ ] 11.7 PARTIAL: hosted migrations, secrets, functions, owner bootstrap and Worker deployments done 10 November 2026; Auth URL configuration, owner smoke test and Git build variables remain. Original scope: owner performs the personal-laptop runbook, real account/provider configuration and live smoke tests; no office firewall bypass or hosted changes in this implementation pass
 
 ## 12. Handover regression and integration verification — 9 November 2026
 
