@@ -176,5 +176,7 @@ Updated 12 November 2026. Checked tasks mean source implementation/local verific
 - [x] 13.4 Add frontend-only preparation that preserves existing server secrets and coordinated-token guidance
 - [x] 13.5 Require live configuration/existing project for production build scripts and rebuild before publishing; preserve synthetic local testing
 - [x] 13.6 Add regression tests for production entry points, wrong-project refusal, frontend-only preservation and offline doctor; reconcile README/AGENTS/guide pointers
-- [ ] 13.7 Verify the full local command, current CI and public site preservation after pushing this source delivery
+- [x] 13.7 Verify full local command, all four Quality jobs for 483701c and anonymous live-site preservation after push; Cloudflare automatic-build failure is tracked separately below
 - [ ] 13.8 Owner confirms remaining deployment checklist outcomes: private account/permission/write flows, exact callbacks, current functions/jobs, actual mail/cron and backup/restore; no new project or automatic bootstrap merely for laptop migration
+
+- [ ] 13.9 Owner resolves the Cloudflare automatic-build failure using its provider log, verifies live build variables/commands and retries without weakening the production guard; current live release remained online

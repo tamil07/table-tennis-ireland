@@ -18,6 +18,22 @@ No hosted migrations, private sign-in tests, email sends or provider-account cha
 
 `npm run verify:local` passed with 80 unit tests, 12 setup/helper regressions, three backend HTTP suites, both builds and both automatic browser workflows. The offline doctor completed without failures; missing private configuration remains local/owner work. New production entry points reject demo or wrong-project settings before publication and rebuild fresh assets. No authenticated hosted acceptance follows from these local results.
 
+## Post-push evidence for source commit 483701c
+
+All four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/43267222371) passed: check, edge-functions, venue-qr-database and browser-workflows. Both public URLs still returned HTTP 200 with sign-in screens and no demo role selector after the push.
+
+Cloudflare's separate automatic website build **failed**: [build 4e0fae3d-b80b-44d8-a719-974df4e6f2ad](https://dash.cloudflare.com/6502a73494f4ee7107b36c620ee76471/workers/services/view/table-tennis-ireland/production/builds/4e0fae3d-b80b-44d8-a719-974df4e6f2ad). Its GitHub check provides no error text; the failure reason is unverified until the owner reads the provider build log. The existing live release remained available. Check the build variables/commands below before retrying; do not remove the production guard to make a failed build green.
+
+| If the build log reports | Owner action |
+| --- | --- |
+| `production requires VITE_ENABLE_LIVE=true` | Add that exact flag to the Worker's **build** variables |
+| Wrong/missing pilot project URL | Set `VITE_SUPABASE_URL` to the existing project URL |
+| Missing/unsafe browser key | Set `VITE_SUPABASE_ANON_KEY` to the publishable/anon key; server credentials belong only in server secrets |
+| Wrong workspace/build target | Use root `npm run build:club`, `npm run deploy:club`, Node 22 and the existing website Worker/config |
+| Another error | Retain its non-secret diagnostic and follow the matching layer; do not reset Supabase or overwrite the live release |
+
+`VITE_ENABLE_PHONE_LOGIN=false` remains the pilot build setting. Configure each Git-connected target separately; laptop environment files do not populate these settings. Rebuild/retry after correcting the actual log-reported issue and verify both public sites afterwards.
+
 ## Confirm on the owner account
 
 Use `confirmed YYYY-MM-DD`, `pending`, or `not configured`. Fill public URLs/version IDs where useful; no secret values.

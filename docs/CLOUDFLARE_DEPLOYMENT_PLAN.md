@@ -104,3 +104,8 @@ Main commit `2577059` is pushed and the existing website Worker now serves the s
 | `index-DTdpFAQR.css` | `eb4d572b10b761cb8a96868c070b04c708f38aa2f85a4edcad66d41a006ec886` |
 
 SPA fallback and deployed synthetic browser flows passed: catalogue, guardian booking/approval, attendance/report, match review, reflection privacy, coach aggregate and 390px/320px layouts. This does not verify live Supabase, real delivery, preview isolation or rollback. The separate `ttclubs-app` Worker config is ready but not remotely deployed. Follow [the personal-laptop launch guide](PERSONAL_LAPTOP_LAUNCH.md) for fresh CLI logins, account configuration and activation; office hosted setup remains paused.
+
+
+## Handover guard delivery — 12 November 2026
+
+Source 483701c passed all four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/43267222371). Post-push website/app checks remained HTTP 200 with live sign-in and no demo selector. Cloudflare's [automatic build](https://dash.cloudflare.com/6502a73494f4ee7107b36c620ee76471/workers/services/view/table-tennis-ireland/production/builds/4e0fae3d-b80b-44d8-a719-974df4e6f2ad) failed; GitHub provides status/link only, so the log-reported reason remains unverified. Use DEPLOYMENT_STATUS.md for diagnostic-to-action mapping, check live **build** variables and retry from the correct root scripts. Do not weaken production validation or treat the previous live deployment as the newly built source version.

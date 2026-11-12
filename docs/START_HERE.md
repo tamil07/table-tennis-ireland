@@ -1,5 +1,7 @@
 # Resume on an old or new laptop
 
+Current status and the remaining Cloudflare automatic-build issue are recorded in [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md); the existing public sites remain online.
+
 Use the existing repository, Supabase project and Cloudflare account. You need Git and Node 22, not another paid coding agent. The website and national app already show live-mode sign-in screens; do not restart their setup from zero.
 
 ## 1. Get the saved files
@@ -46,7 +48,7 @@ npm run setup:env -- --frontend-only
 
 This creates missing frontend environment files, preserves existing files and does not generate/rotate backend scheduler secrets. Review both app files and explicitly enable live mode only when you intend to use the shared backend. Local synthetic testing remains available without cloud configuration.
 
-For backend maintenance, retrieve your existing private server configuration from your approved private storage. Do not upload a freshly generated scheduler token over an existing deployment: its Edge Function secret and Vault/cron value must match. If the original token is unavailable, deliberately rotate both together through the providers and verify cron afterwards. `setup:env` without `--frontend-only` is for first-time preparation; it does not recover deployed secrets.
+The supplied `deploy:backend` script does not upload/reset server secrets. Leave the provider configuration in place when only updating function code. For changes to backend settings, retrieve your existing private server configuration from your approved private storage. Do not upload a freshly generated scheduler token over an existing deployment: its Edge Function secret and Vault/cron value must match. If the original token is unavailable, deliberately rotate both together through the providers and verify cron afterwards. `setup:env` without `--frontend-only` is for first-time preparation; it does not recover deployed secrets.
 
 Use your normal permitted internet connection. CLI logins, HTTPS API access and PostgreSQL connectivity are separate. Do not copy office proxy/VPN settings or disable TLS verification.
 
