@@ -8,7 +8,10 @@ context: |
   Stage: Operational source implementation and local verification. TypeScript/React/Vite,
   Supabase Auth/functions/PostgreSQL and Cloudflare static hosting are selected for the pilot.
   Hosted Supabase setup is paused: the office laptop blocks connections; the owner will
-  complete setup from a personal laptop. See the active change runtime-design.md and
+  complete account-required setup from a personal laptop. Both public frontends and the public
+  reader were observed live on 12 November; private/provider acceptance remains unverified.
+  Resume through docs/START_HERE.md and record non-secret outcomes in docs/DEPLOYMENT_STATUS.md.
+  See the active change runtime-design.md and
   docs/PERSONAL_LAPTOP_LAUNCH.md; no extra coding-agent subscription is required for setup.
   Verification: npm run verify:local runs unit/setup/HTTP and automatic website/app browser checks;
   PostgreSQL integration and migration/bootstrap reruns run in CI without personal-laptop Docker.

@@ -69,7 +69,7 @@ None. This is the first product specification.
 - Stores personal information for adults and children, membership history, match history, and coaching observations; privacy, safeguarding, consent, retention, and access controls are therefore core requirements.
 - Requires reliable email delivery but no paid club-management, calendar, messaging, or payment integration for the first release.
 - Uses a verified club or platform sending domain through Resend for automated messages; a Gmail or club mailbox may receive replies but is not the automated SMTP sender.
-- Introduces attendance records, hybrid NFC/QR member cards, a club-controlled Android kiosk, a public sign-up QR, attendance notifications, and staff reporting.
+- Introduces QR/direct-app session attendance, guardian-led child selection, separate public registration QR, membership follow-up and staff reporting. Physical cards, NFC kiosks and offline hardware queues remain parked for the pilot.
 - The first release operates for one Cork club; future multi-club expansion must not expose one club's data to another.
 - Independent club websites retain their own brands and deployments; operational accounts and records live in the national app, with optional public-only content integration.
 - A person's identity is platform-wide, while their roles, memberships, coaching assignments, and access permissions are independently scoped to each club.
@@ -99,9 +99,9 @@ None. This is the first product specification.
 - Coaches' private working notes are not shown to players or guardians; a coach deliberately publishes a separate player-facing development summary.
 - Same-recording-club matches follow opposing-side review, five-day auto-approval and coach resolution. External-opponent results are player-reported immediately and do not auto-become verified after five days.
 - Coaches resolve disputed results. Retired, abandoned, or otherwise incomplete matches are retained but excluded from player statistics and tournament standings unless a coach records a resolved result.
-- Admins can enable the predefined 10-day reminder, 3-day reminder, or both; arbitrary reminder offsets are outside the first release.
+- Default expiry communication follows the inclusive expiry day in Europe/Dublin, to player/guardian and management. Admins can optionally enable predefined 10-day/3-day advance reminders; these are off by default and arbitrary offsets are outside the first release.
 - Attendance represents physical presence and is recorded even when membership is expired or missing; the historical record retains that classification and creates an admin alert for follow-up.
-- The first release does not trust a plain self-check-in button as proof of venue presence; children and adults can use the issued card, with staff manual check-in as fallback.
+- Pilot attendance uses session-time direct-app or rotating venue-QR confirmation with explicit self-declared physical presence, guardian selection and authorized manual correction. It is not geographic proof. Not attending from home is separate; NFC/card hardware is parked.
 - A club join code is a public convenience that selects Leeside in the app; it is not a password, membership credential, or authorization mechanism.
-- App attendance QR passes are short-lived and distinct from the permanent physical-card credential so a saved screenshot cannot remain valid indefinitely.
+- Venue attendance QR challenges are short-lived and distinct from the public join QR. Physical-card credentials remain deferred; saved challenges are not permanent attendance authorization.
 - Membership values, safeguarding appointments, policy approval, attendance-correction rules, and final retention periods remain to be confirmed with Leeside Table Tennis; implementation uses the documented configurable/provisional defaults until approval.

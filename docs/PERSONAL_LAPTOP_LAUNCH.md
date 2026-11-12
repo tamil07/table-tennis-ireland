@@ -1,8 +1,10 @@
 # Personal-laptop launch — no coding agent required
 
-This is the account/hosting handover. All commands below are for **you on your personal laptop**. No hosted migrations, function deployment, account changes or live email tests were performed from the office laptop. Office Supabase database connections are blocked. The website currently remains in synthetic mode.
+For an existing deployment, begin with [START_HERE.md](START_HERE.md) and [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md). On 12 November both public website/app URLs showed live-mode sign-in screens and the website's public content request returned HTTP 200. Private operations, migrations, email/jobs and backups still require owner confirmation. The initial setup steps below apply only where still outstanding; do not recreate projects or owners because you changed laptops.
 
-Latest verification, 9 November 2026: automated handover/integration tests `974e70f`, CI/Windows compatibility fix `fb07828`; all four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/42616047886) passed. The website serves the synthetic operational portal; the separate app Worker and hosted backend still need owner deployment.
+Office Supabase database connections remain blocked. No hosted migration, private sign-in/write test or account change was performed from the office laptop during this review. Use a permitted personal connection for the account-required work.
+
+Latest verification, 9 November 2026: automated handover/integration tests `974e70f`, CI/Windows compatibility fix `fb07828`; all four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/42616047886) passed. That run verified local/source behavior; the 12 November public deployment observations are recorded separately in DEPLOYMENT_STATUS.md.
 
 You do not need to buy another repository or pay for a coding-agent subscription to follow this guide. Use the existing Supabase project, Cloudflare account and repository. Email-domain verification, live acceptance and any outstanding product limitations are listed below; connecting accounts does not prove those checks passed.
 
@@ -74,13 +76,13 @@ Find the project's **publishable key** in its API settings; the URL is `https://
 npm run setup:env
 ```
 
-Paste the browser-safe key when prompted. This creates missing files, preserving existing ones:
+Paste the browser-safe key when prompted. For first-time setup, this creates missing files, preserving existing ones:
 
 - `apps/club-web/.env.local`
 - `apps/platform/.env.local`
 - `.env.server.local` (including a generated private scheduler token)
 
-All are ignored by Git. Review existing files if copied from another laptop. Keep `VITE_ENABLE_LIVE=false` for now. Phone OTP stays off; enabling it needs a separately configured SMS provider, limits and budget.
+All are ignored by Git. For an existing deployment on another laptop, prefer `npm run setup:env -- --frontend-only` until you retrieve existing private server settings. Do not upload a newly generated job token over the live function while Vault/cron still uses the old token. Review existing files if copied from another laptop. Keep `VITE_ENABLE_LIVE=false` for now. Phone OTP stays off; enabling it needs a separately configured SMS provider, limits and budget.
 
 The server file contains exact website/app/local origins and the intended app URL. If your deployment URLs differ, edit `APP_URL` and `APP_ORIGINS` to those exact origins (comma separated, no wildcard). Supabase supplies its server URL/service-role credentials to deployed functions; do not copy them into frontend files or the server environment template.
 
@@ -113,7 +115,7 @@ npm run deploy:club
 npm run deploy:platform
 ```
 
-`npm run check` builds both apps before the deploy scripts publish those assets. The website uses `wrangler.club-web.jsonc` and the existing Worker `table-tennis-ireland`; the app uses `wrangler.platform.jsonc` and a separate `ttclubs-app` Worker. Rebuild after changing frontend environment variables. Do not deploy the app over the website Worker.
+`npm run check` validates/builds both apps. Each production deploy also rebuilds its target with a guard requiring explicit live mode and the existing project URL; stale synthetic assets are not uploaded by these scripts. The website uses `wrangler.club-web.jsonc` and the existing Worker `table-tennis-ireland`; the app uses `wrangler.platform.jsonc` and a separate `ttclubs-app` Worker. Rebuild after changing frontend environment variables. Do not deploy the app over the website Worker.
 
 Expected URLs in the existing account:
 
@@ -124,7 +126,7 @@ Confirm the actual Wrangler output. No purchased domain is needed for these URLs
 
 After deployment, hard-refresh both clients (or close/reopen the installed PWA) to load the new version before testing. Confirm live mode and the expected account; an old browser tab can still display a cached synthetic build.
 
-**Cloudflare Git builds also need the four browser variables** (`VITE_ENABLE_LIVE=true`, `VITE_ENABLE_PHONE_LOGIN=false`, project URL and publishable key) in their build environment. Your laptop `.env.local` is not uploaded to Git. Until the dashboard build variables are updated, a later main push can rebuild the website in synthetic mode. Never add the server secrets/job token/email API key to Cloudflare frontend build variables.
+**Cloudflare Git builds also need the four browser variables** (`VITE_ENABLE_LIVE=true`, `VITE_ENABLE_PHONE_LOGIN=false`, project URL and publishable key) in their build environment. Your laptop `.env.local` is not uploaded to Git. Production build scripts now refuse missing/synthetic settings, so a Git build with incomplete variables fails instead of publishing a demo replacement. Configure those variables and retry while retaining the current release. Never add the server secrets/job token/email API key to Cloudflare frontend build variables.
 
 In Supabase **Authentication → URL Configuration**, set the Site URL to the real app URL and allow the exact website/app callback URLs used above, plus local development origins only if needed. The app handles password recovery and OAuth callbacks at the root. Google sign-in additionally needs Google OAuth configuration in Supabase; it is optional, so password sign-in can be tested first.
 

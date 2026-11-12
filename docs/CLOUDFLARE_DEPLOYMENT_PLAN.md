@@ -1,5 +1,8 @@
 # Cloudflare inspection and deployment plan
 
+Current status, 12 November 2026: both public website/app URLs show live-mode sign-in and the website public reader responds successfully. See [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md) for verified versus unverified items and [START_HERE.md](START_HERE.md) for laptop resumption. Earlier failed-build/demo asset records below are historical. Production scripts now require live build settings and rebuild before publishing; keep Cloudflare Git-build public variables configured independently from laptop files. Missing variables should block publication, retaining the current release.
+
+
 ## Latest website verification — 7 November 2026
 
 Code commit `ef10b50` is pushed to main. The public website now serves `index-mtmbKBKM.js` and `index-CyulaUCm.css`; both return HTTP 200 and SHA-256 hashes match the tested local production build. `/booking` returns the current SPA HTML. A live 390-pixel browser walkthrough requested a synthetic place, switched to maintainer, approved it and verified confirmation with no document overflow. Local walkthrough additionally covered guardian requests, duplicate prevention, occupied-table protection, moves, persistence and club switching at desktop/mobile widths.
@@ -101,3 +104,8 @@ Main commit `2577059` is pushed and the existing website Worker now serves the s
 | `index-DTdpFAQR.css` | `eb4d572b10b761cb8a96868c070b04c708f38aa2f85a4edcad66d41a006ec886` |
 
 SPA fallback and deployed synthetic browser flows passed: catalogue, guardian booking/approval, attendance/report, match review, reflection privacy, coach aggregate and 390px/320px layouts. This does not verify live Supabase, real delivery, preview isolation or rollback. The separate `ttclubs-app` Worker config is ready but not remotely deployed. Follow [the personal-laptop launch guide](PERSONAL_LAPTOP_LAUNCH.md) for fresh CLI logins, account configuration and activation; office hosted setup remains paused.
+
+
+## Handover guard delivery — 12 November 2026
+
+Source 483701c passed all four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/43267222371). Post-push website/app checks remained HTTP 200 with live sign-in and no demo selector. Cloudflare's [automatic build](https://dash.cloudflare.com/6502a73494f4ee7107b36c620ee76471/workers/services/view/table-tennis-ireland/production/builds/4e0fae3d-b80b-44d8-a719-974df4e6f2ad) failed; GitHub provides status/link only, so the log-reported reason remains unverified. Use DEPLOYMENT_STATUS.md for diagnostic-to-action mapping, check live **build** variables and retry from the correct root scripts. Do not weaken production validation or treat the previous live deployment as the newly built source version.

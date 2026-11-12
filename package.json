@@ -8,9 +8,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build:club": "node scripts/check-client-env.mjs club-web && npm run build --workspace @tti/club-web",
-    "build:platform": "node scripts/check-client-env.mjs platform && npm run build --workspace @tti/platform",
-    "deploy:platform": "wrangler deploy --config wrangler.platform.jsonc",
+    "build:club": "node scripts/check-client-env.mjs club-web --require-live && npm run build --workspace @tti/club-web",
+    "build:platform": "node scripts/check-client-env.mjs platform --require-live && npm run build --workspace @tti/platform",
+    "deploy:platform": "npm run build:platform && wrangler deploy --config wrangler.platform.jsonc",
     "setup:bootstrap": "node --experimental-strip-types scripts/prepare-club.mjs",
     "setup:personal": "bash scripts/personal-laptop-setup.sh",
     "setup:env": "node scripts/prepare-environment.mjs",
@@ -18,7 +18,7 @@
     "setup:migrations": "node scripts/prepare-migrations.mjs",
     "prepare:functions": "node scripts/prepare-functions.mjs",
     "deploy:backend": "npm run prepare:functions && npx supabase functions deploy club-api club-jobs club-public --use-api",
-    "deploy:club": "wrangler deploy --config wrangler.club-web.jsonc",
+    "deploy:club": "npm run build:club && wrangler deploy --config wrangler.club-web.jsonc",
     "preview:club": "wrangler versions upload --config wrangler.club-web.jsonc",
     "dev:club": "npm run dev --workspace @tti/club-web",
     "dev:platform": "npm run dev --workspace @tti/platform",
@@ -30,7 +30,8 @@
     "test:setup": "node --test scripts/setup.test.mjs",
     "test:browser:local": "node scripts/verify-local.mjs --browsers-only",
     "verify:local": "node scripts/verify-local.mjs",
-    "test:edge": "npm run prepare:functions && npx --yes deno@2 check --config supabase/functions/deno.json supabase/functions/club-api/index.ts supabase/functions/club-jobs/index.ts supabase/functions/club-public/index.ts && npx --yes deno@2 test --config supabase/functions/deno.json --allow-env --allow-net supabase/functions/runtime.integration.test.ts supabase/functions/jobs.integration.test.ts supabase/functions/public.integration.test.ts"
+    "test:edge": "npm run prepare:functions && npx --yes deno@2 check --config supabase/functions/deno.json supabase/functions/club-api/index.ts supabase/functions/club-jobs/index.ts supabase/functions/club-public/index.ts && npx --yes deno@2 test --config supabase/functions/deno.json --allow-env --allow-net supabase/functions/runtime.integration.test.ts supabase/functions/jobs.integration.test.ts supabase/functions/public.integration.test.ts",
+    "setup:doctor": "node scripts/setup-doctor.mjs"
   },
   "engines": {
     "node": ">=22"

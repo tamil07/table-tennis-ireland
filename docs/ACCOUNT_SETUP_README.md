@@ -1,6 +1,8 @@
 # Your account setup checklist
 
-**Start here now:** [Personal-laptop launch — complete ordered commands](PERSONAL_LAPTOP_LAUNCH.md). That runbook supersedes older setup snippets below, includes fresh Supabase/Cloudflare CLI logins and HTTPS migration fallback, and requires no paid coding agent. This file is the account inventory; exact implementation gaps remain in OpenSpec.
+**Already set up on another laptop?** Start with [START_HERE.md](START_HERE.md) and [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md). Public website/app sign-in and club-public availability were observed on 12 November; old first-time pending checkboxes below are an inventory, not instructions to recreate existing resources. Private/provider acceptance stays explicit.
+
+**First-time account steps:** [Personal-laptop launch — complete ordered commands](PERSONAL_LAPTOP_LAUNCH.md). That runbook supersedes older setup snippets below, includes fresh Supabase/Cloudflare CLI logins and HTTPS migration fallback, and requires no paid coding agent. This file is the account inventory; exact implementation gaps remain in OpenSpec.
 
 > Latest pilot decision, 1 November 2026: retain the current Leeside website and national app in this repository, with independent deployment targets as listed below. Defer website repository separation until review after at least one year of live operation and more than two participating clubs. Creating another repository is not a current setup task.
 

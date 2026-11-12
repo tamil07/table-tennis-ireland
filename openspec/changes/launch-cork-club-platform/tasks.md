@@ -1,4 +1,4 @@
-Updated 9 November 2026. Checked tasks mean source implementation/local verification, not hosted acceptance. The active architecture is runtime-design.md. Hosted setup and live testing remain excluded; follow docs/PERSONAL_LAPTOP_LAUNCH.md from the personal laptop. PARTIAL/DEFERRED items are stated explicitly.
+Updated 12 November 2026. Checked tasks mean source implementation/local verification, not hosted acceptance. The active architecture is runtime-design.md. Hosted setup and live testing remain excluded; follow docs/PERSONAL_LAPTOP_LAUNCH.md from the personal laptop. PARTIAL/DEFERRED items are stated explicitly.
 
 ## 1. Workspace foundation
 
@@ -168,49 +168,62 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 12.6 Extend CI to test generated migration/bootstrap reruns and both built browser entry points; document exact coverage/prerequisites in TESTING.md
 - [x] 12.7 Confirm all four jobs passed in Quality run 42616047886 for fb07828; hosted provider setup, actual devices and live acceptance remain separate owner release gates
 
-## 13. Live launch checklist (recorded 10 November 2026)
+## 14. Live launch checklist (recorded 10 November 2026)
 
 Live backend, owner login, club record, both Workers and live builds are done (see implementation-status.md). The items below are what remains. Owner actions are dashboard or provider steps the owner performs with their own accounts; keep passwords, recovery codes and tokens out of the repository and chat.
 
-### 13A. Required before inviting anyone to the live app
+### 14A. Required before inviting anyone to the live app
 
-- [x] 13.1 Owner: Supabase Auth Site URL set to `https://ttclubs-app.ttclubsie.workers.dev` and redirect URLs added for the app and website origins. Redirect URLs were checked from the owner's paste on 10 November 2026; the owner reports the Site URL changed from `http://localhost:3000`. Not independently verified by the assistant; confirm with a password-recovery test (13.3).
-- [ ] 13.2 Owner: run the owner smoke test in guide section 7 using synthetic test accounts only (sign-in, memberships, session requests and capacity, attendance, match reflection privacy, summary sign-off, function logs). Progress 11 November 2026: owner signed in and found every section empty, as expected for a new club. No smoke-test data entered yet. Order: Management, People & memberships, Sessions & hall, then the flows that depend on them.
-- [x] 13.3 Owner: password sign-in and password recovery confirmed for `leesidettie@gmail.com` on 11 November 2026 (owner report). The reset email link opened `https://ttclubs-app.ttclubsie.workers.dev/#` and the password was changed; sign-in with the new password succeeded. Not independently verified by the assistant.
-- [ ] 13.4 Owner: add the four public `VITE_*` build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) to the Cloudflare build settings for both Workers, so Git-triggered builds stay live.
-- [ ] 13.5 Owner: delete the local `.secrets/cloudflare.token` file and revoke the API token that was shared in chat; the Wrangler browser login is the active credential.
+- [x] 14.1 Owner: Supabase Auth Site URL set to `https://ttclubs-app.ttclubsie.workers.dev` and redirect URLs added for the app and website origins. Redirect URLs were checked from the owner's paste on 10 November 2026; the owner reports the Site URL changed from `http://localhost:3000`. Not independently verified by the assistant; confirm with a password-recovery test (13.3).
+- [ ] 14.2 Owner: run the owner smoke test in guide section 7 using synthetic test accounts only (sign-in, memberships, session requests and capacity, attendance, match reflection privacy, summary sign-off, function logs). Progress 11 November 2026: owner signed in and found every section empty, as expected for a new club. No smoke-test data entered yet. Order: Management, People & memberships, Sessions & hall, then the flows that depend on them.
+- [x] 14.3 Owner: password sign-in and password recovery confirmed for `leesidettie@gmail.com` on 11 November 2026 (owner report). The reset email link opened `https://ttclubs-app.ttclubsie.workers.dev/#` and the password was changed; sign-in with the new password succeeded. Not independently verified by the assistant.
+- [ ] 14.4 Owner: add the four public `VITE_*` build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) to the Cloudflare build settings for both Workers, so Git-triggered builds stay live.
+- [ ] 14.5 Owner: delete the local `.secrets/cloudflare.token` file and revoke the API token that was shared in chat; the Wrangler browser login is the active credential.
 
-### 13B. Email and scheduled work (guide section 8)
+### 14B. Email and scheduled work (guide section 8)
 
-- [ ] 13.6 Owner: create the Resend account, verify the sending domain, and add `RESEND_API_KEY` and `EMAIL_FROM` to `.env.server.local`. Until then, notifications stay queued and are never marked sent.
-- [ ] 13.7 Owner: re-upload server secrets after 13.6 (`npx supabase secrets set --env-file .env.server.local`).
-- [ ] 13.8 Owner: configure Supabase Auth custom SMTP for sign-up verification, recovery and magic links.
-- [ ] 13.9 Owner: generate the private scheduler SQL (`npm run setup:schedule`), review it, and run it once in the SQL Editor; confirm cron run history.
-- [ ] 13.10 Owner: test owner-only email delivery, bounce/failure handling and unsubscribe before inviting members.
+- [ ] 14.6 Owner: create the Resend account, verify the sending domain, and add `RESEND_API_KEY` and `EMAIL_FROM` to `.env.server.local`. Until then, notifications stay queued and are never marked sent.
+- [ ] 14.7 Owner: re-upload server secrets after 13.6 (`npx supabase secrets set --env-file .env.server.local`).
+- [ ] 14.8 Owner: configure Supabase Auth custom SMTP for sign-up verification, recovery and magic links.
+- [ ] 14.9 Owner: generate the private scheduler SQL (`npm run setup:schedule`), review it, and run it once in the SQL Editor; confirm cron run history.
+- [ ] 14.10 Owner: test owner-only email delivery, bounce/failure handling and unsubscribe before inviting members.
 
-### 13C. Before real member or junior data (tasks 10.4–10.9)
+### 14C. Before real member or junior data (tasks 10.4–10.9)
 
-- [ ] 13.11 Owner: enable MFA and save recovery codes on Supabase, GitHub, Cloudflare and the two Gmail accounts; invite any trusted owners individually (tasks 9.14, 10.5).
-- [ ] 13.12 Owner: approve privacy, safeguarding, retention and data-request ownership (tasks 10.5, 10.9).
-- [ ] 13.13 Owner: set up encrypted off-site database and storage backups, backup expiry, and a restore rehearsal away from production (task 10.4).
-- [ ] 13.14 Owner: test on real iPhone/Safari and Android/Chrome PWA installs, and on venue connectivity (tasks 7.11, 10.6).
-- [ ] 13.15 Owner: enter real membership types, session times and tables, privacy/safeguarding contacts and policy text inside the app (task 10.6).
-- [ ] 13.16 Owner: decide whether to buy a domain for Leeside; the workers.dev addresses work without one (task 10.7).
+- [ ] 14.11 Owner: enable MFA and save recovery codes on Supabase, GitHub, Cloudflare and the two Gmail accounts; invite any trusted owners individually (tasks 9.14, 10.5).
+- [ ] 14.12 Owner: approve privacy, safeguarding, retention and data-request ownership (tasks 10.5, 10.9).
+- [ ] 14.13 Owner: set up encrypted off-site database and storage backups, backup expiry, and a restore rehearsal away from production (task 10.4).
+- [ ] 14.14 Owner: test on real iPhone/Safari and Android/Chrome PWA installs, and on venue connectivity (tasks 7.11, 10.6).
+- [ ] 14.15 Owner: enter real membership types, session times and tables, privacy/safeguarding contacts and policy text inside the app (task 10.6).
+- [ ] 14.16 Owner: decide whether to buy a domain for Leeside; the workers.dev addresses work without one (task 10.7).
 
-### 13D. Code refinements (not blocking the owner-only launch)
+### 14D. Code refinements (not blocking the owner-only launch)
 
-- [ ] 13.17 Lint and format enforcement across the repository (task 1.2).
-- [ ] 13.18 Public event-detail routes and Atom feed (task 4.5).
-- [ ] 13.19 Wix content parity, enquiry path and website links to the app (tasks 4.7–4.10).
-- [ ] 13.20 Multiple alternate contacts and primary-contact editor (task 5.3).
-- [ ] 13.21 Persistent recurrence-definition editing (task 7.1).
-- [ ] 13.22 Extended concurrency and load tests, and hosted cross-channel acceptance (tasks 7.19, 9.14).
-- [ ] 13.23 Invitations for unregistered managers (task 9.7).
-- [ ] 13.24 Preview isolation and rollback acceptance (tasks 10.13, 10.2).
-- [ ] 13.25 Monitoring, free-tier thresholds, rollback and support ownership documentation (task 10.7).
+- [ ] 14.17 Lint and format enforcement across the repository (task 1.2).
+- [ ] 14.18 Public event-detail routes and Atom feed (task 4.5).
+- [ ] 14.19 Wix content parity, enquiry path and website links to the app (tasks 4.7–4.10).
+- [ ] 14.20 Multiple alternate contacts and primary-contact editor (task 5.3).
+- [ ] 14.21 Persistent recurrence-definition editing (task 7.1).
+- [ ] 14.22 Extended concurrency and load tests, and hosted cross-channel acceptance (tasks 7.19, 9.14).
+- [ ] 14.23 Invitations for unregistered managers (task 9.7).
+- [ ] 14.24 Preview isolation and rollback acceptance (tasks 10.13, 10.2).
+- [ ] 14.25 Monitoring, free-tier thresholds, rollback and support ownership documentation (task 10.7).
 
-### 13E. Deferred, not part of this launch
+### 14E. Deferred, not part of this launch
 
 - Website extraction review after at least one live year and three or more clubs (task 4.4).
 - NFC cards, kiosks and offline scan queues (tasks 7.2, 7.3, 7.5).
 - Expo native clients and store submissions (task 10.8).
+
+## 13. Existing deployment and old/new laptop resumption — 12 November 2026
+
+- [x] 13.1 Record anonymous live frontend/public reader observations separately from private-service and owner acceptance
+- [x] 13.2 Create START_HERE and non-secret DEPLOYMENT_STATUS files linking the complete first-time guide and current source ledger
+- [x] 13.3 Add an offline setup doctor with credential-safe output and strict local maintenance configuration checks
+- [x] 13.4 Add frontend-only preparation that preserves existing server secrets and coordinated-token guidance
+- [x] 13.5 Require live configuration/existing project for production build scripts and rebuild before publishing; preserve synthetic local testing
+- [x] 13.6 Add regression tests for production entry points, wrong-project refusal, frontend-only preservation and offline doctor; reconcile README/AGENTS/guide pointers
+- [x] 13.7 Verify full local command, all four Quality jobs for 483701c and anonymous live-site preservation after push; Cloudflare automatic-build failure is tracked separately below
+- [ ] 13.8 Owner confirms remaining deployment checklist outcomes: private account/permission/write flows, exact callbacks, current functions/jobs, actual mail/cron and backup/restore; no new project or automatic bootstrap merely for laptop migration
+
+- [ ] 13.9 Owner resolves the Cloudflare automatic-build failure using its provider log, verifies live build variables/commands and retries without weakening the production guard; current live release remained online
