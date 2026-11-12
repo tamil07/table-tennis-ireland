@@ -123,3 +123,14 @@ Still pending before real member use:
 - Email delivery (transactional provider, verified sending domain, Supabase Auth SMTP), the scheduled job SQL, backups and restore testing remain open, as recorded in `tasks.md` 10.3–10.4.
 
 Live launch checklist: the complete list of remaining owner actions and code refinements, with task numbers, is in `tasks.md` section 13 (13A required before inviting members; 13B email and scheduling; 13C before real member or junior data; 13D code refinements; 13E deferred).
+
+## Owner access and first login — 11 November 2026
+
+Recorded from the owner's report; the assistant did not verify the dashboard or inbox directly.
+
+- Supabase Auth Site URL set to the app origin and redirect URLs set for the app and website origins (task 13.1).
+- Password recovery tested for `leesidettie@gmail.com`: the reset link returned to the app origin, the password was changed, and sign-in with the new password succeeded (task 13.3).
+- The app's sign-in page is the live-mode sign-in. Google sign-in is not configured (auth settings show Google disabled), so the owner signs in with email and password.
+- The owner's signed-in view lists every section (Table booking, People & memberships, Attendance, Sessions & hall, Matches, Tournaments, Coaching, Messages, Management). All are empty because the club has no data yet. The owner role has all club permissions in the domain rules, so this is expected rather than a permissions fault.
+
+Still open: the owner smoke test (13.2), the Cloudflare build variables (13.4), and deleting the local Cloudflare token file and revoking the shared token (13.5). Email delivery, backups and the remaining items are listed in tasks.md section 13.

@@ -175,8 +175,8 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 ### 13A. Required before inviting anyone to the live app
 
 - [x] 13.1 Owner: Supabase Auth Site URL set to `https://ttclubs-app.ttclubsie.workers.dev` and redirect URLs added for the app and website origins. Redirect URLs were checked from the owner's paste on 10 November 2026; the owner reports the Site URL changed from `http://localhost:3000`. Not independently verified by the assistant; confirm with a password-recovery test (13.3).
-- [ ] 13.2 Owner: run the owner smoke test in guide section 7 using synthetic test accounts only (sign-in, memberships, session requests and capacity, attendance, match reflection privacy, summary sign-off, function logs).
-- [ ] 13.3 Owner: confirm `leesidettie@gmail.com` password sign-in and password recovery work end to end after 13.1.
+- [ ] 13.2 Owner: run the owner smoke test in guide section 7 using synthetic test accounts only (sign-in, memberships, session requests and capacity, attendance, match reflection privacy, summary sign-off, function logs). Progress 11 November 2026: owner signed in and found every section empty, as expected for a new club. No smoke-test data entered yet. Order: Management, People & memberships, Sessions & hall, then the flows that depend on them.
+- [x] 13.3 Owner: password sign-in and password recovery confirmed for `leesidettie@gmail.com` on 11 November 2026 (owner report). The reset email link opened `https://ttclubs-app.ttclubsie.workers.dev/#` and the password was changed; sign-in with the new password succeeded. Not independently verified by the assistant.
 - [ ] 13.4 Owner: add the four public `VITE_*` build variables (`VITE_ENABLE_LIVE`, `VITE_ENABLE_PHONE_LOGIN`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) to the Cloudflare build settings for both Workers, so Git-triggered builds stay live.
 - [ ] 13.5 Owner: delete the local `.secrets/cloudflare.token` file and revoke the API token that was shared in chat; the Wrangler browser login is the active credential.
 
