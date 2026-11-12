@@ -10,13 +10,14 @@ This repository contains the Leeside club website and the national TT Clubs app.
 4. The affected `specs/<capability>/spec.md` and `design.md` — behavior and scenarios.
 5. `docs/ACCOUNT_SETUP_README.md` — owner account actions; `docs/TRACEABILITY.md` — code mapping; `docs/WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md` and `docs/PUBLIC_CONTENT_MANIFEST.md` — content/portal gaps and source destinations.
 6. `openspec/changes/launch-cork-club-platform/runtime-design.md` — active command-service architecture, replacing the original normalized-table implementation assumption.
-7. `docs/PERSONAL_LAPTOP_LAUNCH.md` — ordered user-executable deployment guide, including fresh CLI login and HTTP/SQL-Editor fallback. The owner specifically wants no further agent subscription or application coding on that laptop.
+7. `docs/START_HERE.md` and `docs/DEPLOYMENT_STATUS.md` — old/new laptop resumption and non-secret observed/owner-confirmed setup outcomes.
+8. `docs/PERSONAL_LAPTOP_LAUNCH.md` — ordered user-executable deployment guide, including fresh CLI login and HTTP/SQL-Editor fallback. The owner specifically wants no further agent subscription or application coding on that laptop.
 
-Updated 9 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
+Updated 12 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
 
 ## Current blocker and ownership
 
-The owner confirms the office laptop blocks Supabase connections and will complete connection setup from a personal laptop after repository updates. Do not bypass the office network, repeatedly retry remote writes, create another project or apply hosted migrations during the pause. The project already exists: `ttclubs`, ref `mkxqrkqwpvjtkjfjjckm`, region `eu-north-1` (Stockholm). The timeout does not prove the SQL is broken. Commands and the review-before-apply sequence are in the status/setup files.
+The office laptop still blocks Supabase database connections. On 12 November the owner reported personal-laptop setup progress; anonymous checks confirmed both public frontends in live mode and a working club-public response. Private API/jobs/mail/migration acceptance remains unverified; record owner outcomes in docs/DEPLOYMENT_STATUS.md. Do not bypass the office network, repeatedly retry remote writes, create another project or apply hosted migrations during the pause. The project already exists: `ttclubs`, ref `mkxqrkqwpvjtkjfjjckm`, region `eu-north-1` (Stockholm). The timeout does not prove the SQL is broken. Commands and the review-before-apply sequence are in the status/setup files.
 
 Continue independent implementation/tests/builds and clearly labelled synthetic previews. Do not describe browser-local state as shared persistence, preview role selectors as authentication, or simulated notifications as email delivery. Real data needs complete RLS, permissions, auth/profile provisioning, backup and acceptance work. Never store passwords, tokens, service-role keys or private member records in git or public frontend variables.
 
@@ -28,12 +29,12 @@ The user owns the platform, repo and shared cloud infrastructure. Individual Lee
 
 Current operational source is `packages/domain/src/operations.ts`, `packages/ui/src/ClubPortal.tsx`, `ClubAuth.tsx`, `ClubPublished.tsx` and `club-client.ts`, backed by `supabase/functions/club-api`, `club-jobs`, `club-public` and migration `202611080001_club_runtime.sql`. Both clients use the same command store. `club_runtime` is canonical; the original normalized schema/venue RPCs remain legacy foundations, not an inventory to dual-write. Read runtime-design.md for the deliberate pilot aggregate/CAS tradeoff and load-testing gate.
 
-Run `npm run prepare:functions` before Deno checks/tests/deployment. It stages canonical rules in ignored `supabase/functions/_shared/domain`; never edit or commit generated copies. `deploy:backend` prepares them automatically and uses HTTP bundling without Docker. No hosted deployment has been performed by implementing these files.
+Run `npm run prepare:functions` before Deno checks/tests/deployment. It stages canonical rules in ignored `supabase/functions/_shared/domain`; never edit or commit generated copies. `deploy:backend` prepares them automatically and uses HTTP bundling without Docker. Generated source alone is not deployment evidence. Both public frontend URLs and club-public availability were observed on 12 November; private API/jobs/version mapping and owner acceptance remain unverified.
 
 `VITE_ENABLE_LIVE=false` is the default. Live mode uses verified Auth and server-side permission checks and must not silently fall back to synthetic persistence. A personal-laptop `.env.local` does not configure Cloudflare Git build variables; those must be set separately before Git builds can publish live mode. Never pass server secrets to Vite.
 
 - `apps/club-web`: React/Vite Leeside public website, current Cloudflare target.
-- `apps/platform`: React/Vite national PWA; a separate remote deployment is not yet verified.
+- `apps/platform`: React/Vite national PWA; its public URL/sign-in screen is now verified anonymously, with authenticated acceptance pending.
 - `packages/domain`: shared domain types, rules and unit tests.
 - `packages/ui`: reusable UI, including `SessionBookingDemo.tsx` and `booking.css`.
 - `supabase/migrations`: versioned schema/RPC source, not proof of hosted application.
@@ -55,7 +56,7 @@ Keep website/app/backend in this repo for at least one live pilot year. Review e
 
 ## Next implementation order
 
-1. Verify the shared booking preview and its delivered commit/deployment; keep production limitations visible.
+1. Follow docs/START_HERE.md, run setup:doctor and verify:local, and check docs/DEPLOYMENT_STATUS.md before repeating any first-time account/bootstrap steps.
 2. Complete source-backed Wix content/pages/media and real navigation; use honest source links for missing archive/calendar/policy material. Track every deferred source item.
 3. Use the implemented operational forms/command service and read the current task ledger for remaining advanced cases. Do not rebuild the old standalone preview or assume all feature screens are still missing. Auth, membership/manual payments/trials, grants, table/hall operations, attendance/reports, scoring/tournaments/reflections, coaching and notification source now exist.
 4. Maintain adversarial tests for the active store and SQL commit guards. The old normalized bookings foundation is not the new inventory. Verify capacity, uniqueness, resource conflicts, guardian scope/revocation, stale writes, retries, review/privacy and email suppression when modifying rules.
@@ -80,10 +81,18 @@ When reporting completion, give commit/push status, checks run, actual deploymen
 
 ## Automated handover regression checks (9 November 2026)
 
-`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 72 domain tests, 8 live-adapter unit tests and 8 setup-helper tests. Run this command when changing helpers or the adapter.
+`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 72 domain tests, 8 live-adapter unit tests and 12 setup-helper tests. Run this command when changing helpers or the adapter.
 
 `test:browser:local` manages browser prerequisites/builds/ephemeral ports/server cleanup automatically. See docs/TESTING.md for first-use downloads and Linux OS libraries. Keep owner setup independent of Docker/Deno installation; the script can obtain the free Deno runtime. The database integration suite remains a CI/developer check: loopback-only `tti_test` database, actual SQL CAS/RLS guards, actual API/rules, explicit local Auth/PostgREST adapters. Never point tests or fixtures at hosted Supabase. CI also reruns the generated migration bundle/bootstrap and tests both built frontends.
 
 New environment generation supports localhost and 127.0.0.1:4173/4174; existing files are preserved, so document adding missing exact origins rather than overwriting them. Owner bootstrap requires a canonical lowercase UUID. Keep OpenSpec deployment-and-handover scenarios, tests/status and personal guide synchronized.
 
 The preview URL parser must strip terminal control characters: Vite colours the port in CI/Windows. Keep its regression test and verify browser runner changes with `CI=true npm run test:browser:local`. Browser checks await UI state rather than fixed sleeps; synthetic failure screenshots and CI annotations must remain free of live records.
+
+## Resumption and production safeguards — 12 November 2026
+
+Use `npm run setup:doctor` for a read-only, offline local inventory. Strict local maintenance configuration checks are `npm run setup:doctor -- --production`; neither proves provider acceptance. On another laptop needing only client settings, use `npm run setup:env -- --frontend-only`, preserving the existing server token. Never overwrite deployed secrets with a freshly generated token without coordinating the function and Vault/cron values.
+
+Production build:club/build:platform now require explicit live mode and the existing pilot project URL; deploy:club/deploy:platform rebuild through those guards before publishing. Root check/build and browser workflows retain synthetic testing. Cloudflare Git builds must set the public build variables independently of laptop files; a missing configuration should fail the build and preserve the live release. Do not weaken this guard to turn a deployment check green. Direct custom CLI commands bypassing repository deployment scripts are outside this guarantee.
+
+Current check includes 80 unit tests and 12 setup/helper regressions, plus the existing HTTP/browser/SQL integration layers. Keep START_HERE, DEPLOYMENT_STATUS, the launch guide and OpenSpec aligned. Preserve owner PDFs and private/generated files; commit only source and non-secret setup outcomes.

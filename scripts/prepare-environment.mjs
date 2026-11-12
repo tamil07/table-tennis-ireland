@@ -1,6 +1,10 @@
 import { existsSync, writeFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
 import { createInterface } from "node:readline/promises";
+import { parseArgs } from "node:util";
+const { values } = parseArgs({
+  options: { "frontend-only": { type: "boolean", default: false } },
+});
 const prompt = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -31,12 +35,14 @@ if (publishable.startsWith("ey")) {
 const client = `VITE_ENABLE_LIVE=false\nVITE_ENABLE_PHONE_LOGIN=false\nVITE_SUPABASE_URL=https://mkxqrkqwpvjtkjfjjckm.supabase.co\nVITE_SUPABASE_ANON_KEY=${publishable}\n`;
 for (const file of ["apps/club-web/.env.local", "apps/platform/.env.local"])
   if (!existsSync(file)) writeFileSync(file, client, { mode: 0o600 });
-if (!existsSync(".env.server.local"))
+if (!values["frontend-only"] && !existsSync(".env.server.local"))
   writeFileSync(
     ".env.server.local",
     `APP_URL=https://ttclubs-app.ttclubsie.workers.dev\nAPP_ORIGINS=https://table-tennis-ireland.ttclubsie.workers.dev,https://ttclubs-app.ttclubsie.workers.dev,http://localhost:4173,http://localhost:4174,http://127.0.0.1:4173,http://127.0.0.1:4174\nCLUB_JOB_TOKEN=${randomBytes(32).toString("hex")}\nEMAIL_REPLY_TO=leesidettie@gmail.com\n# Optional until email-provider setup is ready:\n# RESEND_API_KEY=\n# EMAIL_FROM=TT Clubs <notifications@YOUR_VERIFIED_DOMAIN>\n`,
     { mode: 0o600 },
   );
 console.log(
-  "Prepared missing ignored environment files. Existing files were preserved. Keep VITE_ENABLE_LIVE=false until migrations/functions/bootstrap are ready.",
+  values["frontend-only"]
+    ? "Prepared missing frontend files only; existing files and server secrets were preserved. Enable live mode only after checking the existing deployment."
+    : "Prepared missing ignored environment files. Existing files were preserved. Keep VITE_ENABLE_LIVE=false until migrations/functions/bootstrap are ready.",
 );

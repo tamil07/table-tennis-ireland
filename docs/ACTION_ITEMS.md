@@ -1,6 +1,6 @@
 # Remaining owner actions
 
-Updated 7 November 2026. **Execute [PERSONAL_LAPTOP_LAUNCH.md](PERSONAL_LAPTOP_LAUNCH.md) in order.** It includes commands and helpers; no further application coding or paid agent subscription is required to exercise the supplied core workflows. [OpenSpec status](../openspec/changes/launch-cork-club-platform/implementation-status.md) and [tasks](../openspec/changes/launch-cork-club-platform/tasks.md) distinguish source completion from hosted acceptance and advanced refinements.
+Updated 12 November 2026. **For existing deployments use [START_HERE.md](START_HERE.md) and [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md).** Apply the [launch guide](PERSONAL_LAPTOP_LAUNCH.md) only to genuinely outstanding first-time steps. Public website/app live-mode sign-in and club-public availability were observed on 12 November; private/provider outcomes remain unverified. It includes commands and helpers; no further application coding or paid agent subscription is required to exercise the supplied core workflows. [OpenSpec status](../openspec/changes/launch-cork-club-platform/implementation-status.md) and [tasks](../openspec/changes/launch-cork-club-platform/tasks.md) distinguish source completion from hosted acceptance and advanced refinements.
 
 ## Personal laptop — initial owner-only launch
 

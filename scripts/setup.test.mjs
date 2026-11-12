@@ -40,6 +40,14 @@ function workspace(t) {
     cpSync(join(root, dir), join(cwd, dir), { recursive: true });
   for (const app of ["club-web", "platform"])
     mkdirSync(join(cwd, "apps", app), { recursive: true });
+  for (const file of [
+    "package.json",
+    "package-lock.json",
+    "wrangler.club-web.jsonc",
+    "wrangler.platform.jsonc",
+    "supabase/config.toml",
+  ])
+    cpSync(join(root, file), join(cwd, file));
   // Do not inherit the developer's provider tokens or frontend configuration.
   const env = {
     PATH: process.env.PATH,
@@ -218,4 +226,126 @@ test("scheduler SQL requires the private generated token and never prints it", (
   assert.equal(result.status, 0, result.stderr);
   assert.ok(!result.stdout.includes(token));
   assert.match(w.read("supabase/schedule.local.sql"), /x-club-job-token/);
+});
+
+test("production guards refuse demo and wrong-project settings without printing credentials", (t) => {
+  const w = workspace(t);
+  const browserKey = "sb_publishable_PRODUCTION_TEST_ONLY";
+  const env = {
+    VITE_ENABLE_LIVE: "false",
+    VITE_SUPABASE_URL: "https://mkxqrkqwpvjtkjfjjckm.supabase.co",
+    VITE_SUPABASE_ANON_KEY: browserKey,
+  };
+  const disabled = w.run(
+    "check-client-env.mjs",
+    ["club-web", "--require-live"],
+    env,
+  );
+  assert.notEqual(disabled.status, 0);
+  assert.match(disabled.stderr, /production requires VITE_ENABLE_LIVE=true/);
+  assert.ok(!disabled.stderr.includes(browserKey));
+  for (const url of [
+    "https://different.supabase.co",
+    "http://mkxqrkqwpvjtkjfjjckm.supabase.co",
+    "https://mkxqrkqwpvjtkjfjjckm.supabase.co/private",
+  ])
+    assert.notEqual(
+      w.run("check-client-env.mjs", ["platform", "--require-live"], {
+        ...env,
+        VITE_ENABLE_LIVE: "true",
+        VITE_SUPABASE_URL: url,
+      }).status,
+      0,
+    );
+  for (const key of [browserKey, jwt("anon")])
+    assert.equal(
+      w.run("check-client-env.mjs", ["--require-live"], {
+        ...env,
+        VITE_ENABLE_LIVE: "true",
+        VITE_SUPABASE_ANON_KEY: key,
+      }).status,
+      0,
+    );
+});
+
+test("actual production deployment entry points stop at validation before building/uploading demo assets", (t) => {
+  const w = workspace(t);
+  assert.ok(process.env.npm_execpath, "Run setup tests through npm.");
+  for (const name of ["deploy:club", "deploy:platform"]) {
+    const result = spawnSync(
+      process.execPath,
+      [process.env.npm_execpath, "run", name],
+      {
+        cwd: w.cwd,
+        env: {
+          PATH: process.env.PATH,
+          SystemRoot: process.env.SystemRoot,
+          VITE_ENABLE_LIVE: "false",
+        },
+        encoding: "utf8",
+        timeout: 20000,
+      },
+    );
+    assert.notEqual(result.status, 0);
+    assert.match(
+      result.stdout + result.stderr,
+      /production requires VITE_ENABLE_LIVE=true/,
+    );
+  }
+});
+
+test("frontend-only preparation never creates or rotates scheduler secrets on another laptop", (t) => {
+  const w = workspace(t);
+  assert.equal(
+    w.run(
+      "prepare-environment.mjs",
+      ["--frontend-only"],
+      {},
+      "sb_publishable_FRONTEND_TEST\n",
+    ).status,
+    0,
+  );
+  assert.equal(existsSync(join(w.cwd, ".env.server.local")), false);
+  writeFileSync(
+    join(w.cwd, ".env.server.local"),
+    "CLUB_JOB_TOKEN=OWNER_EXISTING_TOKEN\n",
+  );
+  assert.equal(
+    w.run(
+      "prepare-environment.mjs",
+      ["--frontend-only"],
+      {},
+      "sb_publishable_FRONTEND_TEST\n",
+    ).status,
+    0,
+  );
+  assert.equal(
+    w.read(".env.server.local"),
+    "CLUB_JOB_TOKEN=OWNER_EXISTING_TOKEN\n",
+  );
+});
+
+test("offline doctor checks fresh-laptop configuration, masks values and leaves files untouched", (t) => {
+  const w = workspace(t);
+  const key = "sb_publishable_DOCTOR_TEST_ONLY";
+  assert.equal(w.run("prepare-environment.mjs", [], {}, `${key}\n`).status, 0);
+  const before = w.read(".env.server.local");
+  const normal = w.run("setup-doctor.mjs");
+  assert.equal(normal.status, 0, normal.stderr);
+  assert.match(normal.stdout, /No network or cloud changes/);
+  assert.ok(!normal.stdout.includes(key));
+  assert.ok(!normal.stdout.includes(before.match(/CLUB_JOB_TOKEN=(.+)/)[1]));
+  assert.equal(w.read(".env.server.local"), before);
+  assert.notEqual(w.run("setup-doctor.mjs", ["--production"]).status, 0);
+  for (const app of ["club-web", "platform"]) {
+    const file = join(w.cwd, `apps/${app}/.env.local`);
+    writeFileSync(
+      file,
+      readFileSync(file, "utf8").replace(
+        "VITE_ENABLE_LIVE=false",
+        "VITE_ENABLE_LIVE=true",
+      ),
+    );
+  }
+  assert.equal(w.run("setup-doctor.mjs", ["--production"]).status, 0);
 });

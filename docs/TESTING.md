@@ -30,10 +30,13 @@ Browser assertions await observable UI state instead of fixed delays. The previe
 
 Screenshots are stored in ignored `test-results/`. GitHub CI uploads only synthetic screenshots with seven-day retention. Setup tests use temporary directories and fake identities/keys; they never read or overwrite your private app configuration. CI additionally applies the generated SQL-Editor bundle and fake-owner bootstrap twice to verify first-run and rerun behavior, then runs database permission tests.
 
+Additional 12 November regressions cover production guard/rebuild entry points, wrong-project refusal, frontend-only preservation and offline doctor output. Setup/helper tests now total **12**; the earlier eight-test result above is historical.
+
 ## Smaller commands
 
 | Command | Purpose |
 | --- | --- |
+| `npm run setup:doctor` | Offline, non-secret local configuration inventory; no provider calls |
 | `npm run check` | Type checks, domain/adapter unit tests, setup tests and both deployment builds |
 | `npm run test:setup` | Setup helper regressions only |
 | `npm run test:edge` | Stage shared rules, Deno type checks and three local backend HTTP suites |

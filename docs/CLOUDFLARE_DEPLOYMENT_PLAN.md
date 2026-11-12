@@ -1,5 +1,8 @@
 # Cloudflare inspection and deployment plan
 
+Current status, 12 November 2026: both public website/app URLs show live-mode sign-in and the website public reader responds successfully. See [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md) for verified versus unverified items and [START_HERE.md](START_HERE.md) for laptop resumption. Earlier failed-build/demo asset records below are historical. Production scripts now require live build settings and rebuild before publishing; keep Cloudflare Git-build public variables configured independently from laptop files. Missing variables should block publication, retaining the current release.
+
+
 ## Latest website verification — 7 November 2026
 
 Code commit `ef10b50` is pushed to main. The public website now serves `index-mtmbKBKM.js` and `index-CyulaUCm.css`; both return HTTP 200 and SHA-256 hashes match the tested local production build. `/booking` returns the current SPA HTML. A live 390-pixel browser walkthrough requested a synthetic place, switched to maintainer, approved it and verified confirmation with no document overflow. Local walkthrough additionally covered guardian requests, duplicate prevention, occupied-table protection, moves, persistence and club switching at desktop/mobile widths.

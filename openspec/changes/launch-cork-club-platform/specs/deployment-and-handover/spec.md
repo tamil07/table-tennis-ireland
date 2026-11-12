@@ -74,3 +74,29 @@ The repository SHALL provide a single local verification command for type checks
 #### Scenario: Preview output contains terminal colours
 - **WHEN** Vite prints a coloured address on CI or Windows
 - **THEN** the verification launcher extracts the actual loopback port, starts the browser checks successfully and reports failures through scoped diagnostics instead of waiting indefinitely
+
+### Requirement: Resume an existing deployment from another laptop
+The repository SHALL contain a short resumption guide, offline configuration inventory command and non-secret deployment status record. These SHALL distinguish public observations from owner-confirmed migrations, authenticated operations, mail, scheduled work and backups. Missing local configuration SHALL NOT cause automatic cloud provisioning or replacement of existing accounts.
+
+#### Scenario: Owner opens a second checkout
+- **WHEN** the owner pulls the repository on an old or new laptop
+- **THEN** they can inventory local prerequisites/settings without network access or credential output, preserve existing private files and find the remaining owner steps without another coding agent
+
+#### Scenario: Frontend settings are needed for an existing deployment
+- **WHEN** the owner selects frontend-only environment preparation
+- **THEN** missing frontend files are created without creating or rotating a backend scheduler token, and existing files remain unchanged
+
+#### Scenario: Local server secrets are unavailable
+- **WHEN** the owner resumes on a laptop without the original private server file
+- **THEN** the guide explains private retrieval or coordinated function/Vault token rotation and does not instruct blindly uploading newly generated secrets to the existing deployment
+
+### Requirement: Production deployments cannot silently publish synthetic assets
+Production build commands SHALL require explicit live activation, a browser-safe key and the existing approved pilot project URL. Production deploy commands SHALL rebuild through this validation before publishing. Local verification SHALL continue to support synthetic builds without cloud configuration. Missing live Git-build variables SHALL fail the production build rather than publish a demo replacement.
+
+#### Scenario: Main is built without live Git variables
+- **WHEN** the documented production build runs without valid live configuration
+- **THEN** it fails before publication with a non-secret configuration message and does not substitute synthetic persistence for the current live service
+
+#### Scenario: Old laptop contains demo assets
+- **WHEN** the owner runs a production deployment command
+- **THEN** the command validates and rebuilds fresh live assets before invoking the publishing CLI instead of uploading the stale demo output

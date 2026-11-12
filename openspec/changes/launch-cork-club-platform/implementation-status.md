@@ -1,8 +1,18 @@
 # Implementation and deployment status
 
-Updated 9 November 2026. Requirements describe the target product; this file and `tasks.md` describe what exists. A schema or synthetic screen does not complete a production feature.
+Updated 12 November 2026. Requirements describe the target product; this file and `tasks.md` describe what exists. A schema or synthetic screen does not complete a production feature.
 
-Latest source delivery: the shared operational workspace, authenticated command API, versioned private pilot store, scheduler/email source, public feeds and personal-laptop helpers are implemented. See [runtime-design.md](runtime-design.md) for the architecture and [the owner launch guide](../../../docs/PERSONAL_LAPTOP_LAUNCH.md) for complete commands. The older standalone booking preview below is historical. Live mode remains disabled until owner setup; local code completion is distinct from hosted acceptance.
+Latest source delivery: the shared operational workspace, authenticated command API, versioned private pilot store, scheduler/email source, public feeds and personal-laptop helpers are implemented. See [runtime-design.md](runtime-design.md) for the architecture and [the owner launch guide](../../../docs/PERSONAL_LAPTOP_LAUNCH.md) for complete commands. The older standalone booking preview below is historical. Repository defaults remain synthetic, but both public deployments were observed in live mode on 12 November. Public observations and remaining owner-only verification are recorded below; local completion is distinct from authenticated hosted acceptance.
+
+## Existing-deployment resumption — 12 November 2026
+
+Anonymous checks confirmed HTTP 200 and live-mode sign-in screens at both the Leeside website and national app URLs. Their bundles enable live mode and reference the existing project; the website's ordinary public content request returned HTTP 200. No private sign-in, hosted mutation, email, cron or account change was performed. These observations supersede earlier claims that the app was undeployed or both public sites were still synthetic; they do not close owner acceptance.
+
+At the start of review GitHub had only main at 1258a44 (9 November), with no newer owner commits, despite changed public deployment assets. Private environment files/account changes are not copied by Git. See [DEPLOYMENT_STATUS.md](../../../docs/DEPLOYMENT_STATUS.md) for non-secret outcomes and the remaining owner checklist; use [START_HERE.md](../../../docs/START_HERE.md) on either laptop instead of blindly repeating bootstrap/migration setup.
+
+New source supplies an offline `setup:doctor` inventory, `setup:env -- --frontend-only` to avoid creating/rotating an existing scheduler secret, and production validation/rebuild wrappers. Production build:club/build:platform require explicit live activation, a browser-safe key and the existing pilot project URL; deploy commands rebuild through those guards. A Git build with missing live variables must fail before publication. Local check/build/browser tests retain synthetic operation. This protects the documented scripts; arbitrary custom CLI uploads are not covered.
+
+The expanded setup suite has 12 cases (80 domain/adapter unit tests remain unchanged), covering fail-closed production entry points, wrong-project refusal, frontend-only preservation and doctor output without credentials. Full `npm run verify:local` passed: 80 unit tests, 12 setup regressions, three backend HTTP suites, both production-format local builds and both temporary browser workflows. `setup:doctor` ran without failures and correctly reported missing local maintenance settings; it performed no network/provider action. CI and post-push preservation results are recorded after completion. Public live availability does not prove private services, sending/SMTP, Vault/cron, Git-build settings or backups have passed acceptance.
 
 ## Verification extension — 9 November 2026
 
@@ -16,11 +26,11 @@ Two handover fixes accompany these tests: generated server settings now include 
 
 The owner confirms that Supabase database connections are blocked from their office laptop. The observed CLI failure is a timeout connecting to the hosted PostgreSQL pooler while initializing a temporary login role. This is an environment/connectivity blocker, not evidence that the project, frontend build or migration SQL is defective. No firewall bypass or office-network change is part of this work.
 
-The hosted project already exists: organization **TT Clubs Ireland**, project **ttclubs**, reference **mkxqrkqwpvjtkjfjjckm**, region **eu-north-1 (Stockholm)**. Hosted migration application and further connection setup remain paused. The owner will complete the connection setup from their personal laptop after repository updates are available. Never record database passwords, access tokens or service-role keys in OpenSpec, source code or build output.
+The hosted project already exists: organization **TT Clubs Ireland**, project **ttclubs**, reference **mkxqrkqwpvjtkjfjjckm**, region **eu-north-1 (Stockholm)**. Office-laptop hosted migration/connection actions remain paused. The owner has progressed public deployment from the personal laptop; migration and private-service outcomes still need confirmation in DEPLOYMENT_STATUS.md. Never record database passwords, access tokens or service-role keys in OpenSpec, source code or build output.
 
 Supabase is the proposed shared authentication, PostgreSQL and authorization service. It is needed for verified player/parent accounts, guardian relationships, current club permissions, persistent memberships, attendance, shared table availability, concurrent booking protection, match/tournament records and notification scheduling. Email transport also requires a configured delivery provider; creating Supabase alone does not send the application's reminders.
 
-Cloudflare serves frontend assets independently. Synthetic mode does not synchronize devices or provide real authentication; live-mode source now uses the shared command API/store and current server permissions. The old normalized QR RPCs remain legacy source; the new portal has its own canonical QR command flow. No hosted migration or live backend test has been performed.
+Cloudflare serves frontend assets independently. Synthetic mode does not synchronize devices or provide real authentication; live-mode source now uses the shared command API/store and current server permissions. The old normalized QR RPCs remain legacy source; the new portal has its own canonical QR command flow. No hosted migration or private live backend test has been performed by this agent during the office-laptop work; the public reader availability observed above is limited evidence.
 
 ### Personal-laptop handover sequence
 
@@ -86,7 +96,7 @@ These are local/synthetic checks, not actual Supabase configuration, native Safa
 
 ## Source delivery and public deployment
 
-Implementation commit **`2577059`** is pushed to `main`. The Cloudflare website serves its new synthetic operational portal at https://table-tennis-ireland.ttclubsie.workers.dev. All four served asset hashes match the local production build exactly; root/assets and SPA fallback checks passed. The same browser workflow passed on the deployed website, using fake browser-local data only. This is **not** hosted backend acceptance. The separate app Worker still awaits owner deployment.
+Implementation commit **`2577059`** is pushed to `main`. The Cloudflare website serves its new synthetic operational portal at https://table-tennis-ireland.ttclubsie.workers.dev. All four served asset hashes match the local production build exactly; root/assets and SPA fallback checks passed. The same browser workflow passed on the deployed website, using fake browser-local data only. This is **not** hosted backend acceptance. The separate app public URL was subsequently observed on 12 November; authenticated acceptance and source-version mapping remain owner checks.
 
 ## Release gates and deferred scope
 

@@ -1,12 +1,12 @@
 # Leeside public-content migration manifest
 
-Updated 7 November 2026. Source evidence is saved in `LEESIDE_CONTENT_INVENTORY.md` and the 6 November audit in `WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md`. This update reuses that evidence; it is not a fresh exhaustive crawl. Public-content reuse consent is already recorded. A source link does not mean its contents or attachments have been imported.
+Source inventory dated 7 November 2026; implementation pointers reconciled 12 November. Source evidence is saved in `LEESIDE_CONTENT_INVENTORY.md` and the 6 November audit in `WIX_MIGRATION_AND_MEMBER_PORTAL_PLAN.md`. This update reuses that evidence; it is not a fresh exhaustive crawl. Public-content reuse consent is already recorded. A source link does not mean its contents or attachments have been imported.
 
 | Source | Destination in current source | Status / next work |
 | --- | --- | --- |
 | Wix Home: `https://leesidetabletennis.wixsite.com/home` | Website hero, `#sessions`, footer | Club/venue/timetable facts summarized; exact source copy, media and all navigation still need exhaustive reconciliation |
 | Wix About: `/home/about` | `#about`, `#membership`, `#contact` | Coaching names, venue and published fee snapshot added; full history/bios/photos not imported |
-| Owner-confirmed five weekly session times | `#sessions`, booking preview | Confirmed base timetable; runtime schedule/exception editor and holiday inventory blocks pending |
+| Owner-confirmed five weekly session times | `#sessions`, booking preview | Confirmed static public timetable; runtime dated-session/camp and closure editors exist. Configure real inventory/exceptions; public timetable binding and source parity remain separate work. |
 | Owner-provided `leesidettie@gmail.com` | Join/contact mail links | Working mail enquiry; no form submission or account registration claim |
 | Wix public phone/address | Contact section and footer | Copied from inventory as authorized; management editor pending |
 | Wix news: `/home/blog` and `/home/blog-feed.xml` | `#news` source archive link | Fabricated example articles removed; archive pagination, article text, attachments and media import pending |
@@ -15,7 +15,7 @@ Updated 7 November 2026. Source evidence is saved in `LEESIDE_CONTENT_INVENTORY.
 | Wix Facebook link | Contact section | Existing public club link copied |
 | Wix Instagram link | Not rendered | Inventory points to Munster account; confirm intended association before displaying as Leeside's own |
 | Wix logo/photography | Not imported | Approved assets, photographer/child-image publication details, alt text and destination paths pending; abstract court illustration remains |
-| Supplied `Leeside Table Booking.html` | Shared `SessionBookingDemo` in website/app | Adapted visual concept into React; Claude APIs replaced; approved four-place model supersedes source two-player slots; synthetic state only |
+| Supplied `Leeside Table Booking.html` | Shared `ClubPortal` in website/app (supersedes standalone `SessionBookingDemo`) | Adapted visual concept into React; Claude APIs replaced; approved four-place model supersedes source two-player slots; source supports synthetic and authenticated live adapters; hosted acceptance tracked separately |
 | Local PDF files | No public destination | Preserve source files; inspect purpose/content before reuse. Conflicting timetable draft does not supersede owner-confirmed schedule |
 
 ## Completion rule

@@ -2,7 +2,7 @@
 
 **Continuing with another coding agent?** Start with [AGENTS.md](AGENTS.md), then [current implementation and pending work](openspec/changes/launch-cork-club-platform/implementation-status.md). These link the complete OpenSpec task list, code locations, verification commands and personal-laptop Supabase handover.
 
-Leeside website demo: [table-tennis-ireland.ttclubsie.workers.dev](https://table-tennis-ireland.ttclubsie.workers.dev). Deployment uses `npm run build:club` and `npm run deploy:club` with Node 22 and `wrangler.club-web.jsonc`; the website is a demonstration, not live membership/booking operation. See [deployment verification](docs/CLOUDFLARE_DEPLOYMENT_PLAN.md).
+**Resuming on an old or new laptop?** Start with [START_HERE.md](docs/START_HERE.md), run `npm run setup:doctor`, and check the non-secret [deployment status](docs/DEPLOYMENT_STATUS.md). Both the [Leeside website](https://table-tennis-ireland.ttclubsie.workers.dev) and [national app](https://ttclubs-app.ttclubsie.workers.dev) now serve live-mode sign-in screens. Authenticated workflows, scheduled mail and backup acceptance still require owner confirmation. Production deployment scripts reject demo settings and rebuild fresh assets.
 
 **Tests on a new laptop:** after `npm ci`, run `npm run verify:local`. It manages both browser previews and backend tests automatically; no cloud login or Docker is needed. See [test coverage and prerequisites](docs/TESTING.md).
 

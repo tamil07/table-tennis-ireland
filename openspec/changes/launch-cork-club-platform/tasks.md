@@ -1,4 +1,4 @@
-Updated 9 November 2026. Checked tasks mean source implementation/local verification, not hosted acceptance. The active architecture is runtime-design.md. Hosted setup and live testing remain excluded; follow docs/PERSONAL_LAPTOP_LAUNCH.md from the personal laptop. PARTIAL/DEFERRED items are stated explicitly.
+Updated 12 November 2026. Checked tasks mean source implementation/local verification, not hosted acceptance. The active architecture is runtime-design.md. Hosted setup and live testing remain excluded; follow docs/PERSONAL_LAPTOP_LAUNCH.md from the personal laptop. PARTIAL/DEFERRED items are stated explicitly.
 
 ## 1. Workspace foundation
 
@@ -167,3 +167,14 @@ Updated 9 November 2026. Checked tasks mean source implementation/local verifica
 - [x] 12.5 Add API-to-PostgreSQL integration for competing place requests, retry, approval visibility, revocation and isolation with explicit fake Auth/PostgREST boundaries
 - [x] 12.6 Extend CI to test generated migration/bootstrap reruns and both built browser entry points; document exact coverage/prerequisites in TESTING.md
 - [x] 12.7 Confirm all four jobs passed in Quality run 42616047886 for fb07828; hosted provider setup, actual devices and live acceptance remain separate owner release gates
+
+## 13. Existing deployment and old/new laptop resumption — 12 November 2026
+
+- [x] 13.1 Record anonymous live frontend/public reader observations separately from private-service and owner acceptance
+- [x] 13.2 Create START_HERE and non-secret DEPLOYMENT_STATUS files linking the complete first-time guide and current source ledger
+- [x] 13.3 Add an offline setup doctor with credential-safe output and strict local maintenance configuration checks
+- [x] 13.4 Add frontend-only preparation that preserves existing server secrets and coordinated-token guidance
+- [x] 13.5 Require live configuration/existing project for production build scripts and rebuild before publishing; preserve synthetic local testing
+- [x] 13.6 Add regression tests for production entry points, wrong-project refusal, frontend-only preservation and offline doctor; reconcile README/AGENTS/guide pointers
+- [ ] 13.7 Verify the full local command, current CI and public site preservation after pushing this source delivery
+- [ ] 13.8 Owner confirms remaining deployment checklist outcomes: private account/permission/write flows, exact callbacks, current functions/jobs, actual mail/cron and backup/restore; no new project or automatic bootstrap merely for laptop migration
