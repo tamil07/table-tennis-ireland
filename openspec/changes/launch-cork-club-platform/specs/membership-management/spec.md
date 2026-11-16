@@ -166,3 +166,18 @@ The system SHALL identify memberships approaching their configured end date and 
 #### Scenario: Membership expires
 - **WHEN** the configured membership end date passes without renewal
 - **THEN** the system marks the membership expired and retains its history
+
+### Requirement: Player name parts
+The system SHALL record each player's first name, second name (surname) and optional nickname separately. The full name shown in the club SHALL be derived from the first and second name. A nickname is what the player goes by and SHALL be optional. When either the first or second name is entered, both SHALL be required. Existing players recorded only with a full name SHALL remain valid until they are next edited.
+
+#### Scenario: Add a player with a nickname
+- **WHEN** a manager enters first name "Asha", second name "Kelly" and nickname "Ash" for a player
+- **THEN** the system stores all three parts and derives the full name "Asha Kelly"
+
+#### Scenario: Refuse a player with only one name part
+- **WHEN** a manager enters a first name but leaves the second name blank
+- **THEN** the system refuses the save and asks for both names
+
+#### Scenario: Keep existing single-name players valid
+- **WHEN** an existing player recorded only with a full name is viewed or renewed without editing the name
+- **THEN** the system keeps that name and does not require the new parts

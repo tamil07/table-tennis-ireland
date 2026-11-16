@@ -22,6 +22,9 @@ export type Permission = (typeof permissions)[number];
 export type Person = {
   id: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
+  nickname?: string;
   email: string;
   emailVerified: boolean;
   mobile: string;
@@ -420,6 +423,23 @@ function text(data: Record<string, unknown>, key: string, max = 2000) {
     `Invalid ${key}.`,
   );
   return v.trim();
+}
+function optionalText(data: Record<string, unknown>, key: string, max: number) {
+  return data[key] === undefined ? "" : text(data, key, max);
+}
+/** First name and second name are stored separately; the full name is derived. Legacy `name`-only requests still work. */
+function namePartsFrom(data: Record<string, unknown>) {
+  const firstName = optionalText(data, "firstName", 60);
+  const lastName = optionalText(data, "lastName", 60);
+  const nickname = optionalText(data, "nickname", 40);
+  const extras: { firstName?: string; lastName?: string; nickname?: string } = {};
+  if (nickname) extras.nickname = nickname;
+  if (!firstName && !lastName) return { name: nonempty(data, "name"), ...extras };
+  requireValue(
+    Boolean(firstName) && Boolean(lastName),
+    "First name and second name are both required.",
+  );
+  return { name: `${firstName} ${lastName}`, firstName, lastName, ...extras };
 }
 function nonempty(data: Record<string, unknown>, key: string, max = 120) {
   const v = text(data, key, max);
@@ -1362,9 +1382,10 @@ export function applyClubCommand(
         !junior || guardians.length > 0,
         "A junior requires a responsible guardian.",
       );
+      const nameParts = namePartsFrom(d);
       const record: Person = {
         id: existing?.id ?? id,
-        name: nonempty(d, "name"),
+        ...nameParts,
         email: existing?.email ?? "",
         emailVerified: existing?.emailVerified ?? false,
         mobile: text(d, "mobile", 30),

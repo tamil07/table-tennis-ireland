@@ -97,6 +97,35 @@ describe("identity and membership integrity", () => {
       accountLinked: false,
     });
   });
+  it("stores first name, second name and nickname, deriving the full name", () => {
+    const s = run(demoClub(now), "person", {
+      firstName: "Asha",
+      lastName: "Kelly",
+      nickname: "Ash",
+      mobile: "",
+      junior: false,
+      guest: false,
+      guardians: [],
+    });
+    expect(s.people.at(-1)).toMatchObject({
+      name: "Asha Kelly",
+      firstName: "Asha",
+      lastName: "Kelly",
+      nickname: "Ash",
+    });
+  });
+  it("requires both first and second name when either is entered", () => {
+    expect(() =>
+      run(demoClub(now), "person", {
+        firstName: "Asha",
+        lastName: "",
+        mobile: "",
+        junior: false,
+        guest: false,
+        guardians: [],
+      }),
+    ).toThrow("First name and second name are both required.");
+  });
   it("refuses guardian relationships on adults and prevents self-guardianship", () => {
     const s = demoClub(now);
     expect(() =>

@@ -951,9 +951,24 @@ export function ClubPortal({
                     "person",
                     [
                       {
-                        key: "name",
-                        label: "Name",
-                        value: selectedPerson?.name,
+                        key: "firstName",
+                        label: "First name",
+                        value:
+                          selectedPerson?.firstName ??
+                          selectedPerson?.name?.split(" ")[0],
+                      },
+                      {
+                        key: "lastName",
+                        label: "Second name (surname)",
+                        value:
+                          selectedPerson?.lastName ??
+                          selectedPerson?.name?.split(" ").slice(1).join(" "),
+                      },
+                      {
+                        key: "nickname",
+                        label: "Nickname (what they go by)",
+                        optional: true,
+                        value: selectedPerson?.nickname,
                       },
                       {
                         key: "mobile",
