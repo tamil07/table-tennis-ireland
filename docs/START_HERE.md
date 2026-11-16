@@ -1,6 +1,6 @@
 # Resume on an old or new laptop
 
-Current status and the remaining Cloudflare automatic-build issue are recorded in [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md); the existing public sites remain online.
+Current status is recorded in [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md); the existing public sites remain online. The 16 November website automatic build succeeded and its new membership UI was observed. The backend and separate app update still require owner deployment and authenticated acceptance.
 
 For player creation and membership corrections delivered on 16 November, follow [MEMBERSHIP_WORKFLOW.md](MEMBERSHIP_WORKFLOW.md). It explains accounts versus club records, adult/junior creation, separate renewal and the owner update commands. Source fixes need backend and frontend deployment; no new migration or repeat bootstrap is required by this correction.
 

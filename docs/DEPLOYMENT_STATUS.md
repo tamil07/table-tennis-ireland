@@ -6,9 +6,17 @@ This is the non-secret status record shared between laptops. Update outcomes her
 
 The owner reported a problem while creating a player/membership; the precise screen/error has not yet been supplied. Source review independently reproduced an adult creation blocker (a required guardian selector shown for adults), renewal overwriting an existing period and historical catalogue snapshots changing during correction. Source now separates adult/junior creation and the new/correct/renew editors, preserves period history and snapshots, and strengthens guardian, trial and account-link checks. Details and minimal owner update instructions: [MEMBERSHIP_WORKFLOW.md](MEMBERSHIP_WORKFLOW.md).
 
-No hosted mutation, migration, private sign-in or deployment was performed during this correction. Backend and both frontend releases, provider build success and authenticated cross-device acceptance remain owner actions. There is no new SQL migration for this correction and no need to repeat bootstrap. The previously observed Cloudflare automatic-build failure remains unresolved by this source change.
+No hosted database mutation, migration, private sign-in or manual deployment was performed during this correction. The authorized Git push triggered the existing automatic website deployment; its result is recorded below. Backend and app updates and authenticated cross-device acceptance remain owner actions. There is no new SQL migration for this correction and no need to repeat bootstrap.
 
 Local correction checks passed: 100 domain/adapter tests, 12 setup regressions, type checks, both builds, all three backend checks/HTTP suites and expanded browser workflows for both frontends. OpenSpec and whitespace validation passed. GitHub/production release evidence is recorded separately below when available.
+
+### Verified source and public release evidence
+
+- Source correction **3f6496d** is pushed to `main`. All four [Quality jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/43892027989) passed: check, edge-functions, venue-qr-database and browser-workflows.
+- The independent [Cloudflare website build](https://dash.cloudflare.com/6502a73494f4ee7107b36c620ee76471/workers/services/view/table-tennis-ireland/production/builds/2ab7ed07-ae69-4639-a9bd-b6bb6aeb69a8) **succeeded**. The earlier automatic-build failure did not recur; its previous cause was not independently established or changed by this correction.
+- Anonymous reads returned HTTP 200 on both public sites. Website asset `/assets/index-CrbDP0_x.js` returned HTTP 200, references the pilot project and contains the new renewal editor and junior-only guardian label. This confirms website UI publication, not authenticated backend behavior.
+- The app still serves `/assets/index-Cb3vBNfk.js`, which lacks both new UI strings. Its release remains pending. Backend release/version and private acceptance were not tested; update `club-api`, `club-jobs` and `club-public` through `npm run deploy:backend`, then the app through `npm run deploy:platform` on the personal laptop. Website deployment can be repeated through `deploy:club` if needed. Empty payment dates and strengthened server checks require the updated backend; the website UI alone does not fix these rules.
+- Offline `setup:doctor` completed with zero failures and four local configuration warnings; it performed no network/provider changes.
 
 Earlier owner progress is recorded in the OpenSpec status: on 10 November the personal-laptop session reported migrations, backend functions and empty owner bootstrap completed; on 11 November the owner reported Auth callbacks, password recovery and sign-in working. These reports supersede the initial pending-confirmation entries below for those steps, without providing current deployment-version or private-workflow acceptance evidence.
 
@@ -57,7 +65,7 @@ Use `confirmed YYYY-MM-DD`, `pending`, or `not configured`. Fill public URLs/ver
 | Both live origins allowed by the API | Pending authenticated acceptance |
 | Website request → app approval → website refresh works | Pending acceptance |
 | Revoked privileges and unrelated guardian access refused | Pending acceptance |
-| Cloudflare Git-build public variables set on each connected target | Pending confirmation; production guard now refuses demo/missing configuration |
+| Cloudflare Git-build public variables set on each connected target | Website build for 3f6496d succeeded through the live guard; app Git-build configuration remains unverified |
 | Private server settings retained in approved storage | Pending confirmation; never copy them into this table |
 | Scheduler secret matches function configuration and Vault | Pending confirmation |
 | Scheduled jobs execute successfully | Pending confirmation |
@@ -65,8 +73,8 @@ Use `confirmed YYYY-MM-DD`, `pending`, or `not configured`. Fill public URLs/ver
 | Supabase Auth SMTP configured and verification/recovery delivered | Pending confirmation |
 | Privacy/safeguarding policy and contacts approved | Pending club configuration |
 | Encrypted off-site database/storage backups and restore rehearsal | Pending confirmation |
-| Current website source commit / Cloudflare version | Not supplied |
-| Current app source commit / Cloudflare version | Not supplied |
+| Current website source commit / Cloudflare version | 3f6496d automatic build succeeded; new membership UI asset observed above; Worker version ID not queried |
+| Current app source commit / Cloudflare version | Source commit/version not supplied; observed asset still predates membership UI correction |
 
 ## Remaining product work
 
