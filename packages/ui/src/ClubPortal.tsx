@@ -28,6 +28,35 @@ import {
 } from "./club-client";
 import "./operations.css";
 
+type NameSource = {
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  nickname?: string;
+};
+/** First name, second name and nickname; falls back to splitting a legacy full name. */
+function nameFields(current?: NameSource) {
+  return [
+    {
+      key: "firstName",
+      label: "First name",
+      value: current?.firstName ?? current?.name?.split(" ")[0],
+    },
+    {
+      key: "lastName",
+      label: "Second name (surname)",
+      value: current?.lastName ?? current?.name?.split(" ").slice(1).join(" "),
+    },
+    {
+      key: "nickname",
+      label: "Nickname (what they go by)",
+      optional: true,
+      value: current?.nickname,
+    },
+  ];
+}
+
+
 type Field = {
   key: string;
   label: string;
@@ -650,7 +679,7 @@ export function ClubPortal({
             state.people.find((p) => p.id === actor)?.status ===
               "subscriber") &&
             form("Apply to join the club", "join", [
-              { key: "name", label: "Your name" },
+              ...nameFields(),
               {
                 key: "mobile",
                 label: "Mobile contact (optional)",
@@ -703,7 +732,7 @@ export function ClubPortal({
                   </div>
                 ))}
                 {form("Add your child", "child", [
-                  { key: "name", label: "Child’s name" },
+                  ...nameFields(),
                   {
                     key: "consent",
                     label:
@@ -718,11 +747,7 @@ export function ClubPortal({
                     options: [[actor, title(actor)]],
                     value: actor,
                   },
-                  {
-                    key: "name",
-                    label: "Display name",
-                    value: state.people.find((p) => p.id === actor)?.name,
-                  },
+                  ...nameFields(state.people.find((p) => p.id === actor)),
                   {
                     key: "mobile",
                     label: "Mobile contact (not SMS login)",
@@ -950,26 +975,7 @@ export function ClubPortal({
                     "Add or edit a player",
                     "person",
                     [
-                      {
-                        key: "firstName",
-                        label: "First name",
-                        value:
-                          selectedPerson?.firstName ??
-                          selectedPerson?.name?.split(" ")[0],
-                      },
-                      {
-                        key: "lastName",
-                        label: "Second name (surname)",
-                        value:
-                          selectedPerson?.lastName ??
-                          selectedPerson?.name?.split(" ").slice(1).join(" "),
-                      },
-                      {
-                        key: "nickname",
-                        label: "Nickname (what they go by)",
-                        optional: true,
-                        value: selectedPerson?.nickname,
-                      },
+                      ...nameFields(selectedPerson),
                       {
                         key: "mobile",
                         label: "Contact number",
@@ -2546,11 +2552,7 @@ export function ClubPortal({
           {tab === "communications" && (
             <article>
               {form("Event email subscription", "subscribe", [
-                {
-                  key: "name",
-                  label: "Adult subscriber name",
-                  value: state.people.find((p) => p.id === actor)?.name ?? "",
-                },
+                ...nameFields(state.people.find((p) => p.id === actor)),
                 {
                   key: "marketing",
                   label:
@@ -2883,7 +2885,7 @@ export function ClubPortal({
               state.events.some((e) => e.delegates.includes(actor))) && (
               <article>
                 {form("Record an adult guest participant", "guest", [
-                  { key: "name", label: "Guest name" },
+                  ...nameFields(),
                   {
                     key: "event",
                     label: "Delegated event (if applicable)",

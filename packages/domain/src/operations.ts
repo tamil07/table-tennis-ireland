@@ -432,14 +432,12 @@ function namePartsFrom(data: Record<string, unknown>) {
   const firstName = optionalText(data, "firstName", 60);
   const lastName = optionalText(data, "lastName", 60);
   const nickname = optionalText(data, "nickname", 40);
-  const extras: { firstName?: string; lastName?: string; nickname?: string } = {};
-  if (nickname) extras.nickname = nickname;
-  if (!firstName && !lastName) return { name: nonempty(data, "name"), ...extras };
+  if (!firstName && !lastName) return { name: nonempty(data, "name"), nickname };
   requireValue(
     Boolean(firstName) && Boolean(lastName),
     "First name and second name are both required.",
   );
-  return { name: `${firstName} ${lastName}`, firstName, lastName, ...extras };
+  return { name: `${firstName} ${lastName}`, firstName, lastName, nickname };
 }
 function nonempty(data: Record<string, unknown>, key: string, max = 120) {
   const v = text(data, key, max);
@@ -1272,7 +1270,7 @@ export function applyClubCommand(
       );
       const application: Person = {
         id: actor.id,
-        name: nonempty(d, "name"),
+        ...namePartsFrom(d),
         email: actor.email,
         emailVerified:
           actor.emailVerified ?? (actor.verified && Boolean(actor.email)),
@@ -1318,7 +1316,7 @@ export function applyClubCommand(
         requireValue(subscribed, "No event subscription exists.");
         s.people.push({
           id: actor.id,
-          name: nonempty(d, "name"),
+          ...namePartsFrom(d),
           email: actor.email,
           emailVerified: true,
           mobile: "",
@@ -1334,7 +1332,7 @@ export function applyClubCommand(
     case "profile": {
       const p = person(s, text(d, "player"));
       if (!may(s, actor.id, "membership")) own(p.id);
-      p.name = nonempty(d, "name");
+      Object.assign(p, namePartsFrom(d));
       p.mobile = text(d, "mobile", 30);
       if (p.id === actor.id) {
         p.accountLinked = true;
@@ -1416,7 +1414,7 @@ export function applyClubCommand(
       );
       s.people.push({
         id,
-        name: nonempty(d, "name"),
+        ...namePartsFrom(d),
         email: "",
         emailVerified: false,
         mobile: "",
@@ -1450,7 +1448,7 @@ export function applyClubCommand(
       );
       s.people.push({
         id,
-        name: nonempty(d, "name"),
+        ...namePartsFrom(d),
         email: "",
         emailVerified: false,
         mobile: "",

@@ -168,7 +168,7 @@ The system SHALL identify memberships approaching their configured end date and 
 - **THEN** the system marks the membership expired and retains its history
 
 ### Requirement: Player name parts
-The system SHALL record each player's first name, second name (surname) and optional nickname separately. The full name shown in the club SHALL be derived from the first and second name. A nickname is what the player goes by and SHALL be optional. When either the first or second name is entered, both SHALL be required. Existing players recorded only with a full name SHALL remain valid until they are next edited.
+The system SHALL record each person's first name, second name (surname) and optional nickname separately, wherever a person's name is entered: applying to join, subscribing to event emails, adding a child, recording an adult guest, editing a player, and editing a member's own profile. The full name shown in lists and screens SHALL be derived from the first and second name. A nickname is what the person goes by and SHALL be optional. When either the first or second name is entered, both SHALL be required. Existing people recorded only with a full name SHALL remain valid; their names are split for editing only when next edited.
 
 #### Scenario: Add a player with a nickname
 - **WHEN** a manager enters first name "Asha", second name "Kelly" and nickname "Ash" for a player
@@ -177,6 +177,10 @@ The system SHALL record each player's first name, second name (surname) and opti
 #### Scenario: Refuse a player with only one name part
 - **WHEN** a manager enters a first name but leaves the second name blank
 - **THEN** the system refuses the save and asks for both names
+
+#### Scenario: Member edits own profile
+- **WHEN** a member updates their own first name, second name or nickname
+- **THEN** the system saves the change and shows the updated full name across the club
 
 #### Scenario: Keep existing single-name players valid
 - **WHEN** an existing player recorded only with a full name is viewed or renewed without editing the name

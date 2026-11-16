@@ -208,7 +208,7 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 - [ ] 14.23 Invitations for unregistered managers (task 9.7).
 - [ ] 14.24 Preview isolation and rollback acceptance (tasks 10.13, 10.2).
 - [ ] 14.25 Monitoring, free-tier thresholds, rollback and support ownership documentation (task 10.7).
-- [x] 14.26 Player name parts: first name, second name (required together) and optional nickname stored separately, with the full name derived. Implemented and verified locally on 16 November 2026 (94 domain tests, full check). Not yet deployed: the backend and the member app must be redeployed before the form appears live.
+- [x] 14.26 Player name parts: first name, second name (required together) and optional nickname stored separately, with the full name derived, on every form that records a person (join, subscribe, guest, child, own profile, player editor). Verified locally on 16 November 2026 (94 domain tests, UI type check, full check). Not yet deployed: the backend and the member app must be redeployed before the form appears live.
 
 ### 14E. Deferred, not part of this launch
 
