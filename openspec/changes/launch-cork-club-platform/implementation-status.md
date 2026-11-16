@@ -154,3 +154,7 @@ Recorded from the owner's report; the assistant did not verify the dashboard or 
 - The owner's signed-in view lists every section (Table booking, People & memberships, Attendance, Sessions & hall, Matches, Tournaments, Coaching, Messages, Management). All are empty because the club has no data yet. The owner role has all club permissions in the domain rules, so this is expected rather than a permissions fault.
 
 Still open: the owner smoke test (14.2), the Cloudflare build variables (14.4), and deleting the local Cloudflare token file and revoking the shared token (14.5). Email delivery, backups and the remaining items are listed in tasks.md section 13.
+
+## Visual design direction — 16 November 2026
+
+The current portal styling is not accepted as the final design. Task section 15 in tasks.md and the visual-design capability spec set the new direction: one token system shared by both sites, Tailwind CSS as the styling foundation, independent per-application stylesheets, a common application shell and responsive layouts, accessible forms, and owner screenshot review before each visual release. The member name fields (task 14.26) are included in the people and membership screens rebuild.

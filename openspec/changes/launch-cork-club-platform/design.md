@@ -312,3 +312,16 @@ Reflection categories are Worked well and Needs work; default tags are forehand,
 - Choose the national platform app's product name, logo, and product domain before public promotion; founder ownership is confirmed and the identity must remain distinct from Leeside's club brand.
 - Decide whether phase-two automated Facebook Page publishing justifies a Meta app; the pilot uses manual Page sharing plus public feeds and email invitations.
 - Decide whether check-out time is needed later; the first release records arrival only.
+
+## Visual design system (decision, 16 November 2026)
+
+Decision: adopt Tailwind CSS as the styling foundation, with design tokens (colours, type, spacing, radius, focus, dark mode) defined once in the shared UI package and imported by each application's own stylesheet. Components are owned source in the shared package, modelled on established accessible patterns (WAI-ARIA authoring practices) rather than a runtime component framework, so the pilot adds one build-time dependency and no runtime UI library.
+
+Why: the current portal is around 3,200 lines in one component using 15 styled class names, so most screens render with browser defaults. Two independent stylesheets carry different palettes. A utility framework with shared tokens gives consistent layout, responsive grids, dark mode and focus styles without rewriting each screen by hand.
+
+Alternatives considered:
+- Keep the hand-written stylesheets: lowest dependency count, but it keeps the current inconsistency and needs a custom layout system.
+- A full component library (Material, Bootstrap-based kits): quick to look polished, but adds a large runtime footprint, a fixed visual identity, and styling overrides that fight the platform branding requirement.
+- A hosted design tool export: produces assets, not maintainable application layout.
+
+Constraints: the platform stays brand-neutral (task 2.4); club sites keep their own repositories; the dependency must be pinned to an exact version at least two weeks old when added; no runtime CDN assets beyond the Content Security Policy in use.

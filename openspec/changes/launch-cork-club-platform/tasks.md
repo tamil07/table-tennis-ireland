@@ -241,3 +241,18 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 - [ ] 15.8 Owner updates backend and app releases and performs authenticated creation/renewal/link/revocation and cross-device acceptance; website automatic build and new UI publication verified, no new migration/bootstrap for this correction
 - [ ] 15.9 Confirm the owner's exact failing screen/error if different from the reproduced adult-creation issue; do not treat source review as proof of the original live failure
 - [ ] 15.10 Clarify and implement genuine per-visit/pay-as-you-go entitlement if required; the current duration-based catalogue is not proof of per-visit charging support
+
+## 15. Visual design pass (decided 16 November 2026)
+
+Source: specs/visual-design/spec.md and design.md "Visual design system". Nothing below is done yet.
+
+- [ ] 15.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps, pinned to an exact version at least two weeks old, and record the version in implementation-status.md.
+- [ ] 15.2 Define the design tokens (colours, type scale, spacing, radius, focus ring, elevation) once in packages/ui, with light and dark sets following the system preference.
+- [ ] 15.3 Migrate packages/ui/src/operations.css, booking.css and both application styles.css into the token system; remove per-screen palettes; keep the attendance screen unchanged until migrated.
+- [ ] 15.4 Build the shared layout pieces: application shell, page header, section card, form grid, data table with a scroll container, stacked record card, and a phone menu.
+- [ ] 15.5 Rebuild the people and membership screens first (including the name fields from 14.26), at phone and desktop widths.
+- [ ] 15.6 Rebuild the remaining member app screens: booking, sessions and hall, attendance, matches, tournaments, coaching, messages, management.
+- [ ] 15.7 Rebuild the public website pages using the same tokens and the same join, child and subscription forms.
+- [ ] 15.8 Add browser checks at 360px and desktop widths, and automated accessibility checks, to the existing browser workflows.
+- [ ] 15.9 Produce screenshots of the people and membership screens for owner review before deploying the visual release.
+- [ ] 15.10 Deploy the backend, member app and website after the owner approves the screenshots; record the versions in DEPLOYMENT_STATUS.md.
