@@ -282,6 +282,7 @@ describe("club operations security and workflows", () => {
       {
         name: "New",
         email: "fake",
+        adult: true,
         mobile: "",
         marketing: false,
         consent: true,
@@ -349,7 +350,7 @@ describe("club operations security and workflows", () => {
     const command: ClubCommand = {
       id: "once",
       type: "trial",
-      data: { player: player.id },
+      data: { player: "demo-junior" },
       expectedVersion: 0,
     };
     const s = apply(demoClub(now), player, command, now);
@@ -391,7 +392,7 @@ describe("club operations security and workflows", () => {
   it("creates an acknowledgement only when selected", () => {
     const s = demoClub(now),
       data = {
-        player: player.id,
+        player: opponent.id,
         plan: "full",
         start: "2026-11-01",
         end: "2027-04-30",
@@ -869,6 +870,7 @@ describe("club operations security and workflows", () => {
       body: "Expired confidential note",
     });
     s.people.find((p) => p.id === player.id)!.leftOn = "2024-01-01";
+    s.people.find((p) => p.id === player.id)!.status = "left";
     const system = { id: "scheduler", email: "", verified: true, system: true };
     expect(run(s, system, "jobs", {}).notes).toHaveLength(1);
     s.settings.retentionApproved = true;

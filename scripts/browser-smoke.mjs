@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { expect as baseExpect } from "playwright/test";
 const expect = baseExpect.configure({ timeout: 10000 });
 import { mkdirSync } from "node:fs";
+import { checkMembershipForms } from "./membership-browser-check.mjs";
 let browser;
 const label = (process.env.BROWSER_TEST_LABEL ?? "operations").replace(
   /[^a-z0-9-]/gi,
@@ -52,6 +53,7 @@ try {
   await f.getByLabel("Price (€)").fill("90");
   await save(f);
   await expect(portal).toContainText(/Synthetic QA type/);
+  await checkMembershipForms({ page, portal, form, save });
   await role("demo-player");
   await tab("Table booking");
   f = form("Request a player place");

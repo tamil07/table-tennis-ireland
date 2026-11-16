@@ -27,6 +27,7 @@ state.people.push({
   name: values.name,
   email: values.email,
   emailVerified: true,
+  accountLinked: true,
   mobile: "",
   junior: false,
   guardians: [],

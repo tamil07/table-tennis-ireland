@@ -1,5 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2.109.0";
-import { applyClubCommand, clubView } from "./domain/operations.ts";
+import { applyClubCommand, clubView, may } from "./domain/operations.ts";
 import type { ClubState, ClubCommand, Principal } from "./domain/operations.ts";
 export const service = () =>
   createClient(
@@ -72,6 +72,35 @@ export async function execute(
   const before = await load(club);
   if (!Number.isInteger(command.expectedVersion))
     throw new Error("Refresh club data before submitting.");
+  if (before.processed.includes(`${actor.id}:${command.id}`))
+    return clubView(before, actor.id);
+  if (command.type === "claim_profile") {
+    if (!may(before, actor.id, "membership"))
+      throw new Error("membership permission is required.");
+    const source = before.people.find((p) => p.id === command.data.source);
+    const target = before.people.find((p) => p.id === command.data.target);
+    if (!source || !target)
+      throw new Error("Both profiles must exist in this club.");
+    const client = service();
+    const [unclaimed, verified] = await Promise.all([
+      client.auth.admin.getUserById(source.id),
+      client.auth.admin.getUserById(target.id),
+    ]);
+    if (unclaimed.data?.user || unclaimed.error?.status !== 404)
+      throw new Error(
+        "Cannot link an independently authenticated source profile or verify that it is unclaimed.",
+      );
+    const user = verified.data?.user;
+    if (
+      verified.error ||
+      !user ||
+      !(user.email_confirmed_at || user.phone_confirmed_at) ||
+      (user.banned_until && Date.parse(user.banned_until) > Date.now())
+    )
+      throw new Error(
+        "Target must be a current verified authentication account.",
+      );
+  }
   const after = applyClubCommand(before, actor, command);
   await commit(before, after);
   return clubView(after, actor.id);

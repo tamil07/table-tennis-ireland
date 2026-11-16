@@ -16,6 +16,7 @@ export function demoClub(now = Date.now()) {
     name: a.name,
     email: `${a.id}@example.invalid`,
     emailVerified: true,
+    accountLinked: true,
     mobile: "",
     junior: false,
     guardians: [],

@@ -260,6 +260,12 @@ export function ClubAuth({
         </button>
       )}
       <p>
+        Creating a sign-in account does not activate a club membership. Verify
+        your email, sign in and apply to the club. A staff-added player record
+        is separate from a login; management can link verified accounts to
+        existing history. Juniors use a guardian account.
+      </p>
+      <p>
         Any verified email provider is supported. A saved mobile contact does
         not enable SMS login. Google requires provider configuration.
       </p>

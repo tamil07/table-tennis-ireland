@@ -12,6 +12,8 @@ The bootstrapped owner grants individual accounts access to membership, booking,
 
 Managers create/edit/retire membership types, set individual start/end dates and record manual payments/corrections. Historical assignments retain their snapshots. Optional acknowledgement selection queues an informal receipt. There is no payment gateway. Trials default to a calendar month and can be extended/configured.
 
+The 16 November source correction separates **Create membership period**, **Correct period** and **Renew membership**; renewal appends a period without overwriting history. Adult player creation does not require a guardian; junior creation does. Editors reset independently after saving. Zero receipts need no invented received date. Follow [MEMBERSHIP_WORKFLOW.md](MEMBERSHIP_WORKFLOW.md) for the detailed flow and owner deployment/acceptance steps; source delivery is not proof the running deployment has updated.
+
 Expiry is inclusive of the selected Ireland calendar day. Scheduled processing queues player/guardian email and a management summary after that day ends, suppressing obsolete renewal messages. Optional 3/10-day reminders and attendance digests are off by default. In-app work/messages exist immediately; email needs the sender/provider and scheduler configuration in the launch guide. Missing credentials leave delivery pending.
 
 ## Sessions, tables and attendance

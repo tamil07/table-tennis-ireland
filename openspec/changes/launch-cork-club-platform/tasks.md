@@ -227,3 +227,16 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 - [ ] 13.8 Owner confirms remaining deployment checklist outcomes: private account/permission/write flows, exact callbacks, current functions/jobs, actual mail/cron and backup/restore; no new project or automatic bootstrap merely for laptop migration
 
 - [ ] 13.9 Owner resolves the Cloudflare automatic-build failure using its provider log, verifies live build variables/commands and retries without weakening the production guard; current live release remained online
+
+## 15. Player creation and membership integrity correction — 16 November 2026
+
+- [x] 15.1 Reproduce the adult creation blocker and distinguish account, player, type and period workflows; condition guardian selection on junior status
+- [x] 15.2 Separate independent add/edit form state, explicit cancel/add-new actions and successful-save resets without discarding failed input
+- [x] 15.3 Append a new renewal period, preserve existing financial/type snapshots, permit retired-type/trial correction and reject unknown edit identifiers or active-period overlap
+- [x] 15.4 Permit zero receipts without an invented payment date; require a date for positive amounts and retain opt-in acknowledgement
+- [x] 15.5 Harden adult/guardian scope, classification edits, repeat trials, reactivation/retention and duplicate identifiers; require current Auth proof for offline-profile claims
+- [x] 15.6 Supply domain, HTTP and shared frontend browser regressions plus the owner membership workflow/update guide
+- [ ] 15.7 Complete and record full local verification, OpenSpec validation and GitHub Quality results for this correction
+- [ ] 15.8 Owner updates backend and both frontend releases, resolves any Cloudflare build settings and performs authenticated creation/renewal/link/revocation and cross-device acceptance; no new migration/bootstrap for this correction
+- [ ] 15.9 Confirm the owner's exact failing screen/error if different from the reproduced adult-creation issue; do not treat source review as proof of the original live failure
+- [ ] 15.10 Clarify and implement genuine per-visit/pay-as-you-go entitlement if required; the current duration-based catalogue is not proof of per-visit charging support

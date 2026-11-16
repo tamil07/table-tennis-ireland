@@ -2,6 +2,16 @@
 
 This is the non-secret status record shared between laptops. Update outcomes here after provider checks; keep credentials and member records in private storage. Source implementation and full remaining product scope live in [OpenSpec status](../openspec/changes/launch-cork-club-platform/implementation-status.md) and [tasks](../openspec/changes/launch-cork-club-platform/tasks.md).
 
+## Membership correction — 16 November 2026
+
+The owner reported a problem while creating a player/membership; the precise screen/error has not yet been supplied. Source review independently reproduced an adult creation blocker (a required guardian selector shown for adults), renewal overwriting an existing period and historical catalogue snapshots changing during correction. Source now separates adult/junior creation and the new/correct/renew editors, preserves period history and snapshots, and strengthens guardian, trial and account-link checks. Details and minimal owner update instructions: [MEMBERSHIP_WORKFLOW.md](MEMBERSHIP_WORKFLOW.md).
+
+No hosted mutation, migration, private sign-in or deployment was performed during this correction. Backend and both frontend releases, provider build success and authenticated cross-device acceptance remain owner actions. There is no new SQL migration for this correction and no need to repeat bootstrap. The previously observed Cloudflare automatic-build failure remains unresolved by this source change.
+
+Local correction checks passed: 100 domain/adapter tests, 12 setup regressions, type checks, both builds, all three backend checks/HTTP suites and expanded browser workflows for both frontends. OpenSpec and whitespace validation passed. GitHub/production release evidence is recorded separately below when available.
+
+Earlier owner progress is recorded in the OpenSpec status: on 10 November the personal-laptop session reported migrations, backend functions and empty owner bootstrap completed; on 11 November the owner reported Auth callbacks, password recovery and sign-in working. These reports supersede the initial pending-confirmation entries below for those steps, without providing current deployment-version or private-workflow acceptance evidence.
+
 ## Independently observed — 12 November 2026
 
 | Item | Observation | Limit |
@@ -40,10 +50,10 @@ Use `confirmed YYYY-MM-DD`, `pending`, or `not configured`. Fill public URLs/ver
 
 | Check | Owner outcome |
 | --- | --- |
-| Supabase migration history matches all repository migrations | Pending confirmation |
-| Existing owner login and club ownership verified | Pending confirmation |
-| `club-api` and `club-jobs` deployed at intended source version | Pending confirmation |
-| Exact website/app Auth callbacks configured | Pending confirmation |
+| Supabase migration history matches all repository migrations | Owner reported all three applied on 10 November; current audit not repeated |
+| Existing owner login and club ownership verified | Owner reported bootstrap on 10 November and successful sign-in/recovery on 11 November |
+| `club-api` and `club-jobs` deployed at intended source version | Owner reported deployment on 10 November; 16 November source update and version acceptance pending |
+| Exact website/app Auth callbacks configured | Owner reported app Site URL and both redirect origins set on 11 November |
 | Both live origins allowed by the API | Pending authenticated acceptance |
 | Website request → app approval → website refresh works | Pending acceptance |
 | Revoked privileges and unrelated guardian access refused | Pending acceptance |

@@ -32,6 +32,8 @@ export type Person = {
   leftOn?: string;
   consentAt?: string;
   consentBy?: string;
+  accountLinked?: boolean;
+  trialStartedAt?: string;
 };
 export type Plan = {
   id: string;
@@ -53,6 +55,7 @@ export type Membership = {
   receivedOn: string;
   reference: string;
   snapshot: Plan | null;
+  renewalOf?: string;
 };
 export type ClubSession = PracticeSession & {
   capacity: number;
@@ -316,10 +319,16 @@ export function may(state: ClubState, actor: string, permission: Permission) {
   );
 }
 export function represents(state: ClubState, actor: string, player: string) {
+  const target = state.people.find((p) => p.id === player);
+  const guardian = state.people.find((p) => p.id === actor);
   return (
     actor === player ||
     Boolean(
-      state.people.find((p) => p.id === player)?.guardians.includes(actor),
+      target?.junior &&
+        guardian &&
+        !guardian.junior &&
+        guardian.status !== "left" &&
+        target.guardians.includes(actor),
     )
   );
 }
@@ -453,7 +462,9 @@ function person(s: ClubState, id: string) {
 }
 function recipients(s: ClubState, player: string) {
   const p = person(s, player);
-  return p.junior ? p.guardians : [p.id];
+  return p.junior
+    ? p.guardians.filter((g) => represents(s, g, player))
+    : [p.id];
 }
 function notice(
   s: ClubState,
@@ -975,7 +986,7 @@ function applyRetention(s: ClubState, today: string) {
     (p) => !deletedMemberships.includes(p.membership),
   );
   const leftPlayers = s.people
-    .filter((p) => p.leftOn && p.leftOn < notes)
+    .filter((p) => p.status === "left" && p.leftOn && p.leftOn < notes)
     .map((p) => p.id);
   s.notes = s.notes.filter((n) => !leftPlayers.includes(n.player));
   s.audit = s.audit
@@ -1235,6 +1246,10 @@ export function applyClubCommand(
         d.consent === true && s.settings.privacy && s.settings.policy,
         "The club must publish privacy information and you must accept the application policy.",
       );
+      requireValue(
+        d.adult === true,
+        "An adult must register themselves or act as guardian; juniors use a guardian account.",
+      );
       const application: Person = {
         id: actor.id,
         name: nonempty(d, "name"),
@@ -1248,6 +1263,7 @@ export function applyClubCommand(
         marketing: d.marketing === true,
         consentAt: new Date(now).toISOString(),
         consentBy: actor.id,
+        accountLinked: true,
       };
       if (existing) Object.assign(existing, application);
       else s.people.push(application);
@@ -1290,6 +1306,7 @@ export function applyClubCommand(
           guardians: [],
           status: "subscriber",
           marketing: true,
+          accountLinked: true,
         });
       }
       break;
@@ -1300,6 +1317,7 @@ export function applyClubCommand(
       p.name = nonempty(d, "name");
       p.mobile = text(d, "mobile", 30);
       if (p.id === actor.id) {
+        p.accountLinked = true;
         p.email = actor.email;
         p.emailVerified =
           actor.emailVerified ?? (actor.verified && Boolean(actor.email));
@@ -1310,10 +1328,36 @@ export function applyClubCommand(
     case "person": {
       permit("membership");
       const existing = s.people.find((p) => p.id === d.player);
+      requireValue(!d.player || existing, "Player not found in this club.");
+      requireValue(
+        existing || !s.people.some((p) => p.id === id),
+        "Player identifier already exists. Use a new request or edit that player.",
+      );
       const junior = d.junior === true;
       const guardians = list(d, "guardians");
+      requireValue(
+        junior || guardians.length === 0,
+        "An adult cannot have guardian links.",
+      );
+      requireValue(
+        !existing ||
+          existing.junior === junior ||
+          !(
+            existing.id === s.owner ||
+            existing.accountLinked ||
+            existing.emailVerified ||
+            s.grants[existing.id]?.length ||
+            s.people.some((p) => p.guardians.includes(existing.id))
+          ),
+        "A linked account, owner or responsible guardian cannot change junior/adult classification through this editor.",
+      );
       for (const g of guardians)
-        requireValue(!person(s, g).junior, "A guardian must be an adult.");
+        requireValue(
+          g !== (existing?.id ?? id) &&
+            !person(s, g).junior &&
+            person(s, g).status !== "left",
+          "A guardian must be a different active adult.",
+        );
       requireValue(
         !junior || guardians.length > 0,
         "A junior requires a responsible guardian.",
@@ -1328,12 +1372,19 @@ export function applyClubCommand(
         guardians,
         status: d.guest === true ? "guest" : "player",
         marketing: existing?.marketing ?? false,
+        accountLinked:
+          existing?.accountLinked ?? existing?.emailVerified ?? false,
       };
       if (existing) Object.assign(existing, record);
       else s.people.push(record);
+      delete (existing ?? record).leftOn;
       break;
     }
     case "guest": {
+      requireValue(
+        !s.people.some((p) => p.id === id),
+        "Player identifier already exists.",
+      );
       const event =
         typeof d.event === "string" && d.event ? eventFor(s, d.event) : null;
       requireValue(
@@ -1356,13 +1407,24 @@ export function applyClubCommand(
       break;
     }
     case "child": {
+      requireValue(
+        !s.people.some((p) => p.id === id),
+        "Player identifier already exists.",
+      );
       const parent = person(s, actor.id);
       requireValue(
         !parent.junior,
         "A responsible adult must register a junior.",
       );
       requireValue(
-        d.consent === true && s.settings.safeguarding && s.settings.policy,
+        !["left", "subscriber"].includes(parent.status),
+        "Apply to join the club before registering a child.",
+      );
+      requireValue(
+        d.consent === true &&
+          s.settings.privacy &&
+          s.settings.safeguarding &&
+          s.settings.policy,
         "Guardian consent and configured club safeguarding information are required.",
       );
       s.people.push({
@@ -1389,10 +1451,26 @@ export function applyClubCommand(
         source.id !== target.id &&
           source.junior === target.junior &&
           !source.emailVerified &&
+          !source.accountLinked &&
           source.id !== s.owner &&
           !s.grants[source.id]?.length &&
-          target.emailVerified,
+          (target.emailVerified || target.accountLinked),
         "Select an unclaimed offline profile and a verified account with the same junior/adult classification.",
+      );
+      requireValue(
+        !s.memberships.some(
+          (a) =>
+            a.player === source.id &&
+            a.status === "active" &&
+            s.memberships.some(
+              (b) =>
+                b.player === target.id &&
+                b.status === "active" &&
+                a.start <= b.end &&
+                b.start <= a.end,
+            ),
+        ),
+        "Resolve overlapping membership periods before linking profiles.",
       );
       for (const session of s.sessions)
         requireValue(
@@ -1423,6 +1501,13 @@ export function applyClubCommand(
       const replace = (id: string) => (id === source.id ? target.id : id);
       target.name = source.name;
       target.status = source.status;
+      target.accountLinked = true;
+      target.trialStartedAt = [source.trialStartedAt, target.trialStartedAt]
+        .filter((v): v is string => Boolean(v))
+        .sort()[0];
+      if (target.status === "left")
+        target.leftOn = source.leftOn ?? target.leftOn;
+      else delete target.leftOn;
       target.guardians = [
         ...new Set([...source.guardians, ...target.guardians]),
       ].map(replace);
@@ -1502,6 +1587,14 @@ export function applyClubCommand(
         active: d.active !== false,
       };
       const old = s.plans.find((p) => p.id === plan.id);
+      requireValue(
+        d.plan || !old,
+        "Membership type identifier already exists.",
+      );
+      requireValue(
+        !d.plan || old,
+        "Membership type not found. Refresh before editing it.",
+      );
       if (old) Object.assign(old, plan);
       else s.plans.push(plan);
       break;
@@ -1510,31 +1603,86 @@ export function applyClubCommand(
       permit("membership");
       const player = text(d, "player");
       person(s, player);
-      const plan = s.plans.find((p) => p.id === d.plan && p.active);
-      requireValue(plan, "Choose an active membership type.");
+      const old = d.membership
+        ? s.memberships.find((m) => m.id === d.membership)
+        : undefined;
+      requireValue(
+        old || !s.memberships.some((m) => m.id === id),
+        "Membership period identifier already exists.",
+      );
+      requireValue(
+        !d.membership || old,
+        "Membership not found. Refresh before correcting it.",
+      );
+      const renewal = d.renewalOf
+        ? s.memberships.find((m) => m.id === d.renewalOf)
+        : undefined;
+      requireValue(
+        !d.renewalOf || (renewal && !old && renewal.player === player),
+        "Renewal must create a new period for the same player.",
+      );
+      const plan = s.plans.find((p) => p.id === d.plan);
+      const correctingTrial = Boolean(
+        old &&
+          old.snapshot === null &&
+          old.plan === "" &&
+          !d.plan &&
+          ["trial", "cancelled"].includes(String(d.status)),
+      );
+      requireValue(
+        correctingTrial || (plan && (plan.active || old?.plan === plan.id)),
+        "Choose an active membership type.",
+      );
       const start = date(d, "start"),
         end = date(d, "end");
       requireValue(end >= start, "End date must follow start date.");
+      if (renewal)
+        requireValue(
+          start > renewal.end,
+          "A renewal must start after the preceding period ends.",
+        );
       requireValue(
         ["active", "trial", "cancelled"].includes(String(d.status)) &&
           ["unpaid", "partial", "paid", "waived"].includes(String(d.payment)),
         "Invalid membership/payment status.",
       );
+      requireValue(
+        d.status !== "active" ||
+          !s.memberships.some(
+            (m) =>
+              m.id !== old?.id &&
+              m.player === player &&
+              m.status === "active" &&
+              start <= m.end &&
+              m.start <= end,
+          ),
+        "This active membership would overlap another period. Correct the existing period or choose non-overlapping dates.",
+      );
+      const amount = number(d, "amount", 0, 10000000);
       const record: Membership = {
         id:
           typeof d.membership === "string" && d.membership ? d.membership : id,
         player,
-        plan: plan.id,
-        snapshot: structuredClone(plan),
+        plan: plan?.id ?? "",
+        snapshot:
+          old && old.plan === (plan?.id ?? "")
+            ? structuredClone(old.snapshot)
+            : plan
+              ? structuredClone(plan)
+              : null,
         start,
         end,
         status: d.status as Membership["status"],
         payment: d.payment as Membership["payment"],
-        amount: number(d, "amount", 0, 10000000),
-        receivedOn: date(d, "receivedOn"),
+        amount,
+        receivedOn: amount > 0 || d.receivedOn ? date(d, "receivedOn") : "",
         reference: text(d, "reference", 500),
+        ...(renewal
+          ? { renewalOf: renewal.id }
+          : old?.renewalOf
+            ? { renewalOf: old.renewalOf }
+            : {}),
       };
-      const old = s.memberships.find((m) => m.id === record.id);
       requireValue(
         record.amount >=
           s.payments
@@ -1549,7 +1697,12 @@ export function applyClubCommand(
         );
         Object.assign(old, record);
       } else s.memberships.push(record);
-      if (record.status !== "cancelled") person(s, player).status = "player";
+      if (record.status !== "cancelled") {
+        person(s, player).status = "player";
+        delete person(s, player).leftOn;
+      }
+      if (record.status === "trial")
+        person(s, player).trialStartedAt ??= record.start;
       if (d.acknowledge === true)
         notify(
           s,
@@ -1566,11 +1719,20 @@ export function applyClubCommand(
       const player = text(d, "player");
       own(player);
       requireValue(
-        !s.memberships.some((m) => m.player === player && m.status === "trial"),
-        "A trial already exists. Ask management for an extension.",
+        person(s, player).status !== "left" &&
+          !person(s, player).trialStartedAt &&
+          !s.memberships.some(
+            (m) =>
+              m.player === player &&
+              (m.status === "active" ||
+                m.status === "trial" ||
+                (m.plan === "" && m.snapshot === null)),
+          ),
+        "A fresh trial is not available. Ask management to resolve membership or extend the existing trial.",
       );
       const start = localDay(now);
       person(s, player).status = "player";
+      person(s, player).trialStartedAt = start;
       const end = new Date(
         Date.parse(addCalendarMonths(start, s.settings.trialMonths)) - 86400000,
       )
@@ -1586,7 +1748,7 @@ export function applyClubCommand(
         status: "trial",
         payment: "unpaid",
         amount: 0,
-        receivedOn: start,
+        receivedOn: "",
         reference: "Self-registered trial",
       });
       break;
@@ -1611,6 +1773,10 @@ export function applyClubCommand(
       const membership = s.memberships.find((m) => m.id === d.membership);
       requireValue(membership, "Membership not found.");
       const previous = s.payments.find((p) => p.id === d.paymentId);
+      requireValue(
+        !d.paymentId || previous,
+        "Payment not found. Refresh before correcting it.",
+      );
       requireValue(
         !previous || previous.membership === membership.id,
         "Cannot transfer a payment to another membership.",
@@ -2747,6 +2913,7 @@ export function applyClubCommand(
     at: new Date(now).toISOString(),
     reason:
       [
+        "membership",
         "leave",
         "claim_profile",
         "extend_trial",
@@ -2881,6 +3048,10 @@ export function clubView(state: ClubState, actor: string): ClubState {
             mobile: "",
             guardians: [],
             marketing: false,
+            accountLinked: undefined,
+            trialStartedAt: undefined,
+            consentAt: undefined,
+            consentBy: undefined,
           },
     );
   s.grants = may(s, actor, "access")

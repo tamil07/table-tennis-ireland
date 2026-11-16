@@ -7,6 +7,7 @@ import {
   localDay,
   may,
   membershipAt,
+  addCalendarMonths,
   matchStatistics,
   occupiesPlace,
   permissions,
@@ -36,6 +37,7 @@ type Field = {
   value?: unknown;
   multiple?: boolean;
   optional?: boolean;
+  when?: string;
 };
 const opt = (values: { id: string; name: string }[]): [string, string][] =>
   values.map((v) => [v.id, v.name]);
@@ -54,10 +56,19 @@ function OperationForm({
   label?: string;
   busy: boolean;
 }) {
+  const [toggles, setToggles] = useState<Record<string, boolean>>({});
   return (
     <form
       className="ops-form"
       aria-label={title}
+      onChange={(event) => {
+        const field = event.target;
+        if (field instanceof HTMLInputElement && field.type === "checkbox")
+          setToggles((current) => ({
+            ...current,
+            [field.name]: field.checked,
+          }));
+      }}
       onSubmit={(event) => {
         event.preventDefault();
         const form = event.currentTarget,
@@ -75,55 +86,68 @@ function OperationForm({
       }}
     >
       <h4>{title}</h4>
-      {fields.map((f) => (
-        <label key={f.key}>
-          {f.label}
-          {f.options ? (
-            <select
-              aria-label={f.label}
-              name={f.key}
-              required={!f.optional}
-              multiple={f.multiple}
-              defaultValue={
-                f.multiple
-                  ? ((f.value as string[]) ?? [])
-                  : String(f.value ?? "")
-              }
-            >
-              {!f.multiple && <option value="">Select…</option>}
-              {f.options.map(([value, name]) => (
-                <option key={value} value={value}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          ) : f.type === "textarea" ? (
-            <textarea
-              aria-label={f.label}
-              name={f.key}
-              required={!f.optional}
-              maxLength={f.key === "body" || f.key === "policy" ? 10000 : 2000}
-              defaultValue={String(f.value ?? "")}
-            />
-          ) : f.type === "checkbox" ? (
-            <input
-              aria-label={f.label}
-              type="checkbox"
-              name={f.key}
-              defaultChecked={f.value === true}
-            />
-          ) : (
-            <input
-              aria-label={f.label}
-              name={f.key}
-              type={f.type ?? "text"}
-              required={!f.optional}
-              defaultValue={String(f.value ?? "")}
-              step={f.type === "number" ? (f.step ?? "1") : undefined}
-            />
-          )}
-        </label>
-      ))}
+      {fields
+        .filter(
+          (f) =>
+            !f.when ||
+            (toggles[f.when] ??
+              fields.find((item) => item.key === f.when)?.value === true),
+        )
+        .map((f) => (
+          <label key={f.key}>
+            {f.label}
+            {f.options ? (
+              <select
+                aria-label={f.label}
+                name={f.key}
+                disabled={busy}
+                required={!f.optional}
+                multiple={f.multiple}
+                defaultValue={
+                  f.multiple
+                    ? ((f.value as string[]) ?? [])
+                    : String(f.value ?? "")
+                }
+              >
+                {!f.multiple && <option value="">Select…</option>}
+                {f.options.map(([value, name]) => (
+                  <option key={value} value={value}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            ) : f.type === "textarea" ? (
+              <textarea
+                aria-label={f.label}
+                name={f.key}
+                disabled={busy}
+                required={!f.optional}
+                maxLength={
+                  f.key === "body" || f.key === "policy" ? 10000 : 2000
+                }
+                defaultValue={String(f.value ?? "")}
+              />
+            ) : f.type === "checkbox" ? (
+              <input
+                aria-label={f.label}
+                type="checkbox"
+                name={f.key}
+                disabled={busy}
+                defaultChecked={f.value === true}
+              />
+            ) : (
+              <input
+                aria-label={f.label}
+                name={f.key}
+                disabled={busy}
+                type={f.type ?? "text"}
+                required={!f.optional}
+                defaultValue={String(f.value ?? "")}
+                step={f.type === "number" ? (f.step ?? "1") : undefined}
+              />
+            )}
+          </label>
+        ))}
       <button disabled={busy}>{busy ? "Saving…" : label}</button>
     </form>
   );
@@ -190,7 +214,13 @@ export function ClubPortal({
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false);
   const [last, setLast] = useState<ClubCommand | null>(null),
-    [editing, setEditing] = useState(""),
+    [personEdit, setPersonEdit] = useState(""),
+    [planEdit, setPlanEdit] = useState(""),
+    [membershipEdit, setMembershipEdit] = useState(""),
+    [membershipMode, setMembershipMode] = useState<"new" | "correct" | "renew">(
+      "new",
+    ),
+    [formResets, setFormResets] = useState<Record<string, number>>({}),
     [qrImage, setQrImage] = useState(""),
     [qrUntil, setQrUntil] = useState(0);
   const [sessionId, setSessionId] = useState(scannedSession),
@@ -263,7 +293,10 @@ export function ClubPortal({
   }
   useEffect(() => {
     setState(null);
-    setEditing("");
+    setPersonEdit("");
+    setPlanEdit("");
+    setMembershipEdit("");
+    setMembershipMode("new");
     setLast(null);
     setQrImage("");
     if (!actor) return;
@@ -319,6 +352,18 @@ export function ClubPortal({
           : "Saved in this synthetic browser workspace. No real email or reservation was created.",
       );
       setLast(null);
+      if (["person", "plan", "membership"].includes(type)) {
+        setFormResets((values) => ({
+          ...values,
+          [type]: (values[type] ?? 0) + 1,
+        }));
+        if (type === "person") setPersonEdit("");
+        if (type === "plan") setPlanEdit("");
+        if (type === "membership") {
+          setMembershipEdit("");
+          setMembershipMode("new");
+        }
+      }
       if (result.qr) {
         const url = `${location.origin}${location.pathname}#club=${club}&session=${data.session}&code=${result.qr}`;
         setQrImage(await QRCode.toDataURL(url, { width: 320, margin: 2 }));
@@ -370,9 +415,19 @@ export function ClubPortal({
           `${s.label} · ${new Date(s.start).toLocaleString("en-IE", { timeZone: "Europe/Dublin" })}`,
         ] as [string, string],
     );
-  const selectedPerson = state?.people.find((p) => p.id === editing),
-    selectedPlan = state?.plans.find((p) => p.id === editing),
-    selectedMembership = state?.memberships.find((m) => m.id === editing);
+  const selectedPerson = state?.people.find((p) => p.id === personEdit),
+    selectedPlan = state?.plans.find((p) => p.id === planEdit),
+    selectedMembership = state?.memberships.find(
+      (m) => m.id === membershipEdit,
+    );
+  const nextDay = (day: string) =>
+    new Date(Date.parse(day) + 86400000).toISOString().slice(0, 10);
+  const renewalStart = selectedMembership
+    ? nextDay(selectedMembership.end)
+    : localDay(now);
+  const renewalPlan = state?.plans.find(
+    (p) => p.id === selectedMembership?.plan && p.active,
+  );
   function form(
     title: string,
     type: string,
@@ -381,7 +436,7 @@ export function ClubPortal({
   ) {
     return (
       <OperationForm
-        key={`${tab}:${title}:${editing}`}
+        key={`${tab}:${title}:${type === "person" ? personEdit : type === "plan" ? planEdit : type === "membership" ? `${membershipEdit}:${membershipMode}` : ""}:${formResets[type] ?? 0}`}
         title={title}
         fields={fields}
         busy={busy}
@@ -398,7 +453,7 @@ export function ClubPortal({
     key: "player",
     label: "Player",
     options: all ? playerOptions : familyOptions,
-    value: selectedPerson?.id ?? selectedMembership?.player ?? family[0]?.id,
+    value: all ? "" : family[0]?.id,
   });
   const eventOptions: [string, string][] =
     state?.events.map((e) => [e.id, e.name]) ?? [];
@@ -564,7 +619,10 @@ export function ClubPortal({
                 aria-pressed={tab === id}
                 onClick={() => {
                   setTab(id);
-                  setEditing("");
+                  setPersonEdit("");
+                  setPlanEdit("");
+                  setMembershipEdit("");
+                  setMembershipMode("new");
                 }}
               >
                 {label}
@@ -608,6 +666,12 @@ export function ClubPortal({
                 label: "I accept the published club application/privacy policy",
                 type: "checkbox",
               },
+              {
+                key: "adult",
+                label:
+                  "I am an adult registering myself or acting as a guardian; juniors use a guardian account",
+                type: "checkbox",
+              },
             ])}
           {tab === "people" && (
             <div className="ops-grid">
@@ -629,7 +693,10 @@ export function ClubPortal({
                       )}
                     </div>
                     {can("membership") && (
-                      <button onClick={() => setEditing(p.id)}>
+                      <button
+                        disabled={busy}
+                        onClick={() => setPersonEdit(p.id)}
+                      >
                         Edit person
                       </button>
                     )}
@@ -686,41 +753,94 @@ export function ClubPortal({
                       </small>
                     </div>
                     {can("membership") && (
-                      <button onClick={() => setEditing(m.id)}>
-                        Correct / renew
-                      </button>
+                      <div>
+                        <button
+                          disabled={busy}
+                          onClick={() => {
+                            setMembershipEdit(m.id);
+                            setMembershipMode("correct");
+                          }}
+                        >
+                          Correct period
+                        </button>
+                        <button
+                          disabled={busy}
+                          onClick={() => {
+                            setMembershipEdit(m.id);
+                            setMembershipMode("renew");
+                          }}
+                        >
+                          Renew membership
+                        </button>
+                      </div>
                     )}
                   </div>
                 ))}
                 {can("membership") &&
                   form(
-                    "Assign or correct membership",
+                    membershipMode === "correct"
+                      ? "Correct membership period"
+                      : membershipMode === "renew"
+                        ? "Renew membership period"
+                        : "Create membership period",
                     "membership",
                     [
-                      playerField(true),
+                      {
+                        ...playerField(true),
+                        value: selectedMembership?.player ?? "",
+                      },
                       {
                         key: "plan",
                         label: "Membership type",
                         options: state.plans
-                          .filter((p) => p.active)
+                          .filter(
+                            (p) =>
+                              p.active ||
+                              (membershipMode === "correct" &&
+                                p.id === selectedMembership?.plan),
+                          )
                           .map((p) => [p.id, p.name]),
-                        value: selectedMembership?.plan,
+                        value:
+                          membershipMode === "renew"
+                            ? renewalPlan?.id
+                            : selectedMembership?.plan,
+                        optional:
+                          membershipMode === "correct" &&
+                          selectedMembership?.snapshot === null,
                       },
                       dateField(
                         "start",
                         "Start (inclusive)",
-                        selectedMembership?.start,
+                        membershipMode === "renew"
+                          ? renewalStart
+                          : selectedMembership?.start,
                       ),
                       dateField(
                         "end",
                         "End (inclusive)",
-                        selectedMembership?.end,
+                        membershipMode === "renew" && renewalPlan
+                          ? new Date(
+                              Date.parse(
+                                addCalendarMonths(
+                                  renewalStart,
+                                  renewalPlan.months,
+                                ),
+                              ) - 86400000,
+                            )
+                              .toISOString()
+                              .slice(0, 10)
+                          : membershipMode === "correct"
+                            ? selectedMembership?.end
+                            : "",
                       ),
                       {
                         key: "status",
                         label: "Status",
                         options: choice(["active", "trial", "cancelled"]),
-                        value: selectedMembership?.status ?? "active",
+                        value:
+                          membershipMode === "correct"
+                            ? selectedMembership?.status
+                            : "active",
                       },
                       {
                         key: "payment",
@@ -731,43 +851,101 @@ export function ClubPortal({
                           "paid",
                           "waived",
                         ]),
-                        value: selectedMembership?.payment ?? "unpaid",
+                        value:
+                          membershipMode === "correct"
+                            ? selectedMembership?.payment
+                            : "unpaid",
                       },
                       {
                         key: "amount",
                         label: "Total amount received (€)",
                         type: "number",
                         step: "0.01",
-                        value: (selectedMembership?.amount ?? 0) / 100,
+                        value:
+                          membershipMode === "correct"
+                            ? (selectedMembership?.amount ?? 0) / 100
+                            : 0,
                       },
-                      dateField(
-                        "receivedOn",
-                        "Payment recorded date",
-                        selectedMembership?.receivedOn,
-                      ),
+                      {
+                        ...dateField(
+                          "receivedOn",
+                          "Payment received date (required when amount is above zero)",
+                          membershipMode === "correct"
+                            ? (selectedMembership?.receivedOn ?? "")
+                            : "",
+                        ),
+                        optional: true,
+                      },
                       {
                         key: "reference",
                         label:
                           "External payment reference / correction reason (no bank credentials)",
                         optional: true,
-                        value: selectedMembership?.reference,
+                        value:
+                          membershipMode === "correct"
+                            ? selectedMembership?.reference
+                            : "",
                       },
                       {
                         key: "acknowledge",
                         label: "Queue informal email acknowledgement",
                         type: "checkbox",
                       },
+                      {
+                        key: "reason",
+                        label: "Correction or renewal note",
+                        optional: true,
+                      },
                     ],
                     (d) => ({
                       ...d,
                       amount: Math.round(Number(d.amount) * 100),
-                      membership: selectedMembership?.id ?? "",
+                      membership:
+                        membershipMode === "correct"
+                          ? (selectedMembership?.id ?? "")
+                          : "",
+                      renewalOf:
+                        membershipMode === "renew"
+                          ? (selectedMembership?.id ?? "")
+                          : "",
                     }),
                   )}
+                {can("membership") && (
+                  <>
+                    <p>
+                      A new period requires manually agreed start/end dates.
+                      Renewal adds a separate period; correction changes the
+                      selected period. Zero received amount does not require a
+                      payment date.
+                    </p>
+                    {membershipEdit && (
+                      <button
+                        disabled={busy}
+                        onClick={() => {
+                          setMembershipEdit("");
+                          setMembershipMode("new");
+                        }}
+                      >
+                        Cancel membership editing / add new period
+                      </button>
+                    )}
+                  </>
+                )}
               </article>
               {can("membership") && (
                 <article>
                   <h3>Membership team</h3>
+                  <p>
+                    This creates a club player record, not a login. Adults
+                    register and verify their own account; management can link
+                    verified accounts to offline history below. Juniors use a
+                    guardian account.
+                  </p>
+                  {personEdit && (
+                    <button disabled={busy} onClick={() => setPersonEdit("")}>
+                      Cancel player editing / add new player
+                    </button>
+                  )}
                   {form(
                     "Add or edit a player",
                     "person",
@@ -797,10 +975,18 @@ export function ClubPortal({
                       },
                       {
                         key: "guardians",
-                        label: "Linked adult guardians",
-                        options: opt(state.people.filter((p) => !p.junior)),
+                        label: "Linked adult guardians (juniors only)",
+                        options: opt(
+                          state.people.filter(
+                            (p) =>
+                              !p.junior &&
+                              p.status !== "left" &&
+                              p.id !== selectedPerson?.id,
+                          ),
+                        ),
                         multiple: true,
                         value: selectedPerson?.guardians,
+                        when: "junior",
                       },
                     ],
                     (d) => ({ ...d, player: selectedPerson?.id ?? "" }),
@@ -810,6 +996,11 @@ export function ClubPortal({
               {can("membership") && (
                 <article>
                   <h3>Membership catalogue</h3>
+                  {planEdit && (
+                    <button disabled={busy} onClick={() => setPlanEdit("")}>
+                      Cancel type editing / add new type
+                    </button>
+                  )}
                   {!state.plans.length && (
                     <p>No types yet. Add your first type below.</p>
                   )}
@@ -822,7 +1013,7 @@ export function ClubPortal({
                           {p.active ? "available" : "retired"}
                         </small>
                       </div>
-                      <button onClick={() => setEditing(p.id)}>
+                      <button disabled={busy} onClick={() => setPlanEdit(p.id)}>
                         Edit type
                       </button>
                       <button
@@ -2178,12 +2369,24 @@ export function ClubPortal({
                   {
                     key: "source",
                     label: "Unclaimed offline profile",
-                    options: opt(state.people.filter((p) => !p.emailVerified)),
+                    options: opt(
+                      state.people.filter(
+                        (p) =>
+                          !p.emailVerified &&
+                          !p.accountLinked &&
+                          p.id !== state.owner &&
+                          !state.grants[p.id]?.length,
+                      ),
+                    ),
                   },
                   {
                     key: "target",
                     label: "Verified account",
-                    options: opt(state.people.filter((p) => p.emailVerified)),
+                    options: opt(
+                      state.people.filter(
+                        (p) => p.emailVerified || p.accountLinked,
+                      ),
+                    ),
                   },
                   {
                     key: "reason",

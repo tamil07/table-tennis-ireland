@@ -25,6 +25,8 @@ Additional handover verification: `scripts/setup.test.mjs`, `packages/ui/tests/c
 
 Shared domain tests: `operations.test.ts`, `session-booking.test.ts`, `routes.test.ts`; HTTP tests: `supabase/functions/*.integration.test.ts`; database guards: `supabase/tests/runtime.sql`; synthetic browser walkthrough: `scripts/browser-smoke.mjs`. Prepare generated function-local rules before Deno tests. Exact latest counts/results are in implementation-status.md.
 
+Membership/identity correction (16 November): `packages/domain/src/membership-integrity.test.ts` covers separate renewals, snapshot preservation, unpaid dates, retired types, repeat trials, guardian scope, account flags, missing edit targets and identifier collisions. `runtime.integration.test.ts` adds current Auth proof, lookup-failure refusal and profile-claim replay checks. `scripts/membership-browser-check.mjs`, called by both frontend browser workflows, covers adult/junior creation, independent editors and append-only renewal. Owner instructions and deployment boundaries are in [MEMBERSHIP_WORKFLOW.md](MEMBERSHIP_WORKFLOW.md).
+
 Public source-to-destination status is maintained in [the content manifest](PUBLIC_CONTENT_MANIFEST.md). Root [AGENTS.md](../AGENTS.md) is the entry point for a new coding agent.
 
 ## Change discipline

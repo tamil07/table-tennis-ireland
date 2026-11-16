@@ -1,5 +1,7 @@
 # Verification without cloud setup
 
+16 November membership correction: **100 unit tests** (92 domain, 8 adapter), **12 setup regressions** and the three HTTP suites pass. The expanded browser workflow checks adult/junior creation, separate editors and renewal history on both entry points. Current per-release results and hosted acceptance remain in [implementation status](../openspec/changes/launch-cork-club-platform/implementation-status.md); the older counts below describe their dated runs.
+
 Verified 9 November 2026: **80 unit tests, 8 setup regressions, 3 HTTP suites, PostgreSQL integration (6 steps), both builds and both desktop/mobile browser workflows passed.** All four [CI jobs](https://github.com/tamil07/table-tennis-ireland/actions/runs/42616047886) passed for `fb07828`. Hosted Supabase remains untouched.
 
 From a checkout with Git and Node 22 installed:
@@ -24,7 +26,7 @@ Existing environment files are preserved. Browser tests force fake synthetic set
 | Setup-helper tests | Fresh private files, rerun preservation, safe browser keys, all documented local origins, owner ID/SQL quoting, function packaging, deterministic migrations and private schedule token | Permission to modify real cloud accounts |
 | HTTP integration tests | Actual API/public/jobs handlers with local fake Auth/PostgREST/provider boundaries | Supabase gateway settings or real email delivery |
 | PostgreSQL integration in CI | Actual API/domain commands and migration RPCs against PostgreSQL 17; simultaneous place requests, retry, app-to-website approval, revocation, unrelated/wrong club access, raw-read/duplicate-place refusal | Real Supabase Auth/PostgREST: these boundaries use explicit local adapters |
-| Browser workflows | Built website **and** PWA; guardian booking/approval, attendance/reports, scores/reflection privacy/review, coaching summaries; 390px/320px reflow and browser errors | Physical iPhones/Android, native stores, production distributed load |
+| Browser workflows | Built website **and** PWA; adult/junior creation, independent editors, unpaid periods and renewal history; guardian booking/approval, attendance/reports, scores/reflection privacy/review, coaching summaries; 390px/320px reflow and browser errors | Physical iPhones/Android, native stores, production distributed load |
 
 Browser assertions await observable UI state instead of fixed delays. The preview launcher supports coloured CI/Windows output; failures include a scoped CI annotation and synthetic-only screenshot.
 

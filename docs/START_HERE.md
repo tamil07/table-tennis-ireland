@@ -2,6 +2,8 @@
 
 Current status and the remaining Cloudflare automatic-build issue are recorded in [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md); the existing public sites remain online.
 
+For player creation and membership corrections delivered on 16 November, follow [MEMBERSHIP_WORKFLOW.md](MEMBERSHIP_WORKFLOW.md). It explains accounts versus club records, adult/junior creation, separate renewal and the owner update commands. Source fixes need backend and frontend deployment; no new migration or repeat bootstrap is required by this correction.
+
 Use the existing repository, Supabase project and Cloudflare account. You need Git and Node 22, not another paid coding agent. The website and national app already show live-mode sign-in screens; do not restart their setup from zero.
 
 ## 1. Get the saved files

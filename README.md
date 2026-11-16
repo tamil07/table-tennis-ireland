@@ -6,6 +6,8 @@
 
 **Tests on a new laptop:** after `npm ci`, run `npm run verify:local`. It manages both browser previews and backend tests automatically; no cloud login or Docker is needed. See [test coverage and prerequisites](docs/TESTING.md).
 
+**Adding players or memberships?** See [the membership workflow](docs/MEMBERSHIP_WORKFLOW.md) for account/player differences, adult and junior creation, manual periods, corrections and separate renewals. The 16 November correction requires backend and frontend updates before it changes the live service.
+
 **Launching from your personal laptop?** Follow [the complete launch runbook](docs/PERSONAL_LAPTOP_LAUNCH.md). It includes fresh CLI authentication, private environment preparation, CLI/HTTPS migration options, owner bootstrap, function deployment, separate website/app deployment and owner smoke tests. No further coding agent is needed for those steps. [Implemented screens and flows](docs/IMPLEMENTED_FLOWS.md) explain how to use the supplied workspace.
 
 > Pilot decision: keep `apps/club-web` (Leeside), `apps/platform`, shared packages and Supabase in this repository for at least one year of live operation. Review separate website repositories after that period and three or more participating clubs. Generic website hosting and per-club app/backend copies remain outside the plan. Tournament result/reflection entry and private coaching aggregates now have implementation and local tests; hosted acceptance remains pending.

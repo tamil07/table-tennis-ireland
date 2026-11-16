@@ -20,6 +20,16 @@ Independent end-user accounts use Supabase Auth email/password, verification, re
 
 ## Operational flows
 
+### Membership and identity correction — 16 November 2026
+
+Account creation, offline player creation, catalogue creation and period assignment are distinct operations. Adult player creation has no guardian field; junior creation requires eligible adult guardians. Each editor has independent selection, explicit cancel/add-new mode and resets only after its own successful save. Adult self-applications require an adult/guardian declaration and configured policy/privacy consent.
+
+Renewal uses the existing membership command without a correction identifier, adding `renewalOf` and a new period. Correction requires a known period and retains its agreed snapshot if the type stays the same, including retired types. New assignments require active catalogue types. Active periods for a player cannot overlap. Zero receipts may omit received date; positive receipts require it. Trial correction may retain its null type snapshot; a `trialStartedAt` marker prevents cancelled/retained trials from becoming repeat self-service eligibility. Reactivation clears stale departure metadata; retention also requires actual departed status.
+
+Optional `Person.accountLinked`, `Person.trialStartedAt` and `Membership.renewalOf` fields are backward-compatible JSON-store additions, with no SQL migration. Existing phone-only accounts may predate the flag: profile claims therefore check both identities against current server-side Auth, refusing any authenticated source or failed source lookup and requiring a currently verified, non-banned target. Only membership managers may trigger these lookups. Claim retries return already-committed state before looking up the removed source. Guardian access requires a junior target and a current, non-departed adult guardian; stale adult guardian links never grant family access. Source release requires backend and both frontend updates, followed by hosted acceptance; do not rerun bootstrap.
+
+See [membership workflow](../../../docs/MEMBERSHIP_WORKFLOW.md) for owner instructions and known scope limits.
+
 - Membership types can be created, edited and retired at runtime. Assignments snapshot terms, dates remain manual, additional payments/corrections retain audit and acknowledgement is opt-in. Trials default to one calendar month with an inclusive end date, management extensions and end reminders.
 - Sessions/camps publish dated occurrences in Ireland local time. Specific table IDs support nonconflicting concurrent allocations. Hall closures cancel affected reservations with notices and block new allocations; reopening never silently restores cancelled bookings.
 - Booking uses four player places/table/full session and one active place/player/session. Holds, approval, expiry, cancellation, moves and release share the same rules. Booking is separate from attendance.

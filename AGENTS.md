@@ -13,7 +13,7 @@ This repository contains the Leeside club website and the national TT Clubs app.
 7. `docs/START_HERE.md` and `docs/DEPLOYMENT_STATUS.md` — old/new laptop resumption and non-secret observed/owner-confirmed setup outcomes.
 8. `docs/PERSONAL_LAPTOP_LAUNCH.md` — ordered user-executable deployment guide, including fresh CLI login and HTTP/SQL-Editor fallback. The owner specifically wants no further agent subscription or application coding on that laptop.
 
-Updated 12 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
+Updated 16 November 2026. Later explicit user decisions take precedence. Keep requirements, tasks, status and README consistent when behavior changes. Do not silently mark a production feature complete based on synthetic UI.
 
 ## Current blocker and ownership
 
@@ -81,7 +81,7 @@ When reporting completion, give commit/push status, checks run, actual deploymen
 
 ## Automated handover regression checks (9 November 2026)
 
-`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 72 domain tests, 8 live-adapter unit tests and 12 setup-helper tests. Run this command when changing helpers or the adapter.
+`npm run verify:local` is the owner-facing full local command; it runs `check`, `test:edge` and temporary browser workflows for both clients. It does not log in, migrate, deploy or modify private files. Browser builds use fake settings and separate temporary output, preserving deployable dist. `npm run check` now includes 92 domain tests, 8 live-adapter unit tests and 12 setup-helper tests. Run this command when changing helpers or the adapter.
 
 `test:browser:local` manages browser prerequisites/builds/ephemeral ports/server cleanup automatically. See docs/TESTING.md for first-use downloads and Linux OS libraries. Keep owner setup independent of Docker/Deno installation; the script can obtain the free Deno runtime. The database integration suite remains a CI/developer check: loopback-only `tti_test` database, actual SQL CAS/RLS guards, actual API/rules, explicit local Auth/PostgREST adapters. Never point tests or fixtures at hosted Supabase. CI also reruns the generated migration bundle/bootstrap and tests both built frontends.
 
@@ -95,4 +95,8 @@ Use `npm run setup:doctor` for a read-only, offline local inventory. Strict loca
 
 Production build:club/build:platform now require explicit live mode and the existing pilot project URL; deploy:club/deploy:platform rebuild through those guards before publishing. Root check/build and browser workflows retain synthetic testing. Cloudflare Git builds must set the public build variables independently of laptop files; a missing configuration should fail the build and preserve the live release. Do not weaken this guard to turn a deployment check green. Direct custom CLI commands bypassing repository deployment scripts are outside this guarantee.
 
-Current check includes 80 unit tests and 12 setup/helper regressions, plus the existing HTTP/browser/SQL integration layers. Keep START_HERE, DEPLOYMENT_STATUS, the launch guide and OpenSpec aligned. Preserve owner PDFs and private/generated files; commit only source and non-secret setup outcomes.
+Current check includes 100 unit tests and 12 setup/helper regressions, plus the existing HTTP/browser/SQL integration layers. Keep START_HERE, DEPLOYMENT_STATUS, the launch guide and OpenSpec aligned. Preserve owner PDFs and private/generated files; commit only source and non-secret setup outcomes.
+
+## Player and membership integrity — 16 November 2026
+
+Read docs/MEMBERSHIP_WORKFLOW.md for the corrected account/player/type/period flow. Adult creation must not require guardians; juniors require eligible adult guardians. Independent add/edit forms reset only after their own successful save. Renewal appends a new period and preserves prior history; correction preserves unchanged-type snapshots and supports retired types/trials. Zero receipts need no invented payment date. Active periods cannot overlap; a cancelled trial does not restore self-service eligibility. Current Auth lookup protects profile claims, including legacy phone-only sources, with fail-closed lookup errors. These optional JSON-store fields require no new SQL migration or owner bootstrap. Owner backend/frontend updates and authenticated acceptance remain open; source tests do not update hosted services. Tests: membership-integrity.test.ts, runtime.integration.test.ts and scripts/membership-browser-check.mjs in both frontend browser workflows. Keep user PDFs and generated function-local copies out of commits.

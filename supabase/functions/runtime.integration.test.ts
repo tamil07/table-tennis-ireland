@@ -6,10 +6,38 @@ Deno.test(
   "HTTP authentication, authorization, stale writes and idempotency through the real club handler",
   async () => {
     let state = demoClub();
+    const offlineId = "80000000-0000-4000-8000-000000000001",
+      targetId = "80000000-0000-4000-8000-000000000002";
+    let sourceAuthStatus = 404,
+      targetAuthVerified = true,
+      authChecks = 0;
     const fake = Deno.serve(
       { hostname: "127.0.0.1", port: 0, onListen() {} },
       async (request) => {
         const url = new URL(request.url);
+        if (url.pathname.startsWith("/auth/v1/admin/users/")) {
+          authChecks++;
+          const id = url.pathname.split("/").at(-1);
+          if (id === offlineId) {
+            if (sourceAuthStatus !== 200)
+              return Response.json(
+                { msg: "User lookup failed", code: "user_not_found" },
+                { status: sourceAuthStatus },
+              );
+            return Response.json({
+              id,
+              email: "",
+              phone_confirmed_at: new Date().toISOString(),
+            });
+          }
+          return Response.json({
+            id,
+            email: `${id}@example.invalid`,
+            email_confirmed_at: targetAuthVerified
+              ? new Date().toISOString()
+              : null,
+          });
+        }
         if (url.pathname === "/auth/v1/user") {
           const actor =
             request.headers.get("authorization")?.replace("Bearer ", "") ?? "";
@@ -24,7 +52,7 @@ Deno.test(
         if (url.pathname === "/rest/v1/club_runtime_members")
           return Response.json([{ club_id: state.club }]);
         if (url.pathname === "/rest/v1/club_runtime")
-      return Response.json(
+          return Response.json(
             url.searchParams.get("select") === "revision"
               ? { revision: state.version }
               : url.searchParams.get("club_id")?.startsWith("in.")
@@ -127,6 +155,72 @@ Deno.test(
       assert(
         (await list.json()).clubs.length === 1,
         "My clubs not resolved from identity",
+      );
+      state.people.push({
+        ...state.people[0],
+        id: offlineId,
+        name: "Offline test profile",
+        email: "",
+        emailVerified: false,
+        accountLinked: false,
+      });
+      state.memberships.push({
+        ...state.memberships[0],
+        id: "offline-period",
+        player: offlineId,
+      });
+      state.people.push({
+        ...state.people[0],
+        id: targetId,
+        email: "target@example.invalid",
+      });
+      const claim = (id: string) => ({
+        id,
+        type: "claim_profile",
+        expectedVersion: state.version,
+        data: {
+          source: offlineId,
+          target: targetId,
+          reason: "Local verified identity check",
+        },
+      });
+      const noPermission = await call("demo-player", claim("claim-denied"));
+      assert(
+        noPermission.status === 400 && authChecks === 0,
+        "Unprivileged caller queried authentication identities.",
+      );
+      sourceAuthStatus = 200;
+      const sourceOwned = await call("demo-admin", claim("claim-phone-source"));
+      assert(
+        sourceOwned.status === 400 &&
+          sourceOwned.body.error.includes("independently authenticated"),
+        "Legacy phone-only Auth account was treated as an offline profile.",
+      );
+      sourceAuthStatus = 403;
+      assert(
+        (await call("demo-admin", claim("claim-unavailable"))).status === 400,
+        "Auth lookup failure was treated as proof of an unclaimed source.",
+      );
+      sourceAuthStatus = 404;
+      targetAuthVerified = false;
+      assert(
+        (await call("demo-admin", claim("claim-unverified"))).status === 400,
+        "Stale verified snapshot bypassed current Auth verification.",
+      );
+      targetAuthVerified = true;
+      const linked = await call("demo-admin", claim("claim-valid"));
+      assert(
+        linked.status === 200 && !state.people.some((p) => p.id === offlineId),
+        "Verified offline claim failed.",
+      );
+      assert(
+        state.memberships.find((m) => m.id === "offline-period")?.player ===
+          targetId,
+        "Linking lost membership ownership/history.",
+      );
+      assert(
+        (await call("demo-admin", claim("claim-valid"))).status === 200,
+        "Retry of a completed profile claim was not idempotent.",
       );
     } finally {
       await server.shutdown();

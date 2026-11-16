@@ -1,5 +1,16 @@
 ## ADDED Requirements
 
+### Requirement: Guardian and offline-account integrity
+Family access SHALL apply only to a junior and a currently eligible adult guardian. Adults SHALL NOT acquire guardians through an ordinary player edit. Ordinary edits SHALL NOT convert an independently linked adult, club owner or existing responsible guardian into a junior. Adult applications SHALL include an adult/guardian declaration. Account linking SHALL distinguish a club record from verified authentication, refuse independently authenticated source profiles and verify the target through Auth on the server before transferring history.
+
+#### Scenario: Adult profile has a stale guardian field
+- **WHEN** an adult or departed guardian appears in a historical guardian association
+- **THEN** that association does not authorize access to another person's private records
+
+#### Scenario: Staff links offline history
+- **WHEN** a permitted manager supplies a verified target and a matching unclaimed offline source with a reason
+- **THEN** the server checks current Auth ownership, preserves financial/history invariants and refuses merging an already authenticated source
+
 ### Requirement: Shared member account
 The system SHALL provide one account per person across the national app's web/mobile channels. Independent club websites SHALL link into app authentication rather than require copied platform accounts or receive app credentials.
 

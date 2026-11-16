@@ -1,5 +1,35 @@
 ## ADDED Requirements
 
+### Requirement: Separate player, account, membership type and period workflows
+The interface SHALL explain that a staff-added club player is not an authentication account. It SHALL support creating an adult without guardian fields, require an eligible guardian for a junior, and distinguish adding a new record from editing an existing record. Successful saves SHALL reset only the submitted editor; failed saves SHALL preserve its input.
+
+#### Scenario: Staff creates an adult
+- **WHEN** a membership manager enters an adult name without selecting a guardian
+- **THEN** the valid player record can be saved, without inventing login credentials, and the editor returns to add-new mode
+
+#### Scenario: Staff edits then adds another record
+- **WHEN** a manager finishes or cancels editing a player or membership type
+- **THEN** the next add-new action creates a distinct record rather than overwriting the previously selected one
+
+### Requirement: Period integrity and distinct renewal
+Renewal SHALL create a new membership period linked to the preceding period, retaining its dates, financial metadata and agreed type snapshot. Correction SHALL target an existing period and preserve its type snapshot when the type has not changed. Retiring a catalogue type SHALL prevent new assignments while permitting correction/cancellation of its existing periods. Active non-trial periods for the same player SHALL NOT overlap regardless of payment status; trials may coexist during conversion to a regular membership. Dates remain manually editable within these constraints.
+
+#### Scenario: Renew after a catalogue change
+- **WHEN** a manager renews a membership after the type price or duration changes
+- **THEN** the new period uses the current terms and the preceding period remains unchanged
+
+#### Scenario: Correct an old period
+- **WHEN** a manager corrects an existing period whose type has changed or been retired
+- **THEN** its agreed snapshot is preserved unless explicitly correcting its type, and a missing period identifier is refused rather than creating a substitute
+
+#### Scenario: Record an unpaid period
+- **WHEN** no money has been received
+- **THEN** a payment-received date is optional; recording a positive amount requires a valid received date
+
+#### Scenario: Repeated self-service trial
+- **WHEN** a person already has a paid period, a previous trial or a departed relationship
+- **THEN** they cannot grant themselves a fresh trial and management must resolve eligibility or extend the existing trial
+
 ### Requirement: Membership application
 The system SHALL capture a membership application with the applicant details, membership type, required consent, and responsible guardian details when the applicant is a junior.
 
