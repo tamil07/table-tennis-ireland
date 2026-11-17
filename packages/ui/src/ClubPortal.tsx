@@ -756,7 +756,7 @@ export function ClubPortal({
             </div>
           )}
           {tab === "people" && (
-            <div className="ops-grid">
+            <div className="ops-grid grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
               <article>
                 <h3>Club people</h3>
                 <label className="ops-search">
