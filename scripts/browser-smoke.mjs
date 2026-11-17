@@ -46,7 +46,18 @@ try {
     await portal.getByLabel("Preview role").selectOption(id);
     await expect(portal.getByLabel("Preview role")).toHaveValue(id);
   };
+  phase = "overview";
+  await expect(
+    portal.getByRole("heading", { name: "Today at a glance", exact: true }),
+  ).toBeVisible();
+  await expect(portal).toContainText(/Sessions in the next 7 days/);
   await tab("People & memberships");
+  phase = "people search";
+  const search = portal.getByLabel("Search people", { exact: true });
+  await search.fill("zzz-no-such-person");
+  await expect(portal).toContainText(/No people match that search/);
+  await search.fill("");
+  await expect(portal).not.toContainText(/No people match that search/);
   let f = form("Create or edit membership type");
   await f.getByLabel("Name", { exact: true }).fill("Synthetic QA type");
   await f.getByLabel("Duration in calendar months").fill("3");
@@ -120,8 +131,21 @@ try {
       ),
       false,
     );
-    if (width === 390)
+    if (width === 390) {
       await page.screenshot({ path: `test-results/${label}-mobile.png` });
+      if (await page.locator(".club-header").count()) {
+        phase = "website mobile menu";
+        const menu = page.getByRole("button", { name: "Open menu" });
+        const link = page
+          .getByRole("navigation", { name: "Main navigation" })
+          .getByRole("link", { name: "Sessions", exact: true });
+        await expect(link).toBeHidden();
+        await menu.click();
+        await expect(link).toBeVisible();
+        await page.keyboard.press("Escape");
+        await expect(link).toBeHidden();
+      }
+    }
   }
   assert.deepEqual(errors, []);
   console.log(

@@ -240,3 +240,17 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 - [ ] 15.8 Owner updates backend and app releases and performs authenticated creation/renewal/link/revocation and cross-device acceptance; website automatic build and new UI publication verified, no new migration/bootstrap for this correction
 - [ ] 15.9 Confirm the owner's exact failing screen/error if different from the reproduced adult-creation issue; do not treat source review as proof of the original live failure
 - [ ] 15.10 Clarify and implement genuine per-visit/pay-as-you-go entitlement if required; the current duration-based catalogue is not proof of per-visit charging support
+
+## 16. Modern website presentation and management workspace usability — 17 November 2026
+
+Presentation-only work: no change to the command service, permissions, booking rules or stored data, and no new SQL migration. Source-backed content gaps remain tracked in 4.7–4.10 and 14.19.
+
+- [x] 16.1 Redesign the public website (`apps/club-web`) with current patterns: bento-style sections, large type, light/dark schemes, restrained scroll reveal that respects reduced motion, skip link, and a keyboard-operable mobile navigation menu (the old navigation was hidden below 760px)
+- [x] 16.2 Add a next-session indicator computed from the owner-confirmed timetable in Europe/Dublin, with a plain-timetable fallback and the public-holiday caveat
+- [x] 16.3 Add accurate search/social metadata and JSON-LD using only confirmed facts; no invented testimonials, ratings, counts, news or photographs
+- [x] 16.4 Clarify sign-in/join/enquiry entry points for synthetic, live and email-enquiry states; preserve existing `#club-portal`, `#join` and published-content anchors used by browser tests
+- [x] 16.5 Management workspace: read-only permission-aware Overview landing tab, desktop sidebar / mobile scrolling navigation, design-token visual refresh, people search/filter and empty states; existing tab names and form labels are preserved
+- [x] 16.6 Add unit tests for next-session and overview calculations and extend both browser workflows (overview, mobile menu, search, 320px no horizontal scroll); keep `npm run check` and browser checks green
+- [ ] 16.7 DEFERRED: split `ClubPortal.tsx` (about 3,200 lines) into per-area components in a behaviour-neutral refactor with the existing browser/HTTP suites as the safety net
+- [ ] 16.8 Owner: deploy through the normal commands, review the live website/app on real phones and desktop, and supply real photographs, logo and imported news so placeholders can be replaced (depends on 4.7)
+- [ ] 16.9 Open accessibility follow-ups: add a visible pause control for the decorative ticker (WCAG 2.2.2) and run a formal contrast/screen-reader audit of the website and Overview tab before describing the redesign as accessibility-reviewed

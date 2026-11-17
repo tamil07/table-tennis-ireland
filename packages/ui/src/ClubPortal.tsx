@@ -8,6 +8,7 @@ import {
   may,
   membershipAt,
   addCalendarMonths,
+  clubOverview,
   matchStatistics,
   occupiesPlace,
   permissions,
@@ -198,6 +199,7 @@ export function ClubPortal({
   const [state, setState] = useState<ClubState | null>(null),
     [tab, setTab] = useState(
       [
+        "overview",
         "booking",
         "people",
         "attendance",
@@ -209,7 +211,7 @@ export function ClubPortal({
         "management",
       ].includes(scan.get("view") ?? "")
         ? scan.get("view")!
-        : "booking",
+        : "overview",
     ),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false);
@@ -221,6 +223,7 @@ export function ClubPortal({
       "new",
     ),
     [formResets, setFormResets] = useState<Record<string, number>>({}),
+    [peopleQuery, setPeopleQuery] = useState(""),
     [qrImage, setQrImage] = useState(""),
     [qrUntil, setQrUntil] = useState(0);
   const [sessionId, setSessionId] = useState(scannedSession),
@@ -240,6 +243,7 @@ export function ClubPortal({
       if (
         view &&
         [
+          "overview",
           "booking",
           "people",
           "attendance",
@@ -458,6 +462,7 @@ export function ClubPortal({
   const eventOptions: [string, string][] =
     state?.events.map((e) => [e.id, e.name]) ?? [];
   const nav = [
+    ["overview", "Overview"],
     ["booking", "Table booking"],
     ["people", "People & memberships"],
     ["attendance", "Attendance"],
@@ -468,6 +473,7 @@ export function ClubPortal({
     ["communications", "Messages"],
     ["management", "Management"],
   ];
+  const overview = state && actor ? clubOverview(state, actor, now) : null;
   const report = state ? attendanceReport(state, dateFrom, dateTo) : null;
   const summary = state
     ? coachingSummary(state, eventFilter, dateFrom, dateTo, coachingPlayers)
@@ -612,6 +618,7 @@ export function ClubPortal({
                 "Policy not configured. Contact the club before applying."}
             </p>
           </details>
+          <div className="ops-shell">
           <nav aria-label="Club workspace">
             {nav.map(([id, label]) => (
               <button
@@ -629,6 +636,7 @@ export function ClubPortal({
               </button>
             ))}
           </nav>
+          <div className="ops-main">
           {["matches", "tournaments"].includes(tab) &&
             state.events.length > 0 && (
               <label>
@@ -673,11 +681,72 @@ export function ClubPortal({
                 type: "checkbox",
               },
             ])}
+          {tab === "overview" && overview && (
+            <div className="ops-overview">
+              <h3>Today at a glance</h3>
+              <div className="ops-stats">
+                {overview.items.map((item) => (
+                  <button
+                    key={item.key}
+                    className="ops-stat"
+                    onClick={() => setTab(item.tab)}
+                  >
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
+                    <small>{item.detail}</small>
+                  </button>
+                ))}
+              </div>
+              {overview.setup.length > 0 && (
+                <article className="ops-setup">
+                  <h3>Next setup steps</h3>
+                  <ul>
+                    {overview.setup.map((step) => (
+                      <li key={step.key}>
+                        {step.text}{" "}
+                        <button onClick={() => setTab(step.tab)}>Go there</button>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              )}
+              <p className="ops-hint">
+                Counts reflect only the records your account may see. Choose an
+                area above to make changes.
+              </p>
+            </div>
+          )}
           {tab === "people" && (
             <div className="ops-grid">
               <article>
                 <h3>Club people</h3>
-                {state.people.map((p) => (
+                <label className="ops-search">
+                  Search people
+                  <input
+                    type="search"
+                    value={peopleQuery}
+                    onChange={(e) => setPeopleQuery(e.target.value)}
+                    placeholder="Name or email"
+                  />
+                </label>
+                {!state.people.length && (
+                  <p className="ops-empty">
+                    No people yet. Add a player under Membership team.
+                  </p>
+                )}
+                {state.people.length > 0 &&
+                  !state.people.some((p) =>
+                    `${p.name} ${p.email}`
+                      .toLowerCase()
+                      .includes(peopleQuery.trim().toLowerCase()),
+                  ) && <p className="ops-empty">No people match that search.</p>}
+                {state.people
+                  .filter((p) =>
+                    `${p.name} ${p.email}`
+                      .toLowerCase()
+                      .includes(peopleQuery.trim().toLowerCase()),
+                  )
+                  .map((p) => (
                   <div className="ops-row" key={p.id}>
                     <div>
                       <strong>{p.name}</strong>
@@ -3192,6 +3261,8 @@ export function ClubPortal({
               )}
             </>
           )}
+          </div>
+          </div>
         </>
       )}
     </section>

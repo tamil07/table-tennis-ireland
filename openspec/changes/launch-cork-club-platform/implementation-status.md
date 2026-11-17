@@ -2,6 +2,29 @@
 
 Updated 16 November 2026. Requirements describe the target product; this file and `tasks.md` describe what exists. A schema or synthetic screen does not complete a production feature.
 
+## Website presentation and management usability — 17 November 2026
+
+Requested by the owner: a more current public website and easier club management. Requirements: `specs/club-content` (modern, honest public presentation) and `specs/club-administration` (usable management workspace). Tasks: section 16. Full technical description, source map, anchors, tokens and extension notes: the "Presentation layer" section of `design.md`.
+
+**Implemented in source (not deployed by this agent)**
+- Public website (`apps/club-web`): sticky header with keyboard-operable mobile menu (previously hidden below 760px), skip link, hero with a live next-session card, ticker, bento tiles, timetable with a Today marker, source-attributed price cards, FAQ, light/dark colour schemes, reduced-motion handling, Open Graph metadata and JSON-LD built only from confirmed facts. No testimonials, photographs, counts or news were invented; missing Wix material remains honest source links.
+- Management workspace (`packages/ui`): permission-aware Overview landing tab (default; deep link `#club=<id>&view=overview`), desktop sidebar / mobile scrolling navigation, design-token restyle (`--ops-*`), people search, empty states and setup hints. All existing tab names and form labels are unchanged. The workspace is shared, so the national app gets the same improvement.
+- New pure helpers `nextWeeklySession` and `clubOverview` in `packages/domain/src/presentation.ts` with 9 unit tests (Dublin summer/winter time, in-progress session, Sunday-to-Monday wrap, unparseable times, permission gating, empty-club setup hints).
+- No change to command rules, permissions, booking behaviour, stored data, Edge Functions or SQL. **No migration and no `deploy:backend` are needed for this work.**
+
+**Verified locally on Node 22 (17 November 2026)**: all type checks; **109 unit tests** (101 domain including the 9 new, plus 8 adapter); **12 setup/helper tests**; both frontend builds; backend HTTP suites; and the full `npm run verify:local` browser workflows on **both** website and PWA, extended with Overview, people search and the website mobile menu at 390px, plus the existing 390/320px no-horizontal-scroll check. `openspec validate launch-cork-club-platform` passed. Screenshots of light, dark and mobile website views and the Overview tab were inspected by the agent during development. These checks did not authenticate to or change hosted accounts.
+
+**Environment note**: use Node 22 (`.nvmrc`). Under Node 20.19 the setup tests fail with `ERR_UNKNOWN_FILE_EXTENSION` for `.ts`, which looks like a regression but is only the wrong runtime. The OpenSpec CLI ran fine through `npx --yes openspec validate` using the default Node.
+
+**Owner steps on the personal laptop (task 16.8)**
+1. Follow `docs/START_HERE.md` (Node 22, pull, `npm ci`); do not repeat bootstrap or migrations.
+2. `npm run verify:local`, then `npm run deploy:club` (website) and `npm run deploy:platform` (app, for the shared workspace changes). Backend is unchanged by this work; deploy it only for the separate 16 November membership correction (task 15.8).
+3. Cloudflare Git builds need the four `VITE_*` public variables set separately (task 14.4); a push alone is not deployment evidence, so check the served asset hash.
+4. Review on a real phone and desktop, in light and dark mode: mobile menu, next-session card, timetable Today marker, price cards, FAQ, and the Overview tab after signing in as the owner (an empty new club should show the setup hints).
+5. Record the outcome in `docs/DEPLOYMENT_STATUS.md`.
+
+**Still open**: real photography, logo and imported news depend on source material (task 4.7); ticker pause control and a formal accessibility/contrast audit (16.9); the behaviour-neutral split of the roughly 3,200-line `ClubPortal.tsx` is deliberately deferred (16.7).
+
 ## Player and membership correction — 16 November 2026
 
 The owner encountered a creation problem; exact screen/error confirmation remains open. Independent reproduction found the required guardian selector blocked adult player saves, the combined correction/renewal action replaced the existing period, and correction re-snapshotted edited catalogue terms. Source now shows guardians only for juniors, isolates each editor with explicit new/cancel/reset behavior, appends renewals using the existing membership command and preserves unchanged-type snapshots including retired types. Unpaid zero receipts no longer require a fictional received date. Active-period overlap, missing edit targets, repeat trials and duplicate identifiers are refused. Reactivation clears departure metadata; private-note retention also requires actual departed status.

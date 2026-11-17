@@ -2,11 +2,17 @@
   max-width: 1160px;
   margin: auto;
   padding: 64px 20px;
-  color: #19334c;
+  color: var(--ops-ink);
   font:
     15px/1.6 system-ui,
     sans-serif;
   scroll-margin-top: 24px;
+  --ops-primary: var(--primary, #194f8b);
+  --ops-ink: #19334c;
+  --ops-soft: #edf3f8;
+  --ops-muted: #4d6577;
+  --ops-line: #d0dce5;
+  --ops-accent: var(--accent, #bdf66a);
 }
 .club-ops * {
   box-sizing: border-box;
@@ -20,7 +26,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #526b80;
+  color: var(--ops-muted);
 }
 .club-ops nav,
 .ops-actions,
@@ -36,19 +42,19 @@
 .club-ops textarea {
   font: inherit;
   max-width: 100%;
-  border: 1px solid #bac9d5;
+  border: 1px solid var(--ops-line);
   border-radius: 7px;
   padding: 9px 12px;
 }
 .club-ops button {
   cursor: pointer;
-  background: #edf3f8;
-  color: #19334c;
+  background: var(--ops-soft);
+  color: var(--ops-ink);
   font-weight: 650;
 }
 .club-ops button[aria-pressed="true"],
 .ops-form > button {
-  background: #194f8b;
+  background: var(--ops-primary);
   color: white;
 }
 .club-ops button:disabled {
@@ -69,7 +75,7 @@
 .club-ops select,
 .club-ops textarea {
   background: white;
-  color: #19334c;
+  color: var(--ops-ink);
   width: 100%;
 }
 .club-ops input[type="checkbox"] {
@@ -106,7 +112,7 @@
 .ops-grid > article,
 .ops-tables > article {
   background: white;
-  border: 1px solid #d0dce5;
+  border: 1px solid var(--ops-line);
   border-radius: 10px;
   padding: 22px;
   min-width: 0;
@@ -115,7 +121,7 @@
   display: grid;
   gap: 12px;
   padding: 18px 0;
-  border-top: 1px solid #d9e2ea;
+  border-top: 1px solid var(--ops-line);
   margin-top: 16px;
 }
 .ops-form h4 {
@@ -130,14 +136,14 @@
   gap: 9px;
   flex-wrap: wrap;
   padding: 14px 0;
-  border-bottom: 1px solid #d9e2ea;
+  border-bottom: 1px solid var(--ops-line);
 }
 .ops-row > div {
   flex: 1 1 170px;
 }
 .ops-row small {
   display: block;
-  color: #526b80;
+  color: var(--ops-muted);
   overflow-wrap: anywhere;
 }
 .ops-row button {
@@ -161,7 +167,7 @@
   margin: 14px 0;
 }
 .ops-place {
-  background: #1c5ba6;
+  background: var(--ops-primary);
   color: white;
   font-size: 11px;
   padding: 14px 9px;
@@ -188,12 +194,12 @@
 .club-ops th,
 .club-ops td {
   text-align: left;
-  border-bottom: 1px solid #d9e2ea;
+  border-bottom: 1px solid var(--ops-line);
   padding: 8px 5px;
   overflow-wrap: anywhere;
 }
 .ops-event {
-  border-bottom: 1px solid #d9e2ea;
+  border-bottom: 1px solid var(--ops-line);
   padding: 16px 0;
 }
 .ops-bar {
@@ -213,7 +219,7 @@
 }
 .ops-auth {
   padding: 20px;
-  background: #edf3f8;
+  background: var(--ops-soft);
 }
 .ops-auth form {
   display: grid;
@@ -260,4 +266,44 @@
   .ops-filters label {
     flex: 1 1 120px;
   }
+}
+
+/* Workspace shell: sidebar on desktop, scrolling bar on small screens */
+.club-ops header h2 { font-size: clamp(30px, 4.4vw, 46px); }
+.ops-shell { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start; margin-top: 12px; }
+.club-ops .ops-shell > nav { position: sticky; top: 12px; display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 10px; background: white; border: 1px solid var(--ops-line); border-radius: 14px; }
+.club-ops .ops-shell > nav button { text-align: left; border: 0; background: transparent; border-radius: 9px; padding: 10px 12px; }
+.club-ops .ops-shell > nav button:hover { background: var(--ops-soft); }
+.club-ops .ops-shell > nav button[aria-pressed="true"] { background: var(--ops-primary); color: white; }
+.ops-main { min-width: 0; }
+.ops-grid > article, .ops-tables > article { border-radius: 14px; box-shadow: 0 6px 20px rgba(20, 45, 37, 0.05); }
+.ops-notice { border-radius: 10px; }
+.ops-auth { border-radius: 14px; }
+
+/* Overview */
+.ops-overview h3 { margin: 0 0 14px; }
+.ops-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.club-ops .ops-stat { display: grid; gap: 4px; text-align: left; align-content: start; padding: 18px; border-radius: 14px; background: white; border: 1px solid var(--ops-line); box-shadow: 0 6px 20px rgba(20, 45, 37, 0.05); transition: transform 0.2s, border-color 0.2s; }
+.club-ops .ops-stat:hover { transform: translateY(-2px); border-color: var(--ops-primary); }
+.ops-stat strong { font-size: 40px; line-height: 1; letter-spacing: -0.04em; color: var(--ops-primary); }
+.ops-stat span { font-weight: 700; }
+.ops-stat small { color: var(--ops-muted); }
+.ops-setup { margin-top: 18px; padding: 18px 22px; border-radius: 14px; background: #fff8e8; border: 1px solid #f0d9a8; }
+.ops-setup h3 { margin: 0 0 8px; font-size: 18px; }
+.ops-setup ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.ops-hint { color: var(--ops-muted); font-size: 13px; }
+.ops-search { max-width: 360px; margin: 10px 0; }
+.ops-empty { padding: 14px; border-radius: 10px; background: var(--ops-soft); color: var(--ops-muted); }
+.ops-pending, .ops-confirmed { border-radius: 4px; }
+
+/* The website keeps its dark scheme outside; the workspace is always light */
+.surface .club-ops { --ops-primary: #103a2e; --accent: #d7ff55; }
+
+@media (max-width: 900px) {
+  .ops-shell { grid-template-columns: 1fr; gap: 12px; }
+  .club-ops .ops-shell > nav { position: static; flex-direction: row; overflow-x: auto; scroll-snap-type: x proximity; padding: 8px; margin-top: 0; }
+  .club-ops .ops-shell > nav button { flex: 0 0 auto; white-space: nowrap; scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .club-ops .ops-stat { transition: none; }
 }

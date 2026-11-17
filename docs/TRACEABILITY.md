@@ -7,7 +7,7 @@ The active architecture is the private `club_runtime` aggregate and command serv
 | OpenSpec capability | Primary current source | Supplied workflows / remaining gate |
 | --- | --- | --- |
 | `identity-and-access` | `packages/ui/src/ClubAuth.tsx`, `club-client.ts`, `packages/domain/src/operations.ts`, `routes.ts`, `club-api` | Verified auth, current grants/guardians, profile claim, My Clubs; provider/live acceptance pending |
-| `club-content` | `ClubPublished.tsx`, `ClubPortal.tsx`, `club-public` | Plain-text CMS, JSON/RSS/ICS; Wix archive/media import partial |
+| `club-content` | `ClubPublished.tsx`, `ClubPortal.tsx`, `club-public`, `apps/club-web/src/App.tsx`, `styles.css`, `index.html`, `packages/domain/src/presentation.ts` | Plain-text CMS, JSON/RSS/ICS; modern responsive/dark-mode website with next-session card (17 Nov); Wix archive/media import partial |
 | `membership-management` | `operations.ts`, `ClubPortal.tsx` | Editable catalogue/manual periods/payments/trials; hosted mail/permission acceptance pending |
 | `booking-management` | `session-booking.ts`, `operations.ts`, `ClubPortal.tsx`, `202611080001_club_runtime.sql` | Full-session four-place inventory, approval/reschedule, hall/table settings, SQL CAS/uniqueness; hosted concurrency acceptance pending |
 | `member-communications` | `operations.ts`, `club-jobs`, `_shared/runtime.ts` | Recipient checks, leases/retry/idempotency, global budget; sender/cron/SMTP/live delivery pending |
@@ -16,7 +16,7 @@ The active architecture is the private `club_runtime` aggregate and command serv
 | `tournament-management` | `operations.ts`, `ClubPortal.tsx` | Leagues/knockouts/byes/delegation/fixtures/external events; advanced structural edits remain |
 | `player-development` | `operations.ts`, `ClubPortal.tsx` | Private coach notes, summaries/goals with two-party sign-off; policy/retention acceptance pending |
 | `tournament-reflections` | `operations.ts`, `ClubPortal.tsx` | Private player/guardian tags/notes/revisions, filtered coach counts/contributing observations |
-| `club-administration` | `operations.ts`, `ClubPortal.tsx`, `club-api` | Scoped grants, policy editor, shared work, audit, privacy requests/export/retention subset |
+| `club-administration` | `operations.ts`, `ClubPortal.tsx`, `operations.css`, `presentation.ts`, `club-api` | Scoped grants, policy editor, shared work, audit, privacy requests/export/retention subset; Overview tab, sidebar navigation and people search (17 Nov) |
 | `deployment-and-handover` | `scripts/`, `wrangler.platform.jsonc`, `docs/PERSONAL_LAPTOP_LAUNCH.md`, `AGENTS.md` | Login/environment, migration/HTTP fallback, bootstrap/functions/schedule helpers; owner executes account-required steps |
 
 Current resumption files: `docs/START_HERE.md`, `docs/DEPLOYMENT_STATUS.md`, `scripts/setup-doctor.mjs`; production guard/rebuild commands prevent publishing synthetic assets through the documented deployment scripts. Frontend-only preparation preserves existing server secrets.
@@ -38,3 +38,5 @@ All capability files reviewed for delivery reconciliation on 7 November 2026. Se
 3. Link tests to the relevant capability in test names or comments.
 4. Never mark an OpenSpec task complete based only on a visual mock-up.
 5. Run `openspec validate launch-cork-club-platform` and `npm run check` before merging.
+
+Presentation work (17 November): `packages/domain/src/presentation.test.ts` covers `nextWeeklySession` and `clubOverview`; `scripts/browser-smoke.mjs` (both frontends) covers the Overview tab, people search and the website mobile menu. Technical description: the "Presentation layer" section of `design.md` in the active OpenSpec change.

@@ -5,3 +5,4 @@ export * from "./session-booking";
 export * from './operations';
 export * from './operations-demo';
 export * from './routes';
+export * from './presentation';

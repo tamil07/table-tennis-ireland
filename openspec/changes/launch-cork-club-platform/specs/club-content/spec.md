@@ -66,3 +66,26 @@ Club profiles and navigation SHALL retain the national app identity and support 
 #### Scenario: Keyboard navigation
 - **WHEN** a player navigates club profiles and website links by keyboard
 - **THEN** each action is reachable, visibly focused and labelled with its destination
+
+### Requirement: Modern, honest public club website presentation
+The Leeside public website SHALL present the club through a current, responsive, accessible design: mobile-first layout, readable scalable typography, light and dark colour schemes following the visitor's system preference, restrained motion that is disabled under reduced-motion preferences, and a navigation that remains available on narrow screens. Visible content SHALL come only from owner-confirmed or source-attributed material (timetable, address, contact, published prices, coaches, source links); the website SHALL NOT display invented testimonials, ratings, statistics, news, photographs or membership claims. Search/social metadata and structured data SHALL contain only the same confirmed facts. Sign-in/join entry points SHALL describe truthfully what happens (synthetic preview, live sign-in, or email enquiry) and SHALL NOT imply a booking, registration or payment that was not submitted.
+
+#### Scenario: Visitor on a phone
+- **WHEN** a visitor opens the website at a 320 to 430 pixel width
+- **THEN** the navigation is reachable through a keyboard-operable menu, no horizontal scrolling occurs, the primary join/enquiry action stays reachable, and text remains legible when scaled
+
+#### Scenario: Visitor prefers dark mode or reduced motion
+- **WHEN** the visitor's system requests a dark colour scheme or reduced motion
+- **THEN** the website uses accessible dark colours with sufficient contrast and omits scroll/entrance animation without losing content
+
+#### Scenario: Next confirmed session
+- **WHEN** the visitor views the website
+- **THEN** it shows the next session computed from the owner-confirmed weekly timetable in Europe/Dublin local time, states that public-holiday exceptions must be confirmed with the club, and shows a plain timetable if the calculation is unavailable
+
+#### Scenario: Source material is missing
+- **WHEN** news, photographs, policies or calendar items have not been imported from the existing Wix website
+- **THEN** the page links honestly to the existing source or the club contact instead of inventing placeholder articles or imagery
+
+#### Scenario: Search and social sharing
+- **WHEN** the website is shared or indexed
+- **THEN** its title, description and structured data describe the club, address, contact and published sessions accurately and contain no unconfirmed claims
