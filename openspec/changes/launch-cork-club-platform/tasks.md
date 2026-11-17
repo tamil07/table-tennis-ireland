@@ -246,11 +246,11 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 
 Source: specs/visual-design/spec.md and design.md "Visual design system". Nothing below is done yet.
 
-- [x] 17.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps. Pinned to exact 4.3.4 for `tailwindcss` and `@tailwindcss/vite` (4.3.5 is only eleven days old, so it is excluded by the two-week rule). Preflight is not imported, so existing screens keep their base styles. Verified 17 November 2026: 103 domain, 8 UI, setup checks, builds and both browser workflows pass.
+- [x] 17.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps. Pinned to exact 4.3.5 for `tailwindcss` and `@tailwindcss/vite` (owner-approved exception to the two-week rule, recorded in design.md). Preflight is not imported, so existing screens keep their base styles. Verified 17 November 2026: 103 domain, 8 UI, setup checks, builds and both browser workflows pass.
 - [~] 17.2 PARTIAL: the existing `ops` palette is now Tailwind theme colours (`ops-ink`, `ops-soft`, `ops-muted`, `ops-line`, `ops-accent`, `ops-primary`) in packages/ui/src/tailwind.css; the light/dark token set is not yet defined. Define the design tokens (colours, type scale, spacing, radius, focus ring, elevation) once in packages/ui, with light and dark sets following the system preference.
 - [ ] 17.3 Migrate packages/ui/src/operations.css, booking.css and both application styles.css into the token system; remove per-screen palettes; keep the attendance screen unchanged until migrated.
 - [ ] 17.4 Build the shared layout pieces: application shell, page header, section card, form grid, data table with a scroll container, stacked record card, and a phone menu.
-- [ ] 17.5 Rebuild the people and membership screens first (including the name fields from 14.26), at phone and desktop widths.
+- [~] 17.5 PARTIAL (17 November 2026): shared form uses a two-column grid from the large breakpoint, consistent input styling, migrated person and membership rows, and legacy styles sit in a lower cascade layer. Still open: phone review, a master-detail layout for people and memberships, and owner screenshot approval (17.9).
 - [ ] 17.6 Rebuild the remaining member app screens: booking, sessions and hall, attendance, matches, tournaments, coaching, messages, management.
 - [ ] 17.7 Rebuild the public website pages using the same tokens and the same join, child and subscription forms.
 - [ ] 17.8 Add browser checks at 360px and desktop widths, and automated accessibility checks, to the existing browser workflows.

@@ -1,4 +1,8 @@
-/* Tailwind utilities for the shared UI. Preflight (the global reset) is deliberately
+@layer legacy, theme, base, components, utilities;
+@import "./operations.css" layer(legacy);
+/* Layer order: legacy hand-written portal CSS sits below Tailwind utilities, so migrated
+   components win without deleting old rules at once. Unlayered app styles still win over both.
+   Tailwind utilities for the shared UI. Preflight (the global reset) is deliberately
    not imported, so existing screens keep their current base styles. */
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);

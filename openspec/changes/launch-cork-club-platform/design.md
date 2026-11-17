@@ -372,3 +372,7 @@ Alternatives considered:
 - A hosted design tool export: produces assets, not maintainable application layout.
 
 Constraints: the platform stays brand-neutral (task 2.4); club sites keep their own repositories; the dependency must be pinned to an exact version at least two weeks old when added; no runtime CDN assets beyond the Content Security Policy in use.
+
+## Version exception (17 November 2026)
+
+The two-week rule for new dependency versions is waived for Tailwind CSS 4.3.5 and @tailwindcss/vite 4.3.5 (released 6 November 2026) at the owner's explicit request. The versions are pinned exactly. Future additions follow the two-week rule unless the owner waives it in writing here.

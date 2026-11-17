@@ -27,7 +27,6 @@ import {
   sendClub,
   exportPerson,
 } from "./club-client";
-import "./operations.css";
 
 type NameSource = {
   name?: string;
@@ -89,7 +88,7 @@ function OperationForm({
   const [toggles, setToggles] = useState<Record<string, boolean>>({});
   return (
     <form
-      className="ops-form"
+      className="ops-form mt-4 grid gap-3 border-t border-ops-line py-5 lg:grid-cols-2"
       aria-label={title}
       onChange={(event) => {
         const field = event.target;
@@ -115,7 +114,7 @@ function OperationForm({
         void submit(data);
       }}
     >
-      <h4>{title}</h4>
+      <h4 className="m-0 text-base font-semibold text-ops-ink lg:col-span-2">{title}</h4>
       {fields
         .filter(
           (f) =>
@@ -124,11 +123,15 @@ function OperationForm({
               fields.find((item) => item.key === f.when)?.value === true),
         )
         .map((f) => (
-          <label key={f.key}>
+          <label
+            key={f.key}
+            className={`grid min-w-0 gap-1.5 text-sm font-medium text-ops-ink ${f.type === "textarea" || f.multiple ? "lg:col-span-2" : ""}`}
+          >
             {f.label}
             {f.options ? (
               <select
                 aria-label={f.label}
+                className="w-full min-w-0 rounded-md border border-ops-line bg-white px-3 py-2 text-ops-ink"
                 name={f.key}
                 disabled={busy}
                 required={!f.optional}
@@ -149,6 +152,7 @@ function OperationForm({
             ) : f.type === "textarea" ? (
               <textarea
                 aria-label={f.label}
+                className="w-full min-w-0 rounded-md border border-ops-line bg-white px-3 py-2 text-ops-ink"
                 name={f.key}
                 disabled={busy}
                 required={!f.optional}
@@ -171,6 +175,7 @@ function OperationForm({
                 name={f.key}
                 disabled={busy}
                 type={f.type ?? "text"}
+                className="w-full min-w-0 rounded-md border border-ops-line bg-white px-3 py-2 text-ops-ink"
                 required={!f.optional}
                 defaultValue={String(f.value ?? "")}
                 step={f.type === "number" ? (f.step ?? "1") : undefined}
@@ -178,7 +183,12 @@ function OperationForm({
             )}
           </label>
         ))}
-      <button disabled={busy}>{busy ? "Saving…" : label}</button>
+      <button
+        disabled={busy}
+        className="justify-self-start lg:col-span-2 rounded-lg bg-ops-primary px-4 py-2.5 font-semibold text-white hover:opacity-90 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#da7c2d] disabled:cursor-wait disabled:opacity-60"
+      >
+        {busy ? "Saving…" : label}
+      </button>
     </form>
   );
 }
@@ -776,15 +786,15 @@ export function ClubPortal({
                       .includes(peopleQuery.trim().toLowerCase()),
                   )
                   .map((p) => (
-                  <div className="ops-row" key={p.id}>
-                    <div>
+                  <div className="ops-row mb-0 flex flex-wrap items-center gap-2 border-b border-ops-line py-3.5" key={p.id}>
+                    <div className="min-w-0 flex-[1_1_170px]">
                       <strong>{p.name}</strong>
-                      <small>
+                      <small className="block break-words text-ops-muted [overflow-wrap:anywhere]">
                         {p.junior ? "Junior" : p.status} ·{" "}
                         {membershipAt(state, p.id, localDay(now))}
                       </small>
                       {p.email && (
-                        <small>
+                        <small className="block break-words text-ops-muted [overflow-wrap:anywhere]">
                           {p.email}
                           {p.emailVerified ? " · verified" : " · unverified"}
                         </small>
@@ -835,13 +845,13 @@ export function ClubPortal({
               <article>
                 <h3>Membership periods</h3>
                 {state.memberships.map((m) => (
-                  <div className="ops-row" key={m.id}>
-                    <div>
+                  <div className="ops-row mb-0 flex flex-wrap items-center gap-2 border-b border-ops-line py-3.5" key={m.id}>
+                    <div className="min-w-0 flex-[1_1_170px]">
                       <strong>{title(m.player)}</strong>
-                      <small>
+                      <small className="block break-words text-ops-muted [overflow-wrap:anywhere]">
                         {m.snapshot?.name ?? "Trial"} · {m.start}–{m.end}
                       </small>
-                      <small>
+                      <small className="block break-words text-ops-muted [overflow-wrap:anywhere]">
                         {m.status} · {m.payment} · €
                         {(m.amount / 100).toFixed(2)}
                       </small>

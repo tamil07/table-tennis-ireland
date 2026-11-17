@@ -58,3 +58,20 @@ Browser checks SHALL cover the signed-in shell, the people and membership screen
 #### Scenario: Owner review before release
 - **WHEN** a visual release is prepared
 - **THEN** the owner receives screenshots of the phone and desktop versions of the membership and people screens
+
+### Requirement: Layout pattern for management screens
+Management screens SHALL use the following pattern, which is the common standard for administrative tools:
+- A persistent, grouped side navigation on wide screens, with sections collapsed into a scrollable bar or menu on phones.
+- One section per page or sub-tab. Long single-page scrolling is not allowed for areas with more than one task.
+- A list-and-editor (master-detail) layout: the list of records on the left and the editor on the right on wide screens; stacked on phones.
+- Forms use two columns from the large breakpoint upward, with headings, submit actions, and wide fields spanning both columns. Phones use one column.
+- Inputs, selects and textareas share one visual style: full width, consistent border, radius, padding, and focus ring.
+- Demonstration and preview content SHALL NOT appear in the live member app; it belongs only to synthetic previews and the public website.
+
+#### Scenario: Forms on a laptop
+- **WHEN** a manager opens a people or membership form on a screen 1024 pixels wide or wider
+- **THEN** the fields are arranged in two columns and the submit action spans the full width
+
+#### Scenario: Live app shows only the workspace
+- **WHEN** a signed-in member opens the live member app
+- **THEN** the page shows the club workspace without demonstration or roadmap sections
