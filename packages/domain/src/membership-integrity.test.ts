@@ -126,6 +126,51 @@ describe("identity and membership integrity", () => {
       }),
     ).toThrow("First name and second name are both required.");
   });
+  it("stores a mobile in international format from a country code and national number", () => {
+    const s = run(demoClub(now), "person", {
+      name: "Phone adult",
+      mobileCountry: "+353",
+      mobileNumber: "087 123 4567",
+      dateOfBirth: "1990-05-06",
+      junior: false,
+      guest: false,
+      guardians: [],
+    });
+    expect(s.people.at(-1)).toMatchObject({
+      mobile: "+353871234567",
+      dateOfBirth: "1990-05-06",
+    });
+  });
+  it("refuses an invalid mobile number for the chosen country", () => {
+    expect(() =>
+      run(demoClub(now), "person", {
+        name: "Bad phone",
+        mobileCountry: "+353",
+        mobileNumber: "12",
+        junior: false,
+        guest: false,
+        guardians: [],
+      }),
+    ).toThrow("valid mobile number");
+  });
+  it("refuses a date of birth in the future", () => {
+    expect(() =>
+      run(demoClub(now), "person", {
+        name: "Future",
+        dateOfBirth: "2999-01-01",
+        junior: false,
+        guest: false,
+        guardians: [],
+      }),
+    ).toThrow("cannot be in the future");
+  });
+  it("requires a date of birth when a guardian registers a junior", () => {
+    const s = demoClub(now);
+    const guardian = s.people.find((p) => !p.junior && p.status !== "left");
+    expect(() =>
+      run(s, "child", { name: "No birth date", consent: true, actor: guardian?.id }),
+    ).toThrow("date of birth is required");
+  });
   it("refuses guardian relationships on adults and prevents self-guardianship", () => {
     const s = demoClub(now);
     expect(() =>

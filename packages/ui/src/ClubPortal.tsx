@@ -34,6 +34,51 @@ type NameSource = {
   lastName?: string;
   nickname?: string;
 };
+/** Common mobile country codes; the form sends the chosen code plus a national number. */
+const MOBILE_COUNTRIES: [string, string][] = [
+  ["+353", "Ireland (+353)"],
+  ["+44", "United Kingdom (+44)"],
+  ["+1", "United States / Canada (+1)"],
+  ["+33", "France (+33)"],
+  ["+49", "Germany (+49)"],
+  ["+34", "Spain (+34)"],
+  ["+39", "Italy (+39)"],
+  ["+31", "Netherlands (+31)"],
+  ["+61", "Australia (+61)"],
+  ["+91", "India (+91)"],
+];
+/** Phone country + number, and date of birth. Stored as international format and a date. */
+function contactFields(
+  current?: { mobile?: string; dateOfBirth?: string },
+  dateOfBirth: { required: boolean; label?: string } = { required: false },
+) {
+  const known = [...MOBILE_COUNTRIES]
+    .sort((a, b) => b[0].length - a[0].length)
+    .find(([code]) => current?.mobile?.startsWith(code));
+  return [
+    {
+      key: "mobileCountry",
+      label: "Mobile country",
+      options: MOBILE_COUNTRIES,
+      value: known?.[0] ?? "+353",
+      optional: true,
+    },
+    {
+      key: "mobileNumber",
+      label: "Mobile number (no country code)",
+      optional: true,
+      value: known ? current?.mobile?.slice(known[0].length) : "",
+    },
+    {
+      key: "dateOfBirth",
+      label: dateOfBirth.label ?? "Date of birth",
+      type: "date",
+      optional: !dateOfBirth.required,
+      value: current?.dateOfBirth,
+    },
+  ];
+}
+
 /** First name, second name and nickname; falls back to splitting a legacy full name. */
 function nameFields(current?: NameSource) {
   return [
@@ -698,11 +743,7 @@ export function ClubPortal({
               "subscriber") &&
             form("Apply to join the club", "join", [
               ...nameFields(),
-              {
-                key: "mobile",
-                label: "Mobile contact (optional)",
-                optional: true,
-              },
+              ...contactFields(),
               {
                 key: "marketing",
                 label: "Receive optional event invitations",
@@ -810,8 +851,13 @@ export function ClubPortal({
                     )}
                   </div>
                 ))}
-                {form("Add your child", "child", [
+                {form("Add a junior player (your child)", "child", [
                   ...nameFields(),
+                  {
+                    key: "dateOfBirth",
+                    label: "Date of birth (required for a junior)",
+                    type: "date",
+                  },
                   {
                     key: "consent",
                     label:
@@ -827,12 +873,7 @@ export function ClubPortal({
                     value: actor,
                   },
                   ...nameFields(state.people.find((p) => p.id === actor)),
-                  {
-                    key: "mobile",
-                    label: "Mobile contact (not SMS login)",
-                    optional: true,
-                    value: state.people.find((p) => p.id === actor)?.mobile,
-                  },
+                  ...contactFields(state.people.find((p) => p.id === actor)),
                   {
                     key: "marketing",
                     label: "Optional event invitation consent",
@@ -1055,12 +1096,7 @@ export function ClubPortal({
                     "person",
                     [
                       ...nameFields(selectedPerson),
-                      {
-                        key: "mobile",
-                        label: "Contact number",
-                        optional: true,
-                        value: selectedPerson?.mobile,
-                      },
+                      ...contactFields(selectedPerson, { required: selectedPerson?.junior === true }),
                       {
                         key: "junior",
                         label: "Junior player",

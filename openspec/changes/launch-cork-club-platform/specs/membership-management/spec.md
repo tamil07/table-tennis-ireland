@@ -185,3 +185,20 @@ The system SHALL record each person's first name, second name (surname) and opti
 #### Scenario: Keep existing single-name players valid
 - **WHEN** an existing player recorded only with a full name is viewed or renewed without editing the name
 - **THEN** the system keeps that name and does not require the new parts
+
+### Requirement: Mobile number and date of birth
+The system SHALL record a person's mobile number in international format (country code followed by the number). Forms SHALL offer a country-code dropdown, defaulting to Ireland (+353), and a national number field. Numbers SHALL be checked before saving. Mobile numbers are contact details only; they SHALL NOT enable SMS sign-in while that is disabled.
+
+The system SHALL record a date of birth. It is optional for adults and SHALL be required when a guardian registers a junior. A date of birth SHALL be a valid calendar date that is not in the future. Date of birth SHALL be visible only to people with membership management permission and to the person themselves; other members SHALL see age group only.
+
+#### Scenario: Adding a mobile number
+- **WHEN** a member selects Ireland and enters "087 123 4567"
+- **THEN** the system stores "+353871234567"
+
+#### Scenario: Refusing an invalid number
+- **WHEN** a member enters a number that is too short for the chosen country
+- **THEN** the system refuses the save and asks for a valid number
+
+#### Scenario: Junior requires a date of birth
+- **WHEN** a guardian registers a child without a date of birth
+- **THEN** the system refuses the registration and asks for the date of birth

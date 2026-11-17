@@ -56,6 +56,7 @@ export async function checkMembershipForms({ page, portal, form, save }) {
   await f.getByLabel("First name", { exact: true }).fill("QA");
   await f.getByLabel("Second name (surname)", { exact: true }).fill("junior");
   await f.getByLabel("Junior player", { exact: true }).check();
+  await f.getByLabel("Date of birth", { exact: true }).fill("2015-03-01");
   await expect(
     f.getByLabel("Linked adult guardians (juniors only)"),
   ).toBeVisible();

@@ -270,3 +270,12 @@ Presentation-only work: no change to the command service, permissions, booking r
 - [ ] 16.7 DEFERRED: split `ClubPortal.tsx` (about 3,200 lines) into per-area components in a behaviour-neutral refactor with the existing browser/HTTP suites as the safety net
 - [ ] 16.8 Owner: deploy through the normal commands, review the live website/app on real phones and desktop, and supply real photographs, logo and imported news so placeholders can be replaced (depends on 4.7)
 - [ ] 16.9 Open accessibility follow-ups: add a visible pause control for the decorative ticker (WCAG 2.2.2) and run a formal contrast/screen-reader audit of the website and Overview tab before describing the redesign as accessibility-reviewed
+
+## 18. Contact details and date of birth (17 November 2026)
+
+- [x] 18.1 Mobile numbers stored in international format; forms use a country-code dropdown (default +353) and a national number field; invalid numbers refused. Implemented and tested locally (107 domain tests).
+- [x] 18.2 Date of birth added to the person record; optional for adults; required when a guardian registers a junior; future dates refused. Implemented and tested locally.
+- [x] 18.3 Child form retitled "Add a junior player (your child)" with a required date of birth.
+- [ ] 18.4 Owner: decide whether to extend the country list beyond the ten listed and whether adult date of birth is required once the privacy review (14.12) is approved.
+- [ ] 18.5 Restrict date of birth visibility to membership managers and the person themselves, and show age group only to other members (spec: membership-management). Not yet built; the current screens show the date to anyone who can open the person editor.
+- [ ] 18.6 Deploy the backend first, then the member app and website, after the owner approves the visual release (17.9).

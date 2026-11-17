@@ -25,6 +25,7 @@ export type Person = {
   firstName?: string;
   lastName?: string;
   nickname?: string;
+  dateOfBirth?: string;
   email: string;
   emailVerified: boolean;
   mobile: string;
@@ -426,6 +427,38 @@ function text(data: Record<string, unknown>, key: string, max = 2000) {
 }
 function optionalText(data: Record<string, unknown>, key: string, max: number) {
   return data[key] === undefined ? "" : text(data, key, max);
+}
+/** Mobile numbers are stored in international format (+ then country code and number).
+    Forms send a country code and a national number; legacy `mobile` text is kept when neither is sent. */
+function mobileFrom(data: Record<string, unknown>) {
+  const country = optionalText(data, "mobileCountry", 6);
+  const number = optionalText(data, "mobileNumber", 20);
+  if (!country && !number) return optionalText(data, "mobile", 30);
+  if (!number) return "";
+  const national = number.replace(/[^0-9]/g, "").replace(/^0+/, "");
+  const international = `${country}${national}`;
+  requireValue(
+    /^\+[1-9][0-9]{6,14}$/.test(international),
+    "Enter a valid mobile number for the chosen country.",
+  );
+  return international;
+}
+/** Date of birth as YYYY-MM-DD, not in the future. Required for juniors. */
+function dateOfBirthFrom(data: Record<string, unknown>, required: boolean) {
+  const raw = optionalText(data, "dateOfBirth", 10);
+  if (!raw) {
+    requireValue(!required, "A date of birth is required for a junior player.");
+    return "";
+  }
+  requireValue(
+    /^\d{4}-\d{2}-\d{2}$/.test(raw) && !Number.isNaN(Date.parse(raw)),
+    "Date of birth must be a valid date.",
+  );
+  requireValue(
+    raw <= new Date().toISOString().slice(0, 10),
+    "Date of birth cannot be in the future.",
+  );
+  return raw;
 }
 /** First name and second name are stored separately; the full name is derived. Legacy `name`-only requests still work. */
 function namePartsFrom(data: Record<string, unknown>) {
@@ -1274,7 +1307,8 @@ export function applyClubCommand(
         email: actor.email,
         emailVerified:
           actor.emailVerified ?? (actor.verified && Boolean(actor.email)),
-        mobile: text(d, "mobile", 30),
+        mobile: mobileFrom(d),
+        dateOfBirth: dateOfBirthFrom(d, false) || undefined,
         junior: false,
         guardians: [],
         status: "pending",
@@ -1333,7 +1367,8 @@ export function applyClubCommand(
       const p = person(s, text(d, "player"));
       if (!may(s, actor.id, "membership")) own(p.id);
       Object.assign(p, namePartsFrom(d));
-      p.mobile = text(d, "mobile", 30);
+      p.mobile = mobileFrom(d);
+      p.dateOfBirth = dateOfBirthFrom(d, p.junior) || undefined;
       if (p.id === actor.id) {
         p.accountLinked = true;
         p.email = actor.email;
@@ -1386,7 +1421,8 @@ export function applyClubCommand(
         ...nameParts,
         email: existing?.email ?? "",
         emailVerified: existing?.emailVerified ?? false,
-        mobile: text(d, "mobile", 30),
+        mobile: mobileFrom(d),
+        dateOfBirth: dateOfBirthFrom(d, junior) || undefined,
         junior,
         guardians,
         status: d.guest === true ? "guest" : "player",
@@ -1452,6 +1488,7 @@ export function applyClubCommand(
         email: "",
         emailVerified: false,
         mobile: "",
+        dateOfBirth: dateOfBirthFrom(d, true),
         junior: true,
         guardians: [actor.id],
         status: "pending",
