@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { bookingUpdate, initialTables, occupiesPlace, upcomingPracticeSessions } from '@tti/domain';
 import type { BookingAction, BookingActor, BookingBoard, PlaceRequest, PracticeSession, TableUse } from '@tti/domain';
-import './booking.css';
 
 const STORAGE = 'tti-session-places-demo-v1';
 const people = [{ id: 'alex', name: 'Alex Sullivan', child: false }, { id: 'sam', name: 'Sam Sullivan', child: true }, { id: 'casey', name: 'Casey Sullivan', child: true }, { id: 'jamie', name: 'Jamie Murphy', child: false }, { id: 'guest', name: 'Guest player', child: false }];

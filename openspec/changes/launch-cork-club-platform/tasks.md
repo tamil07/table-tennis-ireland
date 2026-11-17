@@ -286,6 +286,6 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 
 - [x] 19.1 Batch 1, shell and layout: page shell, section cards, grids, tables (wrapped in scrollable containers), notices, statistics, setup panel, session picker. Verified at 320 pixels on every workspace tab with no sideways scrolling.
 - [x] 19.2 Batch 2, controls and elements: buttons, inputs, selects, labels, headings, navigation, tables and details, moved to portal.css with @apply. operations.css removed.
-- [ ] 19.3 Batch 3: packages/ui/src/booking.css (booking demo component) and packages/ui/src/styles.css.
+- [x] 19.3 Batch 3: booking demo styles moved to Tailwind @apply (packages/ui/src/booking.css); shared base styles moved to packages/ui/src/base.css; styles.css removed; both apps load the shared Tailwind stylesheet. Verified on all portal tabs at 320 pixels, full check and browser verification passing.
 - [ ] 19.4 Batch 4: apps/platform/src/styles.css and apps/club-web/src/styles.css (website redesign stylesheet, 230 lines changed on the other laptop).
 - [ ] 19.5 Owner review of screenshots for all batches before any visual release (17.9).

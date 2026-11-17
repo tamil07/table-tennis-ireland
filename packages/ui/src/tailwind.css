@@ -1,4 +1,6 @@
 @layer legacy, theme, base, components, utilities;
+@import "./base.css" layer(base);
+@import "./booking.css" layer(components);
 @import "./portal.css" layer(components);
 /* Layer order: legacy hand-written portal CSS sits below Tailwind utilities, so migrated
    components win without deleting old rules at once. Unlayered app styles still win over both.
