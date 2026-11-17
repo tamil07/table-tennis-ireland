@@ -564,20 +564,20 @@ export function ClubPortal({
     : null;
   return (
     <section
-      className="club-ops"
+      className="mx-auto max-w-[1160px] px-5 py-16 text-ops-ink"
       id="club-portal"
       aria-labelledby="portal-title"
     >
       <span id="booking" aria-hidden="true" />
       <header>
-        <p className="ops-kicker">
+        <p className="text-[11px] uppercase tracking-[0.14em] text-ops-muted">
           {liveMode ? "Club service" : "Interactive workspace · synthetic data"}
         </p>
         <h2 id="portal-title">Your club, together.</h2>
         <p>Bookings, membership, attendance and play in one place.</p>
       </header>
       {!liveMode && (
-        <div className="ops-notice">
+        <div className="my-5 rounded-[10px] border-l-4 border-[#da7c2d] bg-[#fff4dd] p-[18px]">
           <strong>
             Synthetic workspace — no real accounts, shared bookings or email
             delivery.
@@ -671,7 +671,7 @@ export function ClubPortal({
           </select>
         </label>
       )}
-      <p className="ops-feedback" role="status" aria-live="polite">
+      <p className="min-h-6 font-semibold [overflow-wrap:anywhere]" role="status" aria-live="polite">
         {busy ? "Saving…" : message}
       </p>
       {last && !busy && (
@@ -680,7 +680,7 @@ export function ClubPortal({
         </button>
       )}
       {actor && (
-        <button className="ops-refresh" onClick={() => void refresh()}>
+        <button className="mb-4" onClick={() => void refresh()}>
           Refresh club data
         </button>
       )}
@@ -702,7 +702,7 @@ export function ClubPortal({
                 "Policy not configured. Contact the club before applying."}
             </p>
           </details>
-          <div className="ops-shell">
+          <div className="mt-3 grid grid-cols-1 items-start gap-7 lg:grid-cols-[220px_minmax(0,1fr)]">
           <nav aria-label="Club workspace">
             {nav.map(([id, label]) => (
               <button
@@ -720,7 +720,7 @@ export function ClubPortal({
               </button>
             ))}
           </nav>
-          <div className="ops-main">
+          <div className="min-w-0">
           {["matches", "tournaments"].includes(tab) &&
             state.events.length > 0 && (
               <label>
@@ -764,11 +764,11 @@ export function ClubPortal({
           {tab === "overview" && overview && (
             <div className="ops-overview">
               <h3>Today at a glance</h3>
-              <div className="ops-stats">
+              <div className="grid gap-3.5 [grid-template-columns:repeat(auto-fill,minmax(210px,1fr))]">
                 {overview.items.map((item) => (
                   <button
                     key={item.key}
-                    className="ops-stat"
+                    className="grid content-start gap-1 rounded-[14px] border border-ops-line bg-white p-[18px] text-left shadow-[0_6px_20px_rgba(20,45,37,0.05)]"
                     onClick={() => setTab(item.tab)}
                   >
                     <strong>{item.value}</strong>
@@ -778,7 +778,7 @@ export function ClubPortal({
                 ))}
               </div>
               {overview.setup.length > 0 && (
-                <article className="ops-setup">
+                <article className="mt-4.5 rounded-[14px] border border-[#f0d9a8] bg-[#fff8e8] px-5.5 py-4.5">
                   <h3>Next setup steps</h3>
                   <ul>
                     {overview.setup.map((step) => (
@@ -790,17 +790,17 @@ export function ClubPortal({
                   </ul>
                 </article>
               )}
-              <p className="ops-hint">
+              <p className="text-[13px] text-ops-muted">
                 Counts reflect only the records your account may see. Choose an
                 area above to make changes.
               </p>
             </div>
           )}
           {tab === "people" && (
-            <div className="ops-grid grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
-              <article>
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
+              <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                 <h3>Club people</h3>
-                <label className="ops-search">
+                <label className="my-2.5 max-w-[360px]">
                   Search people
                   <input
                     type="search"
@@ -810,7 +810,7 @@ export function ClubPortal({
                   />
                 </label>
                 {!state.people.length && (
-                  <p className="ops-empty">
+                  <p className="rounded-[10px] bg-ops-soft p-3.5 text-ops-muted">
                     No people yet. Add a player under Membership team.
                   </p>
                 )}
@@ -819,7 +819,7 @@ export function ClubPortal({
                     `${p.name} ${p.email}`
                       .toLowerCase()
                       .includes(peopleQuery.trim().toLowerCase()),
-                  ) && <p className="ops-empty">No people match that search.</p>}
+                  ) && <p className="rounded-[10px] bg-ops-soft p-3.5 text-ops-muted">No people match that search.</p>}
                 {state.people
                   .filter((p) =>
                     `${p.name} ${p.email}`
@@ -883,7 +883,7 @@ export function ClubPortal({
                 ])}
                 {form("Register a trial", "trial", [playerField()])}
               </article>
-              <article>
+              <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                 <h3>Membership periods</h3>
                 {state.memberships.map((m) => (
                   <div className="ops-row mb-0 flex flex-wrap items-center gap-2 border-b border-ops-line py-3.5" key={m.id}>
@@ -1078,7 +1078,7 @@ export function ClubPortal({
                 )}
               </article>
               {can("membership") && (
-                <article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   <h3>Membership team</h3>
                   <p>
                     This creates a club player record, not a login. Adults
@@ -1130,7 +1130,7 @@ export function ClubPortal({
                 </article>
               )}
               {can("membership") && (
-                <article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   <h3>Membership catalogue</h3>
                   {planEdit && (
                     <button disabled={busy} onClick={() => setPlanEdit("")}>
@@ -1202,10 +1202,11 @@ export function ClubPortal({
             </div>
           )}
           {(tab === "booking" || tab === "attendance") && (
-            <label className="ops-session-picker">
+            <label className="mb-5.5 grid w-full min-w-0 max-w-[600px] gap-1.5">
               Session
               <select
                 aria-label="Session"
+                className="w-full min-w-0 max-w-full rounded-md border border-ops-line bg-white px-3 py-2 text-ops-ink"
                 value={session?.id ?? ""}
                 onChange={(e) => setSessionId(e.target.value)}
               >
@@ -1235,12 +1236,12 @@ export function ClubPortal({
               </p>
               {session && (
                 <>
-                  <div className="ops-tables">
+                  <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3.5">
                     {(state.board.tables[session.id] ?? []).map((t) => (
                       <article key={t.id}>
                         <h4>Table {t.id}</h4>
                         <span>{t.use.replaceAll("_", " ")}</span>
-                        <div className="ops-places">
+                        <div className="my-3.5 grid grid-cols-2 gap-[3px]">
                           {[0, 1, 2, 3].map((place) => {
                             const r = state.board.requests.find(
                               (r) =>
@@ -1476,8 +1477,8 @@ export function ClubPortal({
           )}
           {tab === "attendance" && (
             <>
-              <div className="ops-grid">
-                <article>
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   <h3>Who is here?</h3>
                   <p>
                     Confirm physical presence. Expired/no-membership visits
@@ -1544,7 +1545,7 @@ export function ClubPortal({
                     </>
                   )}
                 </article>
-                <article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   <h3>Attendance register</h3>
                   {state.attendance
                     .filter((a) => !session || a.session === session.id)
@@ -1600,7 +1601,7 @@ export function ClubPortal({
                   <option value="monthly">Monthly</option>
                 </select>
               </label>
-              <div className="ops-filters">
+              <div className="my-5 flex flex-wrap gap-2">
                 <label>
                   From
                   <input
@@ -1630,13 +1631,13 @@ export function ClubPortal({
                 ))}
               </div>
               {report && (
-                <div className="ops-grid">
-                  <article>
+                <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     <h4>
                       {report.total} visits · {report.unique} players
                     </h4>
                     {report[reportPeriod].map(([date, count]) => (
-                      <p className="ops-bar" key={date}>
+                      <p className="flex items-center gap-2.5 text-xs" key={date}>
                         <span>{date}</span>
                         <meter
                           min={0}
@@ -1650,7 +1651,7 @@ export function ClubPortal({
                       </p>
                     ))}
                   </article>
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     <h4>Membership at check-in</h4>
                     {report.segments.map(([kind, count]) => (
                       <p key={kind}>
@@ -1676,8 +1677,8 @@ export function ClubPortal({
             </>
           )}
           {tab === "sessions" && (
-            <div className="ops-grid">
-              <article>
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                 <h3>Sessions and hall</h3>
                 {state.sessions.map((s) => (
                   <div className="ops-row" key={s.id}>
@@ -1708,7 +1709,7 @@ export function ClubPortal({
                 ))}
               </article>
               {can("events") && (
-                <article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   {form(
                     "Publish sessions or camp",
                     "programme",
@@ -1789,13 +1790,13 @@ export function ClubPortal({
           )}
           {tab === "tournaments" && (
             <>
-              <div className="ops-grid">
-                <article>
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   <h3>Competitions and events</h3>
                   {state.events
                     .filter((e) => !eventFilter || e.id === eventFilter)
                     .map((e) => (
-                      <div className="ops-event" key={e.id}>
+                      <div className="border-b border-ops-line py-4" key={e.id}>
                         <h4>{e.name}</h4>
                         <p>
                           {e.date} · {e.external ? "External" : e.format} ·{" "}
@@ -1804,7 +1805,7 @@ export function ClubPortal({
                         {(can("events") ||
                           can("coach") ||
                           e.delegates.includes(actor)) && (
-                          <div className="ops-actions">
+                          <div className="my-5 flex flex-wrap gap-2">
                             {[
                               "published",
                               "in_progress",
@@ -1858,7 +1859,7 @@ export function ClubPortal({
                             (d) => ({ ...d, event: e.id }),
                           )}
                         {!e.external && e.format === "round_robin" && (
-                          <table>
+                          <div className="max-w-full overflow-x-auto"><table>
                             <thead>
                               <tr>
                                 <th>Team</th>
@@ -1879,7 +1880,7 @@ export function ClubPortal({
                                 </tr>
                               ))}
                             </tbody>
-                          </table>
+                          </table></div>
                         )}
                         <p>
                           Only confirmed/auto-approved completed results affect
@@ -1893,7 +1894,7 @@ export function ClubPortal({
                     ))}
                 </article>
                 {can("events") && (
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     {form(
                       "Create tournament or external event",
                       "event",
@@ -2014,8 +2015,8 @@ export function ClubPortal({
           )}
           {tab === "matches" && (
             <>
-              <div className="ops-grid">
-                <article>
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   {form(
                     "Start or log a match",
                     "match",
@@ -2086,7 +2087,7 @@ export function ClubPortal({
                   )}
                 </article>
               </div>
-              <div className="ops-grid">
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                 {state.matches
                   .filter((m) => !eventFilter || m.event === eventFilter)
                   .map((m) => (
@@ -2177,7 +2178,7 @@ export function ClubPortal({
                         m.reviewEligible.some((p) =>
                           represents(state, actor, p),
                         )) && (
-                        <div className="ops-actions">
+                        <div className="my-5 flex flex-wrap gap-2">
                           <button
                             onClick={() => {
                               const reason = can("coach")
@@ -2288,7 +2289,7 @@ export function ClubPortal({
               </p>
               {can("coach") && summary && (
                 <>
-                  <div className="ops-filters">
+                  <div className="my-5 flex flex-wrap gap-2">
                     <label>
                       Event
                       <select
@@ -2324,7 +2325,7 @@ export function ClubPortal({
                     {summary.reportingPlayers} reporting players ·{" "}
                     {summary.reflections} match reflections
                   </h3>
-                  <table>
+                  <div className="max-w-full overflow-x-auto"><table>
                     <thead>
                       <tr>
                         <th>Observation</th>
@@ -2345,7 +2346,7 @@ export function ClubPortal({
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table></div>
                   <details>
                     <summary>
                       Permitted contributing observations (including incomplete
@@ -2360,10 +2361,10 @@ export function ClubPortal({
                   </details>
                 </>
               )}
-              <div className="ops-grid">
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                 {can("coach") && (
                   <>
-                    <article>
+                    <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                       {form("Private coach working note", "note", [
                         playerField(true),
                         {
@@ -2378,7 +2379,7 @@ export function ClubPortal({
                         </p>
                       ))}
                     </article>
-                    <article>
+                    <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                       {form("Propose development summary", "assessment", [
                         playerField(true),
                         {
@@ -2458,8 +2459,8 @@ export function ClubPortal({
             </>
           )}
           {tab === "communications" && (
-            <div className="ops-grid">
-              <article>
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                 <h3>Your notifications</h3>
                 {state.notices.map((n) => (
                   <div className="ops-row" key={n.id}>
@@ -2476,7 +2477,7 @@ export function ClubPortal({
                 ))}
               </article>
               {can("communications") && (
-                <article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   {form("Invite subscribed adults to an event", "invite", [
                     {
                       key: "event",
@@ -2497,7 +2498,7 @@ export function ClubPortal({
             </div>
           )}
           {tab === "people" && can("membership") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form(
                 "Link offline history to a verified account",
                 "claim_profile",
@@ -2537,7 +2538,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "booking" && can("booking") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form("Move a booking to another session", "reschedule_booking", [
                 {
                   key: "booking",
@@ -2571,7 +2572,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "management" && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               <h3>Personal-data requests</h3>
               {form(
                 "Request a correction, export or deletion review",
@@ -2635,7 +2636,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "management" && state.work.length > 0 && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form("Assign or comment on shared work", "work", [
                 {
                   key: "work",
@@ -2665,7 +2666,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "communications" && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form("Event email subscription", "subscribe", [
                 ...nameFields(state.people.find((p) => p.id === actor)),
                 {
@@ -2685,7 +2686,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "matches" && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               <h3>Personal result statistics</h3>
               {family.map((p) => {
                 const stats = matchStatistics(
@@ -2713,7 +2714,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "management" && can("content") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               <h3>Published content and drafts</h3>
               {state.pages.map((p) => (
                 <div className="ops-row" key={p.id}>
@@ -2746,7 +2747,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "attendance" && report && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               <h3>Visits against published session capacity</h3>
               {report.utilization.map((s) => (
                 <p key={s.id}>
@@ -2757,7 +2758,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "management" && can("attendance") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form("Attendance digest policy", "digest_settings", [
                 {
                   key: "enabled",
@@ -2779,7 +2780,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "coaching" && can("coach") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               <label>
                 Players / training group selection (leave empty for all
                 reporting players)
@@ -2822,7 +2823,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "management" && can("access") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form("Approved club website", "website", [
                 {
                   key: "url",
@@ -2839,7 +2840,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "people" && can("membership") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               <h3>Manual payments and trial extensions</h3>
               {form(
                 "Record an additional external payment",
@@ -2948,7 +2949,7 @@ export function ClubPortal({
             </article>
           )}
           {tab === "sessions" && can("events") && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form(
                 "Block the whole hall",
                 "close_hall",
@@ -2998,7 +2999,7 @@ export function ClubPortal({
             (can("coach") ||
               can("events") ||
               state.events.some((e) => e.delegates.includes(actor))) && (
-              <article>
+              <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                 {form("Record an adult guest participant", "guest", [
                   ...nameFields(),
                   {
@@ -3015,7 +3016,7 @@ export function ClubPortal({
               </article>
             )}
           {tab === "tournaments" && (
-            <article>
+            <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form(
                 "Propose an unlisted external event privately",
                 "propose_event",
@@ -3081,9 +3082,9 @@ export function ClubPortal({
               ))}
           {tab === "management" && (
             <>
-              <div className="ops-grid">
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                 {can("access") && (
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     {form("Grant or revoke management permissions", "grant", [
                       {
                         key: "player",
@@ -3112,7 +3113,7 @@ export function ClubPortal({
                   </article>
                 )}
                 {can("membership") && (
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     {form(
                       "Trial and notification policy",
                       "operations_settings",
@@ -3161,7 +3162,7 @@ export function ClubPortal({
                   </article>
                 )}
                 {can("privacy") && (
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     {form(
                       "Public safeguarding and privacy information",
                       "settings",
@@ -3203,7 +3204,7 @@ export function ClubPortal({
                   </article>
                 )}
                 {can("content") && (
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     {form("Publish club content / event news", "page", [
                       { key: "title", label: "Title" },
                       {
@@ -3227,10 +3228,10 @@ export function ClubPortal({
                   </article>
                 )}
                 {state.work.length > 0 && (
-                  <article>
+                  <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                     <h3>Shared management work</h3>
                     {state.work.map((w) => (
-                      <div className="ops-event" key={w.id}>
+                      <div className="border-b border-ops-line py-4" key={w.id}>
                         <h4>{w.title}</h4>
                         <p>
                           {w.state} ·{" "}
@@ -3281,7 +3282,7 @@ export function ClubPortal({
                     ))}
                   </article>
                 )}
-                <article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                   <h3>Published club information</h3>
                   <p>Privacy: {state.settings.privacy || "Not configured"}</p>
                   <p>

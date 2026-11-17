@@ -1,0 +1,86 @@
+/* Management portal styles, written with Tailwind (@apply). Replaces the hand-written
+   operations.css. Element rules apply to every control in the portal. */
+.club-ops {
+  @apply mx-auto max-w-[1160px] px-5 py-16 text-ops-ink;
+  font: 15px/1.6 system-ui, sans-serif;
+  scroll-margin-top: 24px;
+  --ops-primary: var(--primary, #16283f);
+  --ops-ink: #19334c;
+  --ops-soft: #edf3f8;
+  --ops-muted: #4d6577;
+  --ops-line: #d0dce5;
+  --ops-accent: var(--accent, #bdf66a);
+}
+.club-ops * { box-sizing: border-box; }
+.club-ops header h2 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.04em; margin: 0; }
+.club-ops button,
+.club-ops input,
+.club-ops select,
+.club-ops textarea {
+  @apply rounded-[7px] border border-ops-line px-3 py-2;
+  font: inherit;
+  max-width: 100%;
+}
+.club-ops button {
+  @apply cursor-pointer bg-ops-soft font-[650] text-ops-ink;
+}
+.club-ops button[aria-pressed="true"],
+.ops-form > button {
+  @apply bg-ops-primary text-white;
+}
+.club-ops button:disabled { @apply cursor-wait opacity-60; }
+.club-ops :focus-visible { outline: 3px solid #da7c2d; outline-offset: 3px; }
+.club-ops label { @apply grid min-w-0 gap-1.5 text-[13px]; }
+.club-ops input,
+.club-ops select,
+.club-ops textarea { @apply w-full bg-white text-ops-ink; }
+.club-ops input[type="checkbox"] { @apply h-5 w-5; }
+.club-ops select[multiple] { min-height: 110px; }
+.club-ops textarea { min-height: 90px; resize: vertical; }
+.ops-notice label { @apply my-3 max-w-[320px]; }
+.ops-form h4 { @apply m-0; }
+.ops-row button { font-size: 12px; }
+.ops-row > div { flex: 1 1 170px; }
+.ops-row small { @apply block text-ops-muted; overflow-wrap: anywhere; }
+.ops-tables h4 { @apply m-0; }
+.ops-place strong { @apply block; }
+.ops-bar meter { flex: 1; min-width: 0; }
+.club-ops img { width: 320px; max-width: 100%; height: auto; }
+.ops-auth form { @apply grid max-w-[400px] gap-3; }
+.club-ops p { overflow-wrap: anywhere; }
+.club-ops details { @apply mt-6; }
+.club-ops h3 { font-size: 22px; }
+.club-ops summary { @apply cursor-pointer; }
+.club-ops table { @apply w-full text-xs; border-collapse: collapse; }
+.club-ops th,
+.club-ops td { @apply border-b border-ops-line px-[5px] py-2 text-left; overflow-wrap: anywhere; }
+.ops-shell > nav {
+  @apply sticky top-3 m-0 flex flex-col gap-1 rounded-[14px] border border-ops-line bg-white p-2.5;
+}
+.ops-shell > nav button {
+  @apply rounded-[9px] border-0 bg-transparent px-3 py-2.5 text-left;
+}
+.ops-shell > nav button:hover { @apply bg-ops-soft; }
+.ops-shell > nav button[aria-pressed="true"] { @apply bg-ops-primary text-white; }
+.ops-stat:hover { @apply border-ops-primary; transform: translateY(-2px); }
+.ops-stat strong { @apply text-[40px] leading-none text-ops-primary; letter-spacing: -0.04em; }
+.ops-stat span { @apply font-bold; }
+.ops-stat small { @apply text-ops-muted; }
+.ops-overview h3 { @apply mb-3.5 mt-0; }
+.ops-setup h3 { @apply mb-2 mt-0 text-lg; }
+.ops-setup ul { @apply m-0 grid list-disc gap-2 pl-5; }
+.ops-hint { @apply text-ops-muted; }
+
+/* Small screens: tighter padding, two-column tables, horizontal scrolling bar for navigation */
+@media (max-width: 760px) {
+  .club-ops { padding: 36px 16px; }
+  .ops-tables { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .ops-tables > article { padding: 12px; }
+  .club-ops nav button { font-size: 12px; padding: 8px; }
+  .club-ops th,
+  .club-ops td { padding: 7px 3px; }
+  .ops-filters label { flex: 1 1 120px; }
+}
+
+/* Website dark scheme keeps the portal light but with a deeper primary colour */
+.surface .club-ops { --ops-primary: #103a2e; --accent: #d7ff55; }

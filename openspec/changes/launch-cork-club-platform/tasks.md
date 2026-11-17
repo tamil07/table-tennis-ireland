@@ -279,3 +279,13 @@ Presentation-only work: no change to the command service, permissions, booking r
 - [ ] 18.4 Owner: decide whether to extend the country list beyond the ten listed and whether adult date of birth is required once the privacy review (14.12) is approved.
 - [ ] 18.5 Restrict date of birth visibility to membership managers and the person themselves, and show age group only to other members (spec: membership-management). Not yet built; the current screens show the date to anyone who can open the person editor.
 - [ ] 18.6 Deploy the backend first, then the member app and website, after the owner approves the visual release (17.9).
+
+## 19. Full Tailwind migration (started 17 November 2026)
+
+Method: management portal classes are replaced by Tailwind utilities in the JSX; element-level rules move into packages/ui/src/portal.css using Tailwind @apply, and the hand-written operations.css is removed.
+
+- [x] 19.1 Batch 1, shell and layout: page shell, section cards, grids, tables (wrapped in scrollable containers), notices, statistics, setup panel, session picker. Verified at 320 pixels on every workspace tab with no sideways scrolling.
+- [x] 19.2 Batch 2, controls and elements: buttons, inputs, selects, labels, headings, navigation, tables and details, moved to portal.css with @apply. operations.css removed.
+- [ ] 19.3 Batch 3: packages/ui/src/booking.css (booking demo component) and packages/ui/src/styles.css.
+- [ ] 19.4 Batch 4: apps/platform/src/styles.css and apps/club-web/src/styles.css (website redesign stylesheet, 230 lines changed on the other laptop).
+- [ ] 19.5 Owner review of screenshots for all batches before any visual release (17.9).
