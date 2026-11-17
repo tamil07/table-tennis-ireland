@@ -11,14 +11,16 @@ export async function checkMembershipForms({ page, portal, form, save }) {
   ).toHaveValue("");
   const people = () => form("Add or edit a player");
   let f = people();
-  await f.getByLabel("Name", { exact: true }).fill("QA adult one");
+  await f.getByLabel("First name", { exact: true }).fill("QA");
+  await f.getByLabel("Second name (surname)", { exact: true }).fill("adult one");
   await expect(
     f.getByLabel("Linked adult guardians (juniors only)"),
   ).toHaveCount(0);
   await save(f);
   await expect(portal).toContainText("QA adult one");
-  await expect(people().getByLabel("Name", { exact: true })).toHaveValue("");
-  await people().getByLabel("Name", { exact: true }).fill("QA adult two");
+  await expect(people().getByLabel("First name", { exact: true })).toHaveValue("");
+  await people().getByLabel("First name", { exact: true }).fill("QA");
+  await people().getByLabel("Second name (surname)", { exact: true }).fill("adult two");
   await save(people());
   await expect(portal).toContainText("QA adult two");
   const personRow = (name) =>
@@ -31,12 +33,14 @@ export async function checkMembershipForms({ page, portal, form, save }) {
   await personRow("QA adult one")
     .getByRole("button", { name: "Edit person", exact: true })
     .click();
-  await people().getByLabel("Name", { exact: true }).fill("Unsaved draft");
+  await people().getByLabel("First name", { exact: true }).fill("Unsaved");
+  await people().getByLabel("Second name (surname)", { exact: true }).fill("draft");
   await personRow("QA adult two")
     .getByRole("button", { name: "Edit person", exact: true })
     .click();
-  await expect(people().getByLabel("Name", { exact: true })).toHaveValue(
-    "QA adult two",
+  await expect(people().getByLabel("First name", { exact: true })).toHaveValue("QA");
+  await expect(people().getByLabel("Second name (surname)", { exact: true })).toHaveValue(
+    "adult two",
   );
   await portal
     .getByRole("button", {
@@ -44,12 +48,13 @@ export async function checkMembershipForms({ page, portal, form, save }) {
       exact: true,
     })
     .click();
-  await expect(people().getByLabel("Name", { exact: true })).toHaveValue("");
+  await expect(people().getByLabel("First name", { exact: true })).toHaveValue("");
   await expect(personRow("QA adult one")).toHaveCount(1);
   await expect(personRow("QA adult two")).toHaveCount(1);
 
   f = people();
-  await f.getByLabel("Name", { exact: true }).fill("QA junior");
+  await f.getByLabel("First name", { exact: true }).fill("QA");
+  await f.getByLabel("Second name (surname)", { exact: true }).fill("junior");
   await f.getByLabel("Junior player", { exact: true }).check();
   await expect(
     f.getByLabel("Linked adult guardians (juniors only)"),
