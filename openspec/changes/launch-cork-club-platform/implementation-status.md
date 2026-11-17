@@ -181,3 +181,7 @@ Still open: the owner smoke test (14.2), the Cloudflare build variables (14.4), 
 ## Visual design direction — 16 November 2026
 
 The current portal styling is not accepted as the final design. Task section 17 in tasks.md and the visual-design capability spec set the new direction: one token system shared by both sites, Tailwind CSS as the styling foundation, independent per-application stylesheets, a common application shell and responsive layouts, accessible forms, and owner screenshot review before each visual release. The member name fields (task 14.26) are included in the people and membership screens rebuild.
+
+## Growth plan — 17 November 2026
+
+The plan for offering the platform to other clubs on a paid basis is recorded in `openspec/changes/grow-to-paying-clubs/`. It is phased with explicit gates. Phase 0 depends on finishing the Leeside launch tasks in section 14 of tasks.md. The styling decision is separate and does not gate the growth plan.
