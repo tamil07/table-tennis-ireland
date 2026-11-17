@@ -250,6 +250,53 @@ QR and direct app session-time attendance are the current pilot path. The person
 
 Owner-led testing can start without recruiting a broader club pilot team; scheduling that team is parked and is not a prerequisite to continued development. Automated checks, secure access and appropriate private-data handling remain production requirements. Trial policy and safeguarding/privacy decisions remain open as listed in the decision register.
 
+### Presentation layer: public website and management workspace (17 November 2026)
+
+Requirements: `specs/club-content` (modern, honest public presentation) and `specs/club-administration` (usable management workspace). Tasks: section 16 of `tasks.md`. This layer is **presentation only**. It reads state the client already holds, adds no command types, changes no permission, validation, booking or storage rule, and needs **no SQL migration, no backend deployment and no change to `club-api`, `club-jobs`, `club-public` or `_shared/runtime.ts`**.
+
+**Source map**
+
+| File | Responsibility |
+| --- | --- |
+| `packages/domain/src/presentation.ts` | Pure helpers `nextWeeklySession` and `clubOverview`; exported through `packages/domain/src/index.ts`. Not staged into `supabase/functions/_shared/domain` (the server never uses it). |
+| `packages/domain/src/presentation.test.ts` | 9 unit tests for both helpers. |
+| `apps/club-web/index.html` | Title, description, Open Graph tags, light/dark `theme-color`, inline SVG favicon, JSON-LD `SportsClub`. |
+| `apps/club-web/src/App.tsx` | Public page: skip link, sticky header with mobile menu, hero with next-session card, ticker, bento tiles, timetable, About, member surface, membership prices, FAQ, news/contact, footer. |
+| `apps/club-web/src/styles.css` | Design tokens, light/dark scheme, layout, motion and breakpoints for the website only. |
+| `packages/ui/src/ClubPortal.tsx` | Adds the Overview tab, `ops-shell`/`ops-main` layout wrapper and the people search. Shared by the website and the platform app. |
+| `packages/ui/src/operations.css` | Workspace styles; hard-coded colours replaced by `--ops-*` tokens; sidebar, overview cards, search and empty states appended. |
+| `scripts/browser-smoke.mjs` | Browser workflow extended (overview, people search, website mobile menu). |
+
+**`nextWeeklySession(sessions, now)`** takes any list of `{ day, time, title }` (the owner-confirmed `leesideSessions`, where `time` looks like `18:00–20:00`). It reads the weekday and clock in **Europe/Dublin** via `Intl.DateTimeFormat` (so BST/GMT are handled without manual offsets), scans today plus the next 7 days, skips a slot that has already ended today, and reports `{ session, daysAhead, inProgress }`. It returns `null` when nothing parses; the website then simply shows the timetable without a card. It does not know about public-holiday closures, which is why the card always carries the "confirm with the club" caveat.
+
+**`clubOverview(state, actor, now)`** returns `{ items, setup }`. Each item is `{ key, label, value, detail, tab }`. Visibility is gated with the same `may(state, actor, permission)` used everywhere else:
+
+| Item | Shown when | Counts |
+| --- | --- | --- |
+| `sessions` | always (any signed-in actor with state) | non-cancelled sessions ending after now and starting within 7 Dublin days |
+| `requests` | `booking` | pending place requests whose hold has not expired |
+| `expiring`, `applicants` | `membership` | active memberships ending within 14 days; people with status `pending` |
+| `attendance` | `attendance` | attendance records dated today (Dublin) |
+| `work` | `access` | team work items not resolved |
+
+`setup` suggests next steps for an empty club: no membership types (`membership`), no sessions (`events`), missing privacy/safeguarding text (`privacy`). The state passed in is already the server-redacted `clubView`, and the helper only ever filters it further; it cannot reveal anything the actor could not already fetch. Authorization stays server-side.
+
+**Website behaviour and anchors.** The page keeps these ids, which tests, deep links and `ClubPublished`/`ClubPortal` rely on: `#top`, `#main`, `#sessions`, `#about`, `#published`, `#club-portal`, `#membership`, `#join`, `#faq`, `#news`, `#contact`. Do not rename them without updating `scripts/browser-smoke.mjs` and the website links in the docs. `clubServicesEnabled` (live mode) still switches the join button between `#club-portal` and the `mailto:` enquiry, and still hides the source-attributed price cards in favour of the live catalogue.
+- *Mobile navigation:* below 940px the nav becomes a drop-down controlled by a button with `aria-expanded`/`aria-controls="site-menu"`; Escape and link clicks close it. The old site hid its navigation under 760px.
+- *Next-session card:* recomputed every 60 seconds from `Date.now()`; `aria-live="polite"`.
+- *Scroll reveal:* `IntersectionObserver` adds `.is-visible` to `.reveal` elements. The hidden start state (`.reveal-ready .reveal`) is only applied after the effect runs and only when `IntersectionObserver` exists and `prefers-reduced-motion` is not `reduce`, so content is visible without JavaScript or when motion is reduced.
+- *Ticker and ball animation:* decorative, `aria-hidden`; disabled under reduced motion. Known gap: there is no visible pause control for the ticker (WCAG 2.2.2 expects one for auto-moving content longer than five seconds); tracked as task 16.9.
+- *Member surface:* `ClubPublished` and `ClubPortal` sit inside `<div class="surface">` which pins a light palette (`#f4f1e9`, ink `#19334c`, primary `#103a2e`). The dark colour scheme therefore applies to the marketing sections only; the workspace is always light.
+- *Content rules:* prices, timetable, coaches, address, phone, email, Facebook and archive links are exactly the ones already in the previous version (source-attributed 6 November 2026). No testimonials, photographs, ratings, counts or news were added. The "5 sessions" tile is the confirmed timetable length. The Maps link is a plain search link built from the confirmed address.
+
+**Design tokens (website).** `:root` defines `--primary --accent --bg --surface --text --muted --line --band --link --radius --pad`. Under `prefers-color-scheme: dark` the colour tokens are overridden (`--primary #08201a`, `--bg #0c1714`, `--surface #14241f`, `--text #eef3f0`, `--muted #a9bbb3`, `--link #d7ff55`). Layout breakpoints: 940px (navigation collapses), 760px (single column, hero and bento stack), 420px (compact header). Muted text uses `#4f5d57` on the light background to stay above 4.5:1; a formal contrast audit has not been run (task 16.9).
+
+**Management workspace.** `nav` now begins with `["overview", "Overview"]`; every existing tab name is unchanged. The default tab is **Overview** instead of Table booking, and `#club=<id>&view=overview` is a valid deep link (both the initial-state list and the `hashchange` list in `ClubPortal.tsx` include it). QR-scan links still force the Attendance tab. The navigation and everything after it are wrapped in `<div class="ops-shell">` containing the `<nav aria-label="Club workspace">` and `<div class="ops-main">`; desktop shows a sticky 220px sidebar, below 900px it becomes a horizontally scrolling bar. Colours come from `--ops-primary` (falls back to `--primary`, so the website is green and the platform app navy), `--ops-ink`, `--ops-soft`, `--ops-muted`, `--ops-line`. The people search is local state (`peopleQuery`), filters the already-loaded list by name and the (already-redacted) email, and never calls the service.
+
+**To extend later.** A new overview item: add it to `clubOverview` with its permission gate and a unit test, nothing else (the UI maps `items`). A new tab: add it to `nav`, to both view allow-lists, and render its block in `ClubPortal.tsx`.
+
+**Verification recorded.** See `implementation-status.md` for the dated results. Run everything under **Node 22** (`.nvmrc`): under Node 20 the setup tests fail with `ERR_UNKNOWN_FILE_EXTENSION` for `.ts` imports, which looks like a code failure but is only the wrong runtime.
+
 ## Risks / Trade-offs
 
 ### Table-wise practice reservations (approved 2 November 2026; implementation pending)

@@ -138,3 +138,26 @@ The system SHALL allow a configurable group of individually authenticated club a
 #### Scenario: Two admins act concurrently
 - **WHEN** two admins attempt a conflicting ownership or resolution update
 - **THEN** the system accepts one current update, rejects or refreshes the stale action, and prevents silent loss of either admin's work
+
+### Requirement: Usable management workspace
+The club management workspace SHALL help authorized staff find and complete routine work quickly while remaining a presentation layer over the shared command service. It SHALL open on a read-only overview of the actor's permitted records (for example today's sessions, pending table requests, memberships expiring soon, open work items and attendance needing follow-up), provide persistent area navigation that adapts from desktop sidebar to a scrollable mobile bar, offer search/filter for long player and membership lists, show helpful empty states that point to the next setup step, and use consistent visual styling, labels and status indicators. The overview and navigation SHALL only show counts and records the actor is permitted to see, SHALL NOT bypass server-side authorization, SHALL NOT alter command, validation or booking rules, and SHALL NOT present synthetic data as live.
+
+#### Scenario: Manager opens the workspace
+- **WHEN** a signed-in manager with the relevant permissions opens the workspace
+- **THEN** they see an overview of current counts and next actions drawn from permitted state, with shortcuts to the matching areas
+
+#### Scenario: Limited-permission user
+- **WHEN** a player, guardian or coach without membership or management permission opens the overview
+- **THEN** counts and lists that depend on missing permissions are not shown and no private member, payment or note data is revealed
+
+#### Scenario: New club with no records
+- **WHEN** a newly bootstrapped club has no sessions, players or membership types
+- **THEN** the overview shows plain empty states naming the next setup action instead of blank panels or misleading zero metrics
+
+#### Scenario: Find a player
+- **WHEN** a membership manager types part of a name into the people search
+- **THEN** the list narrows without changing any record, and clearing the search restores the full list
+
+#### Scenario: Small screen and keyboard use
+- **WHEN** the workspace is used at 320 pixel width or only by keyboard
+- **THEN** navigation, forms and lists stay reachable with visible focus and no horizontal page scrolling

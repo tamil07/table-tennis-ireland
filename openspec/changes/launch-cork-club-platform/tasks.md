@@ -242,17 +242,31 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 - [ ] 15.9 Confirm the owner's exact failing screen/error if different from the reproduced adult-creation issue; do not treat source review as proof of the original live failure
 - [ ] 15.10 Clarify and implement genuine per-visit/pay-as-you-go entitlement if required; the current duration-based catalogue is not proof of per-visit charging support
 
-## 15. Visual design pass (decided 16 November 2026)
+## 17. Visual design pass (decided 16 November 2026)
 
 Source: specs/visual-design/spec.md and design.md "Visual design system". Nothing below is done yet.
 
-- [ ] 15.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps, pinned to an exact version at least two weeks old, and record the version in implementation-status.md.
-- [ ] 15.2 Define the design tokens (colours, type scale, spacing, radius, focus ring, elevation) once in packages/ui, with light and dark sets following the system preference.
-- [ ] 15.3 Migrate packages/ui/src/operations.css, booking.css and both application styles.css into the token system; remove per-screen palettes; keep the attendance screen unchanged until migrated.
-- [ ] 15.4 Build the shared layout pieces: application shell, page header, section card, form grid, data table with a scroll container, stacked record card, and a phone menu.
-- [ ] 15.5 Rebuild the people and membership screens first (including the name fields from 14.26), at phone and desktop widths.
-- [ ] 15.6 Rebuild the remaining member app screens: booking, sessions and hall, attendance, matches, tournaments, coaching, messages, management.
-- [ ] 15.7 Rebuild the public website pages using the same tokens and the same join, child and subscription forms.
-- [ ] 15.8 Add browser checks at 360px and desktop widths, and automated accessibility checks, to the existing browser workflows.
-- [ ] 15.9 Produce screenshots of the people and membership screens for owner review before deploying the visual release.
-- [ ] 15.10 Deploy the backend, member app and website after the owner approves the screenshots; record the versions in DEPLOYMENT_STATUS.md.
+- [ ] 17.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps, pinned to an exact version at least two weeks old, and record the version in implementation-status.md.
+- [ ] 17.2 Define the design tokens (colours, type scale, spacing, radius, focus ring, elevation) once in packages/ui, with light and dark sets following the system preference.
+- [ ] 17.3 Migrate packages/ui/src/operations.css, booking.css and both application styles.css into the token system; remove per-screen palettes; keep the attendance screen unchanged until migrated.
+- [ ] 17.4 Build the shared layout pieces: application shell, page header, section card, form grid, data table with a scroll container, stacked record card, and a phone menu.
+- [ ] 17.5 Rebuild the people and membership screens first (including the name fields from 14.26), at phone and desktop widths.
+- [ ] 17.6 Rebuild the remaining member app screens: booking, sessions and hall, attendance, matches, tournaments, coaching, messages, management.
+- [ ] 17.7 Rebuild the public website pages using the same tokens and the same join, child and subscription forms.
+- [ ] 17.8 Add browser checks at 360px and desktop widths, and automated accessibility checks, to the existing browser workflows.
+- [ ] 17.9 Produce screenshots of the people and membership screens for owner review before deploying the visual release.
+- [ ] 17.10 Deploy the backend, member app and website after the owner approves the screenshots; record the versions in DEPLOYMENT_STATUS.md.
+
+## 16. Modern website presentation and management workspace usability — 17 November 2026
+
+Presentation-only work: no change to the command service, permissions, booking rules or stored data, and no new SQL migration. Source-backed content gaps remain tracked in 4.7–4.10 and 14.19.
+
+- [x] 16.1 Redesign the public website (`apps/club-web`) with current patterns: bento-style sections, large type, light/dark schemes, restrained scroll reveal that respects reduced motion, skip link, and a keyboard-operable mobile navigation menu (the old navigation was hidden below 760px)
+- [x] 16.2 Add a next-session indicator computed from the owner-confirmed timetable in Europe/Dublin, with a plain-timetable fallback and the public-holiday caveat
+- [x] 16.3 Add accurate search/social metadata and JSON-LD using only confirmed facts; no invented testimonials, ratings, counts, news or photographs
+- [x] 16.4 Clarify sign-in/join/enquiry entry points for synthetic, live and email-enquiry states; preserve existing `#club-portal`, `#join` and published-content anchors used by browser tests
+- [x] 16.5 Management workspace: read-only permission-aware Overview landing tab, desktop sidebar / mobile scrolling navigation, design-token visual refresh, people search/filter and empty states; existing tab names and form labels are preserved
+- [x] 16.6 Add unit tests for next-session and overview calculations and extend both browser workflows (overview, mobile menu, search, 320px no horizontal scroll); keep `npm run check` and browser checks green
+- [ ] 16.7 DEFERRED: split `ClubPortal.tsx` (about 3,200 lines) into per-area components in a behaviour-neutral refactor with the existing browser/HTTP suites as the safety net
+- [ ] 16.8 Owner: deploy through the normal commands, review the live website/app on real phones and desktop, and supply real photographs, logo and imported news so placeholders can be replaced (depends on 4.7)
+- [ ] 16.9 Open accessibility follow-ups: add a visible pause control for the decorative ticker (WCAG 2.2.2) and run a formal contrast/screen-reader audit of the website and Overview tab before describing the redesign as accessibility-reviewed

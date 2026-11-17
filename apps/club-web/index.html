@@ -1,11 +1,54 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#103a2e" />
-    <meta name="description" content="Leeside Table Tennis Club in Cork" />
-    <title>Leeside Table Tennis Club</title>
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#103a2e" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#08201a" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="Leeside Table Tennis Club in Gurranabraher, Cork. Five weekly sessions for all ages and abilities at James Kenneally Sports Hall."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Leeside Table Tennis Club" />
+    <meta property="og:title" content="Leeside Table Tennis Club · Cork" />
+    <meta
+      property="og:description"
+      content="Five weekly table tennis sessions for all ages and abilities in Gurranabraher, Cork."
+    />
+    <meta property="og:locale" content="en_IE" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23103a2e'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23d7ff55'/%3E%3C/svg%3E"
+    />
+    <title>Leeside Table Tennis Club · Cork</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsClub",
+        "name": "Leeside Table Tennis Club",
+        "sport": "Table tennis",
+        "url": "https://table-tennis-ireland.ttclubsie.workers.dev",
+        "email": "leesidettie@gmail.com",
+        "telephone": "+353838307259",
+        "sameAs": ["https://www.facebook.com/people/Leeside-Table-Tennis-Club/100069763473060/"],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "James Kenneally Sports Hall, Hollyhill Lane, Gurranabraher",
+          "addressLocality": "Cork",
+          "postalCode": "T23 W880",
+          "addressCountry": "IE"
+        },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "18:00", "closes": "20:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "20:15", "closes": "22:15" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "17:30", "closes": "19:30" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "18:00", "closes": "20:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "12:45", "closes": "15:30" }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
