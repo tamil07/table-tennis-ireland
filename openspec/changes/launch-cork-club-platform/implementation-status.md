@@ -185,3 +185,7 @@ The current portal styling is not accepted as the final design. Task section 17 
 ## Growth plan — 17 November 2026
 
 The plan for offering the platform to other clubs on a paid basis is recorded in `openspec/changes/grow-to-paying-clubs/`. It is phased with explicit gates. Phase 0 depends on finishing the Leeside launch tasks in section 14 of tasks.md. The styling decision is separate and does not gate the growth plan.
+
+## Tailwind foundation — 17 November 2026
+
+Tailwind CSS 4.3.4 and @tailwindcss/vite 4.3.4 are pinned exactly (4.3.5 excluded by the two-week rule). The shared stylesheet packages/ui/src/tailwind.css defines the existing palette as theme colours and omits Tailwind's reset styles. Both apps load it and their Vite configs include the plugin. No screen uses the utilities yet, so the visual appearance is unchanged. Migrating screens is the next slice; it needs owner screenshot review (task 17.9) before any visual release.

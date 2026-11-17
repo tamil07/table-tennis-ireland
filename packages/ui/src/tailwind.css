@@ -1,0 +1,15 @@
+/* Tailwind utilities for the shared UI. Preflight (the global reset) is deliberately
+   not imported, so existing screens keep their current base styles. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@source "./";
+
+@theme {
+  --color-ops-ink: #19334c;
+  --color-ops-soft: #edf3f8;
+  --color-ops-muted: #4d6577;
+  --color-ops-line: #d0dce5;
+  --color-ops-accent: #bdf66a;
+  --color-ops-primary: #16283f;
+}

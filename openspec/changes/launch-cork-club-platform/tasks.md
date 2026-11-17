@@ -246,8 +246,8 @@ Live backend, owner login, club record, both Workers and live builds are done (s
 
 Source: specs/visual-design/spec.md and design.md "Visual design system". Nothing below is done yet.
 
-- [ ] 17.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps, pinned to an exact version at least two weeks old, and record the version in implementation-status.md.
-- [ ] 17.2 Define the design tokens (colours, type scale, spacing, radius, focus ring, elevation) once in packages/ui, with light and dark sets following the system preference.
+- [x] 17.1 Add Tailwind CSS with the Vite plugin to the shared UI and both apps. Pinned to exact 4.3.4 for `tailwindcss` and `@tailwindcss/vite` (4.3.5 is only eleven days old, so it is excluded by the two-week rule). Preflight is not imported, so existing screens keep their base styles. Verified 17 November 2026: 103 domain, 8 UI, setup checks, builds and both browser workflows pass.
+- [~] 17.2 PARTIAL: the existing `ops` palette is now Tailwind theme colours (`ops-ink`, `ops-soft`, `ops-muted`, `ops-line`, `ops-accent`, `ops-primary`) in packages/ui/src/tailwind.css; the light/dark token set is not yet defined. Define the design tokens (colours, type scale, spacing, radius, focus ring, elevation) once in packages/ui, with light and dark sets following the system preference.
 - [ ] 17.3 Migrate packages/ui/src/operations.css, booking.css and both application styles.css into the token system; remove per-screen palettes; keep the attendance screen unchanged until migrated.
 - [ ] 17.4 Build the shared layout pieces: application shell, page header, section card, form grid, data table with a scroll container, stacked record card, and a phone menu.
 - [ ] 17.5 Rebuild the people and membership screens first (including the name fields from 14.26), at phone and desktop widths.
