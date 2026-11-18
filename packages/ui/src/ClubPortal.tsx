@@ -564,7 +564,7 @@ export function ClubPortal({
     : null;
   return (
     <section
-      className="mx-auto max-w-[1160px] px-5 py-16 text-ops-ink"
+      className="club-ops mx-auto max-w-[1160px] px-5 py-16 text-ops-ink"
       id="club-portal"
       aria-labelledby="portal-title"
     >
@@ -703,10 +703,15 @@ export function ClubPortal({
             </p>
           </details>
           <div className="mt-3 grid grid-cols-1 items-start gap-7 lg:grid-cols-[220px_minmax(0,1fr)]">
-          <nav aria-label="Club workspace">
+          <nav
+            aria-label="Club workspace"
+            className="sticky top-3 m-0 flex flex-col gap-1 rounded-[14px] border border-ops-line bg-white p-2.5"
+          >
             {nav.map(([id, label]) => (
               <button
                 key={id}
+                type="button"
+                className="rounded-[9px] border-0 bg-transparent px-3 py-2.5 text-left font-semibold text-ops-ink hover:bg-ops-soft aria-pressed:bg-ops-primary aria-pressed:text-white"
                 aria-pressed={tab === id}
                 onClick={() => {
                   setTab(id);
