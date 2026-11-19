@@ -89,3 +89,14 @@ The Leeside public website SHALL present the club through a current, responsive,
 #### Scenario: Search and social sharing
 - **WHEN** the website is shared or indexed
 - **THEN** its title, description and structured data describe the club, address, contact and published sessions accurately and contain no unconfirmed claims
+
+### Requirement: Media storage limits (deferred until post images are built)
+Images attached to posts, news or events SHALL be stored in file storage, not in the club's database record, so that the database stays within its size limit. Each uploaded image SHALL be resized and compressed before storage, to no more than 1600 pixels on its longest side and no more than 500 KB per file. Each post SHALL allow at most four images. Accepted formats SHALL be JPEG, PNG and WebP. The platform SHALL track total file storage against the plan limit (1 GB on the Supabase free plan), warn the owner at 70 percent, and refuse new uploads at 90 percent. Replaced or removed images SHALL be deleted from storage. Limits are reviewed before a paid plan is chosen.
+
+#### Scenario: Oversized image refused
+- **WHEN** an editor uploads an image larger than 500 KB after compression
+- **THEN** the app refuses it with a message stating the limit, and nothing is stored
+
+#### Scenario: Storage warning
+- **WHEN** total file storage reaches 70 percent of the plan limit
+- **THEN** the owner sees a warning in Management and the work queue

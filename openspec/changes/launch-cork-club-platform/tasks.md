@@ -291,3 +291,12 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [ ] 19.5 Owner review of screenshots for all batches before any visual release (17.9).
 - [ ] 19.6 Review set of screenshots for every portal tab at 1440 and 390 pixels, regenerated 17 November 2026 from a fresh build and saved outside the repository in ~/Downloads/tti-review-2026-11-17/ (desktop-*.png and phone-*.png, one per tab). Regenerate after batch 4 and replace the folder contents.
 - [x] 19.7 Regression fix (18 November 2026): the portal's scope class was removed during the utility mapping, so portal button styles were not applied and the selected workspace tab looked unselected. Restored the scope, and the navigation now uses its own utilities with a visible selected state (dark background, white text). Checked in the browser at desktop and phone widths; full check and verification passing. Not yet pushed or deployed.
+
+## 20. Media storage limits (deferred, recorded 19 November 2026)
+
+- [ ] 20.1 Build image upload for posts and events only after the Share and post features are approved: store images in file storage, not in the database record.
+- [ ] 20.2 Resize and compress images on upload (1600 pixels longest side, 500 KB per file); accept JPEG, PNG and WebP only.
+- [ ] 20.3 Limit each post to four images; delete replaced and removed images from storage.
+- [ ] 20.4 Show total file storage against the 1 GB Supabase free limit in Management; warn at 70 percent and refuse new uploads at 90 percent.
+- [ ] 20.5 Review these limits before choosing a paid plan.
+
