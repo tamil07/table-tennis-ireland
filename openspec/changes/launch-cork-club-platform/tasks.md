@@ -308,4 +308,5 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [x] 21.2 Posts: titles limited to 120 characters; bodies to 10,000; angle brackets and javascript: links refused in titles and bodies. Tested locally (113 domain tests).
 - [ ] 21.3 Owner: review the landing animation on a phone and under reduced motion (visual release, task 19.5).
 - [ ] 21.4 Later: a second confirmation step before a post goes public, and https-only links once links are rendered.
+- [x] 21.5 Landing rally refined (19 November 2026): the paddle is drawn as a table tennis bat (rounded blade with a red rubber face, wooden edge and tapered handle); the net is drawn as a white top tape, a mesh and a post at each end across the middle of the table. Decorative, CSS-animated, stopped under reduced motion. Checked by screenshot at desktop width.
 

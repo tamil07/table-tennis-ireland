@@ -188,7 +188,17 @@ export function App() {
               role="img"
               aria-label="Illustration of a table tennis table"
             >
-              <span className="net" />
+              <svg className="net-svg" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="rally-mesh" width="6" height="6" patternUnits="userSpaceOnUse">
+                    <path d="M0 0H6M0 0V6" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="0.8" fill="none" />
+                  </pattern>
+                </defs>
+                <rect className="net-svg__post" x="0" y="0" width="4" height="40" />
+                <rect className="net-svg__post" x="196" y="0" width="4" height="40" />
+                <rect x="4" y="6" width="192" height="30" fill="url(#rally-mesh)" />
+                <rect className="net-svg__tape" x="0" y="2" width="200" height="4" />
+              </svg>
               <svg className="rally" viewBox="0 0 300 200" aria-hidden="true" focusable="false">
                 <g transform="translate(190 60)">
                   <g className="rally__ball-x">
@@ -200,8 +210,10 @@ export function App() {
                 </g>
                 <g transform="translate(252 112)">
                   <g className="rally__bat">
-                    <path className="rally__blade" d="M -17 -34 C -17 -50 17 -50 17 -34 L 17 -8 C 17 6 -17 6 -17 -8 Z" />
-                    <rect className="rally__handle" x="-3.5" y="6" width="7" height="30" rx="3.5" />
+                    <path className="rally__handle" d="M -4 4 L -5.5 42 Q 0 48 5.5 42 L 4 4 Z" />
+                    <path className="rally__blade" d="M -16 -34 C -22 -34 -24 -20 -22 -8 C -20 4 -10 9 -4 7 L 4 7 C 10 9 20 4 22 -8 C 24 -20 22 -34 16 -34 Z" />
+                    <path className="rally__rubber" d="M -12 -30 C -16 -30 -18 -20 -16 -9 C -14 1 -8 4 -4 3 L 4 3 C 8 4 14 1 16 -9 C 18 -20 16 -30 12 -30 Z" />
+                    <path className="rally__shine" d="M -9 -24 Q -10 -16 -8 -10" />
                   </g>
                 </g>
               </svg>
