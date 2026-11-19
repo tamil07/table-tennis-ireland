@@ -429,21 +429,29 @@ function optionalText(data: Record<string, unknown>, key: string, max: number) {
   return data[key] === undefined ? "" : text(data, key, max);
 }
 /** Mobile numbers are stored in international format (+ then country code and number).
+    Irish mobiles: 0 then 83, 85, 86, 87 or 89 then seven digits (ten digits), or +353 with the same nine digits.
+    Other countries: digits only, 6 to 14 after the country code, no leading zero.
     Forms send a country code and a national number; legacy `mobile` text is kept when neither is sent. */
 function mobileFrom(data: Record<string, unknown>) {
   const country = optionalText(data, "mobileCountry", 6);
   const number = optionalText(data, "mobileNumber", 20);
   if (!country && !number) return optionalText(data, "mobile", 30);
   if (!number) return "";
-  const national = number.replace(/[^0-9]/g, "").replace(/^0+/, "");
-  const international = `${country}${national}`;
-  requireValue(
-    /^\+[1-9][0-9]{6,14}$/.test(international),
-    "Enter a valid mobile number for the chosen country.",
-  );
+  const refused = "Enter a valid mobile number. Irish mobiles have ten digits starting 083, 085, 086, 087 or 089, for example 087 123 4567.";
+  // Only digits, spaces, hyphens, brackets, dots and a leading plus are allowed.
+  requireValue(/^\+?[0-9 ()\-.]+$/.test(number), refused);
+  const compact = number.replace(/[ ()\-.]/g, "");
+  if (country === "+353" || compact.startsWith("+353")) {
+    let national = compact.startsWith("+353") ? compact.slice(4) : compact;
+    if (national.startsWith("0")) national = national.slice(1);
+    requireValue(/^8[35679][0-9]{7}$/.test(national), refused);
+    return `+353${national}`;
+  }
+  requireValue(!compact.startsWith("+") && !compact.startsWith("0"), "Enter the mobile number without the country code or a leading zero.");
+  const international = `${country}${compact}`;
+  requireValue(/^\+[1-9][0-9]{6,14}$/.test(international), "Enter a valid mobile number for the chosen country.");
   return international;
 }
-/** Date of birth as YYYY-MM-DD, not in the future. Required for juniors. */
 /** Whole years between a date of birth and a date, both YYYY-MM-DD. */
 function ageOn(dateOfBirth: string, today: string) {
   const [by, bm, bd] = dateOfBirth.split("-").map(Number);

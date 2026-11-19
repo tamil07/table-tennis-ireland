@@ -210,3 +210,12 @@ The system SHALL record a date of birth. It is optional for adults and SHALL be 
 #### Scenario: Junior over 18 refused
 - **WHEN** a guardian registers a junior whose date of birth shows they are 18 or over
 - **THEN** the system refuses the registration and asks for an adult account instead
+
+#### Scenario: Irish mobile validation
+- **WHEN** a manager enters an Irish number with the Ireland (+353) code
+- **THEN** the system accepts ten digits starting 083, 085, 086, 087 or 089 (or the equivalent +353 form, with or without spaces and hyphens) and stores +353 followed by nine digits
+- **AND** refuses any entry containing letters, a wrong length, or a prefix that is not a mobile prefix, with a message giving an example
+
+#### Scenario: Other countries
+- **WHEN** a manager enters a number for another country code
+- **THEN** the system accepts digits only, six to fourteen after the country code, with no leading zero

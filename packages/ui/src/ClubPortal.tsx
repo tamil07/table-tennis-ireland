@@ -65,7 +65,7 @@ function contactFields(
     },
     {
       key: "mobileNumber",
-      label: "Mobile number (no country code)",
+      label: "Mobile number (e.g. 087 123 4567)",
       optional: true,
       value: known ? current?.mobile?.slice(known[0].length) : "",
     },

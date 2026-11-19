@@ -141,6 +141,41 @@ describe("identity and membership integrity", () => {
       dateOfBirth: "1990-05-06",
     });
   });
+  it("accepts Irish mobile numbers in common forms and stores them in international format", () => {
+    const cases: [string, string][] = [
+      ["087 123 4567", "+353871234567"],
+      ["0871234567", "+353871234567"],
+      ["086-123-4567", "+353861234567"],
+      ["089 123 4567", "+353891234567"],
+      ["+353 83 123 4567", "+353831234567"],
+      ["87 123 4567", "+353871234567"],
+    ];
+    for (const [number, stored] of cases) {
+      const s = run(demoClub(now), "person", {
+        name: "Irish number",
+        mobileCountry: "+353",
+        mobileNumber: number,
+        junior: false,
+        guest: false,
+        guardians: [],
+      });
+      expect(s.people.at(-1)).toMatchObject({ mobile: stored });
+    }
+  });
+  it("refuses Irish numbers with letters, wrong length or a non-mobile prefix", () => {
+    for (const number of ["0009ih", "abc", "12", "087 123 456", "081 234 5678", "087 123 4567 999"]) {
+      expect(() =>
+        run(demoClub(now), "person", {
+          name: "Bad number",
+          mobileCountry: "+353",
+          mobileNumber: number,
+          junior: false,
+          guest: false,
+          guardians: [],
+        }),
+      ).toThrow("valid mobile number");
+    }
+  });
   it("refuses an invalid mobile number for the chosen country", () => {
     expect(() =>
       run(demoClub(now), "person", {
