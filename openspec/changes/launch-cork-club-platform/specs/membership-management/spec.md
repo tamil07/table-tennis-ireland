@@ -202,3 +202,11 @@ The system SHALL record a date of birth. It is optional for adults and SHALL be 
 #### Scenario: Junior requires a date of birth
 - **WHEN** a guardian registers a child without a date of birth
 - **THEN** the system refuses the registration and asks for the date of birth
+
+#### Scenario: Under-18 entered as an adult refused
+- **WHEN** a manager saves a person under 18 as an adult, with a date of birth
+- **THEN** the system refuses the save and asks for the person to be registered as a junior player through their guardian's account
+
+#### Scenario: Junior over 18 refused
+- **WHEN** a guardian registers a junior whose date of birth shows they are 18 or over
+- **THEN** the system refuses the registration and asks for an adult account instead

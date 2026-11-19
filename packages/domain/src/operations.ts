@@ -444,7 +444,16 @@ function mobileFrom(data: Record<string, unknown>) {
   return international;
 }
 /** Date of birth as YYYY-MM-DD, not in the future. Required for juniors. */
-function dateOfBirthFrom(data: Record<string, unknown>, required: boolean) {
+/** Whole years between a date of birth and a date, both YYYY-MM-DD. */
+function ageOn(dateOfBirth: string, today: string) {
+  const [by, bm, bd] = dateOfBirth.split("-").map(Number);
+  const [ty, tm, td] = today.split("-").map(Number);
+  let age = ty - by;
+  if (tm < bm || (tm === bm && td < bd)) age -= 1;
+  return age;
+}
+/** Under 18 must be registered as a junior through a guardian; a junior must be under 18. */
+function dateOfBirthFrom(data: Record<string, unknown>, required: boolean, asJunior: boolean) {
   const raw = optionalText(data, "dateOfBirth", 10);
   if (!raw) {
     requireValue(!required, "A date of birth is required for a junior player.");
@@ -454,9 +463,16 @@ function dateOfBirthFrom(data: Record<string, unknown>, required: boolean) {
     /^\d{4}-\d{2}-\d{2}$/.test(raw) && !Number.isNaN(Date.parse(raw)),
     "Date of birth must be a valid date.",
   );
+  const today = new Date().toISOString().slice(0, 10);
+  requireValue(raw <= today, "Date of birth cannot be in the future.");
+  const age = ageOn(raw, today);
   requireValue(
-    raw <= new Date().toISOString().slice(0, 10),
-    "Date of birth cannot be in the future.",
+    asJunior || age >= 18,
+    "This person is under 18. Register them as a junior player through their guardian's account, not as an adult.",
+  );
+  requireValue(
+    !asJunior || age < 18,
+    "A junior player must be under 18. Register this person as an adult with their own account.",
   );
   return raw;
 }
@@ -1308,7 +1324,7 @@ export function applyClubCommand(
         emailVerified:
           actor.emailVerified ?? (actor.verified && Boolean(actor.email)),
         mobile: mobileFrom(d),
-        dateOfBirth: dateOfBirthFrom(d, false) || undefined,
+        dateOfBirth: dateOfBirthFrom(d, false, false) || undefined,
         junior: false,
         guardians: [],
         status: "pending",
@@ -1368,7 +1384,7 @@ export function applyClubCommand(
       if (!may(s, actor.id, "membership")) own(p.id);
       Object.assign(p, namePartsFrom(d));
       p.mobile = mobileFrom(d);
-      p.dateOfBirth = dateOfBirthFrom(d, p.junior) || undefined;
+      p.dateOfBirth = dateOfBirthFrom(d, p.junior, p.junior) || undefined;
       if (p.id === actor.id) {
         p.accountLinked = true;
         p.email = actor.email;
@@ -1422,7 +1438,7 @@ export function applyClubCommand(
         email: existing?.email ?? "",
         emailVerified: existing?.emailVerified ?? false,
         mobile: mobileFrom(d),
-        dateOfBirth: dateOfBirthFrom(d, junior) || undefined,
+        dateOfBirth: dateOfBirthFrom(d, junior, junior) || undefined,
         junior,
         guardians,
         status: d.guest === true ? "guest" : "player",
@@ -1488,7 +1504,7 @@ export function applyClubCommand(
         email: "",
         emailVerified: false,
         mobile: "",
-        dateOfBirth: dateOfBirthFrom(d, true),
+        dateOfBirth: dateOfBirthFrom(d, true, true),
         junior: true,
         guardians: [actor.id],
         status: "pending",

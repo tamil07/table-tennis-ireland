@@ -171,6 +171,29 @@ describe("identity and membership integrity", () => {
       run(s, "child", { name: "No birth date", consent: true, actor: guardian?.id }),
     ).toThrow("date of birth is required");
   });
+  it("refuses saving someone under 18 as an adult", () => {
+    const tenYearsAgo = new Date(Date.now() - 10 * 365.25 * 86400000).toISOString().slice(0, 10);
+    expect(() =>
+      run(demoClub(now), "person", {
+        name: "Under eighteen",
+        dateOfBirth: tenYearsAgo,
+        junior: false,
+        guest: false,
+        guardians: [],
+      }),
+    ).toThrow("under 18");
+  });
+  it("accepts an adult of 18 or over with a date of birth", () => {
+    const thirtyYearsAgo = new Date(Date.now() - 30 * 365.25 * 86400000).toISOString().slice(0, 10);
+    const s = run(demoClub(now), "person", {
+      name: "Grown adult",
+      dateOfBirth: thirtyYearsAgo,
+      junior: false,
+      guest: false,
+      guardians: [],
+    });
+    expect(s.people.at(-1)).toMatchObject({ name: "Grown adult", junior: false });
+  });
   it("refuses guardian relationships on adults and prevents self-guardianship", () => {
     const s = demoClub(now);
     expect(() =>

@@ -299,4 +299,4 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [ ] 20.3 Limit each post to four images; delete replaced and removed images from storage.
 - [ ] 20.4 Show total file storage against the 1 GB Supabase free limit in Management; warn at 70 percent and refuse new uploads at 90 percent.
 - [ ] 20.5 Review these limits before choosing a paid plan.
-
+- [x] 18.7 Under-18 rule (19 November 2026): a person under 18 cannot be saved as an adult, and a junior over 18 cannot be registered; both refuse with a clear message. Implemented and tested locally (109 domain tests). Not live until the backend is redeployed.
