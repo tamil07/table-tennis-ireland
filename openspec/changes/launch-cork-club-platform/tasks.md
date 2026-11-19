@@ -302,3 +302,10 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [x] 18.7 Under-18 rule (19 November 2026): a person under 18 cannot be saved as an adult, and a junior over 18 cannot be registered; both refuse with a clear message. Implemented and tested locally (109 domain tests). Not live until the backend is redeployed.
 - [x] 18.8 Irish mobile validation (19 November 2026): ten digits starting 083, 085, 086, 087 or 089 (or +353 with nine digits), spaces and hyphens allowed, letters refused; stored as +353 followed by nine digits. Other countries: digits only. Prefix list checked against published sources; carrier ownership not relied on, since number portability applies. Tested locally (111 domain tests). Not live until the backend is redeployed.
 
+## 21. Landing rally and plain-text posts (19 November 2026)
+
+- [x] 21.1 Landing page: the single ball is replaced by an SVG paddle and ball on the court, animated with CSS keyframes (ball path, bounce, paddle swing). Hidden from assistive technology; stops under reduced motion. Checked by screenshot at desktop width.
+- [x] 21.2 Posts: titles limited to 120 characters; bodies to 10,000; angle brackets and javascript: links refused in titles and bodies. Tested locally (113 domain tests).
+- [ ] 21.3 Owner: review the landing animation on a phone and under reduced motion (visual release, task 19.5).
+- [ ] 21.4 Later: a second confirmation step before a post goes public, and https-only links once links are rendered.
+

@@ -229,6 +229,23 @@ describe("identity and membership integrity", () => {
     });
     expect(s.people.at(-1)).toMatchObject({ name: "Grown adult", junior: false });
   });
+  it("refuses post titles and bodies that contain markup or script links", () => {
+    for (const body of ["<script>alert(1)</script>", "click javascript:void(0)", "fine text <b>bold</b>"]) {
+      expect(() =>
+        run(demoClub(now), "page", { title: "News", body, kind: "news", published: false, event: "" }),
+      ).toThrow("plain text");
+    }
+    expect(() =>
+      run(demoClub(now), "page", { title: "<img src=x>", body: "Hello", kind: "news", published: false, event: "" }),
+    ).toThrow("plain text");
+  });
+  it("accepts a plain text post and refuses a title over 120 characters", () => {
+    const s = run(demoClub(now), "page", { title: "Club news", body: "Training moves to Friday.", kind: "news", published: true, event: "" });
+    expect(s.pages.at(-1)).toMatchObject({ title: "Club news", published: true });
+    expect(() =>
+      run(demoClub(now), "page", { title: "x".repeat(121), body: "Hello", kind: "news", published: false, event: "" }),
+    ).toThrow();
+  });
   it("refuses guardian relationships on adults and prevents self-guardianship", () => {
     const s = demoClub(now);
     expect(() =>

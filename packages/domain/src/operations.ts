@@ -2760,10 +2760,17 @@ export function applyClubCommand(
       permit("content");
       const event = text(d, "event");
       if (event) eventFor(s, event);
+      const title = nonempty(d, "title", 120);
+      const body = nonempty(d, "body", 10000);
+      // Posts are shown as plain text; refuse markup, script tags and javascript: links outright.
+      requireValue(
+        !/[<>]|javascript:/i.test(title) && !/[<>]|javascript:/i.test(body),
+        "Posts are plain text. Remove angle brackets, script tags and javascript: links.",
+      );
       const page = {
         id: typeof d.page === "string" && d.page ? d.page : id,
-        title: nonempty(d, "title"),
-        body: nonempty(d, "body", 10000),
+        title,
+        body,
         kind: nonempty(d, "kind", 30),
         published: d.published === true,
         event,

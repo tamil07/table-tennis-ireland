@@ -189,7 +189,22 @@ export function App() {
               aria-label="Illustration of a table tennis table"
             >
               <span className="net" />
-              <span className="ball" />
+              <svg className="rally" viewBox="0 0 300 200" aria-hidden="true" focusable="false">
+                <g transform="translate(190 60)">
+                  <g className="rally__ball-x">
+                    <g className="rally__ball-y">
+                      <circle className="rally__ball" r="7" />
+                      <circle className="rally__ball-shine" cx="-2" cy="-2" r="2" />
+                    </g>
+                  </g>
+                </g>
+                <g transform="translate(252 112)">
+                  <g className="rally__bat">
+                    <path className="rally__blade" d="M -17 -34 C -17 -50 17 -50 17 -34 L 17 -8 C 17 6 -17 6 -17 -8 Z" />
+                    <rect className="rally__handle" x="-3.5" y="6" width="7" height="30" rx="3.5" />
+                  </g>
+                </g>
+              </svg>
             </div>
             {next && (
               <aside className="next-session" aria-live="polite">

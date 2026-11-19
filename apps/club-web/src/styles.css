@@ -74,8 +74,18 @@ body { background: var(--bg); color: var(--text); }
 .court::before { @apply absolute; content: ""; inset: 50% 0 auto; border-top: 2px solid #dbe7e1; }
 .court::after { @apply absolute; content: ""; inset: 0 50% 0 auto; border-right: 2px solid #dbe7e1; }
 .net { @apply absolute z-[2]; left: -2%; right: -2%; top: 48%; height: 0.6rem; background: #132820; box-shadow: 0 0.35rem 0.8rem rgba(0,0,0,.35); }
-.ball { @apply absolute z-[3] aspect-square w-6 rounded-[50%]; background: var(--accent); left: 65%; top: 22%; box-shadow: -0.35rem 0.5rem 1rem rgba(0,0,0,.4); animation: rally 2.6s ease-in-out infinite alternate; }
-@keyframes rally { from { transform: translate(0, 0); } to { transform: translate(-9rem, 5rem); } }
+/* table tennis rally: a paddle and ball drawn in SVG, animated with CSS only */
+.rally { @apply absolute inset-0 h-full w-full overflow-visible; }
+.rally__ball { fill: var(--accent); }
+.rally__ball-shine { fill: #ffffff; opacity: 0.55; }
+.rally__blade { fill: #c0392b; stroke: #ffffff; stroke-width: 2; }
+.rally__handle { fill: #6b4a2b; }
+.rally__ball-x { animation: rally-x 3.2s ease-in-out infinite alternate; }
+.rally__ball-y { animation: rally-bounce 1.6s ease-in-out infinite; }
+.rally__bat { transform-origin: 0 0; animation: rally-swing 3.2s ease-in-out infinite; }
+@keyframes rally-x { from { transform: translateX(0); } to { transform: translateX(-110px); } }
+@keyframes rally-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-34px); } }
+@keyframes rally-swing { 0%, 100% { transform: rotate(-28deg); } 50% { transform: rotate(22deg); } }
 .next-session { @apply absolute bottom-0 right-0 grid max-w-[20rem] gap-1 rounded-[1.2rem] border px-5 py-[1.1rem] text-white backdrop-blur-md; border-color: rgba(255,255,255,.22); background: rgba(8,32,26,.62); -webkit-backdrop-filter: blur(12px); }
 .next-session__label { @apply text-[0.7rem] font-[850] uppercase tracking-[0.13em]; color: var(--accent); }
 .next-session strong { @apply whitespace-nowrap text-[1.15rem] tracking-[-0.02em]; }
@@ -192,7 +202,7 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ball, .ticker__track { animation: none; }
+  .rally__ball-x, .rally__ball-y, .rally__bat, .ticker__track { animation: none; }
   .reveal-ready .reveal { opacity: 1; transform: none; transition: none; }
   .tile, .session, .primary-link { transition: none; }
 }

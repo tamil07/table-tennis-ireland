@@ -100,3 +100,17 @@ Images attached to posts, news or events SHALL be stored in file storage, not in
 #### Scenario: Storage warning
 - **WHEN** total file storage reaches 70 percent of the plan limit
 - **THEN** the owner sees a warning in Management and the work queue
+
+### Requirement: Plain-text posts
+Posts, news items and pages SHALL be stored and shown as plain text. A title SHALL be at most 120 characters and a body at most 10,000 characters. Titles and bodies SHALL NOT contain angle brackets or javascript: links; such entries are refused with a message asking for plain text. Links to other pages, if added later, SHALL be limited to https and mailto addresses.
+
+#### Scenario: Post with markup refused
+- **WHEN** an editor saves a post whose body contains a script tag or an angle bracket
+- **THEN** the system refuses the save and asks for plain text
+
+### Requirement: Landing page rally animation
+The website landing page SHALL show a decorative table tennis rally: a paddle and a ball drawn in SVG and animated with CSS only. The animation SHALL NOT load image or 3D model files, SHALL be decorative (hidden from assistive technology), and SHALL stop for visitors who request reduced motion.
+
+#### Scenario: Reduced motion
+- **WHEN** a visitor has requested reduced motion
+- **THEN** the paddle and ball stay still and the page remains readable
