@@ -671,7 +671,11 @@ export function ClubPortal({
           </select>
         </label>
       )}
-      <p className="min-h-6 font-semibold [overflow-wrap:anywhere]" role="status" aria-live="polite">
+      <p
+        className={`fixed inset-x-3 bottom-3 z-50 mx-auto max-w-[560px] rounded-lg px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(0,0,0,0.25)] [overflow-wrap:anywhere] ${busy || message ? "" : "hidden"} ${message?.toLowerCase().includes("saved") || busy ? "bg-ops-primary" : "bg-[#9b2c2c]"}`}
+        role="status"
+        aria-live="polite"
+      >
         {busy ? "Saving…" : message}
       </p>
       {last && !busy && (
