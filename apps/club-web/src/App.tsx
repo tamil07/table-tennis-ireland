@@ -123,7 +123,7 @@ export function App() {
       </a>
       <header className="club-header">
         <a className="club-brand" href="#top" aria-label="Leeside home">
-          <BrandMark compact />
+          <img className="club-logo" src="/icon-180.png" alt="" width="44" height="44" />
           <span>
             Leeside <small>Table Tennis Club</small>
           </span>

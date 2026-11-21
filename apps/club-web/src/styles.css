@@ -210,3 +210,6 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
   .reveal-ready .reveal { opacity: 1; transform: none; transition: none; }
   .tile, .session, .primary-link { transition: none; }
 }
+
+/* club logo in the header */
+.club-logo { @apply h-11 w-11 shrink-0 rounded-full bg-white; }

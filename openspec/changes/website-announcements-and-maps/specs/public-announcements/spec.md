@@ -59,3 +59,14 @@ The privacy notice SHALL describe the embedded map, the newsletter and closure n
 #### Scenario: Notice before launch
 - **WHEN** the embedded map or newsletter is enabled
 - **THEN** the privacy notice has been updated and approved by the owner
+
+### Requirement: Public holiday source and admin decisions
+Public holidays SHALL be taken from an open-source Irish public holiday source (Nager.Date, country code IE), imported by the club's administrators, and confirmed one by one before they become closures. Visitors' browsers SHALL NOT call the holiday source. Administrators SHALL be able to enter a club closure for any date range with a reason, such as 23 December to 3 January. Administrators SHALL see a warning for each upcoming public holiday that has no decision and for each published session that falls on a closed day.
+
+#### Scenario: Holiday imported and confirmed
+- **WHEN** an administrator imports the 2026 Irish public holidays
+- **THEN** each holiday is listed for confirmation, and it becomes a closure only when the administrator confirms it
+
+#### Scenario: Session on a closed day
+- **WHEN** a published session falls on a closed day
+- **THEN** administrators see a warning before that day
