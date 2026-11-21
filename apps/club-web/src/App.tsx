@@ -11,6 +11,7 @@ import {
   clubServicesEnabled,
 } from "@tti/ui";
 import { CALENDAR_FEED, upcomingEvents } from "./content/calendar";
+import { MapLinks } from "./MapLinks";
 
 const nav = [
   ["#sessions", "Sessions"],
@@ -284,13 +285,7 @@ export function App() {
               <p className="eyebrow">Find us</p>
               <h2>Gurranabraher, Cork</h2>
               <p>{address}</p>
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Open in Maps ↗
-              </a>
+              <MapLinks address={address} />
             </Card>
             <Card className="tile reveal">
               <p className="eyebrow">Coaching</p>
@@ -511,6 +506,7 @@ export function App() {
             <Card className="reveal">
               <h3>Contact</h3>
               <p>{address}.</p>
+              <MapLinks address={address} />
               <p>
                 <a href="mailto:leesidettie@gmail.com">leesidettie@gmail.com</a>
               </p>
