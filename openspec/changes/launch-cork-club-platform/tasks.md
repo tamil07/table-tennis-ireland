@@ -320,4 +320,5 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [ ] 22.4 When the domain is bought: point `leeside.ie` at the public site Worker and `app.leeside.ie` at the app Worker; add both to Supabase Auth redirect addresses and allowed origins; update share links and structured data.
 - [ ] 22.5 Test: sign-in from the public site, password recovery email link, and the join link, on both the workers.dev and the final addresses.
 - [x] 21.6 Rally fix (21 November 2026): one serve and return per shot, one bounce on the far half of the table, paddles drawn outside the table on each side. Horizontal and vertical motion are separate keyframes, with a parabolic arc. Checked by pausing the animation at four moments. Deployed in website version 2c4a1c76.
+- [x] 21.7 Table booking test cases written for a member and for management (MB1–MB8, MG1–MG10) in test-plan.md (21 November 2026).
 

@@ -96,3 +96,35 @@ Public website: https://table-tennis-ireland.ttclubsie.workers.dev/
 - Errors: a failed save shows a message and keeps what was typed.
 - Refresh: after a change on one screen, reload and confirm it persists.
 - Two devices: sign in on a phone and a laptop; a change on one appears on the other after refresh.
+
+## Table booking: detailed test cases (21 November 2026)
+
+Prerequisites: one published session in the future (Sessions & hall), with at least one reservable table; a TEST player account and a second TEST player account; the owner account for management steps.
+
+### As a member (TEST player account)
+| # | Steps | Expected |
+|---|---|---|
+| MB1 | Open Table booking. | Sessions you may book are listed; no approve, decline, cancel-for-others or move controls. |
+| MB2 | In "Request a player place", choose your player, choose a table and place, press Save. | A pending request shows against that session and place. |
+| MB3 | Try to request a second place in the same session. | Refused: one active place per player per session. |
+| MB4 | Cancel your own pending request with "Cancel place". | It is removed and the place is free. |
+| MB5 | Request again, then wait for the owner's decision. Refresh the page. | The status is still pending, and it updates after approval. |
+| MB6 | After approval, check the booking shows as confirmed. | Confirmed status and table and place are shown. |
+| MB7 | Try to cancel within the cutoff period (default 2 hours before the session). | Refused with a message about the cancellation cutoff; no change. |
+| MB8 | Check a booking for another player's name is not visible or editable to you. | Not visible or editable. |
+
+### As management (owner account)
+| # | Steps | Expected |
+|---|---|---|
+| MG1 | Open Table booking. | The TEST member's pending request is listed with Approve place and Decline. |
+| MG2 | Press Approve place. | Status changes to confirmed; the table count updates. |
+| MG3 | Press Decline on a second request. | That request is declined and the place is free. |
+| MG4 | Fill one table to four places with four TEST players (approve each). Request a fifth. | The fifth is refused: session or table capacity reached. |
+| MG5 | Press "Move to…" on a confirmed place and choose another table. | The place moves; the old place is free. |
+| MG6 | Press Release place on a confirmed place (no-show). | The place is released and free for another request. |
+| MG7 | Press Cancel place on a confirmed place. | Cancelled; the member sees it cancelled. |
+| MG8 | Check the hold: leave a pending request past the booking hold (default 30 minutes). | The request is released automatically, or marked as expired, as the owner's setting says. |
+| MG9 | Check the member's view again after each change. | Matches management's view after a refresh. |
+| MG10 | Cancel the whole session from Sessions & hall with bookings in place. | Players with places see the cancellation (Messages). |
+
+Record each result as pass or fail with the exact message. Start with MB2 and MG1, since the others depend on them.
