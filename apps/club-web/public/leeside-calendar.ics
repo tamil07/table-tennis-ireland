@@ -1,0 +1,714 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Leeside Table Tennis Club//Club calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Leeside Table Tennis Club
+X-WR-TIMEZONE:Europe/Dublin
+BEGIN:VEVENT
+UID:monday-training-2025-09-01-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250901T170000Z
+DTEND:20250901T190000Z
+SUMMARY:Monday Training
+LOCATION:Cork\, Hollyhill Ln\, Gurranabraher\, Cork\, Ireland
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/monday-traini
+ ng-2025-09-01-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:monday-training-2025-09-08-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250908T170000Z
+DTEND:20250908T190000Z
+SUMMARY:Monday Training
+LOCATION:Cork\, Hollyhill Ln\, Gurranabraher\, Cork\, Ireland
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/monday-traini
+ ng-2025-09-08-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:monday-training@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250908T170000Z
+DTEND:20250908T190000Z
+SUMMARY:Monday Training
+LOCATION:Cork\, Hollyhill Ln\, Gurranabraher\, Cork\, Ireland
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/monday-traini
+ ng
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-09-11-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250911T163000Z
+DTEND:20250911T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-09-11-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-09-12-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250912T170000Z
+DTEND:20250912T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-09-12-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-national-junior-classifications@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250913T080000Z
+DTEND:20250913T163000Z
+SUMMARY:2025 National Junior Classifications
+LOCATION:National Basketball Arena\, Tymon Ln\, Castletymon Road\, Tymon No
+ rth\, Dublin\, D24 N449\, Ireland
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/2025-national
+ -junior-classifications
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-09-14-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250914T114500Z
+DTEND:20250914T143000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-09-14-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:monday-training-2025-09-15-18-00-1@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250915T170000Z
+DTEND:20250915T190000Z
+SUMMARY:Monday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/monday-traini
+ ng-2025-09-15-18-00-1
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250917T191500Z
+DTEND:20250917T211500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-09-18-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250918T163000Z
+DTEND:20250918T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-09-18-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-09-19-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250919T170000Z
+DTEND:20250919T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-09-19-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-09-21-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250921T114500Z
+DTEND:20250921T143000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-09-21-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:monday-training-2025-09-22-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250922T170000Z
+DTEND:20250922T190000Z
+SUMMARY:Monday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/monday-traini
+ ng-2025-09-22-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-09-24-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250924T191500Z
+DTEND:20250924T211500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-09-24-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-09-25-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250925T163000Z
+DTEND:20250925T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-09-25-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-09-26-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250926T170000Z
+DTEND:20250926T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-09-26-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-09-28-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20250928T114500Z
+DTEND:20250928T143000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-09-28-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-10-01-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251001T191500Z
+DTEND:20251001T211500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-10-01-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-10-02-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251002T163000Z
+DTEND:20251002T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-10-02-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-10-03-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251003T170000Z
+DTEND:20251003T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-10-03-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:munster-ranking-tournament-1-of-4-2025-10-05-08-40@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251005T074000Z
+DTEND:20251005T160000Z
+SUMMARY:Munster Ranking Tournament #1 of 4
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:Who will make the 2025 Munster Team?
+STATUS:CONFIRMED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/munster-ranki
+ ng-tournament-1-of-4-2025-10-05-08-40
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-10-08-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251008T191500Z
+DTEND:20251008T211500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-10-08-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-10-09-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251009T163000Z
+DTEND:20251009T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-10-09-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-10-10-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251010T170000Z
+DTEND:20251010T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-10-10-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-10-12-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251012T114500Z
+DTEND:20251012T143000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-10-12-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-10-15-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251015T191500Z
+DTEND:20251015T211500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-10-15-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-10-16-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251016T163000Z
+DTEND:20251016T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-10-16-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-10-17-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251017T170000Z
+DTEND:20251017T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-10-17-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-10-19-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251019T114500Z
+DTEND:20251019T143000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-10-19-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-10-22-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251022T191500Z
+DTEND:20251022T211500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-10-22-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-10-23-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251023T163000Z
+DTEND:20251023T183000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-10-23-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-10-24-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251024T170000Z
+DTEND:20251024T190000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-10-24-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-10-26-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251026T124500Z
+DTEND:20251026T153000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-10-26-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-10-29-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251029T201500Z
+DTEND:20251029T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-10-29-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-10-30-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251030T173000Z
+DTEND:20251030T193000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-10-30-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-10-31-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251031T180000Z
+DTEND:20251031T200000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-10-31-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-11-02-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251102T124500Z
+DTEND:20251102T153000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-11-02-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-11-05-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251105T201500Z
+DTEND:20251105T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-11-05-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-11-06-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251106T173000Z
+DTEND:20251106T193000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-11-06-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-11-07-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251107T180000Z
+DTEND:20251107T200000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-11-07-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-11-09-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251109T124500Z
+DTEND:20251109T153000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-11-09-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-11-12-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251112T201500Z
+DTEND:20251112T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-11-12-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-11-13-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251113T173000Z
+DTEND:20251113T193000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-11-13-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-11-14-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251114T180000Z
+DTEND:20251114T200000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-11-14-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-11-16-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251116T124500Z
+DTEND:20251116T153000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-11-16-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-11-19-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251119T201500Z
+DTEND:20251119T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-11-19-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-11-20-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251120T173000Z
+DTEND:20251120T193000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-11-20-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-11-21-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251121T180000Z
+DTEND:20251121T200000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-11-21-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-11-23-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251123T124500Z
+DTEND:20251123T153000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-11-23-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-11-26-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251126T201500Z
+DTEND:20251126T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-11-26-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:thursday-training-2025-11-27-17-30@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251127T173000Z
+DTEND:20251127T193000Z
+SUMMARY:Thursday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:17:30 - 19:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/thursday-trai
+ ning-2025-11-27-17-30
+END:VEVENT
+BEGIN:VEVENT
+UID:friday-training-2025-11-28-18-00@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251128T180000Z
+DTEND:20251128T200000Z
+SUMMARY:Friday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:18:00 - 20:00
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/friday-traini
+ ng-2025-11-28-18-00
+END:VEVENT
+BEGIN:VEVENT
+UID:sunday-training-2025-11-30-12-45@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251130T124500Z
+DTEND:20251130T153000Z
+SUMMARY:Sunday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:12:45 - 15:30
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/sunday-traini
+ ng-2025-11-30-12-45
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-12-03-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251203T201500Z
+DTEND:20251203T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-12-03-20-15
+END:VEVENT
+BEGIN:VEVENT
+UID:wednesday-training-2025-12-10-20-15@leeside-table-tennis
+DTSTAMP:20261121T212653Z
+DTSTART:20251210T201500Z
+DTEND:20251210T221500Z
+SUMMARY:Wednesday Training
+LOCATION:James Kenneally Sports Hall\, Hollyhill Ln\, Gurranabraher\, Cork\
+ , Ireland
+DESCRIPTION:20:15 - 22:15
+STATUS:CANCELLED
+URL:https://leesidetabletennis.wixsite.com/home/event-details/wednesday-tra
+ ining-2025-12-10-20-15
+END:VEVENT
+END:VCALENDAR

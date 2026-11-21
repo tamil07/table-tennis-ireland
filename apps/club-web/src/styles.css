@@ -253,3 +253,10 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
 .closure-share { @apply mt-3 flex flex-wrap gap-2; }
 .closure-share a, .closure-share button { @apply cursor-pointer rounded-full border border-[#e9781c] bg-white px-3 py-1.5 text-sm font-semibold text-[#65431f] no-underline; }
 .closure-share a:hover, .closure-share button:hover { @apply bg-[#e9781c] text-white; }
+
+/* club calendar on the homepage: short upcoming list that wraps on narrow screens */
+.calendar-list { @apply grid gap-2 pl-0 list-none; }
+.calendar-list li { @apply grid gap-0.5; }
+.calendar-list span { @apply text-[0.9rem] text-[#5b6b64]; }
+.calendar-links { @apply grid gap-2.5; }
+.calendar-links a { @apply break-words; }

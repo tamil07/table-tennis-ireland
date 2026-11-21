@@ -10,6 +10,7 @@ import {
   ClosureNotice,
   clubServicesEnabled,
 } from "@tti/ui";
+import { CALENDAR_FEED, upcomingEvents } from "./content/calendar";
 
 const nav = [
   ["#sessions", "Sessions"],
@@ -468,13 +469,36 @@ export function App() {
             <Card className="reveal">
               <Pill>Club calendar</Pill>
               <h3>Events and competitions</h3>
-              <p>
-                Check the existing calendar and contact Leeside to confirm event
-                dates and availability.
-              </p>
-              <a href="https://leesidetabletennis.wixsite.com/home/general-1">
-                Open the existing calendar →
-              </a>
+              {upcomingEvents(now).length > 0 ? (
+                <ul className="calendar-list">
+                  {upcomingEvents(now).slice(0, 3).map((e) => (
+                    <li key={e.id}>
+                      <strong>{e.title}</strong>
+                      <span>
+                        {" "}
+                        {new Date(e.startUtc).toLocaleDateString("en-IE", { timeZone: "Europe/Dublin", weekday: "short", day: "numeric", month: "short" })}
+                        {", "}
+                        {e.start.slice(11, 16)}
+                        {e.venue ? ` · ${e.venue}` : ""}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>
+                  No one-off events are listed after today yet. Weekly sessions
+                  are on the timetable above; contact Leeside to confirm dates.
+                </p>
+              )}
+              <div className="calendar-links">
+                <a href={`webcal://${window.location.host}${CALENDAR_FEED}`}>
+                  Subscribe on iPhone, iPad or Mac →
+                </a>
+                <a href={CALENDAR_FEED} download="leeside-calendar.ics">
+                  Download for Android, Windows or Google Calendar →
+                </a>
+                <a href="/events">Past events and archive →</a>
+              </div>
             </Card>
           </div>
         </section>

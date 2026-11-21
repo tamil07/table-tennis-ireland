@@ -1,0 +1,4 @@
+# Calendar feed: iPhone, Android, Outlook and Google Calendar need the calendar content type to recognise it.
+/leeside-calendar.ics
+  Content-Type: text/calendar; charset=utf-8
+  Cache-Control: public, max-age=3600
