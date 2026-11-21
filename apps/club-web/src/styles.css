@@ -260,3 +260,24 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
 .calendar-list span { @apply text-[0.9rem] text-[#5b6b64]; }
 .calendar-links { @apply grid gap-2.5; }
 .calendar-links a { @apply break-words; }
+
+/* calendar page: subscribe options, FullCalendar theme and the selected-event panel */
+.calendar-subscribe ul { @apply list-none pl-0 grid gap-2; }
+.calendar-subscribe code { @apply break-all text-[0.85rem]; }
+.club-calendar { @apply my-6; }
+.club-calendar .fc { @apply text-[0.92rem]; }
+.club-calendar .fc-button { @apply rounded-full; }
+.club-calendar .fc-button-primary { background: #2d6a4f; border-color: #2d6a4f; }
+.club-calendar .fc-button-primary:not(:disabled).fc-button-active,
+.club-calendar .fc-button-primary:hover { background: #1b4332; border-color: #1b4332; }
+.club-calendar .fc-training-event { background: #dcebe3; border-color: #9cc5ae; color: #1b4332; }
+.club-calendar .calendar-event { background: #2d6a4f; border-color: #2d6a4f; color: #fff; }
+.club-calendar .calendar-cancelled { background: #f3d6d6; border-color: #d99; color: #7a1f1f; text-decoration: line-through; }
+.calendar-detail { @apply mt-6; }
+.club-calendar .fc-event-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.club-calendar .fc-toolbar-title { @apply text-[1.15rem]; }
+@media (max-width: 640px) {
+  .club-calendar .fc-header-toolbar { @apply flex-col items-stretch gap-3; }
+  .club-calendar .fc-toolbar-chunk { @apply flex flex-wrap items-center justify-between gap-2; }
+  .club-calendar .fc-toolbar-title { @apply text-center text-[1.05rem]; }
+}

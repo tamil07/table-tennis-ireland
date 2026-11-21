@@ -1,10 +1,10 @@
 import { NEWS, ABOUT_TEXT, ABOUT_SOURCE, POLICIES_TEXT, POLICIES_SOURCE } from "./content/wix-content";
-import { CALENDAR_EVENTS, CALENDAR_FEED, type CalendarEvent } from "./content/calendar";
+import { CALENDAR_EVENTS } from "./content/calendar";
 
 const dateLabel = (iso: string | null) =>
   iso ? new Date(iso + "T12:00:00Z").toLocaleDateString("en-IE", { timeZone: "Europe/Dublin", day: "numeric", month: "long", year: "numeric" }) : "";
 
-function PageShell({ title, children }: { title: string; children: React.ReactNode }) {
+export function PageShell({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="club-site">
       <header className="club-header">
@@ -68,50 +68,24 @@ export function NewsPostPage({ slug }: { slug: string }) {
   );
 }
 
-const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
 const dublinDate = (value: string) =>
   new Date(value + ":00Z").toLocaleDateString("en-IE", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short", year: "numeric" });
 
 const dublinTime = (value: string) => value.slice(11, 16);
 
+/** Past one-off events only. Regular weekly training is on the timetable and the calendar page, not here. */
 export function EventArchivePage() {
-  const isTraining = (e: CalendarEvent) => e.title.endsWith(" Training");
-  const weekday = (e: CalendarEvent) => e.title.split(" ")[0];
-  const training = CALENDAR_EVENTS.filter(isTraining);
-  const oneOff = CALENDAR_EVENTS.filter((e) => !isTraining(e));
-  const byDay = WEEKDAYS.map((day) => ({
-    day,
-    events: training.filter((e) => weekday(e) === day),
-  })).filter((g) => g.events.length > 0);
   return (
     <PageShell title="Event archive">
       <p className="source-note">
-        Past events from the club's earlier website. Add the full calendar to your phone or computer with the{" "}
-        <a href={CALENDAR_FEED}>calendar feed (.ics)</a>.
+        Tournaments and events from the club's earlier website. The weekly training timetable is on the{" "}
+        <a href="/calendar">club calendar</a>.
       </p>
-      <section aria-labelledby="weekly">
-        <h2 id="weekly">Weekly training</h2>
-        <p className="source-note">Recurring weekly training is listed by weekday. Cancelled sessions are marked.</p>
-        {byDay.map((g) => (
-          <div key={g.day}>
-            <h3>{g.day}</h3>
-            <ul>
-              {g.events.map((e) => (
-                <li key={e.id}>
-                  {dublinDate(e.start)}, {dublinTime(e.start)}–{e.end ? dublinTime(e.end) : ""}
-                  {e.cancelled ? " (cancelled)" : ""}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
       <section aria-labelledby="oneoff">
         <h2 id="oneoff">Tournaments and one-off events</h2>
-        {oneOff.map((e) => (
+        {CALENDAR_EVENTS.map((e) => (
           <article key={e.id} className="card">
-            <h3><a href={e.source} rel="noopener">{e.title}</a></h3>
+            <h3>{e.source ? <a href={e.source} rel="noopener">{e.title}</a> : e.title}</h3>
             <p className="eyebrow">
               {dublinDate(e.start)}, {dublinTime(e.start)}
               {e.end ? `–${dublinTime(e.end)}` : ""}
@@ -119,7 +93,7 @@ export function EventArchivePage() {
               {e.cancelled ? " · cancelled" : ""}
             </p>
             {e.description && paragraphs(e.description)}
-            <p className="source-note">Originally published on the club's earlier website: <a href={e.source} rel="noopener">{e.source}</a></p>
+            {e.source && <p className="source-note">Originally published on the club's earlier website: <a href={e.source} rel="noopener">{e.source}</a></p>}
           </article>
         ))}
       </section>

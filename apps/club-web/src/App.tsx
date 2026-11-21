@@ -16,6 +16,7 @@ const nav = [
   ["#sessions", "Sessions"],
   ["#about", "About"],
   ["/news", "News"],
+  ["/calendar", "Calendar"],
   ["/events", "Event archive"],
   ["#membership", "Membership"],
   ["#faq", "FAQ"],
@@ -486,16 +487,14 @@ export function App() {
                 </ul>
               ) : (
                 <p>
-                  No one-off events are listed after today yet. Weekly sessions
-                  are on the timetable above; contact Leeside to confirm dates.
+                  No one-off events are listed after today yet. Weekly training
+                  is in the calendar; contact Leeside to confirm dates.
                 </p>
               )}
               <div className="calendar-links">
+                <a href="/calendar">Open the club calendar →</a>
                 <a href={`webcal://${window.location.host}${CALENDAR_FEED}`}>
                   Subscribe on iPhone, iPad or Mac →
-                </a>
-                <a href={CALENDAR_FEED} download="leeside-calendar.ics">
-                  Download for Android, Windows or Google Calendar →
                 </a>
                 <a href="/events">Past events and archive →</a>
               </div>
