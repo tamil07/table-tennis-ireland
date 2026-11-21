@@ -189,3 +189,8 @@ The plan for offering the platform to other clubs on a paid basis is recorded in
 ## Tailwind foundation — 17 November 2026
 
 Tailwind CSS 4.3.4 and @tailwindcss/vite 4.3.4 are pinned exactly (4.3.5 excluded by the two-week rule). The shared stylesheet packages/ui/src/tailwind.css defines the existing palette as theme colours and omits Tailwind's reset styles. Both apps load it and their Vite configs include the plugin. No screen uses the utilities yet, so the visual appearance is unchanged. Migrating screens is the next slice; it needs owner screenshot review (task 17.9) before any visual release.
+
+## Revisit before the next public website deploy (recorded 21 November 2026)
+
+- The public website still embeds the member workspace under "Members & bookings" and has no Member sign-in button that goes to the app. Decide and build tasks 22.1 to 22.3 (the app address setting, the header sign-in button, and the link section) before the next public website deploy, or record the reason to keep the embedded workspace.
+- The membership fixes (entitlement choice, retire warning, overlap hint) are not yet built.
