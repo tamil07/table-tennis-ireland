@@ -1,23 +1,11 @@
 import { load, service } from "../_shared/runtime.ts";
+import { buildFeed } from "./calendar-feed.ts";
 const xml = (value: string) =>
   value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
-const ics = (value: string) =>
-  value
-    .replaceAll("\\", "\\\\")
-    .replaceAll("\n", "\\n")
-    .replaceAll(",", "\\,")
-    .replaceAll(";", "\\;")
-    .replaceAll("\r", "");
-const stamp = (time: number) =>
-  new Date(time)
-    .toISOString()
-    .replaceAll("-", "")
-    .replaceAll(":", "")
-    .replace(/\.\d{3}/, "");
 export const server = Deno.serve({ port: Number(Deno.env.get('TTI_FUNCTION_PORT') ?? 8000) }, async (request) => {
   const headers = {
     "access-control-allow-origin": "*",
@@ -81,26 +69,18 @@ export const server = Deno.serve({ port: Number(Deno.env.get('TTI_FUNCTION_PORT'
         },
       );
     if (url.searchParams.get("format") === "ics") {
-      const lines = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//TT Clubs Ireland//Club calendar//EN",
-        ...sessions.flatMap((s) => [
-          "BEGIN:VEVENT",
-          `UID:${s.id}@${club}`,
-          `DTSTAMP:${stamp(Date.now())}`,
-          `DTSTART:${stamp(s.start)}`,
-          `DTEND:${stamp(s.end)}`,
-          `SUMMARY:${ics(s.title)}`,
-          "END:VEVENT",
-        ]),
-        ...events.map(
-          (e) =>
-            `BEGIN:VEVENT\r\nUID:${e.id}@${club}\r\nDTSTAMP:${stamp(Date.now())}\r\nDTSTART;VALUE=DATE:${e.date.replaceAll("-", "")}\r\nSUMMARY:${ics(e.title)}\r\nSTATUS:${e.status === "cancelled" ? "CANCELLED" : "CONFIRMED"}\r\nEND:VEVENT`,
-        ),
-        "END:VCALENDAR",
-      ];
-      return new Response(lines.join("\r\n"), {
+      // Sessions, closures and events for subscribed calendars. See calendar-feed.ts for the design.
+      const body = buildFeed({
+        club,
+        name: state.name,
+        now: Date.now(),
+        sessions: state.sessions
+          .filter((s) => !s.cancelled)
+          .map((s) => ({ id: s.id, title: s.label, start: s.start, end: s.end })),
+        closures: state.closures,
+        events: events.map((e) => ({ id: e.id, title: e.title, date: e.date, status: e.status })),
+      });
+      return new Response(body, {
         headers: { ...headers, "content-type": "text/calendar; charset=utf-8" },
       });
     }
