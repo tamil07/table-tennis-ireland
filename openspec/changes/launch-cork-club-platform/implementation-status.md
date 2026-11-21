@@ -194,3 +194,9 @@ Tailwind CSS 4.3.4 and @tailwindcss/vite 4.3.4 are pinned exactly (4.3.5 exclude
 
 - The public website still embeds the member workspace under "Members & bookings" and has no Member sign-in button that goes to the app. Decide and build tasks 22.1 to 22.3 (the app address setting, the header sign-in button, and the link section) before the next public website deploy, or record the reason to keep the embedded workspace.
 - The membership fixes (entitlement choice, retire warning, overlap hint) are not yet built.
+
+## Deployments (21 November 2026)
+- Website: pushed to GitHub `05db2d2` and deployed as version 2c4a1c76. Contains the closure notice and sharing, the Wix news, event archive, about and policies pages, the redirect file, and the rally fix.
+- Member app: deployed earlier the same day (version 0488d8c7); the membership fixes are not yet built.
+- Backend: deployed by the owner after the date-of-birth and phone rules. The holiday import and closure publication changes are in the code and need a backend deploy before they are used live.
+

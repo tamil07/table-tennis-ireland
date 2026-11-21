@@ -18,7 +18,7 @@
 
 ## Phase D: Redirects and cutover
 - [x] D.1 Redirect rules generated from the Wix sitemap: 197 rules in apps/club-web/public/_redirects (38 posts, 57 event pages, the blog, calendar, policies and home), covering both the /home/... and custom-domain forms. Each points straight to its final address.
-- [ ] D.2 Test every redirect on the deployed site (the local preview does not run _redirects). Note: old wixsite.com addresses belong to Wix and cannot be redirected once the subscription ends; the redirects only work on a domain we control (see the research note below).
+- [~] D.2 Sample tested on the deployed site (21 November 2026): the post, home-prefixed post, event and policies redirects return HTTP 301 to the new addresses. Remaining: test all 197 rules. Test every redirect on the deployed site (the local preview does not run _redirects). Note: old wixsite.com addresses belong to Wix and cannot be redirected once the subscription ends; the redirects only work on a domain we control (see the research note below).
 - [ ] D.3 Owner confirms the new site and the redirects, and then the Wix subscription is ended. Not started.
 
 ## Owner decisions (21 November 2026)
@@ -39,4 +39,7 @@
 - Scale: 38 posts, 53 weekly training pages, 4 one-off events, 4 static pages. The import is small enough to run as a script and check by hand, so a heavier tool is not needed.
 - Event one-off pages have no dates in the Wix data; they are listed without a date until the owner adds them.
 - Paragraph extraction was corrected after the first run; 21 posts now have more than 200 characters of body text.
+
+## Deployed (21 November 2026)
+- Website version 2c4a1c76 deployed to table-tennis-ireland with the news, event archive, about and policies pages, the redirect file, and the rally fix. The live site serves the new build; the four pages return HTTP 200.
 
