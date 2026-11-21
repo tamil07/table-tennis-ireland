@@ -7,6 +7,7 @@ import {
   SectionHeading,
   ClubPortal,
   ClubPublished,
+  ClosureNotice,
   clubServicesEnabled,
 } from "@tti/ui";
 
@@ -161,6 +162,7 @@ export function App() {
             : "Website preview · Online registration and live reservations are not yet available. Contact the club for actual arrangements."}
         </p>
 
+        <ClosureNotice />
         <section className="hero">
           <div className="hero__copy">
             <Pill>Based in Cork · Open to all levels</Pill>

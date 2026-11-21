@@ -1,6 +1,7 @@
 // Shared application rules: used by the browser's synthetic adapter and the server.
 // Only the server supplies the authenticated principal and commits authoritative state.
 import { bookingUpdate, occupiesPlace } from "./session-booking.ts";
+import { IE_PUBLIC_HOLIDAYS } from "./holidays.ts";
 import type {
   BookingBoard,
   PracticeSession,
@@ -228,6 +229,13 @@ export interface ClubState {
   }[];
   processed: string[];
   challenges: { hash: string; session: string; expires: number }[];
+  publicHolidays: {
+    date: string;
+    name: string;
+    decision: "pending" | "closed" | "open";
+    decidedAt?: number;
+    decidedBy?: string;
+  }[];
   closures: {
     id: string;
     start: number;
@@ -314,6 +322,7 @@ export function emptyClub(
     processed: [],
     challenges: [],
     closures: [],
+    publicHolidays: [],
     eventDrafts: [],
   };
 }
@@ -335,6 +344,38 @@ export function represents(state: ClubState, actor: string, player: string) {
         target.guardians.includes(actor),
     )
   );
+}
+/** Midnight in Europe/Dublin for a YYYY-MM-DD date, as epoch milliseconds. */
+export function dublinMidnight(date: string) {
+  const utc = Date.parse(`${date}T00:00:00Z`);
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Dublin",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(utc));
+  const hour = Number(parts.find((p) => p.type === "hour")?.value ?? 0);
+  const minute = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+  return utc - (hour * 60 + minute) * 60000;
+}
+function addDay(date: string) {
+  return new Date(Date.parse(`${date}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
+}
+/** Administrator warnings: upcoming public holidays with no decision, and sessions on a closed day. */
+export function closureWarnings(s: ClubState, now: number) {
+  const today = new Date(now).toISOString().slice(0, 10);
+  const horizon = new Date(now + 60 * 86400000).toISOString().slice(0, 10);
+  const warnings: string[] = [];
+  for (const h of s.publicHolidays ?? []) {
+    if (h.decision === "pending" && h.date >= today && h.date <= horizon)
+      warnings.push(`Public holiday ${h.name} on ${h.date} has no decision yet.`);
+  }
+  for (const session of s.sessions) {
+    if (session.cancelled || session.end <= now) continue;
+    const closure = s.closures.find((c) => c.active && c.start < session.end && c.end > session.start);
+    if (closure) warnings.push(`Session ${session.label} falls on a closed day (${closure.reason}).`);
+  }
+  return warnings;
 }
 export function localDay(now: number) {
   const parts = new Intl.DateTimeFormat("en", {
@@ -1976,6 +2017,40 @@ export function applyClubCommand(
         id,
         use: "reservable" as TableUse,
       }));
+      break;
+    }
+    case "import_holidays": {
+      permit("events");
+      const year = String(Number(d.year));
+      const list = IE_PUBLIC_HOLIDAYS[year];
+      requireValue(list !== undefined, "Public holiday data is available for 2026 to 2035.");
+      s.publicHolidays = s.publicHolidays ?? [];
+      for (const h of list)
+        if (!s.publicHolidays.some((x) => x.date === h.date))
+          s.publicHolidays.push({ date: h.date, name: h.name, decision: "pending" });
+      break;
+    }
+    case "decide_holiday": {
+      permit("events");
+      const date = text(d, "date", 10);
+      const decision = text(d, "decision", 10);
+      requireValue(decision === "closed" || decision === "open", "Choose closed or open.");
+      s.publicHolidays = s.publicHolidays ?? [];
+      const holiday = s.publicHolidays.find((h) => h.date === date);
+      requireValue(holiday !== undefined, "Import the holiday first.");
+      holiday.decision = decision;
+      holiday.decidedAt = now;
+      holiday.decidedBy = actor.id;
+      if (decision === "closed") {
+        const start = dublinMidnight(date);
+        const end = dublinMidnight(addDay(date));
+        s.closures = s.closures.filter((c) => c.id !== `holiday-${date}`);
+        s.closures.push({ id: `holiday-${date}`, start, end, reason: holiday.name, active: true });
+        for (const session of s.sessions.filter((x) => !x.cancelled && x.start < end && x.end > start))
+          session.cancelled = true;
+      } else {
+        s.closures = s.closures.filter((c) => c.id !== `holiday-${date}`);
+      }
       break;
     }
     case "close_hall": {

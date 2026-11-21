@@ -109,6 +109,14 @@ export const server = Deno.serve({ port: Number(Deno.env.get('TTI_FUNCTION_PORT'
         name: state.name,
         appUrl: base,
         plans: state.plans.filter((p) => p.active),
+        closures: state.closures
+          .filter(
+            (c) =>
+              c.active &&
+              c.end > Date.now() &&
+              c.start < Date.now() + 60 * 86400000,
+          )
+          .map((c) => ({ id: c.id, start: c.start, end: c.end, reason: c.reason })),
         pages,
         sessions,
         events,

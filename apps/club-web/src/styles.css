@@ -213,3 +213,8 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
 
 /* club logo in the header */
 .club-logo { @apply h-11 w-11 shrink-0 rounded-full bg-white; }
+
+/* home page closure notice */
+.closure-notice { @apply mx-auto my-4 max-w-[52rem] rounded-xl border-l-4 border-[#e9781c] bg-[#fff6e9] px-5 py-4 text-[#65431f]; }
+.closure-notice h2 { @apply m-0 mb-1 text-base font-bold; }
+.closure-notice ul { @apply m-0 grid list-none gap-1 p-0 text-[0.95rem]; }

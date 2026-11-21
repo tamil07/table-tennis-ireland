@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import {
   attendanceReport,
+  closureWarnings,
   coachingSummary,
   demoAccounts,
   localDay,
@@ -16,6 +17,7 @@ import {
   represents,
   standings,
 } from "@tti/domain";
+const HOLIDAY_YEARS = Array.from({ length: 10 }, (_, i) => 2026 + i);
 import type { ClubState, ClubCommand, Permission } from "@tti/domain";
 import { ClubAuth } from "./ClubAuth";
 import {
@@ -273,7 +275,8 @@ export function ClubPortal({
 }: {
   club?: string;
 }) {
-  const [club, setClub] = useState(scan.get("club") ?? initialClub),
+  const [holidayYear, setHolidayYear] = useState(2026),
+    [club, setClub] = useState(scan.get("club") ?? initialClub),
     [clubs, setClubs] = useState<
       { id: string; name: string; status?: string }[]
     >([]);
@@ -1687,6 +1690,36 @@ export function ClubPortal({
           )}
           {tab === "sessions" && (
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
+                <h3>Public holidays and closures</h3>
+                {closureWarnings(state, now).map((w) => (
+                  <p className="ops-notice" key={w}>{w}</p>
+                ))}
+                <label>
+                  Year
+                  <select value={holidayYear} onChange={(e) => setHolidayYear(Number(e.target.value))}>
+                    {HOLIDAY_YEARS.map((y) => (
+                      <option key={y} value={y}>{y}</option>
+                    ))}
+                  </select>
+                </label>
+                <button disabled={busy} onClick={() => void act("import_holidays", { year: holidayYear })}>
+                  Import {holidayYear} Irish public holidays
+                </button>
+                <p className="ops-hint">Holidays come from the open-source Nager.Date list. Each one becomes a closure only when you choose Close.</p>
+                <ul>
+                  {(state.publicHolidays ?? [])
+                    .filter((h) => h.date.startsWith(String(holidayYear)))
+                    .map((h) => (
+                      <li key={h.date}>
+                        {h.date} · {h.name} · <strong>{h.decision}</strong>{" "}
+                        <button disabled={busy} onClick={() => void act("decide_holiday", { date: h.date, decision: "closed" })}>Close</button>{" "}
+                        <button disabled={busy} onClick={() => void act("decide_holiday", { date: h.date, decision: "open" })}>Open</button>
+                      </li>
+                    ))}
+                </ul>
+                <p className="ops-hint">For a closure over several days, such as 23 December to 3 January, use the hall closure form on this tab.</p>
+              </article>
               <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
                 <h3>Sessions and hall</h3>
                 {state.sessions.map((s) => (

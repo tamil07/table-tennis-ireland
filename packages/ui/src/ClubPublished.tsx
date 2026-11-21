@@ -104,3 +104,50 @@ export function ClubPublished() {
     </section>
   );
 }
+
+type ClosureItem = { id: string; start: number; end: number; reason: string };
+const dublinDay = (ms: number) =>
+  new Date(ms).toLocaleDateString("en-IE", { timeZone: "Europe/Dublin", day: "numeric", month: "long" });
+/** Upcoming closures from the public feed, shown on the home page. Renders nothing when there are none. */
+export function ClosureNotice() {
+  const [items, setItems] = useState<ClosureItem[]>([]);
+  const env = (import.meta as ImportMeta & { env: Record<string, string> }).env;
+  const url = `${env.VITE_SUPABASE_URL}/functions/v1/club-public?club=${pilotClubId}`;
+  useEffect(() => {
+    if (!liveMode) return;
+    let active = true;
+    const load = async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) return;
+        const data = await response.json();
+        if (active) setItems(data.closures ?? []);
+      } catch {
+        /* closures are optional on the home page */
+      }
+    };
+    void load();
+    const timer = setInterval(() => void load(), 60000);
+    return () => {
+      active = false;
+      clearInterval(timer);
+    };
+  }, []);
+  if (!liveMode || items.length === 0) return null;
+  return (
+    <section className="closure-notice" aria-labelledby="closures-heading">
+      <h2 id="closures-heading">Closures</h2>
+      <ul>
+        {items.map((c) => {
+          const last = c.end - 1;
+          const range = dublinDay(c.start) === dublinDay(last) ? dublinDay(c.start) : `${dublinDay(c.start)} – ${dublinDay(last)}`;
+          return (
+            <li key={c.id}>
+              <strong>Closed: {c.reason}</strong>, {range}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}

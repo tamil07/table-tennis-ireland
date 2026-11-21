@@ -70,3 +70,18 @@ Public holidays SHALL be taken from an open-source Irish public holiday source (
 #### Scenario: Session on a closed day
 - **WHEN** a published session falls on a closed day
 - **THEN** administrators see a warning before that day
+
+### Requirement: Shareable closure notices
+Each closure shown on the public website SHALL have share options: WhatsApp, Facebook, X, a copy-text button for Instagram, and the device's own share menu where it is available. The shared text SHALL contain only public information: the club name, the reason, the dates, and a link to the closures section of the home page. Closures SHALL be shared as notices, not as events, and no member or booking details SHALL be included.
+
+#### Scenario: Share a leave date on WhatsApp
+- **WHEN** a visitor chooses WhatsApp on a closure notice
+- **THEN** WhatsApp opens with the club name, the reason, the dates and the link ready to send
+
+#### Scenario: Instagram
+- **WHEN** a visitor chooses to copy the text for Instagram
+- **THEN** the text is copied to the clipboard and the visitor is told to paste it into Instagram
+
+#### Scenario: No private details
+- **WHEN** a closure notice is shared
+- **THEN** the text contains no member, booking or personal details
