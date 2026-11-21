@@ -311,3 +311,11 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [x] 21.5 Landing rally refined (19 November 2026): the paddle is drawn as a table tennis bat (rounded blade with a red rubber face, wooden edge and tapered handle); the net is drawn as a white top tape, a mesh and a post at each end across the middle of the table. Decorative, CSS-animated, stopped under reduced motion. Checked by screenshot at desktop width.
 - [x] 18.9 Manual test fixes (21 November 2026): a date of birth with an implausible year (before 1900) is refused with a clear message; a junior's date of birth is checked before guardian consent, so the age rule shows first. Adults without a date of birth stay allowed. Tested locally (120 domain tests). Junior registration also needs the club's privacy, safeguarding and policy text entered in Management first.
 
+
+## 22. Domain layout: public site and app on subdomains (decided 21 November 2026)
+
+- [ ] 22.1 Add a configured app address (one setting) used by all links to the app; default to the current app address until the domain exists.
+- [ ] 22.2 Header: "Member sign-in" button linking to the app address, in the same tab.
+- [ ] 22.3 Replace the embedded member workspace on the public page with a "Members & bookings" section that links to the app; move "Join the club" to link to the app's join screen.
+- [ ] 22.4 When the domain is bought: point `leeside.ie` at the public site Worker and `app.leeside.ie` at the app Worker; add both to Supabase Auth redirect addresses and allowed origins; update share links and structured data.
+- [ ] 22.5 Test: sign-in from the public site, password recovery email link, and the join link, on both the workers.dev and the final addresses.

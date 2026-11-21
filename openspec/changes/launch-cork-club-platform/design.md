@@ -376,3 +376,11 @@ Constraints: the platform stays brand-neutral (task 2.4); club sites keep their 
 ## Version exception (17 November 2026)
 
 The two-week rule for new dependency versions is waived for Tailwind CSS 4.3.5 and @tailwindcss/vite 4.3.5 (released 6 November 2026) at the owner's explicit request. The versions are pinned exactly. Future additions follow the two-week rule unless the owner waives it in writing here.
+
+## Domain layout decision (21 November 2026): Option 1, subdomains
+
+Decision: when a domain is bought, the public club website lives at the root (for example `leeside.ie`) and the member app at `app.leeside.ie`. Each stays a separate deployment and separate sign-in area.
+
+Sign-in on the public site: the website has a visible **Member sign-in** button in the header, and "Members & bookings" links to the app rather than embedding it. The button opens `https://app.leeside.ie/` in the same tab. The address comes from one configured setting, the app address, so it can change without code edits. Until the domain exists, the button uses the current workers.dev address.
+
+Changes needed on the public site: remove the embedded member workspace from the public page, or limit it to the app address; keep "Join the club" as a link to the app's join screen. Supabase Auth redirect addresses, allowed origins and share links are updated to the final domain at the switch. Task 22 in tasks.md records the steps.
