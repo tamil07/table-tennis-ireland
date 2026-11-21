@@ -212,19 +212,31 @@ export function App() {
                     <path className="rally__shine" d="M -9 -24 Q -10 -16 -8 -10" />
                   </g>
                 </defs>
-                <g transform="translate(20 108)">
-                  <g className="rally__ball-x">
-                    <g className="rally__ball-y">
-                      <circle className="rally__ball" r="6" />
-                      <circle className="rally__ball-shine" cx="-2" cy="-2" r="1.8" />
-                    </g>
+                {/* bounce marks: the ball lands once on the south half, then once on the north half */}
+                <g transform="translate(150 150)">
+                  <ellipse className="rally__ripple rally__ripple--south" rx="10" ry="4" />
+                </g>
+                <g transform="translate(150 50)">
+                  <ellipse className="rally__ripple rally__ripple--north" rx="10" ry="4" />
+                </g>
+                {/* north bat, handle outside the north end, blade facing south */}
+                <g transform="translate(150 14)">
+                  <g className="rally__bat">
+                    <g transform="rotate(180) scale(0.6) translate(0 12)"><use href="#rally-bat" /></g>
                   </g>
                 </g>
-                <g transform="translate(336 116)">
-                  <g className="rally__bat-r"><use href="#rally-bat" /></g>
+                {/* south bat, handle outside the south end, blade facing north */}
+                <g transform="translate(150 186)">
+                  <g className="rally__bat rally__bat--south">
+                    <g transform="scale(0.6) translate(0 12)"><use href="#rally-bat" /></g>
+                  </g>
                 </g>
-                <g transform="translate(-36 116) scale(-1 1)">
-                  <g className="rally__bat-r"><use href="#rally-bat" /></g>
+                {/* the ball travels north and south along the centre line */}
+                <g transform="translate(150 14)">
+                  <g className="rally__ball-y">
+                    <circle className="rally__ball" r="6" />
+                    <circle className="rally__ball-shine" cx="-2" cy="-2" r="1.8" />
+                  </g>
                 </g>
               </svg>
             </div>
