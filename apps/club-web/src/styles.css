@@ -76,7 +76,7 @@ body { background: var(--bg); color: var(--text); }
 .net-svg { @apply absolute z-[2] h-[12%] w-auto; left: -2%; right: -2%; top: 40%; width: 104%; overflow: visible; }
 .net-svg__tape { fill: #ffffff; }
 .net-svg__post { fill: #2b2b2b; }
-/* table tennis rally: a paddle and ball drawn in SVG, animated with CSS only */
+/* table tennis rally: one serve and return, one bounce per side. Horizontal and vertical motion are separate keyframes. */
 .rally { @apply absolute inset-0 h-full w-full overflow-visible; }
 .rally__ball { fill: var(--accent); }
 .rally__ball-shine { fill: #ffffff; opacity: 0.55; }
@@ -84,12 +84,19 @@ body { background: var(--bg); color: var(--text); }
 .rally__rubber { fill: #c0392b; }
 .rally__handle { fill: #7a4f2a; stroke: #3a2414; stroke-width: 1; }
 .rally__shine { fill: none; stroke: #ffffff; stroke-width: 1.5; stroke-linecap: round; opacity: 0.6; }
-.rally__ball-x { animation: rally-x 3.2s ease-in-out infinite alternate; }
-.rally__ball-y { animation: rally-bounce 1.6s ease-in-out infinite; }
-.rally__bat { transform-origin: 0 0; animation: rally-swing 3.2s ease-in-out infinite; }
-@keyframes rally-x { from { transform: translateX(0); } to { transform: translateX(-110px); } }
-@keyframes rally-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-34px); } }
-@keyframes rally-swing { 0%, 100% { transform: rotate(-28deg); } 50% { transform: rotate(22deg); } }
+/* the ball crosses the table once per leg, with a single bounce on the far half */
+.rally__ball-x { animation: rally-x 3.6s linear infinite alternate; }
+.rally__ball-y { animation: rally-arc 3.6s linear infinite alternate; }
+/* each paddle sits outside the table and swings in as the ball reaches it */
+.rally__bat-r { transform-origin: 0 0; animation: rally-swing 3.6s ease-in infinite alternate; }
+@keyframes rally-x { from { transform: translateX(0); } to { transform: translateX(240px); } }
+@keyframes rally-arc {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-62px); }
+  62% { transform: translateY(44px); }
+  100% { transform: translateY(-6px); }
+}
+@keyframes rally-swing { 0% { transform: rotate(-38deg); } 80% { transform: rotate(-38deg); } 100% { transform: rotate(14deg); } }
 .next-session { @apply absolute bottom-0 right-0 grid max-w-[20rem] gap-1 rounded-[1.2rem] border px-5 py-[1.1rem] text-white backdrop-blur-md; border-color: rgba(255,255,255,.22); background: rgba(8,32,26,.62); -webkit-backdrop-filter: blur(12px); }
 .next-session__label { @apply text-[0.7rem] font-[850] uppercase tracking-[0.13em]; color: var(--accent); }
 .next-session strong { @apply whitespace-nowrap text-[1.15rem] tracking-[-0.02em]; }
@@ -206,7 +213,7 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .rally__ball-x, .rally__ball-y, .rally__bat, .ticker__track { animation: none; }
+  .rally__ball-x, .rally__ball-y, .rally__bat-r, .ticker__track { animation: none; }
   .reveal-ready .reveal { opacity: 1; transform: none; transition: none; }
   .tile, .session, .primary-link { transition: none; }
 }
