@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { AboutPage, EventArchivePage, NewsPage, NewsPostPage, PoliciesPage } from "./Pages";
+import { AboutPage, NewsPostPage, PoliciesPage } from "./Pages";
+import { EventArchivePage, NewsArchivePage, NewsPage } from "./Newsroom";
 import { CalendarPage } from "./CalendarPage";
 import "@tti/ui/tailwind.css";
 import "./styles.css";
@@ -10,6 +11,7 @@ import "./styles.css";
 function Route() {
   const path = window.location.pathname.replace(/\/+$/, "");
   if (path === "/news") return <NewsPage />;
+  if (path === "/news/archive") return <NewsArchivePage />;
   if (path.startsWith("/news/")) return <NewsPostPage slug={decodeURIComponent(path.slice(6))} />;
   if (path === "/events") return <EventArchivePage />;
   if (path === "/calendar") return <CalendarPage />;

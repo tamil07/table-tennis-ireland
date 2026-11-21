@@ -1,5 +1,4 @@
 import { NEWS, ABOUT_TEXT, ABOUT_SOURCE, POLICIES_TEXT, POLICIES_SOURCE } from "./content/wix-content";
-import { CALENDAR_EVENTS } from "./content/calendar";
 
 const dateLabel = (iso: string | null) =>
   iso ? new Date(iso + "T12:00:00Z").toLocaleDateString("en-IE", { timeZone: "Europe/Dublin", day: "numeric", month: "long", year: "numeric" }) : "";
@@ -35,23 +34,6 @@ export function PageShell({ title, children }: { title: string; children: React.
 
 const paragraphs = (text: string) => text.split("\n").filter(Boolean).map((p, i) => <p key={i}>{p}</p>);
 
-export function NewsPage() {
-  return (
-    <PageShell title="News">
-      <p className="source-note">Posts from the club's earlier website, shown in date order. Each post keeps a link to its original page.</p>
-      <ul className="session-list">
-        {NEWS.map((post) => (
-          <li key={post.slug} className="card">
-            <p className="eyebrow">{dateLabel(post.published)}{post.author ? ` · ${post.author}` : ""}</p>
-            <h2><a href={`/news/${post.slug}`}>{post.title}</a></h2>
-            {post.summary && <p>{post.summary}</p>}
-          </li>
-        ))}
-      </ul>
-    </PageShell>
-  );
-}
-
 export function NewsPostPage({ slug }: { slug: string }) {
   const post = NEWS.find((p) => p.slug === slug);
   if (!post) return <PageShell title="Post not found"><p>This post is not on the new site. <a href="/news">See all news</a>.</p></PageShell>;
@@ -72,34 +54,6 @@ const dublinDate = (value: string) =>
   new Date(value + ":00Z").toLocaleDateString("en-IE", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short", year: "numeric" });
 
 const dublinTime = (value: string) => value.slice(11, 16);
-
-/** Past one-off events only. Regular weekly training is on the timetable and the calendar page, not here. */
-export function EventArchivePage() {
-  return (
-    <PageShell title="Event archive">
-      <p className="source-note">
-        Tournaments and events from the club's earlier website. The weekly training timetable is on the{" "}
-        <a href="/calendar">club calendar</a>.
-      </p>
-      <section aria-labelledby="oneoff">
-        <h2 id="oneoff">Tournaments and one-off events</h2>
-        {CALENDAR_EVENTS.map((e) => (
-          <article key={e.id} className="card">
-            <h3>{e.source ? <a href={e.source} rel="noopener">{e.title}</a> : e.title}</h3>
-            <p className="eyebrow">
-              {dublinDate(e.start)}, {dublinTime(e.start)}
-              {e.end ? `–${dublinTime(e.end)}` : ""}
-              {e.venue ? ` · ${e.venue}` : ""}
-              {e.cancelled ? " · cancelled" : ""}
-            </p>
-            {e.description && paragraphs(e.description)}
-            {e.source && <p className="source-note">Originally published on the club's earlier website: <a href={e.source} rel="noopener">{e.source}</a></p>}
-          </article>
-        ))}
-      </section>
-    </PageShell>
-  );
-}
 
 export function AboutPage() {
   return (

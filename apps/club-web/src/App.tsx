@@ -458,8 +458,8 @@ export function App() {
                 Read the existing club news archive while articles and
                 photographs are being migrated.
               </p>
-              <a href="https://leesidetabletennis.wixsite.com/home/blog">
-                Open Leeside news →
+              <a href="/news">
+                Read the club news →
               </a>
             </Card>
             <Card className="reveal">
