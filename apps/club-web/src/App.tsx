@@ -14,6 +14,8 @@ import {
 const nav = [
   ["#sessions", "Sessions"],
   ["#about", "About"],
+  ["/news", "News"],
+  ["/events", "Event archive"],
   ["#membership", "Membership"],
   ["#faq", "FAQ"],
   ["#club-portal", "Members & bookings"],
