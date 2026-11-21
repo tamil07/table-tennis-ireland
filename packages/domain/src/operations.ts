@@ -1951,6 +1951,9 @@ export function applyClubCommand(
           occurrences.length <= 60,
         "Use one to sixty dated occurrences.",
       );
+      // Each occurrence is applied as a session command, which bumps the version itself.
+      // The programme is one command, so restore the starting version; the outer command bumps it once.
+      const startVersion = s.version;
       for (const [i, occurrence] of occurrences.entries())
         Object.assign(
           s,
@@ -1961,6 +1964,7 @@ export function applyClubCommand(
             now,
           ),
         );
+      s.version = startVersion;
       break;
     }
     case "session": {

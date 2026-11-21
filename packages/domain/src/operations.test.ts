@@ -544,6 +544,21 @@ describe("club operations security and workflows", () => {
     ).toThrow("overlaps");
     expect(s.sessions).toHaveLength(demoClub(now).sessions.length);
   });
+  it("advances the club version by exactly one for a programme of any size", () => {
+    for (const count of [1, 2, 5]) {
+      const s = demoClub(now);
+      const occurrences = Array.from({ length: count }, (_, i) => ({
+        name: "Camp",
+        start: new Date(now + 86400000 * (30 + 7 * i)).toISOString(),
+        end: new Date(now + 86400000 * (30 + 7 * i) + 3600000).toISOString(),
+        tables: 3,
+        capacity: 12,
+      }));
+      const next = run(s, admin, "programme", { occurrences });
+      expect(next.version).toBe(s.version + 1);
+      expect(next.sessions).toHaveLength(s.sessions.length + count);
+    }
+  });
   it("validates deuce and rejects games after a winner", () => {
     expect(
       scoreResult({
