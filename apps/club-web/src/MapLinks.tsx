@@ -1,19 +1,23 @@
-/** Opens the address in Google Maps or Apple Maps. Both are web links that open the maps app when installed. */
-export function mapLinks(address: string) {
-  const query = encodeURIComponent(address);
-  return {
-    google: `https://www.google.com/maps/search/?api=1&query=${query}`,
-    apple: `https://maps.apple.com/?q=${query}`,
-  };
-}
+// The club hall. Google's short link is the one the club gave us; Apple Maps uses the same pin's coordinates
+// (taken from the resolved Google Maps place) so both apps open the same location.
+const HALL = {
+  name: "James Kenneally Sports Hall",
+  googleUrl: "https://maps.app.goo.gl/PmYo8e33BFuLS6Mo7",
+  lat: 51.9031185,
+  lng: -8.50394,
+};
 
-export function MapLinks({ address }: { address: string }) {
-  const links = mapLinks(address);
+export const mapLinks = {
+  google: HALL.googleUrl,
+  apple: `https://maps.apple.com/?ll=${HALL.lat},${HALL.lng}&q=${encodeURIComponent(HALL.name)}`,
+};
+
+export function MapLinks() {
   return (
     <p className="map-links">
-      <a href={links.google} target="_blank" rel="noopener">Open in Google Maps →</a>
+      <a href={mapLinks.google} target="_blank" rel="noopener">Open in Google Maps →</a>
       {" · "}
-      <a href={links.apple} target="_blank" rel="noopener">Open in Apple Maps →</a>
+      <a href={mapLinks.apple} target="_blank" rel="noopener">Open in Apple Maps →</a>
     </p>
   );
 }

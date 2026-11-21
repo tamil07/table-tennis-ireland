@@ -285,7 +285,7 @@ export function App() {
               <p className="eyebrow">Find us</p>
               <h2>Gurranabraher, Cork</h2>
               <p>{address}</p>
-              <MapLinks address={address} />
+              <MapLinks />
             </Card>
             <Card className="tile reveal">
               <p className="eyebrow">Coaching</p>
@@ -506,7 +506,7 @@ export function App() {
             <Card className="reveal">
               <h3>Contact</h3>
               <p>{address}.</p>
-              <MapLinks address={address} />
+              <MapLinks />
               <p>
                 <a href="mailto:leesidettie@gmail.com">leesidettie@gmail.com</a>
               </p>
