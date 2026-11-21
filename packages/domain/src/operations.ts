@@ -510,7 +510,11 @@ function dateOfBirthFrom(data: Record<string, unknown>, required: boolean, asJun
   }
   requireValue(
     /^\d{4}-\d{2}-\d{2}$/.test(raw) && !Number.isNaN(Date.parse(raw)),
-    "Date of birth must be a valid date.",
+    "Date of birth must be a full date: day, month and four-digit year.",
+  );
+  requireValue(
+    Number(raw.slice(0, 4)) >= 1900,
+    "Enter the full four-digit year of birth (1900 or later).",
   );
   const today = new Date().toISOString().slice(0, 10);
   requireValue(raw <= today, "Date of birth cannot be in the future.");
@@ -1540,6 +1544,7 @@ export function applyClubCommand(
         !["left", "subscriber"].includes(parent.status),
         "Apply to join the club before registering a child.",
       );
+      const childBirth = dateOfBirthFrom(d, true, true);
       requireValue(
         d.consent === true &&
           s.settings.privacy &&
@@ -1553,7 +1558,7 @@ export function applyClubCommand(
         email: "",
         emailVerified: false,
         mobile: "",
-        dateOfBirth: dateOfBirthFrom(d, true, true),
+        dateOfBirth: childBirth,
         junior: true,
         guardians: [actor.id],
         status: "pending",

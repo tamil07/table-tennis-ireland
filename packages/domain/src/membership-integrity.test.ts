@@ -246,6 +246,14 @@ describe("identity and membership integrity", () => {
       run(demoClub(now), "page", { title: "x".repeat(121), body: "Hello", kind: "news", published: false, event: "" }),
     ).toThrow();
   });
+  it("explains a date of birth with a bad year, and checks age before consent for a junior", () => {
+    expect(() =>
+      run(demoClub(now), "person", { name: "Year twenty-two", dateOfBirth: "0022-03-01", junior: false, guest: false, guardians: [] }),
+    ).toThrow("four-digit year");
+    expect(() =>
+      run(demoClub(now), "child", { firstName: "Old", lastName: "Junior", dateOfBirth: "1989-03-01", consent: false }),
+    ).toThrow("under 18");
+  });
   it("refuses guardian relationships on adults and prevents self-guardianship", () => {
     const s = demoClub(now);
     expect(() =>

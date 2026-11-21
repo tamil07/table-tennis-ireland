@@ -309,4 +309,5 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [ ] 21.3 Owner: review the landing animation on a phone and under reduced motion (visual release, task 19.5).
 - [ ] 21.4 Later: a second confirmation step before a post goes public, and https-only links once links are rendered.
 - [x] 21.5 Landing rally refined (19 November 2026): the paddle is drawn as a table tennis bat (rounded blade with a red rubber face, wooden edge and tapered handle); the net is drawn as a white top tape, a mesh and a post at each end across the middle of the table. Decorative, CSS-animated, stopped under reduced motion. Checked by screenshot at desktop width.
+- [x] 18.9 Manual test fixes (21 November 2026): a date of birth with an implausible year (before 1900) is refused with a clear message; a junior's date of birth is checked before guardian consent, so the age rule shows first. Adults without a date of birth stay allowed. Tested locally (120 domain tests). Junior registration also needs the club's privacy, safeguarding and policy text entered in Management first.
 
