@@ -134,20 +134,36 @@ export function ClosureNotice() {
     };
   }, []);
   if (!liveMode || items.length === 0) return null;
+  const lines = items.map((c) => {
+    const last = c.end - 1;
+    const range = dublinDay(c.start) === dublinDay(last) ? dublinDay(c.start) : `${dublinDay(c.start)} – ${dublinDay(last)}`;
+    return { id: c.id, reason: c.reason, range, text: `${c.reason}, ${range}` };
+  });
+  const link = typeof window !== "undefined" ? `${window.location.origin}/#closures` : "";
+  const message = `Leeside Table Tennis Club: closed for ${lines.map((l) => l.text).join("; ")}. ${link}`.trim();
+  const enc = encodeURIComponent;
+  const canShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
   return (
-    <section className="closure-notice" aria-labelledby="closures-heading">
+    <section className="closure-notice" id="closures" aria-labelledby="closures-heading">
       <h2 id="closures-heading">Closures</h2>
       <ul>
-        {items.map((c) => {
-          const last = c.end - 1;
-          const range = dublinDay(c.start) === dublinDay(last) ? dublinDay(c.start) : `${dublinDay(c.start)} – ${dublinDay(last)}`;
-          return (
-            <li key={c.id}>
-              <strong>Closed: {c.reason}</strong>, {range}
-            </li>
-          );
-        })}
+        {lines.map((l) => (
+          <li key={l.id}>
+            <strong>Closed: {l.reason}</strong>, {l.range}
+          </li>
+        ))}
       </ul>
+      <div className="closure-share" role="group" aria-label="Share this closure">
+        <a href={`https://wa.me/?text=${enc(message)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`} target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href={`https://x.com/intent/post?text=${enc(message)}`} target="_blank" rel="noopener noreferrer">X</a>
+        <button type="button" onClick={() => void navigator.clipboard?.writeText(message)}>Copy for Instagram</button>
+        {canShare && (
+          <button type="button" onClick={() => void navigator.share({ title: "Leeside closure", text: message, url: link }).catch(() => undefined)}>
+            Share…
+          </button>
+        )}
+      </div>
     </section>
   );
 }

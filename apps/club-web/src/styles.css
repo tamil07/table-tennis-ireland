@@ -218,3 +218,6 @@ footer span, footer p { @apply text-[0.83rem] text-[#a8bcb4]; }
 .closure-notice { @apply mx-auto my-4 max-w-[52rem] rounded-xl border-l-4 border-[#e9781c] bg-[#fff6e9] px-5 py-4 text-[#65431f]; }
 .closure-notice h2 { @apply m-0 mb-1 text-base font-bold; }
 .closure-notice ul { @apply m-0 grid list-none gap-1 p-0 text-[0.95rem]; }
+.closure-share { @apply mt-3 flex flex-wrap gap-2; }
+.closure-share a, .closure-share button { @apply cursor-pointer rounded-full border border-[#e9781c] bg-white px-3 py-1.5 text-sm font-semibold text-[#65431f] no-underline; }
+.closure-share a:hover, .closure-share button:hover { @apply bg-[#e9781c] text-white; }
