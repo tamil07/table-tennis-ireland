@@ -556,7 +556,8 @@ describe("club operations security and workflows", () => {
       }));
       const next = run(s, admin, "programme", { occurrences });
       expect(next.version).toBe(s.version + 1);
-      expect(next.sessions).toHaveLength(s.sessions.length + count);
+      // Timetable sessions are generated alongside; count the manual sessions the programme adds.
+      expect(next.sessions.filter((x) => x.source !== "timetable")).toHaveLength(s.sessions.length + count);
     }
   });
   it("validates deuce and rejects games after a winner", () => {
@@ -853,7 +854,9 @@ describe("club operations security and workflows", () => {
       end: new Date(session.end).toISOString(),
       reason: "Maintenance",
     });
-    expect(s.board.requests[0].status).toBe("cancelled");
+    // Closures no longer cancel bookings: the place stays booked and is flagged for staff review.
+    expect(s.board.requests[0].status).toBe("confirmed");
+    expect(s.sessions.find((x) => x.id === session.id)!.cancelled).toBe(true);
     expect(() =>
       run(s, admin, "session", {
         name: "Blocked",
@@ -867,17 +870,13 @@ describe("club operations security and workflows", () => {
       closure: s.closures[0].id,
       reason: "Work completed",
     });
-    expect(s.board.requests[0].status).toBe("cancelled");
+    expect(s.board.requests[0].status).toBe("confirmed");
   });
   it("does not mutate revision or grow audit on an idle scheduler pass", () => {
-    const s = demoClub(now);
-    const next = run(
-      s,
-      { id: "scheduler", email: "", verified: true, system: true },
-      "jobs",
-      {},
-    );
-    expect(next).toBe(s);
+    const scheduler = { id: "scheduler", email: "", verified: true, system: true };
+    // The first pass brings the dated timetable sessions up to date; a second pass has nothing to change.
+    const synced = run(demoClub(now), scheduler, "jobs", {});
+    expect(run(synced, scheduler, "jobs", {})).toBe(synced);
   });
   it("keeps retention disabled until policy approval and does not reintroduce deleted notes through audit", () => {
     let s = run(demoClub(now), coach, "note", {

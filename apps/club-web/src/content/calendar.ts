@@ -59,3 +59,38 @@ export function weeklyOccurrences(from: string, to: string) {
   }
   return out;
 }
+
+/** Dublin wall-clock time for an instant, as YYYY-MM-DDTHH:MM (what the calendar displays). */
+export function dublinWall(time: number): string {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Dublin",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).formatToParts(new Date(time));
+  const get = (type: string) => parts.find((p) => p.type === type)!.value;
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
+}
+
+/** Live timetable from the club's public projection (sessions and closures). */
+export type LiveTimetable = {
+  sessions: { id: string; title: string; start: number; end: number; date: string; venue: string | null }[];
+  closures: { id: string; start: number; end: number; reason: string }[];
+};
+
+/** Loads the live timetable. Throws when the club is not configured or the projection is unavailable. */
+export async function loadLiveTimetable(): Promise<LiveTimetable> {
+  const base = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const slug = import.meta.env.VITE_DEFAULT_CLUB_SLUG as string | undefined;
+  if (!base || !slug) throw new Error("Club is not configured");
+  const join = await fetch(`${base}/functions/v1/club-public?join=${encodeURIComponent(slug)}`);
+  if (!join.ok) throw new Error("Club not found");
+  const { id } = (await join.json()) as { id: string };
+  const response = await fetch(`${base}/functions/v1/club-public?club=${encodeURIComponent(id)}`);
+  if (!response.ok) throw new Error("Timetable unavailable");
+  const data = (await response.json()) as LiveTimetable;
+  return { sessions: data.sessions ?? [], closures: data.closures ?? [] };
+}

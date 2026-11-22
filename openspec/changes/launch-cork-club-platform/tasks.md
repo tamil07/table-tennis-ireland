@@ -346,13 +346,13 @@ Specification: `specs/table-practice-booking`. Design: "Table-wise practice rese
 
 Specification: `specs/timetable-management`. Design: "Timetable management" in `design.md`. Test plan: "Timetable management v3" in `test-plan.md`.
 
-- [ ] 24.1 Domain: weekly definitions, date overrides and pure occurrence generation with Europe/Dublin times (`timetable.ts`), with unit tests for time changes, cancellations, extras, closures and holidays.
-- [ ] 24.2 Commands: `timetable_weekly`, `timetable_override`, `timetable_remove_override`, each permitted for `events` or `coach`, validated and audited.
-- [ ] 24.3 Reconciliation of dated sessions after timetable, closure and holiday commands and in the daily job; bookings notified and listed for review, never moved or cancelled.
-- [ ] 24.4 Closures no longer cancel bookings automatically (change `close_hall`); affected bookings are notified and listed for review.
-- [ ] 24.5 Seed the timetable from the owner-confirmed five weekly sessions for clubs that do not have one yet.
-- [ ] 24.6 Club projection: `club-public` JSON (`format=json`) for dated sessions and closures; tests that it excludes players and bookings.
-- [ ] 24.7 Website calendar reads the live projection; the static calendar file is retired after acceptance.
-- [ ] 24.8 Portal Timetable tab: weekly sessions, one-date changes, closures, staff review list and the plain-language change history.
-- [ ] 24.9 Deploy `club-api` and `club-public`, then the website; verify with the test plan.
+- [x] 24.1 Domain: weekly definitions, date overrides and pure occurrence generation with Europe/Dublin times (`timetable.ts`), with unit tests for time changes, cancellations, extras, closures and holidays.
+- [x] 24.2 Commands: `timetable_weekly`, `timetable_override`, `timetable_remove_override`, each permitted for `events` or `coach`, validated and audited.
+- [x] 24.3 Reconciliation of dated sessions after timetable, closure and holiday commands and in the daily job; bookings notified and listed for review, never moved or cancelled.
+- [x] 24.4 Closures no longer cancel bookings automatically (change `close_hall`); affected bookings are notified and listed for review.
+- [x] 24.5 Seed the timetable from the owner-confirmed five weekly sessions for clubs that do not have one yet.
+- [x] 24.6 Club projection: `club-public` JSON (`format=json`) for dated sessions and closures; tests that it excludes players and bookings.
+- [x] 24.7 Website calendar reads the live projection; the static calendar file is retired after acceptance.
+- [x] 24.8 Portal Timetable tab: weekly sessions, one-date changes, closures, staff review list and the plain-language change history.
+- [ ] 24.9 Deploy `club-api` and `club-public`, then the website; verify with the test plan (owner runs the backend deploy; website follows).
 - [ ] 24.10 Club decision recorded on the holiday substitute-day rule (open question for the club).

@@ -44,7 +44,7 @@ export const server = Deno.serve({ port: Number(Deno.env.get('TTI_FUNCTION_PORT'
       }));
     const sessions = state.sessions
       .filter((s) => !s.cancelled && s.end > Date.now())
-      .map((s) => ({ id: s.id, title: s.label, start: s.start, end: s.end }));
+      .map((s) => ({ id: s.id, title: s.label, start: s.start, end: s.end, date: s.date, venue: s.venue ?? null }));
     const events = state.events
       .filter((e) =>
         ["published", "in_progress", "completed", "cancelled"].includes(

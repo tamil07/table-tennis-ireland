@@ -4,5 +4,6 @@ export * from "./types";
 export * from "./session-booking";
 export * from './operations';
 export * from './operations-demo';
+export * from './timetable';
 export * from './routes';
 export * from './presentation';

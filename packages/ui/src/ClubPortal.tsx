@@ -12,6 +12,8 @@ import {
   clubOverview,
   matchStatistics,
   occupiesPlace,
+  defaultTimetable,
+  DAY_NAMES,
   permissions,
   pilotClubId,
   represents,
@@ -568,6 +570,7 @@ export function ClubPortal({
     ["people", "People & memberships"],
     ["attendance", "Attendance"],
     ["sessions", "Sessions & hall"],
+    ...(state && actor && (can("events") || can("coach")) ? [["timetable", "Timetable"] as [string, string]] : []),
     ["matches", "Matches"],
     ["tournaments", "Tournaments"],
     ["coaching", "Coaching"],
@@ -3041,6 +3044,122 @@ export function ClubPortal({
               </details>
             </article>
           )}
+          {tab === "timetable" && (can("events") || can("coach")) && state && (() => {
+            const tt = state.timetable ?? defaultTimetable();
+            const weeklyOptions: [string, string][] = tt.weekly.map((w) => [w.id, `${DAY_NAMES[w.day]} ${w.start}–${w.end} · ${w.title}${w.active ? "" : " (removed)"}`]);
+            const reviewSessions = state.sessions.filter(
+              (x) => x.changedAt && !x.reviewedAt && state.board.requests.some((r) => r.sessionId === x.id && occupiesPlace(r, now)),
+            );
+            const closures = state.closures.filter((c) => c.active && c.end > now);
+            return (
+              <div className="grid gap-5">
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
+                  <h3>Weekly timetable</h3>
+                  <p className="text-sm text-ops-muted">Changes apply to every dated session from the effective date: table booking, the public calendar and the subscribed calendar. Every change needs a reason and is kept in the history below.</p>
+                  <ul className="mt-3 grid gap-2">
+                    {tt.weekly.map((w) => (
+                      <li key={w.id} className="flex flex-wrap justify-between gap-2 border-t border-ops-line pt-2">
+                        <span><strong>{DAY_NAMES[w.day]} {w.start}–{w.end}</strong> · {w.title}</span>
+                        <span className="text-sm text-ops-muted">from {w.from}{w.until ? ` until ${w.until}` : ""}{w.active ? "" : " · removed"}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {form(
+                    "Add or change a weekly session",
+                    "timetable_weekly",
+                    [
+                      { key: "weekly", label: "Session to change (leave as new to add one)", options: [["", "New weekly session"], ...weeklyOptions], optional: true },
+                      { key: "day", label: "Day", options: DAY_NAMES.map((n, i): [string, string] => [String(i), n]) },
+                      { key: "start", label: "Start", type: "time" },
+                      { key: "end", label: "End", type: "time" },
+                      { key: "title", label: "Title" },
+                      { key: "venue", label: "Venue", value: "James Kenneally Sports Hall, Hollyhill Ln, Gurranabraher, Cork" },
+                      { key: "audience", label: "Audience", value: "All ages & abilities" },
+                      { key: "capacity", label: "Capacity", type: "number", value: 12 },
+                      { key: "tables", label: "Tables (1–6)", type: "number", value: 6 },
+                      dateField("from", "Effective from"),
+                      { key: "until", label: "Until (optional)", type: "date", optional: true },
+                      { key: "active", label: "Status", options: [["true", "Running"], ["false", "Remove from the timetable"]] },
+                      { key: "reason", label: "Reason for the change" },
+                    ],
+                    (d) => ({ ...d, active: d.active !== "false", day: Number(d.day), capacity: Number(d.capacity), tables: Number(d.tables) }),
+                  )}
+                </article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
+                  <h3>One date: move, cancel or add</h3>
+                  <p className="text-sm text-ops-muted">Use this for one day only: a different time, a cancelled session, or an extra session. Other dates are not changed.</p>
+                  {form(
+                    "Change one date",
+                    "timetable_override",
+                    [
+                      dateField("date", "Date"),
+                      { key: "action", label: "What changes", options: [["retime", "Move this session to another time"], ["cancel", "Cancel this session"], ["extra", "Add an extra session"]] },
+                      { key: "weekly", label: "Weekly session (for move or cancel)", options: [["", "Choose"], ...weeklyOptions], optional: true },
+                      { key: "start", label: "New start (move or extra)", type: "time", optional: true },
+                      { key: "end", label: "New end (move or extra)", type: "time", optional: true },
+                      { key: "title", label: "Title (extra session)", optional: true },
+                      { key: "venue", label: "Venue (extra session)", optional: true },
+                      { key: "reason", label: "Reason" },
+                    ],
+                  )}
+                  {tt.overrides.filter((o) => o.active).length > 0 && (
+                    <ul className="mt-3 grid gap-2">
+                      {tt.overrides.filter((o) => o.active).map((o) => (
+                        <li key={o.id} className="flex flex-wrap items-center justify-between gap-2 border-t border-ops-line pt-2">
+                          <span>{o.date}: {o.action === "cancel" ? "cancelled" : o.action === "retime" ? `moved to ${o.start}–${o.end}` : `extra ${o.title} ${o.start}–${o.end}`} · {o.reason}</span>
+                          <button disabled={busy} onClick={() => { const why = prompt("Why is this change being removed?"); if (why) void act("timetable_remove_override", { override: o.id, reason: why }); }}>Remove change</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
+                  <h3>Closures</h3>
+                  <p className="text-sm text-ops-muted">Public holidays and any closure stop table booking for the sessions they cover. Add a closure from Sessions &amp; hall; reopen it here when it is finished.</p>
+                  {closures.length === 0 && <p className="text-sm text-ops-muted">No closures are active.</p>}
+                  <ul className="mt-3 grid gap-2">
+                    {closures.map((c) => (
+                      <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 border-t border-ops-line pt-2">
+                        <span>{new Date(c.start).toLocaleDateString("en-IE", { timeZone: "Europe/Dublin", day: "numeric", month: "short" })} to {new Date(c.end).toLocaleDateString("en-IE", { timeZone: "Europe/Dublin", day: "numeric", month: "short", year: "numeric" })} · {c.reason}</span>
+                        <button disabled={busy} onClick={() => { const why = prompt("Why is the closure being reopened?"); if (why) void act("reopen_hall", { closure: c.id, reason: why }); }}>Reopen</button>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
+                  <h3>Bookings to review</h3>
+                  <p className="text-sm text-ops-muted">These sessions changed or were closed while players held places. The players have been told. Confirm each place with the player, move it, or cancel it, then mark the session reviewed.</p>
+                  {reviewSessions.length === 0 && <p className="text-sm text-ops-muted">Nothing needs review.</p>}
+                  {reviewSessions.map((x) => (
+                    <div key={x.id} className="mt-3 grid gap-2 border-t border-ops-line pt-2">
+                      <strong>{x.label} · {new Date(x.start).toLocaleString("en-IE", { timeZone: "Europe/Dublin", weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}{x.cancelled ? ` · closed: ${x.closedReason ?? "cancelled"}` : ""}</strong>
+                      {state.board.requests.filter((r) => r.sessionId === x.id && occupiesPlace(r, now)).map((r) => (
+                        <div key={r.id} className="flex flex-wrap items-center justify-between gap-2">
+                          <span>{title(r.playerId)}{r.partnerName ? ` with ${r.partnerName}` : ""} · {r.tableId ? `Table ${r.tableId}, place ${(r.place ?? 0) + 1}` : "waiting list"}</span>
+                          <button disabled={busy} onClick={() => void act("booking", { session: x.id, action: { type: "cancel", id: r.id } })}>Cancel place</button>
+                        </div>
+                      ))}
+                      <button disabled={busy} onClick={() => void act("session_reviewed", { session: x.id, reason: "Reviewed by staff" })}>Mark reviewed</button>
+                    </div>
+                  ))}
+                </article>
+                <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
+                  <h3>Change history</h3>
+                  <p className="text-sm text-ops-muted">Every timetable, one-date, closure and holiday change, with who made it and why. This list cannot be edited.</p>
+                  {(state.timetableLog ?? []).length === 0 && <p className="text-sm text-ops-muted">No changes yet.</p>}
+                  <ol className="mt-3 grid gap-2">
+                    {[...(state.timetableLog ?? [])].reverse().map((e) => (
+                      <li key={e.id} className="border-t border-ops-line pt-2">
+                        <div className="text-sm text-ops-muted">{new Date(e.at).toLocaleString("en-IE", { timeZone: "Europe/Dublin", day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })} · {title(e.actor)}</div>
+                        <div>{e.summary}</div>
+                        {e.reason && <div className="text-sm text-ops-muted">Reason: {e.reason}</div>}
+                      </li>
+                    ))}
+                  </ol>
+                </article>
+              </div>
+            );
+          })()}
           {tab === "sessions" && can("events") && (
             <article className="min-w-0 rounded-[14px] border border-ops-line bg-white p-5.5 shadow-[0_6px_20px_rgba(20,45,37,0.05)]">
               {form(

@@ -2,6 +2,19 @@
 // Only the server supplies the authenticated principal and commits authoritative state.
 import { bookingUpdate, occupiesPlace } from "./session-booking.ts";
 import { IE_PUBLIC_HOLIDAYS } from "./holidays.ts";
+import {
+  addDays,
+  DAY_NAMES,
+  defaultTimetable,
+  describeWeekly,
+  generateSessions,
+  isClock,
+  isIsoDate,
+  weekday,
+  type DateOverride,
+  type Timetable,
+  type WeeklyDefinition,
+} from "./timetable.ts";
 import type {
   BookingBoard,
   PracticeSession,
@@ -66,6 +79,14 @@ export type ClubSession = PracticeSession & {
   capacity: number;
   cancelled: boolean;
   tables: number;
+  venue?: string;
+  /** timetable: generated from the club timetable; manual: created by a session command (camps, programmes). */
+  source?: "timetable" | "manual";
+  /** Why the session is closed or cancelled, when it is. */
+  closedReason?: string;
+  /** Set when a change affects bookings; cleared by staff review. */
+  changedAt?: number;
+  reviewedAt?: number;
 };
 export type AttendanceRecord = {
   id: string;
@@ -187,6 +208,10 @@ export interface ClubState {
     recordedBy: string;
   }[];
   sessions: ClubSession[];
+  /** Weekly sessions and one-date changes. Missing in older clubs: seeded with the confirmed timetable. */
+  timetable?: Timetable;
+  /** Append-only, plain-language history of timetable, closure and holiday changes. */
+  timetableLog?: { id: string; at: string; actor: string; summary: string; reason: string }[];
   board: BookingBoard;
   attendance: AttendanceRecord[];
   absences: { session: string; player: string }[];
@@ -1162,8 +1187,130 @@ function applyRetention(s: ClubState, today: string) {
   // Published match history, photos and reflections have separate purposes. Do not
   // silently inherit operational retention or delete an identifiable player still referenced.
 }
+function permitTimetable(s: ClubState, actor: Principal) {
+  requireValue(
+    may(s, actor.id, "events") || may(s, actor.id, "coach"),
+    "Timetable changes need the events or coach permission.",
+  );
+}
+function timetableOf(s: ClubState): Timetable {
+  if (!s.timetable) s.timetable = defaultTimetable();
+  return s.timetable;
+}
+function logTimetable(
+  s: ClubState,
+  id: string,
+  actor: Principal,
+  now: number,
+  summary: string,
+  reason: string,
+) {
+  s.timetableLog = [
+    ...(s.timetableLog ?? []),
+    { id, at: new Date(now).toISOString(), actor: actor.id, summary, reason },
+  ];
+}
+const whenText = (time: number) =>
+  new Date(time).toLocaleString("en-IE", {
+    timeZone: "Europe/Dublin",
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+/**
+ * Brings dated timetable sessions in line with the timetable, closures and holiday decisions for the next
+ * sixty days. Sessions are changed or closed, never deleted; bookings are never moved or cancelled here.
+ * Players with active places are notified and the change is listed for staff review.
+ */
+function reconcileTimetable(s: ClubState, now: number, actorId: string) {
+  const tt = timetableOf(s);
+  const from = localDay(now);
+  const generated = generateSessions(tt, from, addDays(from, 60));
+  const generatedIds = new Set(generated.map((g) => g.id));
+  const flagBookers = (session: ClubSession, what: string) => {
+    const bookers = s.board.requests.filter(
+      (r) =>
+        r.sessionId === session.id &&
+        occupiesPlace(r, now) &&
+        !r.playerId.startsWith("partner:"),
+    );
+    for (const r of bookers)
+      notify(s, r.playerId, "booking_changed", r.id, now, `session-changed:${session.id}:${r.id}:${now}`);
+    if (bookers.length > 0) {
+      session.changedAt = now;
+      staffNotice(s, "booking", "booking_review", session.id, now, `booking-review:${session.id}:${now}`);
+    }
+    return what;
+  };
+  for (const g of generated) {
+    const holiday = s.publicHolidays.find(
+      (h) => h.date === g.date && h.decision !== "open",
+    );
+    const closure = s.closures.find(
+      (c) => c.active && c.start < g.end && c.end > g.start,
+    );
+    const closedReason = g.cancelledByOverride
+      ? "Cancelled for this date"
+      : closure
+        ? closure.reason
+        : holiday
+          ? holiday.name
+          : undefined;
+    const cancelled = closedReason !== undefined;
+    const existing = s.sessions.find((x) => x.id === g.id);
+    if (!existing) {
+      s.sessions.push({
+        id: g.id,
+        date: g.date,
+        label: g.title,
+        start: g.start,
+        end: g.end,
+        capacity: g.capacity,
+        tables: g.tables,
+        cancelled,
+        venue: g.venue,
+        source: "timetable",
+        closedReason,
+      });
+      continue;
+    }
+    if (existing.source !== "timetable") continue;
+    const changed =
+      existing.start !== g.start ||
+      existing.end !== g.end ||
+      existing.cancelled !== cancelled ||
+      existing.label !== g.title ||
+      existing.venue !== g.venue;
+    existing.closedReason = closedReason;
+    if (!changed) continue;
+    Object.assign(existing, {
+      start: g.start,
+      end: g.end,
+      cancelled,
+      label: g.title,
+      venue: g.venue,
+    });
+    flagBookers(existing, "changed");
+  }
+  for (const x of s.sessions) {
+    if (
+      x.source !== "timetable" ||
+      x.cancelled ||
+      x.start <= now ||
+      generatedIds.has(x.id)
+    )
+      continue;
+    x.cancelled = true;
+    x.closedReason = "No longer on the timetable";
+    flagBookers(x, "removed");
+  }
+}
+
 function runJobs(s: ClubState, now: number) {
   const today = localDay(now);
+  reconcileTimetable(s, now, "scheduler");
   const expiring = s.board.requests.filter(
     (r) => r.status === "offered" && r.holdUntil <= now,
   );
@@ -1342,6 +1489,8 @@ export function applyClubCommand(
     "Verify your sign-in email first.",
   );
   const s: ClubState = structuredClone(original);
+  // Dated timetable sessions are kept current on every command, so a new club is bookable without waiting for the daily job.
+  reconcileTimetable(s, now, actor.id);
   const d = command.data;
   const id = command.id;
   const permit = (permission: Permission) =>
@@ -2030,6 +2179,121 @@ export function applyClubCommand(
       }));
       break;
     }
+    case "timetable_weekly": {
+      permitTimetable(s, actor);
+      const reason = nonempty(d, "reason", 500);
+      const tt = timetableOf(s);
+      const day = number(d, "day", 0, 6);
+      const start = text(d, "start", 5);
+      const end = text(d, "end", 5);
+      requireValue(
+        isClock(start) && isClock(end) && end > start,
+        "Use start and end times as HH:MM, with the end after the start.",
+      );
+      const from = text(d, "from", 10);
+      requireValue(isIsoDate(from), "Use an effective date as YYYY-MM-DD.");
+      const until = typeof d.until === "string" && d.until ? d.until : null;
+      requireValue(
+        until === null || (isIsoDate(until) && until >= from),
+        "Use an end date on or after the effective date.",
+      );
+      const definition: WeeklyDefinition = {
+        id: typeof d.weekly === "string" && d.weekly ? d.weekly : `wk-${id}`,
+        day,
+        start,
+        end,
+        title: nonempty(d, "title", 120),
+        venue: nonempty(d, "venue", 200),
+        audience: nonempty(d, "audience", 200),
+        capacity: number(d, "capacity", 1, 1000),
+        tables: number(d, "tables", 1, 6),
+        from,
+        until,
+        active: d.active !== false,
+      };
+      const index = tt.weekly.findIndex((w) => w.id === definition.id);
+      const before = index >= 0 ? describeWeekly(tt.weekly[index]) : null;
+      if (index >= 0) tt.weekly[index] = definition;
+      else tt.weekly.push(definition);
+      logTimetable(
+        s,
+        id,
+        actor,
+        now,
+        `${definition.active ? (index >= 0 ? "Changed" : "Added") : "Removed"}: ${describeWeekly(definition)}, from ${from}${until ? ` until ${until}` : ""}${before ? ` (was ${before})` : ""}.`,
+        reason,
+      );
+      reconcileTimetable(s, now, actor.id);
+      break;
+    }
+    case "timetable_override": {
+      permitTimetable(s, actor);
+      const reason = nonempty(d, "reason", 500);
+      const tt = timetableOf(s);
+      const date = text(d, "date", 10);
+      requireValue(isIsoDate(date), "Use a date as YYYY-MM-DD.");
+      const action = text(d, "action", 10);
+      requireValue(
+        ["retime", "cancel", "extra"].includes(action),
+        "Choose retime, cancel or extra.",
+      );
+      let override: DateOverride;
+      if (action === "extra") {
+        const start = text(d, "start", 5);
+        const end = text(d, "end", 5);
+        requireValue(
+          isClock(start) && isClock(end) && end > start,
+          "Use start and end times as HH:MM, with the end after the start.",
+        );
+        const title = nonempty(d, "title", 120);
+        const venue = nonempty(d, "venue", 200);
+        override = { id: `ov-${id}`, date, action: "extra", weeklyId: null, start, end, title, venue, reason, active: true };
+        logTimetable(s, id, actor, now, `${date}: extra session ${title}, ${start}–${end}, ${venue}.`, reason);
+      } else {
+        const weeklyId = text(d, "weekly", 80);
+        const w = tt.weekly.find((x) => x.id === weeklyId && x.active);
+        requireValue(w, "Choose an active weekly session.");
+        requireValue(weekday(date) === w.day, `${date} is not a ${DAY_NAMES[w.day]}.`);
+        if (action === "retime") {
+          const start = text(d, "start", 5);
+          const end = text(d, "end", 5);
+          requireValue(
+            isClock(start) && isClock(end) && end > start,
+            "Use start and end times as HH:MM, with the end after the start.",
+          );
+          override = { id: `ov-${id}`, date, action: "retime", weeklyId, start, end, title: null, venue: null, reason, active: true };
+          logTimetable(s, id, actor, now, `${date}: ${w.title} moved from ${w.start}–${w.end} to ${start}–${end}.`, reason);
+        } else {
+          override = { id: `ov-${id}`, date, action: "cancel", weeklyId, start: null, end: null, title: null, venue: null, reason, active: true };
+          logTimetable(s, id, actor, now, `${date}: ${w.title} cancelled.`, reason);
+        }
+      }
+      // One change per weekly session and date: the newest replaces the older one.
+      for (const o of tt.overrides)
+        if (o.active && o.date === date && override.weeklyId !== null && o.weeklyId === override.weeklyId) o.active = false;
+      tt.overrides.push(override);
+      reconcileTimetable(s, now, actor.id);
+      break;
+    }
+    case "timetable_remove_override": {
+      permitTimetable(s, actor);
+      const reason = nonempty(d, "reason", 500);
+      const tt = timetableOf(s);
+      const change = tt.overrides.find((o) => o.id === d.override && o.active);
+      requireValue(change, "That change is not active.");
+      change.active = false;
+      logTimetable(s, id, actor, now, `${change.date}: change removed; back to the timetable.`, reason);
+      reconcileTimetable(s, now, actor.id);
+      break;
+    }
+    case "session_reviewed": {
+      permit("booking");
+      const session = s.sessions.find((x) => x.id === d.session);
+      requireValue(session, "Session not found.");
+      nonempty(d, "reason", 500);
+      session.reviewedAt = now;
+      break;
+    }
     case "import_holidays": {
       permit("events");
       const year = String(Number(d.year));
@@ -2062,6 +2326,8 @@ export function applyClubCommand(
       } else {
         s.closures = s.closures.filter((c) => c.id !== `holiday-${date}`);
       }
+      logTimetable(s, id, actor, now, `Public holiday ${holiday.name} (${date}): ${decision}.`, "Club decision");
+      reconcileTimetable(s, now, actor.id);
       break;
     }
     case "close_hall": {
@@ -2074,24 +2340,20 @@ export function applyClubCommand(
       );
       const reason = nonempty(d, "reason", 500);
       s.closures.push({ id, start, end, reason, active: true });
+      logTimetable(s, id, actor, now, `Closed from ${whenText(start)} to ${whenText(end)}: ${reason}.`, reason);
+      // Timetable sessions are closed by reconciliation. Manual sessions in the range are closed here.
       for (const session of s.sessions.filter(
-        (x) => !x.cancelled && x.start < end && x.end > start,
+        (x) => x.source !== "timetable" && !x.cancelled && x.start < end && x.end > start,
       )) {
         session.cancelled = true;
+        session.closedReason = reason;
+        session.changedAt = now;
         for (const r of s.board.requests.filter(
-          (r) => r.sessionId === session.id && occupiesPlace(r, now),
-        )) {
-          r.status = "cancelled";
-          notify(
-            s,
-            r.playerId,
-            "booking_cancelled",
-            r.id,
-            now,
-            `closure:${id}:${r.id}`,
-          );
-        }
+          (r) => r.sessionId === session.id && occupiesPlace(r, now) && !r.playerId.startsWith("partner:"),
+        ))
+          notify(s, r.playerId, "booking_changed", r.id, now, `closure:${id}:${r.id}`);
       }
+      reconcileTimetable(s, now, actor.id);
       break;
     }
     case "reopen_hall": {
@@ -2100,6 +2362,8 @@ export function applyClubCommand(
       requireValue(closure, "Closure not found.");
       nonempty(d, "reason", 500);
       closure.active = false;
+      logTimetable(s, id, actor, now, `Reopened: closure from ${whenText(closure.start)} to ${whenText(closure.end)} (${closure.reason}) lifted.`, String(d.reason));
+      reconcileTimetable(s, now, actor.id);
       break;
     }
     case "cancel_session": {
