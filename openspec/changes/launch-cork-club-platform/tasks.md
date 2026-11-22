@@ -341,3 +341,18 @@ Specification: `specs/table-practice-booking`. Design: "Table-wise practice rese
 - [ ] 23.13 Board visual design: rebuild the booking screen as the board's floor plan (twelve tables, two places each, legend, my bookings, rules). Shared component for the website and app.
 - [ ] 23.14 Staff check-in and no-show release screen for the session, listing unchecked places after the grace period.
 - [ ] 23.15 Deploy `club-api` (and `club-public` for the calendar change) and verify with the test plan in `test-plan.md` (Table booking v2).
+
+## 24. Timetable management (decisions 22 November 2026)
+
+Specification: `specs/timetable-management`. Design: "Timetable management" in `design.md`. Test plan: "Timetable management v3" in `test-plan.md`.
+
+- [ ] 24.1 Domain: weekly definitions, date overrides and pure occurrence generation with Europe/Dublin times (`timetable.ts`), with unit tests for time changes, cancellations, extras, closures and holidays.
+- [ ] 24.2 Commands: `timetable_weekly`, `timetable_override`, `timetable_remove_override`, each permitted for `events` or `coach`, validated and audited.
+- [ ] 24.3 Reconciliation of dated sessions after timetable, closure and holiday commands and in the daily job; bookings notified and listed for review, never moved or cancelled.
+- [ ] 24.4 Closures no longer cancel bookings automatically (change `close_hall`); affected bookings are notified and listed for review.
+- [ ] 24.5 Seed the timetable from the owner-confirmed five weekly sessions for clubs that do not have one yet.
+- [ ] 24.6 Club projection: `club-public` JSON (`format=json`) for dated sessions and closures; tests that it excludes players and bookings.
+- [ ] 24.7 Website calendar reads the live projection; the static calendar file is retired after acceptance.
+- [ ] 24.8 Portal Timetable tab: weekly sessions, one-date changes, closures, staff review list and the plain-language change history.
+- [ ] 24.9 Deploy `club-api` and `club-public`, then the website; verify with the test plan.
+- [ ] 24.10 Club decision recorded on the holiday substitute-day rule (open question for the club).

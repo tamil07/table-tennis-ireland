@@ -106,3 +106,7 @@ Correction 3f6496d passed all four Quality jobs. Its automatic Cloudflare websit
 ## Website presentation and management usability — 17 November 2026
 
 The public website was redesigned and the shared workspace gained an Overview tab, sidebar navigation and people search. Presentation only: no backend, migration or permission change. Read the "Presentation layer" section of `openspec/changes/launch-cork-club-platform/design.md` and tasks section 16 before touching `apps/club-web/src`, `ClubPortal.tsx` navigation or `operations.css`. Keep the documented section anchors (`#sessions`, `#club-portal`, `#join` etc.) and existing tab names; browser tests depend on them. Run checks under Node 22. Source verified locally only; owner deployment and visual acceptance remain open (task 16.8). Never add invented testimonials, photographs, statistics or news.
+
+## Timetable management — 22 November 2026
+
+One editable timetable (weekly definitions, one-date changes and closures) generates the dated sessions that table booking, the public calendar and the subscribed calendar feed all read. Maintainers and coaches make changes; every change is in the history. Closures and one-date changes do not cancel or move bookings: staff review them. Specification: `openspec/changes/launch-cork-club-platform/specs/timetable-management`.

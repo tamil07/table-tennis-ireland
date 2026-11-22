@@ -384,3 +384,17 @@ Decision: when a domain is bought, the public club website lives at the root (fo
 Sign-in on the public site: the website has a visible **Member sign-in** button in the header, and "Members & bookings" links to the app rather than embedding it. The button opens `https://app.leeside.ie/` in the same tab. The address comes from one configured setting, the app address, so it can change without code edits. Until the domain exists, the button uses the current workers.dev address.
 
 Changes needed on the public site: remove the embedded member workspace from the public page, or limit it to the app address; keep "Join the club" as a link to the app's join screen. Supabase Auth redirect addresses, allowed origins and share links are updated to the final domain at the switch. Task 22 in tasks.md records the steps.
+
+### Timetable management (decisions 22 November 2026)
+
+Specification: `specs/timetable-management`. One editable timetable is the source of truth for dated sessions.
+
+- **Weekly definitions** (`WeeklyDefinition`): day of week, start and end (Europe/Dublin wall-clock), title, venue, audience, capacity, tables, an effective-from date, an optional until date and an active flag. Changing a definition creates a new effective range; history is kept in the audit log.
+- **Date overrides** (`DateOverride`): for one date, `retime`, `cancel` or `extra`, each with a reason. An override never edits the weekly definition.
+- **Closures** keep the existing `closures` ranges. A closure, a public holiday with decision `closed`, or a cancelled override makes the affected dated sessions unbookable.
+- **Generation** is a pure function in `packages/domain/src/timetable.ts`: given the definitions, overrides, closures and holiday decisions, it returns the dated occurrences for a date range. Sessions generated for the next sixty days are kept in `sessions` with `source: "timetable"`. Manually created sessions (camps, programmes) are never changed by generation.
+- **Reconciliation** runs after every timetable, closure or holiday command and in the daily job. A session whose time changes, or that is cancelled, keeps its id. If it has active bookings, each booker is notified and the booking is listed for staff review. Bookings are never moved or cancelled by reconciliation.
+- **Permissions**: `events` or `coach` permission allows timetable, override and closure changes. Refusals are audited through the existing command path.
+- **Public projection**: `club-public` returns dated sessions and closures as JSON (`format=json`) and as iCalendar (`format=ics`). The public calendar page reads the JSON projection, so it always matches booking. The static calendar file is retired once the live projection is verified.
+- **History**: every change command is in the audit log. The timetable page shows those entries in plain language; the log is append-only.
+- **Holidays**: a holiday decision is recorded by the club. The substitute-day rule is data the club confirms (see the open question in the handover); the system does not assume it.

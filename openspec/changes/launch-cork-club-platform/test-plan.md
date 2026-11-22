@@ -153,3 +153,20 @@ Prerequisites: a published session in the next fourteen days; two TEST member ac
 | V16 | Try to book on 28 December 2026 (substitute holiday). | Refused as a public holiday. |
 
 Record each result as pass or fail, with the exact message shown.
+
+## Timetable management v3 (22 November 2026)
+
+Prerequisites: the backend and website deployed; a TEST coach account, a TEST member account and the owner account; one published session in the next two weeks with at least one booking.
+
+| # | Steps | Expected |
+|---|---|---|
+| T1 | As the coach, open Timetable and change a weekly session's time from a date next week. | The new time shows in the Timetable list, the Table booking screen and the public calendar. |
+| T2 | As the coach, move one Thursday to another time with a reason. | Only that date changes; the history shows the change with the reason. |
+| T3 | As the coach, cancel one Sunday with a reason. | Bookings on it are listed for review and the players are notified; the calendar shows it cancelled. |
+| T4 | As the coach, add an extra Saturday session. | It appears in booking and the calendar. |
+| T5 | As the owner, add a closure across 23 December to 5 January. | No session in that range is bookable; the calendar shows the range closed; bookings in it are listed for review, not cancelled. |
+| T6 | As the member, try to change the timetable. | Refused; nothing changes. |
+| T7 | Open the change history. | Each change shows the date, the person, the reason and what changed, in plain language. |
+| T8 | Reopen the closure. | Sessions in the range can be booked again. |
+
+Record each result as pass or fail, with the exact message shown.
