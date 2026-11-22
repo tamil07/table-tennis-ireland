@@ -937,7 +937,7 @@ export function notificationEligible(s: ClubState, n: Notice, now: number) {
   }
   if (n.kind === "booking_request") {
     const r = s.board.requests.find((r) => r.id === n.entity);
-    if (!r || r.status !== "pending" || r.holdUntil <= now) return false;
+    if (!r || r.status !== "offered" || r.holdUntil <= now) return false;
   }
   if (n.kind === "event_invitation") {
     const e = s.events.find((e) => e.id === n.entity);
@@ -1057,9 +1057,11 @@ export function notificationText(s: ClubState, n: Notice, appUrl: string) {
   if (booking && session && !n.category)
     details.push(
       `Player: ${person(s, booking.playerId).name}`,
-      `Table ${booking.tableId}, player place ${booking.place + 1}`,
+      booking.tableId
+        ? `Table ${booking.tableId}, place ${(booking.place ?? 0) + 1}`
+        : "Table not yet allocated (waiting list)",
       `${new Date(session.start).toLocaleString("en-IE", { timeZone: "Europe/Dublin" })} to ${new Date(session.end).toLocaleTimeString("en-IE", { timeZone: "Europe/Dublin" })} (Ireland time)`,
-      `Status: ${booking.status}. This is one shared-table place for the whole session. Contact the club about any manually collected fee. Cancellation policy: ${s.settings.cancelHours} hours before the session; otherwise ask a maintainer.`,
+      `Status: ${booking.status}. This is one place for the whole session. Two places share each reservable table. Contact the club about any manually collected fee. Cancellation policy: ${s.settings.cancelHours} hours before the session; otherwise ask a maintainer.`,
     );
   const event = s.events.find((e) => e.id === n.entity);
   if (n.kind === "event_invitation" && event)
@@ -1163,7 +1165,7 @@ function applyRetention(s: ClubState, today: string) {
 function runJobs(s: ClubState, now: number) {
   const today = localDay(now);
   const expiring = s.board.requests.filter(
-    (r) => r.status === "pending" && r.holdUntil <= now,
+    (r) => r.status === "offered" && r.holdUntil <= now,
   );
   for (const session of s.sessions)
     s.board = bookingUpdate(
@@ -2130,8 +2132,10 @@ export function applyClubCommand(
           typeof action.type === "string" &&
           [
             "request",
-            "approve",
-            "reject",
+            "wait",
+            "accept",
+            "decline",
+            "checkin",
             "cancel",
             "release",
             "table",
@@ -2139,6 +2143,20 @@ export function applyClubCommand(
           ].includes(action.type),
         "Invalid booking action.",
       );
+      if (action.type === "request" || action.type === "wait") {
+        // Public holidays and any closure the club adds (maintenance, a private event) stop table booking.
+        const holiday = s.publicHolidays.find(
+          (h) => h.date === session.date && h.decision !== "open",
+        );
+        requireValue(!holiday, "The club is closed on this public holiday.");
+        const closure = s.closures.find(
+          (c) => c.active && c.start < session.end && c.end > session.start,
+        );
+        requireValue(
+          !closure,
+          `Table booking is paused: ${closure ? closure.reason : ""}.`,
+        );
+      }
       if (action.type === "request") {
         action.id = id;
         person(s, action.playerId);
@@ -2152,6 +2170,7 @@ export function applyClubCommand(
       const before = s.board.requests.find(
         (r) => "id" in action && r.id === action.id,
       );
+      const previous = new Map(s.board.requests.map((r) => [r.id, r.status]));
       s.board = bookingUpdate(
         s.board,
         session,
@@ -2166,28 +2185,14 @@ export function applyClubCommand(
         now,
         s.settings,
       );
-      const after = s.board.requests.find(
-        (r) => r.id === ("id" in action ? action.id : ""),
-      );
-      if (after) {
-        notify(
-          s,
-          after.playerId,
-          `booking_${after.status}`,
-          after.id,
-          now,
-          `booking:${id}`,
-        );
-        if (!before)
-          staffNotice(
-            s,
-            "booking",
-            "booking_request",
-            after.id,
-            now,
-            `booking-request:${id}`,
-          );
+      // Notify each player whose place changed status, including the offer sent to the next waiting player.
+      for (const r of s.board.requests) {
+        if (r.sessionId !== session.id || previous.get(r.id) === r.status) continue;
+        if (r.playerId.startsWith("partner:")) continue;
+        notify(s, r.playerId, `booking_${r.status}`, r.id, now, `booking:${id}:${r.id}:${r.status}`);
       }
+      if (!before && action.type === "request")
+        staffNotice(s, "booking", "booking_request", action.id, now, `booking-request:${id}`);
       break;
     }
     case "reschedule_booking": {
@@ -2210,7 +2215,6 @@ export function applyClubCommand(
         ).length < target.capacity,
         "New session is full.",
       );
-      const oldStatus = original.status;
       s.board = bookingUpdate(
         s.board,
         target,
@@ -2220,20 +2224,11 @@ export function applyClubCommand(
           id,
           playerId: original.playerId,
           tableId: number(d, "table", 1, 100),
-          place: number(d, "place", 1, 4) - 1,
+          place: number(d, "place", 1, 2) - 1,
         },
         now,
         s.settings,
       );
-      if (oldStatus === "confirmed")
-        s.board = bookingUpdate(
-          s.board,
-          target,
-          { id: actor.id, players: [], maintainer: true },
-          { type: "approve", id },
-          now,
-          s.settings,
-        );
       s.board.requests.find((r) => r.id === original.id)!.status = "cancelled";
       notify(
         s,

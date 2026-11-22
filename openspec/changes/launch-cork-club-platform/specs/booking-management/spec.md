@@ -57,6 +57,8 @@ Published public sessions, camps, and events SHALL expose stable website links p
 - **THEN** the notification service records the subscription and sends eligible event announcements independently of whether that person uses an RSS reader
 
 ### Requirement: Session player-place inventory
+> **Superseded on 22 November 2026** for table practice by `specs/table-practice-booking`: two places per table (not four), a booking may add a partner, and places are confirmed instantly rather than approved.
+
 The booking unit SHALL be one player place at an assigned table for an entire dated session, replacing the former hourly whole-table model. Each table SHALL accommodate at most four reserved players. A player SHALL hold at most one pending or confirmed place across all tables in that session; the limit SHALL use player identity, not the requester/parent account. A parent MAY request separate places for each actively linked child and themselves. Maintainers SHALL configure table allocations per session as reservable, reserved for coaching, walk-in-only or unavailable. They SHALL retain runtime control of schedules, table count, eligibility, holds, fees and cancellation policy. A place SHALL NOT imply coaching, exclusive table access or a chosen partner. Four places support doubles or club-managed play/rotation and SHALL NOT imply four unrelated independent games.
 
 #### Scenario: Maintainer publishes three tables
@@ -101,6 +103,8 @@ Authorized maintainers SHALL be able to configure hall opening hours, date-speci
 - **THEN** all affected tables are unavailable and existing holds/bookings require explicit resolution and notifications rather than silent deletion
 
 ### Requirement: Pending holds and maintainer approval
+> **Superseded on 22 November 2026** for table practice by `specs/table-practice-booking`: instant confirmation replaces the pending-approval workflow; holds now mean offers to waiting players, which last at most sixty minutes.
+
 Request creation SHALL atomically hold one of four places at the selected table for the entire session. Pending SHALL remain distinct from confirmed. Server constraints SHALL enforce unique session/player and unique session/table/place for active holds/confirmed reservations, while table-resource allocations separately prevent incompatible overlapping sessions. Maintainers SHALL approve/reject with current permissions and audited transitions. Hold timeout SHALL be configurable and bounded by session start; expired/rejected/withdrawn requests SHALL release their place. Stale approval SHALL NOT reacquire a place silently. Request retries SHALL be idempotent.
 
 #### Scenario: One of three tables is approved

@@ -12,10 +12,10 @@ const run = (s: ClubState, type: string, data: Record<string, unknown>) =>
 describe("public holidays and closures", () => {
   it("imports a year of Irish public holidays as pending, once", () => {
     let s = run(demoClub(now), "import_holidays", { year: 2026 });
-    expect(s.publicHolidays).toHaveLength(11);
+    expect(s.publicHolidays).toHaveLength(12);
     expect(s.publicHolidays.every((h) => h.decision === "pending")).toBe(true);
     s = run(s, "import_holidays", { year: 2026 });
-    expect(s.publicHolidays).toHaveLength(11);
+    expect(s.publicHolidays).toHaveLength(12);
   });
 
   it("covers ten years and refuses years outside them", () => {

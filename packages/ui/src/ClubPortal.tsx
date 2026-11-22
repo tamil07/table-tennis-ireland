@@ -18,7 +18,21 @@ import {
   standings,
 } from "@tti/domain";
 const HOLIDAY_YEARS = Array.from({ length: 10 }, (_, i) => 2026 + i);
-import type { ClubState, ClubCommand, Permission } from "@tti/domain";
+import type {
+  ClubState,
+  ClubCommand,
+  Permission,
+  PlaceRequest,
+} from "@tti/domain";
+
+/** Plain-language status for a booking seat, as the player or staff see it. */
+function bookingStatus(r: PlaceRequest, now: number) {
+  if (r.status === "offered")
+    return r.holdUntil > now ? "place offered: accept or decline" : "offer expired";
+  if (r.status === "confirmed") return r.checkedInAt ? "checked in" : "booked";
+  if (r.status === "waiting") return "on the waiting list";
+  return r.status;
+}
 import { ClubAuth } from "./ClubAuth";
 import {
   liveMode,
@@ -1254,7 +1268,7 @@ export function ClubPortal({
                         <h4>Table {t.id}</h4>
                         <span>{t.use.replaceAll("_", " ")}</span>
                         <div className="my-3.5 grid grid-cols-2 gap-[3px]">
-                          {[0, 1, 2, 3].map((place) => {
+                          {[0, 1].map((place) => {
                             const r = state.board.requests.find(
                               (r) =>
                                 r.sessionId === session.id &&
@@ -1323,7 +1337,7 @@ export function ClubPortal({
                         options: (state.board.tables[session.id] ?? [])
                           .filter((t) => t.use === "reservable")
                           .flatMap((t) =>
-                            [0, 1, 2, 3]
+                            [0, 1]
                               .filter(
                                 (place) =>
                                   !state.board.requests.some(
@@ -1343,6 +1357,11 @@ export function ClubPortal({
                               ),
                           ),
                       },
+                      {
+                        key: "partner",
+                        label: "Partner (optional: takes the other place on this table)",
+                        optional: true,
+                      },
                     ],
                     (d) => {
                       const [tableId, place] = String(d.table)
@@ -1355,6 +1374,7 @@ export function ClubPortal({
                           playerId: d.player,
                           tableId,
                           place,
+                          partnerName: String(d.partner ?? "").trim() || null,
                         },
                       };
                     },
@@ -1376,39 +1396,70 @@ export function ClubPortal({
                         <div>
                           <strong>{title(r.playerId)}</strong>
                           <small>
-                            Table {r.tableId} · Place {r.place + 1} ·{" "}
-                            {r.status === "pending" && !occupiesPlace(r, now)
-                              ? "expired"
-                              : r.status}
+                            {r.tableId
+                              ? `Table ${r.tableId} · Place ${(r.place ?? 0) + 1}`
+                              : "Waiting list"}
+                            {r.partnerName ? ` · with ${r.partnerName}` : ""}
+                            {" · "}
+                            {bookingStatus(r, now)}
                           </small>
                         </div>
+                        {r.status === "offered" && r.holdUntil > now && (
+                          <>
+                            <button
+                              disabled={busy}
+                              onClick={() =>
+                                void act("booking", {
+                                  session: session.id,
+                                  action: { type: "accept", id: r.id },
+                                })
+                              }
+                            >
+                              Accept place
+                            </button>
+                            <button
+                              disabled={busy}
+                              onClick={() =>
+                                void act("booking", {
+                                  session: session.id,
+                                  action: { type: "decline", id: r.id },
+                                })
+                              }
+                            >
+                              Decline
+                            </button>
+                          </>
+                        )}
+                        {r.status === "confirmed" &&
+                          !r.checkedInAt &&
+                          now <= session.end && (
+                            <button
+                              disabled={busy}
+                              onClick={() =>
+                                void act("booking", {
+                                  session: session.id,
+                                  action: { type: "checkin", id: r.id },
+                                })
+                              }
+                            >
+                              Check in
+                            </button>
+                          )}
                         {can("booking") &&
-                          r.status === "pending" &&
-                          occupiesPlace(r, now) && (
-                            <>
-                              <button
-                                disabled={busy}
-                                onClick={() =>
-                                  void act("booking", {
-                                    session: session.id,
-                                    action: { type: "approve", id: r.id },
-                                  })
-                                }
-                              >
-                                Approve place
-                              </button>
-                              <button
-                                disabled={busy}
-                                onClick={() =>
-                                  void act("booking", {
-                                    session: session.id,
-                                    action: { type: "reject", id: r.id },
-                                  })
-                                }
-                              >
-                                Decline
-                              </button>
-                            </>
+                          r.status === "confirmed" &&
+                          !r.checkedInAt &&
+                          now >= session.start + 10 * 60000 && (
+                            <button
+                              disabled={busy}
+                              onClick={() =>
+                                void act("booking", {
+                                  session: session.id,
+                                  action: { type: "release", id: r.id },
+                                })
+                              }
+                            >
+                              Release (not checked in)
+                            </button>
                           )}
                         {occupiesPlace(r, now) && (
                           <>
@@ -1459,7 +1510,7 @@ export function ClubPortal({
                             {(state.board.tables[session.id] ?? [])
                               .filter((t) => t.use === "reservable")
                               .flatMap((t) =>
-                                [0, 1, 2, 3]
+                                [0, 1]
                                   .filter(
                                     (p) =>
                                       !state.board.requests.some(

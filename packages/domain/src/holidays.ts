@@ -13,6 +13,7 @@ export const IE_PUBLIC_HOLIDAYS: Record<string, { date: string; name: string }[]
     { date: "2026-10-26", name: "October Holiday" },
     { date: "2026-12-25", name: "Christmas Day" },
     { date: "2026-12-26", name: "St. Stephen's Day" },
+    { date: "2026-12-28", name: "St. Stephen’s Day (substitute)" },
   ],
   "2027": [
     { date: "2027-01-01", name: "New Year's Day" },
@@ -26,6 +27,8 @@ export const IE_PUBLIC_HOLIDAYS: Record<string, { date: string; name: string }[]
     { date: "2027-10-25", name: "October Holiday" },
     { date: "2027-12-25", name: "Christmas Day" },
     { date: "2027-12-26", name: "St. Stephen's Day" },
+    { date: "2027-12-27", name: "Christmas Day (substitute)" },
+    { date: "2027-12-28", name: "St. Stephen’s Day (substitute)" },
   ],
   "2028": [
     { date: "2028-01-01", name: "New Year's Day" },
@@ -91,6 +94,8 @@ export const IE_PUBLIC_HOLIDAYS: Record<string, { date: string; name: string }[]
     { date: "2032-10-25", name: "October Holiday" },
     { date: "2032-12-25", name: "Christmas Day" },
     { date: "2032-12-26", name: "St. Stephen's Day" },
+    { date: "2032-12-27", name: "Christmas Day (substitute)" },
+    { date: "2032-12-28", name: "St. Stephen’s Day (substitute)" },
   ],
   "2033": [
     { date: "2033-01-01", name: "New Year's Day" },
@@ -104,6 +109,7 @@ export const IE_PUBLIC_HOLIDAYS: Record<string, { date: string; name: string }[]
     { date: "2033-10-31", name: "October Holiday" },
     { date: "2033-12-25", name: "Christmas Day" },
     { date: "2033-12-26", name: "St. Stephen's Day" },
+    { date: "2033-12-27", name: "Christmas Day (substitute)" },
   ],
   "2034": [
     { date: "2034-01-01", name: "New Year's Day" },

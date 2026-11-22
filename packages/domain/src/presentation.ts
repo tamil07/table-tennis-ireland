@@ -111,13 +111,14 @@ export function clubOverview(
   });
   if (may(state, actor, "booking")) {
     const pending = state.board.requests.filter(
-      (r) => r.status === "pending" && r.holdUntil > now,
+      (r) =>
+        r.status === "waiting" || (r.status === "offered" && r.holdUntil > now),
     ).length;
     items.push({
       key: "requests",
-      label: "Table requests awaiting approval",
+      label: "Waiting list and open offers",
       value: pending,
-      detail: pending ? "Review and approve or reject" : "Nothing waiting",
+      detail: pending ? "Offers are answered by the player; staff release no-shows" : "Nothing waiting",
       tab: "booking",
     });
   }

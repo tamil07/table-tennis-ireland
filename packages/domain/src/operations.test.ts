@@ -253,7 +253,7 @@ describe("club operations security and workflows", () => {
         reason: "Move",
       }),
     ).toThrow("reservable");
-    expect(s.board.requests[0].status).toBe("pending");
+    expect(s.board.requests[0].status).toBe("confirmed");
     const moved = run(s, admin, "reschedule_booking", {
       booking: original.id,
       session: sessions[1].id,

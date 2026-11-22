@@ -322,3 +322,22 @@ Method: management portal classes are replaced by Tailwind utilities in the JSX;
 - [x] 21.6 Rally fix (21 November 2026): one serve and return per shot, one bounce on the far half of the table, paddles drawn outside the table on each side. Horizontal and vertical motion are separate keyframes, with a parabolic arc. Checked by pausing the animation at four moments. Deployed in website version 2c4a1c76.
 - [x] 21.7 Table booking test cases written for a member and for management (MB1–MB8, MG1–MG10) in test-plan.md (21 November 2026).
 
+## 23. Table practice booking rules (board decisions, 22 November 2026)
+
+Specification: `specs/table-practice-booking`. Design: "Table-wise practice reservations" in `design.md`. Test plan: "Table booking v2" in `test-plan.md`.
+
+- [x] 23.1 Two places per table; partner added in the same booking; partner seats are not accounts (domain `session-booking.ts`, tests).
+- [x] 23.2 Instant confirmation; advance booking opens fourteen days ahead and closes at the session start.
+- [x] 23.3 Cancellation two hours before; staff cancel after that; cancelling a partnered booking cancels both places.
+- [x] 23.4 Waiting list and offers: sixty-minute offer, accept or decline, pass-on on decline or expiry, offers only for freed places (domain tests).
+- [x] 23.5 Check-in window (one hour before to session end) and staff release ten minutes after the start for unchecked places (domain tests).
+- [x] 23.6 Walk-ins on the night, first come first served, for free reservable places.
+- [x] 23.7 Public holidays and club-added closures (maintenance, private hire) refuse table booking (domain and operation tests).
+- [x] 23.8 Holiday list corrected for substitute days (2026: Monday 28 December; 2027: Monday 27 and Tuesday 28 December).
+- [x] 23.9 Assistant coach rota removed from scope (decision 4).
+- [x] 23.10 Portal booking rows, request form (partner field), check-in, accept/decline and staff release; synthetic demo updated.
+- [ ] 23.11 Commit guard migration: cover `offered`, `waiting` and `checkedInAt`, and handle the partner seats, in SQL. Requires a hosted migration (owner approval).
+- [ ] 23.12 Offer and release emails: confirm the notification outbox delivers the offer email in production (email provider configured by the owner).
+- [ ] 23.13 Board visual design: rebuild the booking screen as the board's floor plan (twelve tables, two places each, legend, my bookings, rules). Shared component for the website and app.
+- [ ] 23.14 Staff check-in and no-show release screen for the session, listing unchecked places after the grace period.
+- [ ] 23.15 Deploy `club-api` (and `club-public` for the calendar change) and verify with the test plan in `test-plan.md` (Table booking v2).

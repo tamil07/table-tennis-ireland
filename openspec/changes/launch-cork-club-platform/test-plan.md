@@ -128,3 +128,28 @@ Prerequisites: one published session in the future (Sessions & hall), with at le
 | MG10 | Cancel the whole session from Sessions & hall with bookings in place. | Players with places see the cancellation (Messages). |
 
 Record each result as pass or fail with the exact message. Start with MB2 and MG1, since the others depend on them.
+
+## Table booking v2 (board rules, 22 November 2026)
+
+Prerequisites: a published session in the next fourteen days; two TEST member accounts, one TEST parent with a linked child, and the owner account. Times are Europe/Dublin.
+
+| # | Steps | Expected |
+|---|---|---|
+| V1 | As a member, open a session more than fourteen days away. | Booking is refused with the date it opens. |
+| V2 | Within fourteen days, book Table 8 place 1 and enter a partner's name. | Booking confirmed at once; the partner's name shows on the second place. |
+| V3 | Try a second place for the same player in that session. | Refused: one place per player per session. |
+| V4 | As the other TEST member, book Table 8 place 2. | Refused: place taken (the partner holds it). |
+| V5 | As a waiting TEST member, join the waiting list when all reservable places are full. | Shown as on the waiting list. |
+| V6 | The booker cancels more than two hours before the session. | Booking cancelled; the waiting member receives an offer by email and in the app. |
+| V7 | The waiting member accepts the offer. | Place confirmed for them. |
+| V8 | Repeat V6; the waiting member declines. | The next waiting member (if any) is offered it; otherwise the place is free for walk-ins. |
+| V9 | Repeat V6; leave the offer for sixty minutes. | Offer expires; the place passes on or stays free. |
+| V10 | The booker tries to cancel less than two hours before the session. | Refused with the two-hour message. |
+| V11 | Booked player checks in within the window. | Booking shows checked in. |
+| V12 | Ten minutes after the start, staff release an unchecked place. | Place released; the booked player is notified. Staff cannot release before ten minutes. |
+| V13 | After the start, a walk-in takes a free reservable place. | Confirmed as a walk-in. Advance booking after the start is refused. |
+| V14 | Create a public holiday or a maintenance closure that covers a session. | Booking that session is refused with the closure reason. |
+| V15 | Lift the closure. | Booking reopens. |
+| V16 | Try to book on 28 December 2026 (substitute holiday). | Refused as a public holiday. |
+
+Record each result as pass or fail, with the exact message shown.
